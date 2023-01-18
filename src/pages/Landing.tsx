@@ -1,4 +1,3 @@
-import { createApi } from "unsplash-js";
 import { useSpring, animated } from "react-spring";
 import {
   FaFacebookF,
@@ -7,10 +6,7 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-
 import { Link, Text } from "../components";
-import { useState } from "react";
 import {
   BaseParagraph,
   Container,
