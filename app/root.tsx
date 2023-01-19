@@ -1,5 +1,7 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import React, { useContext, useEffect, useState } from "react";
+import { withEmotionCache } from "@emotion/react";
+import { ThemeProvider } from "@theme-ui/core";
+import type { Theme } from "theme-ui";
 import {
   Links,
   LiveReload,
@@ -8,40 +10,80 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
-import { getUser } from "./session.server";
-import tailwindStylesheetUrl from "./styles/tailwind.css";
-
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
-};
+import { ServerStyleContext, ClientStyleContext } from "./styles/context";
+import { base, light, dark } from "./themes";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "Kuisoko",
   viewport: "width=device-width,initial-scale=1",
 });
 
-export async function loader({ request }: LoaderArgs) {
-  return json({
-    user: await getUser(request),
-  });
+interface DocumentProps {
+  children: React.ReactNode;
 }
 
+const Document = withEmotionCache(
+  ({ children }: DocumentProps, emotionCache) => {
+    const serverStyleData = useContext(ServerStyleContext);
+    const clientStyleData = useContext(ClientStyleContext);
+
+    // Only executed on client
+    useEffect(() => {
+      // re-link sheet container
+      emotionCache.sheet.container = document.head;
+      // re-inject tags
+      const tags = emotionCache.sheet.tags;
+      emotionCache.sheet.flush();
+      tags.forEach((tag) => {
+        (emotionCache.sheet as any)._insertTag(tag);
+      });
+      // reset cache to reapply global styles
+      clientStyleData?.reset();
+    }, []);
+
+    return (
+      <html lang="en" className="h-full">
+        <head>
+          <Meta />
+          <Links />
+          {serverStyleData?.map(({ key, ids, css }) => (
+            <style
+              key={key}
+              data-emotion={`${key} ${ids.join(" ")}`}
+              dangerouslySetInnerHTML={{ __html: css }}
+            />
+          ))}
+        </head>
+        <body className="h-full">
+          {children}
+          <ScrollRestoration />
+          <Scripts />
+          {process.env.NODE_ENV === "development" && <LiveReload />}
+        </body>
+      </html>
+    );
+  }
+);
+
+const themesMap: any = {
+  light,
+  dark,
+};
+
 export default function App() {
+
+  const [currentTheme, setCurrentTheme] = useState("light");
+
+  const theme: Theme = { ...base, colors: themesMap[currentTheme] };
+  
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <Meta />
-        <Links />
-        {typeof document === "undefined" ? "__STYLES__" : null}
-      </head>
-      <body className="h-full">
+    <Document>
+      <ThemeProvider theme={theme}>
         <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+      </ThemeProvider>
+    </Document>
   );
 }

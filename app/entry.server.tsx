@@ -1,12 +1,13 @@
-import { PassThrough } from "stream";
-import type { EntryContext } from "@remix-run/node";
-import { Response } from "@remix-run/node";
+import { renderToString } from "react-dom/server";
+import { CacheProvider } from "@emotion/react";
+import createEmotionServer from "@emotion/server/create-instance";
 import { RemixServer } from "@remix-run/react";
-import isbot from "isbot";
-import { renderToPipeableStream, renderToString } from "react-dom/server";
-import { ServerStyleSheet } from "styled-components";
+import type { EntryContext } from "@remix-run/node";
 
-const ABORT_DELAY = 5000;
+import { ServerStyleContext } from "./styles/context";
+import createEmotionCache from "./styles/createEmotionCache";
+
+// TODO: investigate using render renderToPipeableStream for performance 
 
 export default function handleRequest(
   request: Request,
@@ -14,52 +15,31 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  const sheet = new ServerStyleSheet();
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks } = createEmotionServer(cache);
 
-  let markup = renderToString(
-    sheet.collectStyles(
-      <RemixServer context={remixContext} url={request.url} />
-    )
+  const html = renderToString(
+    <ServerStyleContext.Provider value={null}>
+      <CacheProvider value={cache}>
+        <RemixServer context={remixContext} url={request.url} />
+      </CacheProvider>
+    </ServerStyleContext.Provider>
   );
 
-  const styles = sheet.getStyleTags();
-  markup = markup.replace("__STYLES__", styles);
+  const chunks = extractCriticalToChunks(html);
 
-  const callbackName = isbot(request.headers.get("user-agent"))
-    ? "onAllReady"
-    : "onShellReady";
+  const markup = renderToString(
+    <ServerStyleContext.Provider value={chunks.styles}>
+      <CacheProvider value={cache}>
+        <RemixServer context={remixContext} url={request.url} />
+      </CacheProvider>
+    </ServerStyleContext.Provider>
+  );
 
-  return new Promise((resolve, reject) => {
-    let didError = false;
+  responseHeaders.set("Content-Type", "text/html");
 
-    const { pipe, abort } = renderToPipeableStream(
-      sheet.collectStyles(<RemixServer context={remixContext} url={request.url} />),
-      {
-        [callbackName]: () => {
-          const body = new PassThrough();
-
-          responseHeaders.set("Content-Type", "text/html");
-
-          resolve(
-            new Response(body + markup, {
-              headers: responseHeaders,
-              status: didError ? 500 : responseStatusCode,
-            })
-          );
-
-          pipe(body);
-        },
-        onShellError: (err: unknown) => {
-          reject(err);
-        },
-        onError: (error: unknown) => {
-          didError = true;
-
-          console.error(error);
-        },
-      }
-    );
-
-    setTimeout(abort, ABORT_DELAY);
+  return new Response(`<!DOCTYPE html>${markup}`, {
+    status: responseStatusCode,
+    headers: responseHeaders,
   });
 }
