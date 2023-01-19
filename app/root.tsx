@@ -11,9 +11,14 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
+import { Global } from "@emotion/react";
 
 import { ServerStyleContext, ClientStyleContext } from "./styles/context";
 import { base, light, dark } from "./themes";
+
+import GlobalStyles from "./styles/globals.styled"; 
+
+import { Layout } from "./components";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -45,7 +50,7 @@ const Document = withEmotionCache(
     }, []);
 
     return (
-      <html lang="en" className="h-full">
+      <html lang="en">
         <head>
           <Meta />
           <Links />
@@ -57,7 +62,7 @@ const Document = withEmotionCache(
             />
           ))}
         </head>
-        <body className="h-full">
+        <body style={{ margin: '0 2.5vw' }}>
           {children}
           <ScrollRestoration />
           <Scripts />
@@ -81,8 +86,11 @@ export default function App() {
   
   return (
     <Document>
+      <Global styles={GlobalStyles} />
       <ThemeProvider theme={theme}>
-        <Outlet />
+        <Layout>
+          <Outlet />
+        </Layout>
       </ThemeProvider>
     </Document>
   );

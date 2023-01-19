@@ -5,7 +5,7 @@ import * as React from "react";
 
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
-import { StyledLoginContainer } from "~/styles/routes/login.styled";
+import { StyledLoginContainer } from "~/styles/login.styled";
 import { safeRedirect, validateEmail } from "~/utils";
 
 export async function loader({ request }: LoaderArgs) {
