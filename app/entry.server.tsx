@@ -5,7 +5,6 @@ import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream, renderToString } from "react-dom/server";
 import { ServerStyleSheet } from "styled-components";
-import { log } from "console";
 
 const ABORT_DELAY = 5000;
 
