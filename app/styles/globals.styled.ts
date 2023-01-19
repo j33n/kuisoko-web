@@ -950,10 +950,4 @@ export const GlobalStyles = css`
   }
 `;
 
-/* TODO: missing tailwind style */
-
-/* .bg-\[color\:rgba\(27\2c 167\2c 254\2c 0\.5\)\] {
-  background-color: rgba(27,167,254,0.5);
-} */
-
 export default GlobalStyles;

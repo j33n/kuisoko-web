@@ -16,7 +16,7 @@ import { Global } from "@emotion/react";
 import { ServerStyleContext, ClientStyleContext } from "./styles/context";
 import { base, light, dark } from "./themes";
 
-import GlobalStyles from "./styles/globals.styled"; 
+import GlobalStyles from "./styles/globals.styled";
 
 import { Layout } from "./components";
 
@@ -62,11 +62,11 @@ const Document = withEmotionCache(
             />
           ))}
         </head>
-        <body style={{ margin: '0 2.5vw' }}>
+        <body style={{ margin: "0 2.5vw" }}>
           {children}
           <ScrollRestoration />
           <Scripts />
-          {process.env.NODE_ENV === "development" && <LiveReload />}
+          <LiveReload />
         </body>
       </html>
     );
@@ -79,11 +79,10 @@ const themesMap: any = {
 };
 
 export default function App() {
-
   const [currentTheme, setCurrentTheme] = useState("light");
 
   const theme: Theme = { ...base, colors: themesMap[currentTheme] };
-  
+
   return (
     <Document>
       <Global styles={GlobalStyles} />
