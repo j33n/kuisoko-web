@@ -1,6 +1,9 @@
-import { StyledMain } from "~/styles/index.styled";
+// import {} from "~/components/Layout/Layout.styled";
 
 export default function Index() {
-  <h1>Login</h1>
-  return <StyledMain>TYhis is the first page of app</StyledMain>;
+  return (
+    <div>
+      <h1>Home</h1>
+    </div>
+  );
 }

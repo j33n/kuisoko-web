@@ -1,11 +1,26 @@
+import {Header} from '../';
+
+import { StyledLayout, StyledBody } from "./Layout.styled";
+
 const Layout = ({ children }: any) => {
   return (
-    /* 
-    It is possible to define the Default Layout here. 
-    In that way, all the pages are going to be in the same format.
-    Examples of components to be added here: Toolbar/Navbar, Footer and etc...
-    */
-    <>{children}</>
+    // Toolbar/Navbar, Footer
+    <StyledLayout>
+      <Header />
+      {/* <StyledSidebar>
+        <StyledSidebarTitle>My App</StyledSidebarTitle>
+        <StyledSidebarSpacer />
+        <StyledSidebarGroup>
+          <StyledSidebarItem>
+            <StyledLink to="/">Home</StyledLink>
+          </StyledSidebarItem>
+          <StyledSidebarItem>
+            <StyledLink to="/about">About</StyledLink>
+          </StyledSidebarItem>
+        </StyledSidebarGroup>
+      </StyledSidebar> */}
+      <StyledBody>{children}</StyledBody>
+      </StyledLayout>
   );
 }
 

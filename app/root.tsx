@@ -62,7 +62,7 @@ const Document = withEmotionCache(
             />
           ))}
         </head>
-        <body style={{ margin: "0 2.5vw" }}>
+        <body>
           {children}
           <ScrollRestoration />
           <Scripts />
