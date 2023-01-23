@@ -1,16 +1,22 @@
 import styled from "@emotion/styled";
+import type { ColorModesScale } from "theme-ui";
 
-export const StyledLayout = styled.div`
+export interface StyledLayoutProps {
+  theme?: {
+    colors: ColorModesScale;
+  };
+}
+
+export const StyledLayout = styled.div<StyledLayoutProps>`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 0 0.5rem;
+  height: 100vh;
+  width: 100vw;
   position: relative;
-  background: red;
+  background: ${({ theme: { colors } }) => colors.background};
+  color: ${({ theme: { colors } }) => colors.text};
 `;
 
-export const StyledBody = styled.div`
+export const StyledContent = styled.div`
   display: flex;
 `;

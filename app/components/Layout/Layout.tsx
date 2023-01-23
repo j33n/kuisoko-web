@@ -1,8 +1,13 @@
-import {Header} from '../';
+import React from "react";
+import { Header } from "../";
 
-import { StyledLayout, StyledBody } from "./Layout.styled";
+import { StyledLayout, StyledContent } from "./Layout.styled";
 
-const Layout = ({ children }: any) => {
+export interface ILayout {
+  children: React.ReactNode;
+}
+
+const Layout = ({ children }: ILayout) => {
   return (
     // Toolbar/Navbar, Footer
     <StyledLayout>
@@ -19,9 +24,9 @@ const Layout = ({ children }: any) => {
           </StyledSidebarItem>
         </StyledSidebarGroup>
       </StyledSidebar> */}
-      <StyledBody>{children}</StyledBody>
-      </StyledLayout>
+      <StyledContent>{children}</StyledContent>
+    </StyledLayout>
   );
-}
+};
 
 export default Layout;

@@ -1,9 +1,11 @@
+import React from "react";
 import { Link } from "@remix-run/react";
+
+import Logo from "../../assets/logo.svg";
 
 import {
   StyledHeader,
-  StyledToolbar,
-  StyledToolbarTitle,
+  StyledLogoBox,
   StyledToolbarSpacer,
   StyledToolbarGroup,
   StyledToolbarItem,
@@ -12,18 +14,18 @@ import {
 const Header = () => {
   return (
     <StyledHeader>
-      <StyledToolbar>
-        <StyledToolbarTitle>Kuisoko</StyledToolbarTitle>
-        <StyledToolbarSpacer />
-        <StyledToolbarGroup>
-          <StyledToolbarItem>
-            <Link to="/">Profile</Link>
-          </StyledToolbarItem>
-          <StyledToolbarItem>
-            <Link to="/login">Login</Link>
-          </StyledToolbarItem>
-        </StyledToolbarGroup>
-      </StyledToolbar>
+      <StyledLogoBox>
+        <img src={Logo} alt="" />
+      </StyledLogoBox>
+      <StyledToolbarSpacer />
+      <StyledToolbarGroup>
+        <StyledToolbarItem>
+          <Link to="/">Profile</Link>
+        </StyledToolbarItem>
+        <StyledToolbarItem>
+          <Link to="/login">Login</Link>
+        </StyledToolbarItem>
+      </StyledToolbarGroup>
     </StyledHeader>
   );
 };

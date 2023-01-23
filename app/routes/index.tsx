@@ -1,9 +1,9 @@
-// import {} from "~/components/Layout/Layout.styled";
+import React from "react";
 
 export default function Index() {
   return (
     <div>
-      <h1>Home</h1>
+      <h1>Lorem ipsum</h1>
     </div>
   );
 }

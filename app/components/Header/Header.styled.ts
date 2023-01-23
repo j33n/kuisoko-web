@@ -2,19 +2,17 @@ import styled from '@emotion/styled';
 
 export const StyledHeader = styled.div`
     display: flex;
-    height: 10vh;
+    /* height: 10vh; */
     width: 100%;
-    background: #f5f5f5;
 `;
 
-export const StyledToolbar = styled.div`
+export const StyledLogoBox = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 10vh;
-  background: #f5f5f5;
+  padding: 1rem;
+
+  img {
+    max-width: 80px;
+  }
 `;
 
 export const StyledToolbarTitle = styled.div`
@@ -22,18 +20,13 @@ export const StyledToolbarTitle = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 10vh;
-  background: #f5f5f5;
 `;
+
 export const StyledToolbarSpacer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 10vh;
-  background: #f5f5f5;
 `;
 
 export const StyledToolbarGroup = styled.div`
@@ -41,6 +34,7 @@ export const StyledToolbarGroup = styled.div`
   flex-direction: row;
   align-items: center;
 `;
+
 export const StyledToolbarItem = styled.div`
   display: flex;
   flex-direction: row;

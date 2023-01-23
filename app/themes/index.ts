@@ -1,4 +1,4 @@
-import { ColorModesScale, Theme } from "theme-ui";
+import type { ColorModesScale, Theme } from "theme-ui";
 
 // general theme rules
 export const base: Theme = {

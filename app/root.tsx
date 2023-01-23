@@ -62,7 +62,7 @@ const Document = withEmotionCache(
             />
           ))}
         </head>
-        <body>
+        <body style={{height: "100vh"}}>
           {children}
           <ScrollRestoration />
           <Scripts />
@@ -79,7 +79,7 @@ const themesMap: any = {
 };
 
 export default function App() {
-  const [currentTheme, setCurrentTheme] = useState("light");
+  const [currentTheme, setCurrentTheme] = useState("dark");
 
   const theme: Theme = { ...base, colors: themesMap[currentTheme] };
 
