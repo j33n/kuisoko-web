@@ -1,9 +1,16 @@
 import styled from '@emotion/styled';
+import type { ColorModesScale } from "theme-ui";
 
-export const StyledHeader = styled.div`
+export interface StyledTheme {
+  theme?: {
+    colors: ColorModesScale
+  };
+}
+
+export const StyledHeader = styled.header<StyledTheme>`
     display: flex;
-    /* height: 10vh; */
     width: 100%;
+    border-bottom: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
 `;
 
 export const StyledLogoBox = styled.div`

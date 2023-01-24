@@ -1,5 +1,14 @@
 import React from "react";
 import { Link } from "@remix-run/react";
+import {
+  CiShoppingCart,
+  CiShop,
+  CiSettings,
+  CiUser,
+  CiCoinInsert,
+  CiGrid42,
+  CiHome,
+} from "react-icons/ci";
 
 import { Header } from "../";
 
@@ -12,6 +21,8 @@ import {
   StyledSidebarLinks,
   StyledSidebarFooter,
   StyledBodyContent,
+  StyledMenuIcon,
+  StyledAnchor,
 } from "./Layout.styled";
 
 export interface ILayout {
@@ -24,30 +35,37 @@ const Layout = ({ children }: ILayout) => {
     {
       name: "Home",
       path: "/",
+      icon: <CiHome />,
     },
     {
       name: "Dashboard",
       path: "/dashboard",
+      icon: <CiGrid42 />,
     },
     {
       name: "Stores",
       path: "/stores",
+      icon: <CiShop />,
     },
     {
       name: "Products",
       path: "/products",
+      icon: <CiShoppingCart />,
     },
     {
       name: "Orders",
       path: "/orders",
+      icon: <CiCoinInsert />,
     },
     {
       name: "Customers",
       path: "/customers",
+      icon: <CiUser />,
     },
     {
       name: "Settings",
       path: "/settings",
+      icon: <CiSettings />,
     },
   ];
   return (
@@ -57,9 +75,12 @@ const Layout = ({ children }: ILayout) => {
         <StyledSidebar>
           <StyledSidebarLinks>
             {links.map((link) => (
-              <StyledLink key={link.name}>
-                <Link to={link.path}>{link.name}</Link>
-              </StyledLink>
+              <Link to={link.path} key={link.name}>
+                <StyledLink>
+                  <StyledMenuIcon>{link.icon}</StyledMenuIcon>
+                  <StyledAnchor>{link.name}</StyledAnchor>
+                </StyledLink>
+              </Link>
             ))}
           </StyledSidebarLinks>
           <StyledSidebarFooter>
