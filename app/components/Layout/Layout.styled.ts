@@ -22,6 +22,10 @@ export const Block = styled.div`
   width: 100%;
 `;
 
+export const StyledText = styled.span`
+  font-size: 0.8rem;
+`;
+
 export const StyledLayout = styled.div<StyledTheme>`
   display: flex;
   flex-direction: column;
@@ -58,8 +62,8 @@ export const StyledAnchor = styled.span<StyledTheme>`
   justify-content: center;
   align-items: center;
 
-  @media only screen and (max-width: 320px) {
-    font-size: 5vw;
+  @media only screen and (max-width: 480px) {
+    font-size: 3.8vw;
   }
 
   @media only screen and (min-width: 768px) {
@@ -79,25 +83,25 @@ export const StyledContent = styled.div`
 `;
 
 export const StyledSidebar = styled(Block)<StyledSidebarProps>`
-  max-width: ${({ size }) => size || "30%"};
+  max-width: ${({ size }) => size || "30vw"};
 
   /* mobile size */
-  @media (min-width: 480px) {
-    width: ${({ size }) => size || "25%"};
+  @media (max-width: 480px) {
+    max-width: ${({ size }) => size || "25vw"};
   }
 
   /* tablet size */
-  @media (min-width: 768px) {
-    width: ${({ size }) => size || "30%"};
+  @media (max-width: 768px) {
+    max-width: ${({ size }) => size || "20vw"};
   }
   /* laptop size */
   @media (min-width: 1024px) {
-    width: ${({ size }) => size || "35%"};
+    max-width: ${({ size }) => size || "30vw"};
   }
 
   /* desktop size */
   @media (min-width: 1280px) {
-    width: ${({ size }) => size || "40%"};
+    max-width: ${({ size }) => size || "30vw"};
   }
 
 
@@ -124,9 +128,22 @@ export const StyledSidebarLinks = styled(Block)<StyledTheme>`
   }
 `;
 
-export const StyledSidebarFooter = styled(Block)`
+export const StyledSidebarFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 5rem;
+`;
+
+export const StyledProfileSide = styled.div`
+  display: flex;
+  border: 1px solid #ccc;
+
+  img {
+    width: 2rem;
+  }
 `;
 
 export const StyledBodyContent = styled(Block)`
@@ -141,5 +158,16 @@ export const StyledMenuIcon = styled.span`
   svg {
     width: 2rem;
     height: 2rem;
+
+    /* mobile size */
+    @media (max-width: 480px) {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
   }
+`;
+
+export const StyledNameBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

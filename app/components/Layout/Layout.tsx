@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "@remix-run/react";
+import { faker } from "@faker-js/faker";
 import {
   CiShoppingCart,
   CiShop,
@@ -8,6 +9,7 @@ import {
   CiCoinInsert,
   CiGrid42,
   CiHome,
+  CiCircleMore,
 } from "react-icons/ci";
 
 import { Header } from "../";
@@ -23,6 +25,9 @@ import {
   StyledBodyContent,
   StyledMenuIcon,
   StyledAnchor,
+  StyledNameBox,
+  StyledText,
+  StyledProfileSide,
 } from "./Layout.styled";
 
 export interface ILayout {
@@ -30,7 +35,7 @@ export interface ILayout {
 }
 
 const Layout = ({ children }: ILayout) => {
-  const user = "Jean Abayo";
+  const name = faker.name.fullName();
   const links = [
     {
       name: "Home",
@@ -68,6 +73,9 @@ const Layout = ({ children }: ILayout) => {
       icon: <CiSettings />,
     },
   ];
+  const email = faker.internet.email();
+  const profilePicture = faker.image.avatar();
+
   return (
     <StyledLayout>
       <Header />
@@ -84,18 +92,17 @@ const Layout = ({ children }: ILayout) => {
             ))}
           </StyledSidebarLinks>
           <StyledSidebarFooter>
-            <StyledLink>
-              test@test.com
-              <Link to="/logout">Logout</Link>
-            </StyledLink>
+            <StyledProfileSide>
+              <img src={profilePicture} alt="" />
+            </StyledProfileSide>
+            <StyledNameBox>
+              <StyledText>{email}</StyledText>
+              <StyledText>{name}</StyledText>
+            </StyledNameBox>
+            <CiCircleMore />
           </StyledSidebarFooter>
         </StyledSidebar>
-        <StyledBodyContent>
-          <StyledTitle className="text-2xl font-bold">
-            Welcome {user}
-          </StyledTitle>
-          {children}
-        </StyledBodyContent>
+        <StyledBodyContent>{children}</StyledBodyContent>
       </StyledContent>
     </StyledLayout>
   );

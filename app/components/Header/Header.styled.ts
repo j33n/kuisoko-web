@@ -39,3 +39,8 @@ export const StyledToolbarItem = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+export const StyledThemeBox = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
