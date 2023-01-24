@@ -31,25 +31,27 @@ const commonColors = {
 export const light: ColorModesScale = {
   primary: "#b84d69",
   background: "#fbfef9",
+  buttonBgHover: "rgba(8, 8, 19, 0.1)",
   nav: "#27282b",
   navHover: "#303236",
   border: "#303236",
   text: "#202224",
   boxShadow: "rgba(0, 0, 0, 0.1)",
-  ...commonColors
+  ...commonColors,
 };
 
 // dark theme rules
 export const dark: ColorModesScale = {
   primary: "#7e1946",
   background: "#080813",
+  buttonBgHover: "rgba(251, 254, 249, 0.1)",
   // background: "#000004",
   nav: "#3498db",
   navHover: "#f0f0f0",
   border: "#deebf1",
   text: "#fefefe",
   boxShadow: "rgba(255, 255, 255, 0.8)",
-  ...commonColors
+  ...commonColors,
 };
 
 export const zIndices = {

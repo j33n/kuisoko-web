@@ -11,13 +11,12 @@ import {
 } from "./Header.styled";
 
 const Header = () => {
-  const user = "Jean Abayo"
   return (
     <StyledHeader>
       <StyledLogoBox>
         <img src={Logo} alt="" />
       </StyledLogoBox>
-      <StyledToolbarSpacer/>
+      <StyledToolbarSpacer />
       <StyledToolbarGroup>
         <StyledToolbarItem>
           <Link to="/">Profile</Link>
@@ -26,7 +25,6 @@ const Header = () => {
           <Link to="/login">Login</Link>
         </StyledToolbarItem>
       </StyledToolbarGroup>
-      <h1 className="text-2xl font-bold">Welcome {user}</h1>
     </StyledHeader>
   );
 };
