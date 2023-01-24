@@ -9,3 +9,5 @@ node_modules
 /postgres-data
 
 /app/styles/globals.css
+
+*/**/.DS_Store

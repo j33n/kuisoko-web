@@ -8,25 +8,16 @@ export const StyledHeader = styled.div`
 
 export const StyledLogoBox = styled.div`
   display: flex;
-  padding: 1rem;
+  padding: 1rem 2rem;
 
   img {
-    max-width: 80px;
+    max-width: 60px;
   }
-`;
-
-export const StyledToolbarTitle = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const StyledToolbarSpacer = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
 `;
 
 export const StyledToolbarGroup = styled.div`

@@ -23,6 +23,7 @@ import { Layout } from "./components";
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "Kuisoko",
+  description: "Powering the next generation of Africa’s marketplaces",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -62,7 +63,7 @@ const Document = withEmotionCache(
             />
           ))}
         </head>
-        <body style={{height: "100vh"}}>
+        <body style={{ height: "100vh" }}>
           {children}
           <ScrollRestoration />
           <Scripts />
