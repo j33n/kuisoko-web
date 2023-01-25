@@ -124,6 +124,7 @@ export const StyledSidebarLinks = styled(Block)<StyledTheme>`
   height: calc(100vh - (92px + 5rem));
   justify-content: flex-start;
   background: ${({ theme: { colors } }) => colors.background};
+  overflow: auto;
 
   a {
     width: 70%;

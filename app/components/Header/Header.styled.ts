@@ -3,8 +3,9 @@ import type { ColorModesScale } from "theme-ui";
 
 export interface StyledTheme {
   theme?: {
-    colors: ColorModesScale
+    colors: ColorModesScale;
   };
+  nav?: boolean;
 }
 
 export const StyledHeader = styled.header<StyledTheme>`
@@ -33,14 +34,25 @@ export const StyledToolbarGroup = styled.div`
   align-items: center;
 `;
 
-export const StyledToolbarItem = styled.div`
+export const StyledToolbarItem = styled.div<StyledTheme>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-right: 1.5vw;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    margin: 0.5rem;
+    color: ${({ theme: { colors }, nav }) => nav ? colors.nav : colors.text};
+  }
 `;
 
-export const StyledThemeBox = styled.div`
+export const StyledIconBox = styled.div<StyledTheme>`
   display: flex;
   flex-direction: row;
+  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
+  border-radius: 50%;
+  cursor: pointer;
 `;
