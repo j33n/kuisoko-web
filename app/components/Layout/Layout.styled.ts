@@ -5,6 +5,7 @@ export interface StyledTheme {
   theme?: {
     colors: ColorModesScale;
   };
+  disabled?: boolean;
 }
 
 export interface StyledSidebarProps {
@@ -22,8 +23,17 @@ export const Block = styled.div`
   width: 100%;
 `;
 
-export const StyledText = styled.span`
+export const StyledText = styled.p<StyledTheme>`
   font-size: 0.8rem;
+  color: ${({ theme: { colors }, disabled }) =>
+    disabled ? colors.textDisabled : colors.text};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @media only screen and (max-width: 480px) {
+    font-size: 3vw;
+  }
 `;
 
 export const StyledLayout = styled.div<StyledTheme>`
@@ -104,7 +114,6 @@ export const StyledSidebar = styled(Block)<StyledSidebarProps>`
     max-width: ${({ size }) => size || "30vw"};
   }
 
-
   background: ${({ theme: { colors } }) => colors.background};
   border-right: ${({ theme: { colors } }) =>
     `1px solid ${colors.buttonBgHover}`};
@@ -128,21 +137,72 @@ export const StyledSidebarLinks = styled(Block)<StyledTheme>`
   }
 `;
 
-export const StyledSidebarFooter = styled.div`
+export const StyledSidebarFooter = styled(Block)<StyledTheme>`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
   height: 5rem;
+  position: relative;
+  border-top: ${({ theme: { colors } }) =>
+    `1px solid ${colors.buttonBgHover}`};
+
+  @media only screen and (max-width: 768px) {
+    align-items: center;
+    flex-wrap: wrap;
+
+    div:first-child {
+      margin: 4px 0 0 4px;
+    }
+  }
 `;
 
-export const StyledProfileSide = styled.div`
+export const StyledMoreBox = styled.div`
   display: flex;
-  border: 1px solid #ccc;
+  order: 3;
+
+  @media only screen and (max-width: 768px) {
+    order: 2;
+    width: 30%;
+  }
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+
+    /* mobile size */
+    @media (max-width: 480px) {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    /* small mobile size */
+    @media (max-width: 320px) {
+      display: none;
+    }
+  }
+`;
+
+export const StyledProfileSide = styled.div<StyledTheme>`
+  display: flex;
+  order: 1;
+
+  /* @media only screen and (max-width: 768px) {
+    width: 70%;
+  } */
 
   img {
-    width: 2rem;
+    max-width: 3rem;
+    max-height: 3rem;
+    border-radius: 50%;
+    padding: 2px;
+    border: 1px solid ${({ theme: { colors } }) => colors.border};
+
+    @media only screen and (max-width: 768px) {
+      max-width: 2rem;
+      max-height: 2rem;
+    }
   }
 `;
 
@@ -170,4 +230,20 @@ export const StyledMenuIcon = styled.span`
 export const StyledNameBox = styled.div`
   display: flex;
   flex-direction: column;
+  order: 2;
+  
+  @media only screen and (max-width: 768px) {
+    order: 3;
+    width: 100%;
+    margin-bottom: 2px;
+    text-align: center;
+
+    p:last-child {
+      display: none;
+    }
+  };
+
+  @media only screen and (max-width: 480px) {
+    font-size: vw;
+  }
 `;

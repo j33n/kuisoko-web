@@ -28,6 +28,7 @@ import {
   StyledNameBox,
   StyledText,
   StyledProfileSide,
+  StyledMoreBox,
 } from "./Layout.styled";
 
 export interface ILayout {
@@ -96,10 +97,12 @@ const Layout = ({ children }: ILayout) => {
               <img src={profilePicture} alt="" />
             </StyledProfileSide>
             <StyledNameBox>
-              <StyledText>{email}</StyledText>
               <StyledText>{name}</StyledText>
+              <StyledText disabled>{email}</StyledText>
             </StyledNameBox>
-            <CiCircleMore />
+            <StyledMoreBox>
+              <CiCircleMore />
+            </StyledMoreBox>
           </StyledSidebarFooter>
         </StyledSidebar>
         <StyledBodyContent>{children}</StyledBodyContent>

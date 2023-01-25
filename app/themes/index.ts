@@ -36,6 +36,7 @@ export const light: ColorModesScale = {
   navHover: "#303236",
   border: "#303236",
   text: "#202224",
+  textDisabled: "#ebebe4",
   boxShadow: "rgba(0, 0, 0, 0.1)",
   ...commonColors,
 };
@@ -50,6 +51,7 @@ export const dark: ColorModesScale = {
   navHover: "#f0f0f0",
   border: "#deebf1",
   text: "#fefefe",
+  textDisabled: "rgba(255, 255, 255, 42%)",
   boxShadow: "rgba(255, 255, 255, 0.8)",
   ...commonColors,
 };
