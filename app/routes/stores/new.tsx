@@ -18,8 +18,7 @@ export const action = async ({ params }: ActionArgs) => {
   console.log(params["*"]);
 };
 
-export default function IndexRoute() {
-
+export default function NewStoreRoute() {
   const params = useParams();
   console.log(params["*"]);
 

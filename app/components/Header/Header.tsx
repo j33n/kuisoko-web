@@ -15,35 +15,13 @@ import {
 
 export interface IThemeSwitcher {
   setCurrentTheme: (theme: string) => void;
-  currentTheme: string;
+  currentTheme?: string;
 };
 
 export const ThemeSwitcher = ({ setCurrentTheme }: IThemeSwitcher) => {
   const colorModes = [`light`, `dark`];
 
   const [colorMode, setColorMode] = useColorMode();
-
-  // return Object.entries(rawColors).map(([mode, values]) => ({
-  //   <Button
-  //     sx={{ bg: values.background, color: values.text }}
-  //     onClick={() => setColorMode(mode)}
-  //   >
-  //     {mode}
-  //   </Button>
-  // }))
-
-  // const handleModeChange = () => {
-  //   setColorMode(colorMode === "light" ? "dark" : "light");
-  // };
-
-  // return Object.entries(rawColors?.modes).map(([mode, values]) => ({
-  //   <Button
-  //     sx={{ bg: values.background, color: values.text }}
-  //     onClick={() => setColorMode(mode)}
-  //   >
-  //     {mode}
-  //   </Button>
-  // }))
 
   return (
     <StyledIconBox
@@ -60,7 +38,7 @@ export const ThemeSwitcher = ({ setCurrentTheme }: IThemeSwitcher) => {
   );
 };
 
-const Header = ({ setCurrentTheme }: IThemeSwitcher) => {
+const Header = ({ setCurrentTheme, currentTheme }: IThemeSwitcher) => {
   return (
     <StyledHeader>
       <StyledLogoBox>
@@ -72,7 +50,10 @@ const Header = ({ setCurrentTheme }: IThemeSwitcher) => {
           <CiCircleQuestion />
         </StyledToolbarItem>
         <StyledToolbarItem>
-          <ThemeSwitcher setCurrentTheme={setCurrentTheme} />
+          <ThemeSwitcher
+            currentTheme={currentTheme}
+            setCurrentTheme={setCurrentTheme}
+          />
         </StyledToolbarItem>
         <StyledToolbarItem>
           <StyledIconBox>

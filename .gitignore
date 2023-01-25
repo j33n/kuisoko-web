@@ -11,3 +11,5 @@ node_modules
 /app/styles/globals.css
 
 */**/.DS_Store
+
+user_flow_v0.jpg

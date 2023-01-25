@@ -8,14 +8,25 @@ generator client {
 }
 
 model User {
-  id    String @id @default(cuid())
-  email String @unique
+  id       String    @id @default(cuid())
+  names    String
+  phone    String    @unique
+  email    String    @unique
+  picture  String
+  password Password?
+
+  products        Item[]
+  notes           Note[]
+  chats           Chat[]
+  balance         Balance[]
+  stores          Store[]
+  deliveryMethods DeliveryMethod[]
+  paymentMethods  PaymentMethod[]
+  messages        Message[]
+  orders          Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
 }
 
 model Password {
@@ -23,6 +34,9 @@ model Password {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Note {
@@ -30,9 +44,144 @@ model Note {
   title String
   body  String
 
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Item {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  picture     String
+  tags        String[]
+  quantity    Int
+
+  addedBy   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  belongsTo Store  @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  storeId   String
+  userId    String
+
+  orders Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Balance {
+  id       String @id @default(cuid())
+  amount   Float
+  currency String
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Store {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  logo        String
+  cover       String
+  categories  String[]
+  location    String
+  items       Item[]
+
+  addedBy User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Order     Order[]
+}
+
+model DeliveryMethod {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  icon        String
+
+  orders Order[]
+
+  addedBy User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PaymentMethod {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  icon        String
+
+  addedBy User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Order     Order[]
+}
+
+model Order {
+  id              String         @id @default(cuid())
+  status          String
+  items           Item[]
+  deliveryMethod  DeliveryMethod @relation(fields: [deliveryMethodId], references: [id])
+  paymentMethod   PaymentMethod  @relation(fields: [paymentMethodId], references: [id])
+  deliveryAddress String
+  deliveryFee     Float
+  total           Float
+  currency        String
+
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  storeId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  deliveryMethodId String
+  paymentMethodId  String
+}
+
+model Driver {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String
+  picture   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Message {
+  id   String @id @default(cuid())
+  body String
+
+  chat   Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  chatId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Chat {
+  id       String    @id @default(cuid())
+  messages Message[]
+  users    User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

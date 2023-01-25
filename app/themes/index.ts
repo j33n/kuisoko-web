@@ -32,7 +32,7 @@ export const light: ColorModesScale = {
   primary: "#b84d69",
   background: "#fbfef9",
   buttonBgHover: "rgba(8, 8, 19, 0.1)",
-  nav: "#27282b",
+  nav: "#3498db",
   navHover: "#303236",
   border: "#303236",
   text: "#202224",

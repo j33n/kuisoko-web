@@ -85,10 +85,6 @@ export default function App() {
 
   const theme: Theme = { ...base, colors: themesMap[currentTheme] };
 
-  useEffect(() => {
-    setCurrentTheme('light');
-  }, []);
-
   return (
     <Document>
       <Global styles={GlobalStyles} />
