@@ -45,7 +45,9 @@ export const StyledToolbarItem = styled.div<StyledTheme>`
     width: 2rem;
     height: 2rem;
     margin: 0.5rem;
-    color: ${({ theme: { colors }, nav }) => nav ? colors.nav : colors.text};
+    color: ${({ theme: { colors }, nav }) => (nav ? colors.nav : colors.text)};
+    margin: '0 auto';
+    transition: 'transform 400ms ease';
   }
 `;
 

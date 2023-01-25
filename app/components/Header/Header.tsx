@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 import { CiDark, CiLight, CiCircleQuestion, CiBellOn } from "react-icons/ci";
-import { useThemeUI } from "theme-ui";
+import { useColorMode } from "theme-ui";
 
 import Logo from "../../assets/logo.svg";
 
@@ -13,21 +13,25 @@ import {
   StyledIconBox,
 } from "./Header.styled";
 
-export const ThemeSwitcher = () => {
-    const { theme: { rawColors }, colorMode, setColorMode } = useThemeUI();
+export interface IThemeSwitcher {
+  setCurrentTheme: (theme: string) => void;
+  currentTheme: string;
+};
 
-    console.log("------------", rawColors?.modes)
+export const ThemeSwitcher = ({ setCurrentTheme }: IThemeSwitcher) => {
+  const colorModes = [`light`, `dark`];
 
-    // return Object.entries(rawColors).map(([mode, values]) => ({
-    //   <Button
-    //     sx={{ bg: values.background, color: values.text }}
-    //     onClick={() => setColorMode(mode)}
-    //   >
-    //     {mode}
-    //   </Button>
-    // }))
+  const [colorMode, setColorMode] = useColorMode();
 
-  
+  // return Object.entries(rawColors).map(([mode, values]) => ({
+  //   <Button
+  //     sx={{ bg: values.background, color: values.text }}
+  //     onClick={() => setColorMode(mode)}
+  //   >
+  //     {mode}
+  //   </Button>
+  // }))
+
   // const handleModeChange = () => {
   //   setColorMode(colorMode === "light" ? "dark" : "light");
   // };
@@ -42,14 +46,21 @@ export const ThemeSwitcher = () => {
   // }))
 
   return (
-    <StyledIconBox onClick={() => setColorMode && setColorMode(colorMode === "light" ? "dark" : "light")}>
+    <StyledIconBox
+      onClick={() => {
+        const index = colorModes.indexOf(colorMode);
+        const next = colorModes[(index + 1) % colorModes.length];
+        setColorMode(next);
+        setCurrentTheme(next);
+      }}
+      aria-label="Toggle website theme"
+    >
       {colorMode === "light" ? <CiDark /> : <CiLight />}
     </StyledIconBox>
   );
 };
 
-const Header = () => {
-
+const Header = ({ setCurrentTheme }: IThemeSwitcher) => {
   return (
     <StyledHeader>
       <StyledLogoBox>
@@ -61,7 +72,7 @@ const Header = () => {
           <CiCircleQuestion />
         </StyledToolbarItem>
         <StyledToolbarItem>
-          <ThemeSwitcher />
+          <ThemeSwitcher setCurrentTheme={setCurrentTheme} />
         </StyledToolbarItem>
         <StyledToolbarItem>
           <StyledIconBox>

@@ -33,9 +33,11 @@ import {
 
 export interface ILayout {
   children: React.ReactNode;
+  setCurrentTheme: (theme: string) => void;
+  currentTheme: string;
 }
 
-const Layout = ({ children }: ILayout) => {
+const Layout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
   const name = faker.name.fullName();
   const links = [
     {
@@ -79,7 +81,7 @@ const Layout = ({ children }: ILayout) => {
 
   return (
     <StyledLayout>
-      <Header />
+      <Header currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} />
       <StyledContent>
         <StyledSidebar>
           <StyledSidebarLinks>

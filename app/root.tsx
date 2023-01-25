@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { withEmotionCache } from "@emotion/react";
 import { ThemeProvider } from "@theme-ui/core";
+import { ColorModeProvider } from "@theme-ui/color-modes";
 import type { Theme } from "theme-ui";
 import {
   Links,
@@ -84,13 +85,19 @@ export default function App() {
 
   const theme: Theme = { ...base, colors: themesMap[currentTheme] };
 
+  useEffect(() => {
+    setCurrentTheme('light');
+  }, []);
+
   return (
     <Document>
       <Global styles={GlobalStyles} />
       <ThemeProvider theme={theme}>
-        <Layout>
-          <Outlet />
-        </Layout>
+        <ColorModeProvider>
+          <Layout currentTheme={currentTheme} setCurrentTheme={setCurrentTheme}>
+            <Outlet />
+          </Layout>
+        </ColorModeProvider>
       </ThemeProvider>
     </Document>
   );
