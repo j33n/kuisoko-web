@@ -69,3 +69,26 @@ export function useUser(): User {
 export function validateEmail(email: unknown): email is string {
   return typeof email === "string" && email.length > 3 && email.includes("@");
 }
+
+// typescript function to singularize a word
+
+export type EndingsProps = {
+  [key: string]: string;
+};
+
+export function singularize(word: string): string {
+  const endings: EndingsProps = {
+    ves: "fe",
+    ies: "y",
+    i: "us",
+    zes: "ze",
+    ses: "s",
+    es: "e",
+    s: "",
+  };
+
+  return word.replace(
+    new RegExp(`(${Object.keys(endings).join("|")})$`),
+    (r) => endings[r]
+  );
+}

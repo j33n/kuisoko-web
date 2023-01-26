@@ -1,41 +1,41 @@
-import type { User, Product } from "@prisma/client";
+import type { User, Item } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
-export type { Product } from "@prisma/client";
+export type { Item } from "@prisma/client";
 
 export function getProduct({
   id,
   userId,
-}: Pick<Product, "id"> & {
+}: Pick<Item, "id"> & {
   userId: User["id"];
 }) {
-  return prisma.product.findFirst({
+  return prisma.item.findFirst({
     select: { id: true, body: true, title: true },
     where: { id, userId },
   });
 }
 
 export function getProductListItems({ userId }: { userId: User["id"] }) {
-  return prisma.product.findMany({
+  return prisma.item.findMany({
     where: { userId },
-    select: { id: true, title: true },
+    select: { id: true, name: true },
     orderBy: { updatedAt: "desc" },
   });
 }
 
 export function createProduct({
-  body,
-  title,
+  name,
+  description,
   userId,
-}: Pick<Product, "body" | "title"> & {
+}: Pick<Item, "name" | "description"> & {
   userId: User["id"];
 }) {
-  return prisma.product.create({
+  return prisma.item.create({
     data: {
-      title,
-      body,
-      user: {
+      name,
+      description,
+      addedBy: {
         connect: {
           id: userId,
         },
@@ -47,8 +47,8 @@ export function createProduct({
 export function deleteProduct({
   id,
   userId,
-}: Pick<Product, "id"> & { userId: User["id"] }) {
-  return prisma.product.deleteMany({
+}: Pick<Item, "id"> & { userId: User["id"] }) {
+  return prisma.item.deleteMany({
     where: { id, userId },
   });
 }

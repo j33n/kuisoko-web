@@ -1,24 +1,26 @@
-import styled from "@emotion/styled";
+import AdderButton from "../AdderButton/AdderButton";
+import { StyledHeader } from "./PageHeader.styled";
 
-import type { StyledTheme } from "~/components/Layout/Layout.styled";
+export interface IPageHeader {
+  pageName: string;
+  allowNew?: boolean;
+  handleAdder: (pageName: string) => void;
+}
 
+const PageHeader = ({ pageName, allowNew, handleAdder }: IPageHeader) => {
+  const newPageName = pageName && pageName.toLowerCase();
 
-export const StyledPage = styled.div<StyledTheme>`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background: ${({ theme: { colors } }) => colors.background};
-    color: ${({ theme: { colors } }) => colors.text};
-`;
-
-const PageHeader = () => {
-    return (
-        <StyledPage>
-            Stores
-        </StyledPage>
-    );
+  return (
+    <StyledHeader>
+      {allowNew && String(newPageName) === pageName && (
+        <AdderButton
+          pageName={pageName}
+          allowNew={allowNew}
+          handleAdder={handleAdder}
+        />
+      )}
+    </StyledHeader>
+  );
 };
 
 export default PageHeader;
