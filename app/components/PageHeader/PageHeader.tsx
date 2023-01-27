@@ -1,5 +1,7 @@
+import { Link } from "@remix-run/react";
 import AdderButton from "../AdderButton/AdderButton";
 import { StyledHeader } from "./PageHeader.styled";
+import { singularize } from "~/utils";
 
 export interface IPageHeader {
   pageName: string;
@@ -13,12 +15,14 @@ const PageHeader = ({ pageName, allowNew, handleAdder }: IPageHeader) => {
   return (
     <StyledHeader>
       {allowNew && String(newPageName) === pageName && (
-        <AdderButton
-          pageName={pageName}
-          allowNew={allowNew}
-          handleAdder={handleAdder}
-          className="adder-button"
-        />
+        <Link to={`/${pageName.toLowerCase()}/new`}>
+          <AdderButton
+            pageName={singularize(pageName)}
+            allowNew={allowNew}
+            handleAdder={handleAdder}
+            className="adder-button"
+          />
+        </Link>
       )}
     </StyledHeader>
   );

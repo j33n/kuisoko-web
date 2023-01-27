@@ -24,7 +24,7 @@ export default function SingleStoreRoute() {
 
   return (
     <div>
-      <h1>/Home</h1>
+      <h1>some store</h1>
     </div>
   );
 }

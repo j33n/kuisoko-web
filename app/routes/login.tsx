@@ -1,11 +1,12 @@
+import styled from "@emotion/styled";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import * as React from "react";
 
 import { verifyLogin } from "~/models/user.server";
-import { createUserSession, getUserId } from "~/session.server";
-import { StyledLoginContainer } from "~/styles/login.styled";
+import { createUserSession, getUserId } from "~/services/session.server";
+import type { StyledTheme } from "~/styles/page.styled";
 import { safeRedirect, validateEmail } from "~/utils";
 
 export async function loader({ request }: LoaderArgs) {
@@ -65,6 +66,139 @@ export const meta: MetaFunction = () => {
   };
 };
 
+export const StyledFormContainer = styled.div<StyledTheme>`
+  display: flex;
+  width: 100%;
+  max-width: 30rem;
+  padding: 1rem;
+  margin: 0 auto;
+  background-color: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  height: calc(100vh - (92px + 5rem));
+`;
+
+export const StyledAuthContainer = styled.div<StyledTheme>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 0 0.5rem;
+  background: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  position: relative;
+`;
+
+export const StyledForm = styled(Form)`
+  margin-top: 1.5rem;
+  width: 100%;
+`;
+
+export const StyledInputContainer = styled.div`
+  display: block;
+`;
+
+export const StyledLabel = styled.label`
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a5568;
+`;
+
+export const StyledInputBox = styled.div`
+  margin-top: 0.25rem;
+`;
+
+export const StyledInput = styled.input`
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+`;
+
+export const StyledError = styled.span`
+  display: block;
+  padding-top: 0.25rem;
+  color: #e53e3e;
+`;
+
+export const StyledLink = styled(Link)`
+  font-size: 0.875rem;
+  color: #4299e1;
+  &:hover {
+    color: #3182ce;
+  }
+`;
+
+export const StyledButton = styled.button`
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #4299e1;
+  border-radius: 0.25rem;
+  &:hover {
+    background-color: #3182ce;
+  }
+
+  &:focus {
+    background-color: #2b6cb0;
+  }
+
+  &:disabled {
+    background-color: #cbd5e0;
+    color: #a0aec0;
+  }
+
+  &:disabled:hover {
+    background-color: #cbd5e0;
+    color: #a0aec0;
+  }
+
+  &:disabled:focus {
+    background-color: #cbd5e0;
+    color: #a0aec0;
+  }
+`;
+
+export const FlexCenter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const FlexCenterColumn = styled(FlexCenter)`
+  flex-direction: column;
+`;
+
+export const FlexCenterRow = styled(FlexCenter)`
+  flex-direction: row;
+`;
+
+export const FlexCenterBetween = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const StyledCheckbox = styled.input`
+  width: 1rem;
+  height: 1rem;
+  color: #4299e1;
+  border-color: #e2e8f0;
+  border-radius: 0.25rem;
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+  }
+`;
+
+export const StyledNewAccountText = styled.span`
+  font-size: 0.875rem;
+  text-align: center;
+  color: #718096;
+`;
+
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/notes";
@@ -81,100 +215,70 @@ export default function LoginPage() {
   }, [actionData]);
 
   return (
-    <StyledLoginContainer>
-      <div className="w-full max-w-md px-8 mx-auto">
-        <Form method="post" className="space-y-6" noValidate>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-            </label>
-            <div className="mt-1">
-              <input
-                ref={emailRef}
-                id="email"
-                required
-                autoFocus={true}
-                name="email"
-                type="email"
-                autoComplete="email"
-                aria-invalid={actionData?.errors?.email ? true : undefined}
-                aria-describedby="email-error"
-                className="w-full px-2 py-1 text-lg border border-gray-500 rounded"
-              />
-              {actionData?.errors?.email && (
-                <div className="pt-1 text-red-700" id="email-error">
-                  {actionData.errors.email}
-                </div>
-              )}
-            </div>
-          </div>
+    <StyledFormContainer>
+      <StyledForm method="post" noValidate>
+        <StyledInputContainer>
+          <StyledLabel htmlFor="email">Email address</StyledLabel>
+          <StyledInputBox>
+            <StyledInput
+              ref={emailRef}
+              id="email"
+              required
+              autoFocus={true}
+              name="email"
+              type="email"
+              autoComplete="email"
+              aria-invalid={actionData?.errors?.email ? true : undefined}
+              aria-describedby="email-error"
+            />
+            {actionData?.errors?.email && (
+              <StyledError id="email-error">
+                {actionData.errors.email}
+              </StyledError>
+            )}
+          </StyledInputBox>
+        </StyledInputContainer>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <div className="mt-1">
-              <input
-                id="password"
-                ref={passwordRef}
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                aria-invalid={actionData?.errors?.password ? true : undefined}
-                aria-describedby="password-error"
-                className="w-full px-2 py-1 text-lg border border-gray-500 rounded"
-              />
-              {actionData?.errors?.password && (
-                <div className="pt-1 text-red-700" id="password-error">
-                  {actionData.errors.password}
-                </div>
-              )}
-            </div>
-          </div>
+        <StyledInputContainer>
+          <StyledLabel htmlFor="password">Password</StyledLabel>
+          <StyledInputBox>
+            <StyledInput
+              id="password"
+              ref={passwordRef}
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              aria-invalid={actionData?.errors?.password ? true : undefined}
+              aria-describedby="password-error"
+            />
+            {actionData?.errors?.password && (
+              <StyledError id="password-error">
+                {actionData.errors.password}
+              </StyledError>
+            )}
+          </StyledInputBox>
+        </StyledInputContainer>
 
-          <input type="hidden" name="redirectTo" value={redirectTo} />
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:bg-blue-400"
-          >
-            Log in
-          </button>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember"
-                name="remember"
-                type="checkbox"
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <label
-                htmlFor="remember"
-                className="block ml-2 text-sm text-gray-900"
-              >
-                Remember me
-              </label>
-            </div>
-            <div className="text-sm text-center text-gray-500">
-              Don't have an account?{" "}
-              <Link
-                className="text-blue-500 underline"
-                to={{
-                  pathname: "/join",
-                  search: searchParams.toString(),
-                }}
-              >
-                Sign up
-              </Link>
-            </div>
-          </div>
-        </Form>
-      </div>
-    </StyledLoginContainer>
+        <input type="hidden" name="redirectTo" value={redirectTo} />
+        <StyledButton type="submit">Log in</StyledButton>
+        <FlexCenterBetween>
+          <FlexCenter>
+            <StyledCheckbox id="remember" name="remember" type="checkbox" />
+            <StyledLabel htmlFor="remember">Remember me</StyledLabel>
+          </FlexCenter>
+          <StyledNewAccountText>
+            Don't have an account?{" "}
+            <StyledLink
+              to={{
+                pathname: "/join",
+                search: searchParams.toString(),
+              }}
+            >
+              Sign up
+            </StyledLink>
+          </StyledNewAccountText>
+        </FlexCenterBetween>
+      </StyledForm>
+    </StyledFormContainer>
   );
 }

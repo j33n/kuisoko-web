@@ -1,12 +1,6 @@
 import styled from "@emotion/styled";
 import type { ColorModesScale } from "theme-ui";
-
-export interface StyledTheme {
-  theme?: {
-    colors: ColorModesScale;
-  };
-  disabled?: boolean;
-}
+import type { StyledTheme } from "~/styles/page.styled";
 
 export interface StyledSidebarProps {
   size?: string;

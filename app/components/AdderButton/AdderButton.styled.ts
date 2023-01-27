@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import type { StyledTheme } from "~/components/Layout/Layout.styled";
+import type { StyledTheme } from "~/styles/page.styled";
 
 export const StyledAdd = styled.div<StyledTheme>`
   display: flex;

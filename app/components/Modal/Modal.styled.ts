@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 
-import type { StyledTheme } from "~/components/Layout/Layout.styled";
-
 import type { ModalAnimation } from "./Modal";
 import { css } from "@emotion/react";
 import * as keyframes from "./Keyframes.styled";
+import type { StyledTheme } from "~/styles/page.styled";
 
 // Modal animations types
 export const ModalAnimations = [

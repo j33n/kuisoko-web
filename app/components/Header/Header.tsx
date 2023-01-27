@@ -12,11 +12,12 @@ import {
   StyledToolbarItem,
   StyledIconBox,
 } from "./Header.styled";
+import { useOptionalUser } from "~/utils";
 
 export interface IThemeSwitcher {
   setCurrentTheme: (theme: string) => void;
   currentTheme?: string;
-};
+}
 
 export const ThemeSwitcher = ({ setCurrentTheme }: IThemeSwitcher) => {
   const colorModes = [`light`, `dark`];
@@ -39,6 +40,8 @@ export const ThemeSwitcher = ({ setCurrentTheme }: IThemeSwitcher) => {
 };
 
 const Header = ({ setCurrentTheme, currentTheme }: IThemeSwitcher) => {
+  const user = useOptionalUser();
+
   return (
     <StyledHeader>
       <StyledLogoBox>
@@ -55,11 +58,13 @@ const Header = ({ setCurrentTheme, currentTheme }: IThemeSwitcher) => {
             setCurrentTheme={setCurrentTheme}
           />
         </StyledToolbarItem>
-        <StyledToolbarItem>
-          <StyledIconBox>
-            <CiBellOn />
-          </StyledIconBox>
-        </StyledToolbarItem>
+        {user && (
+          <StyledToolbarItem>
+            <StyledIconBox>
+              <CiBellOn />
+            </StyledIconBox>
+          </StyledToolbarItem>
+        )}
       </StyledToolbarGroup>
     </StyledHeader>
   );

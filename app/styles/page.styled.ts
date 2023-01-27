@@ -1,8 +1,14 @@
 import styled from "@emotion/styled";
+import type { ColorModesScale } from "theme-ui";
 
-import type { StyledTheme } from "~/styles/page.styled";
+export interface StyledTheme {
+  theme?: {
+    colors: ColorModesScale;
+  };
+  disabled?: boolean;
+}
 
-export const StyledHeader = styled.div<StyledTheme>`
+export const StyledPage = styled.div<StyledTheme>`
   display: flex;
   flex-direction: column;
   width: 100%;
