@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 import styled from "@emotion/styled";
 
@@ -31,7 +31,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Stores() {
   const data = useLoaderData<typeof loader>();
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleAdder = () => {
     setShowModal(true);
@@ -40,16 +40,6 @@ export default function Stores() {
   return (
     <StyledPage>
       <PageHeader pageName={data.pageName} allowNew handleAdder={handleAdder} />
-      {showModal && (
-        <Modal
-          title="New Store"
-          open={showModal}
-          onClose={() => setShowModal(false)}
-          modalAnimation="Unfolding"
-          onConfirm={() => setShowModal(false)}
-        >
-        New Store is about to be added t the db, ....</Modal>
-      )}
     </StyledPage>
   );
 }

@@ -17,6 +17,7 @@ const PageHeader = ({ pageName, allowNew, handleAdder }: IPageHeader) => {
           pageName={pageName}
           allowNew={allowNew}
           handleAdder={handleAdder}
+          className="adder-button"
         />
       )}
     </StyledHeader>

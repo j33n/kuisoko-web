@@ -1,6 +1,12 @@
-import type { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
-import { StyledModalContainer } from "./Modal.styled";
+import classNames from "classnames";
+
+import {
+  StyledModalContainer,
+  StyledModalBackground,
+  StyledModal,
+} from "./Modal.styled";
 
 import ModalHeader from "./ModalHeader";
 import ModalContent from "./ModalContent";
@@ -21,7 +27,8 @@ export interface IModal {
   onClose: () => void;
   onConfirm: () => void;
   modalAnimation: ModalAnimation;
-  title: string;
+  title?: string;
+  closable?: boolean;
 }
 
 const Modal = ({
@@ -31,19 +38,50 @@ const Modal = ({
   onConfirm,
   modalAnimation,
   title,
+  closable,
 }: IModal) => {
+  const defaultModalAnimation = modalAnimation;
+
+  const [desktopWidth, setDesktopWidth] = useState<number>(0);
+  const [desktopHeight, setDesktopHeight] = useState<number>(0);
+
+  useEffect(() => {
+    setDesktopWidth(Math.max(window.screen.width, window.innerWidth));
+    setDesktopHeight(Math.max(window.screen.height, window.innerHeight));
+  }, []);
+
   return (
     <StyledModalContainer
       open={open}
-      onClose={onClose}
       modalAnimation={modalAnimation}
+      className={classNames(defaultModalAnimation.toLowerCase())}
     >
-      <div className="modal-background"></div>
-      <div className="modal">
-        <ModalHeader onClose={onClose} title={title} />
-        <ModalContent>{children}</ModalContent>
-        <ModalFooter onClose={onClose} onConfirm={onConfirm} />
-      </div>
+      <StyledModalBackground className="modal-background">
+        <StyledModal className="modal">
+          {title && (
+            <ModalHeader onClose={onClose} title={title} closable={closable} />
+          )}
+          <ModalContent>{children}</ModalContent>
+          <ModalFooter onClose={onClose} onConfirm={onConfirm} />
+          <svg
+            className="modal-svg"
+            xmlns="http://www.w3.org/2000/svg"
+            width={desktopWidth / 2}
+            height={desktopHeight / 2}
+            preserveAspectRatio="none"
+          >
+            <rect
+              x="0"
+              y="0"
+              fill="none"
+              width={desktopWidth / 2}
+              height={desktopHeight / 2}
+              rx="3"
+              ry="3"
+            ></rect>
+          </svg>
+        </StyledModal>
+      </StyledModalBackground>
     </StyledModalContainer>
   );
 };
