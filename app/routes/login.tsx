@@ -69,86 +69,83 @@ export const meta: MetaFunction = () => {
 export const StyledFormContainer = styled.div<StyledTheme>`
   display: flex;
   width: 100%;
-  max-width: 30rem;
-  padding: 1rem;
-  margin: 0 auto;
-  background-color: ${({ theme }) => theme.colors.background};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  width: 40vw;
   height: calc(100vh - (92px + 5rem));
-`;
-
-export const StyledAuthContainer = styled.div<StyledTheme>`
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 50vh;
-  padding: 0 0.5rem;
-  background: ${({ theme }) => theme.colors.background};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  position: relative;
 `;
 
-export const StyledForm = styled(Form)`
-  margin-top: 1.5rem;
+export const StyledForm = styled(Form)<StyledTheme>`
   width: 100%;
+  border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
+  padding: 1rem;
+  border-radius: 0.5rem;
 `;
 
 export const StyledInputContainer = styled.div`
-  display: block;
+  display: flex;
+  margin: 1rem 0;
 `;
 
-export const StyledLabel = styled.label`
-  display: block;
+export const StyledLabel = styled.label<StyledTheme>`
+  display: flex;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #4a5568;
+  color: ${({ theme }) => theme.colors.labelText};
+  min-width: 8rem;
+  align-items: center;
 `;
 
 export const StyledInputBox = styled.div`
-  margin-top: 0.25rem;
+  display: flex;
+  width: 100%;
 `;
 
-export const StyledInput = styled.input`
-  width: 100%;
+export const StyledInput = styled.input<StyledTheme>`
   padding: 0.5rem;
   font-size: 1rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
   border-radius: 0.25rem;
+  flex-grow: 1;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 `;
 
-export const StyledError = styled.span`
+export const StyledError = styled.span<StyledTheme>`
   display: block;
   padding-top: 0.25rem;
-  color: #e53e3e;
+  color: ${({ theme }) => theme.colors.red};
 `;
 
-export const StyledLink = styled(Link)`
+export const StyledLink = styled(Link)<StyledTheme>`
   font-size: 0.875rem;
-  color: #4299e1;
+  color: ${({ theme }) => theme.colors.nav};
   &:hover {
-    color: #3182ce;
+    color: ${({ theme }) => theme.colors.navHover};
   }
 `;
 
-export const StyledButton = styled.button`
+export const StyledButton = styled.button<StyledTheme>`
   width: 100%;
+  margin: 1rem 0;
   padding: 0.5rem;
   font-size: 1rem;
-  color: #fff;
-  background-color: #4299e1;
+  color: ${({ theme }) => theme.colors.text};
+  background-color: transparent;
   border-radius: 0.25rem;
+  border: 1px solid ${({ theme }) => theme.colors.red};
+
   &:hover {
-    background-color: #3182ce;
+    background-color: ${({ theme }) => theme.colors.red};
   }
 
   &:focus {
-    background-color: #2b6cb0;
+    background-color: ${({ theme }) => theme.colors.nav};
   }
 
   &:disabled {
     background-color: #cbd5e0;
-    color: #a0aec0;
+    color: ${({ theme }) => theme.colors.textDisabled };
   }
 
   &:disabled:hover {

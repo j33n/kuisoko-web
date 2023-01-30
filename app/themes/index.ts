@@ -38,6 +38,8 @@ export const light: ColorModesScale = {
   text: "#202224",
   textDisabled: "#ebebe4",
   boxShadow: "rgba(0, 0, 0, 0.1)",
+  // find light mode alternative for this
+  labelText: "#4a5568",
   ...commonColors,
 };
 
@@ -53,6 +55,7 @@ export const dark: ColorModesScale = {
   text: "#fefefe",
   textDisabled: "rgba(255, 255, 255, 42%)",
   boxShadow: "rgba(255, 255, 255, 0.8)",
+  labelText: "#4a5568",
   ...commonColors,
 };
 
