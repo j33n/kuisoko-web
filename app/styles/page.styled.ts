@@ -8,9 +8,37 @@ import type { ColorModesScale } from "theme-ui";
 export interface StyledTheme {
   theme?: {
     colors: ColorModesScale;
+    fontSizes: string[];
   };
   disabled?: boolean;
 }
+
+export const Flex = styled(Box)`
+  display: flex;
+`;
+
+export const FlexCenter = styled(Flex)`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const FlexCenterColumn = styled(FlexCenter)`
+  flex-direction: column;
+`;
+
+export const FlexCenterRow = styled(FlexCenter)`
+  flex-direction: row;
+`;
+
+export const FlexCenterBetween = styled(Flex)`
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const FlexCenterEnd = styled(Flex)`
+  align-items: center;
+  justify-content: flex-end;
+`;
 
 export const StyledPage = styled.div<StyledTheme>`
   display: flex;
@@ -22,18 +50,13 @@ export const StyledPage = styled.div<StyledTheme>`
   color: ${({ theme: { colors } }) => colors.text};
 `;
 
-export const StyledFormContainer = styled(Box)<StyledTheme>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  width: 40vw;
-  height: calc(100vh - (92px + 5rem));
-  align-items: center;
+export const StyledFormContainer = styled(FlexCenterColumn)<{ width?: string }>`
+  width: ${({ width }) => width || "40%"};
+  height: 100%;
 `;
 
 export const StyledForm = styled(Form)<StyledTheme>`
-  width: 100%;
+  width: 40vw;
   border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
   padding: 1rem;
   border-radius: 0.5rem;
@@ -46,11 +69,12 @@ export const StyledInputContainer = styled(Box)`
 
 export const StyledLabel = styled(Label)<StyledTheme>`
   display: flex;
-  font-weight: 200;
+  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
   color: ${({ theme }) => theme.colors.text};
   max-width: 10rem;
   align-items: center;
   padding: 0 1.2rem;
+  font-size: 0.875rem;
 `;
 
 export const StyledInputBox = styled(Box)`
@@ -71,7 +95,7 @@ export const StyledInput = styled(Input)<StyledTheme>`
   box-sizing: border-box;
   border: none;
   box-shadow: ${({ theme }) => theme.colors.boxShadow};
-  font-weight: 200;
+  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
 
   &:focus {
     outline: none;
@@ -132,33 +156,6 @@ export const StyledButton = styled.button<StyledTheme>`
   }
 `;
 
-export const Flex = styled(Box)`
-  display: flex;
-`;
-
-export const FlexCenter = styled(Flex)`
-  align-items: center;
-  justify-content: center;
-`;
-
-export const FlexCenterColumn = styled(FlexCenter)`
-  flex-direction: column;
-`;
-
-export const FlexCenterRow = styled(FlexCenter)`
-  flex-direction: row;
-`;
-
-export const FlexCenterBetween = styled(Flex)`
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const FlexCenterEnd = styled(Flex)`
-  align-items: center;
-  justify-content: flex-end;
-`;
-
 export const StyledCheckbox = styled(Input)<StyledTheme>`
   width: 1rem;
   height: 1rem;
@@ -173,7 +170,36 @@ export const StyledCheckbox = styled(Input)<StyledTheme>`
 
 export const StyledNewAccountText = styled.span<StyledTheme>`
   font-size: 0.875rem;
-  font-weight: 200;
+  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
   text-align: center;
   color: ${({ theme }) => theme.colors.text};
+`;
+
+export const StyledText = styled.span<StyledTheme>`
+  color: ${({ theme: { colors } }) => colors.text};
+  text-align: center;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes[0]};
+  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
+`;
+
+export const StyledFooter = styled(FlexCenterColumn)<StyledTheme>`
+  width: 100%;
+  height: 4vh;
+  background: transparent;
+  text-align: center;
+  border-top: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
+`;
+
+export const StyledFooterText = styled(StyledText)`
+  text-align: center;
+
+  @media screen and (max-width: 481px) {
+    font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
+    padding: 1rem;
+  }
+
+  a {
+    color: ${({ theme: { colors } }) => colors && colors.nav};
+    text-decoration: none;
+  }
 `;

@@ -15,7 +15,19 @@ export const base: Theme = {
   fonts: {
     body: "Inter, sans-serif",
   },
-  fontSizes: ["8px", "12px", "16px", "24px", "36px", "48px", "64px", "72px"],
+  fontSizes: [
+    "0.875rem",
+    "1rem",
+    "1.25rem",
+    "1.5rem",
+    "1.75rem",
+    "2rem",
+    "3rem",
+    "3.5rem",
+    "4rem",
+    "5rem",
+    "6rem",
+  ],
   buttons: {
     primary: {
       color: "color",
@@ -86,7 +98,8 @@ export const light: ColorModesScale = {
   border: "#303236",
   text: "#202224",
   textDisabled: "#ebebe4",
-  boxShadow: "rgba(252, 252, 252, 1) 0px 0px 3px 0px, rgba(255, 255, 255, 40%) 0px 3px 7px -3px",
+  fontWeight: "400",
+  boxShadow: "rgba(201, 191, 191, 1) 0px 0px 3px 0px, rgba(0, 0, 0, 56%) 0px 3px 7px -3px",
   boxShadowFocus:
     "rgba(38, 164, 218, 33%) 0px 6px 12px -2px, rgb(209 28 90) 0px 3px 7px -3px",
   ...commonColors,
@@ -100,10 +113,11 @@ export const dark: ColorModesScale = {
   border: "#deebf1",
   text: "#fefefe",
   textDisabled: "rgba(255, 255, 255, 42%)",
+  fontWeight: "200",
   boxShadow:
     "rgba(252, 252, 252, 1) 0px 0px 3px 0px, rgba(255, 255, 255, 40%) 0px 3px 7px -3px",
   boxShadowFocus:
-    "rgba(38, 164, 218, 33%) 0px 6px 12px -2px, rgba(255, 255, 255, 75%) 0px 3px 7px -3px",
+    "rgba(255, 255, 255, 0%) 0px 6px 12px 15px, rgba(255, 255, 255, 1) 3px 3px 12px 0px",
   ...commonColors,
 };
 

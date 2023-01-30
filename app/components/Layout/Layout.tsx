@@ -35,6 +35,7 @@ import {
   StyledProfileSide,
   StyledMoreBox,
 } from "./Layout.styled";
+import { StyledFooterText, StyledFooter } from "~/styles/page.styled";
 
 export interface ILayout {
   children: React.ReactNode;
@@ -91,16 +92,15 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 const Layout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
-  const [showModal, setShowModal] = useState(false);
+  const [, setShowModal] = useState(false);
 
   const handleAdder = () => {
     setShowModal(true);
   };
 
-  // const data = useLoaderData<typeof loader>();
   const user = useOptionalUser();
 
-  console.log("+++++++++++++++++", user);
+  const currentYear: number = new Date().getFullYear();
 
   return (
     <StyledLayout>
@@ -142,6 +142,13 @@ const Layout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
           )}
           {children}
         </StyledBodyContent>
+        <StyledFooter>
+          <StyledFooterText>
+            Copyright &copy; {currentYear}{" "}
+            <Link to="/">kuisoko ltd</Link>. All rights
+            reserved.
+          </StyledFooterText>
+        </StyledFooter>
       </StyledContent>
     </StyledLayout>
   );

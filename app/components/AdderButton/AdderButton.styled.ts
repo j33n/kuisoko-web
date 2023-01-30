@@ -20,6 +20,6 @@ export const StyledAdd = styled.div<StyledTheme>`
   }
 `;
 
-export const StyledText = styled.span`
-  font-weight: 200;
+export const StyledText = styled.span<StyledTheme>`
+  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
 `;

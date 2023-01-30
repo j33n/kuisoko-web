@@ -61,7 +61,7 @@ export const StyledAnchor = styled.span<StyledTheme>`
   margin: 0 1rem;
   border-radius: 0.5rem;
   color: ${({ theme: { colors } }) => colors.text};
-  font-weight: 200;
+  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
   font-size: 1rem;
   justify-content: center;
   align-items: center;
@@ -82,7 +82,7 @@ export const StyledAnchor = styled.span<StyledTheme>`
 
 export const StyledContent = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
 `;
 
@@ -203,6 +203,7 @@ export const StyledProfileSide = styled.div<StyledTheme>`
 
 export const StyledBodyContent = styled(Block)`
   width: 100%;
+  height: calc(100vh - (92px + 5rem));
 `;
 
 export const StyledMenuIcon = styled.span`
