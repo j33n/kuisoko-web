@@ -1,13 +1,30 @@
-import styled from "@emotion/styled";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
+import { useActionData, useSearchParams } from "@remix-run/react";
 import * as React from "react";
+
+import { CiLogin } from "react-icons/ci";
+import { Box } from "theme-ui";
+import { Button } from "~/components";
 
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/services/session.server";
-import type { StyledTheme } from "~/styles/page.styled";
 import { safeRedirect, validateEmail } from "~/utils";
+
+import {
+  StyledFormContainer,
+  StyledForm,
+  StyledInputContainer,
+  StyledLabel,
+  StyledInputBox,
+  StyledInput,
+  StyledError,
+  FlexCenterBetween,
+  FlexCenter,
+  StyledCheckbox,
+  StyledNewAccountText,
+  StyledLink,
+} from "~/styles/page.styled";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -65,136 +82,6 @@ export const meta: MetaFunction = () => {
     title: "Login",
   };
 };
-
-export const StyledFormContainer = styled.div<StyledTheme>`
-  display: flex;
-  width: 100%;
-  width: 40vw;
-  height: calc(100vh - (92px + 5rem));
-  align-items: center;
-`;
-
-export const StyledForm = styled(Form)<StyledTheme>`
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
-  padding: 1rem;
-  border-radius: 0.5rem;
-`;
-
-export const StyledInputContainer = styled.div`
-  display: flex;
-  margin: 1rem 0;
-`;
-
-export const StyledLabel = styled.label<StyledTheme>`
-  display: flex;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.labelText};
-  min-width: 8rem;
-  align-items: center;
-`;
-
-export const StyledInputBox = styled.div`
-  display: flex;
-  width: 100%;
-`;
-
-export const StyledInput = styled.input<StyledTheme>`
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
-  border-radius: 0.25rem;
-  flex-grow: 1;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-`;
-
-export const StyledError = styled.span<StyledTheme>`
-  display: block;
-  padding-top: 0.25rem;
-  color: ${({ theme }) => theme.colors.red};
-`;
-
-export const StyledLink = styled(Link)<StyledTheme>`
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.nav};
-  &:hover {
-    color: ${({ theme }) => theme.colors.navHover};
-  }
-`;
-
-export const StyledButton = styled.button<StyledTheme>`
-  width: 100%;
-  margin: 1rem 0;
-  padding: 0.5rem;
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.text};
-  background-color: transparent;
-  border-radius: 0.25rem;
-  border: 1px solid ${({ theme }) => theme.colors.red};
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.red};
-  }
-
-  &:focus {
-    background-color: ${({ theme }) => theme.colors.nav};
-  }
-
-  &:disabled {
-    background-color: #cbd5e0;
-    color: ${({ theme }) => theme.colors.textDisabled };
-  }
-
-  &:disabled:hover {
-    background-color: #cbd5e0;
-    color: #a0aec0;
-  }
-
-  &:disabled:focus {
-    background-color: #cbd5e0;
-    color: #a0aec0;
-  }
-`;
-
-export const FlexCenter = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const FlexCenterColumn = styled(FlexCenter)`
-  flex-direction: column;
-`;
-
-export const FlexCenterRow = styled(FlexCenter)`
-  flex-direction: row;
-`;
-
-export const FlexCenterBetween = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const StyledCheckbox = styled.input`
-  width: 1rem;
-  height: 1rem;
-  color: #4299e1;
-  border-color: #e2e8f0;
-  border-radius: 0.25rem;
-  &:focus {
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
-  }
-`;
-
-export const StyledNewAccountText = styled.span`
-  font-size: 0.875rem;
-  text-align: center;
-  color: #718096;
-`;
 
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
@@ -255,27 +142,30 @@ export default function LoginPage() {
             )}
           </StyledInputBox>
         </StyledInputContainer>
-
         <input type="hidden" name="redirectTo" value={redirectTo} />
-        <StyledButton type="submit">Log in</StyledButton>
-        <FlexCenterBetween>
-          <FlexCenter>
-            <StyledCheckbox id="remember" name="remember" type="checkbox" />
-            <StyledLabel htmlFor="remember">Remember me</StyledLabel>
-          </FlexCenter>
-          <StyledNewAccountText>
-            Don't have an account?{" "}
-            <StyledLink
-              to={{
-                pathname: "/join",
-                search: searchParams.toString(),
-              }}
-            >
-              Sign up
-            </StyledLink>
-          </StyledNewAccountText>
-        </FlexCenterBetween>
+        <Box sx={{ textAlign: "center" }}>
+          <Button icon={<CiLogin size={48} />}>Log in</Button>
+        </Box>
       </StyledForm>
+      <FlexCenterBetween my={30} px={30} sx={{ width: "100%" }}>
+        <FlexCenter sx={{ justifyContent: "flex-start" }}>
+          <StyledCheckbox id="remember" name="remember" type="checkbox" />
+          <StyledLabel sx={{ justifyContent: "center" }} htmlFor="remember">
+            Remember me
+          </StyledLabel>
+        </FlexCenter>
+        <StyledNewAccountText>
+          Don't have an account?{" "}
+          <StyledLink
+            to={{
+              pathname: "/join",
+              search: searchParams.toString(),
+            }}
+          >
+            Sign up
+          </StyledLink>
+        </StyledNewAccountText>
+      </FlexCenterBetween>
     </StyledFormContainer>
   );
 }

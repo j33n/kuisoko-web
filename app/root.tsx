@@ -64,7 +64,7 @@ const Document = withEmotionCache(
             />
           ))}
         </head>
-        <body style={{ height: "100vh" }}>
+        <body style={{ height: "100vh", width: "100vw" }}>
           {children}
           <ScrollRestoration />
           <Scripts />
