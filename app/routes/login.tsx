@@ -4,7 +4,6 @@ import { useActionData, useSearchParams } from "@remix-run/react";
 import * as React from "react";
 
 import { CiLogin } from "react-icons/ci";
-import { Box } from "theme-ui";
 import { Button } from "~/components";
 
 import { verifyLogin } from "~/models/user.server";
@@ -20,6 +19,7 @@ import {
   StyledInput,
   StyledError,
   FlexCenterBetween,
+  FlexCenterEnd,
   FlexCenter,
   StyledCheckbox,
   StyledNewAccountText,
@@ -122,7 +122,6 @@ export default function LoginPage() {
             )}
           </StyledInputBox>
         </StyledInputContainer>
-
         <StyledInputContainer>
           <StyledLabel htmlFor="password">Password</StyledLabel>
           <StyledInputBox>
@@ -143,9 +142,11 @@ export default function LoginPage() {
           </StyledInputBox>
         </StyledInputContainer>
         <input type="hidden" name="redirectTo" value={redirectTo} />
-        <Box sx={{ textAlign: "center" }}>
-          <Button icon={<CiLogin size={48} />}>Log in</Button>
-        </Box>
+        <FlexCenterEnd sx={{ marginTop: "2rem" }}>
+          <Button sx={{ width: "200px" }} icon={<CiLogin size={32} />}>
+            Log in
+          </Button>
+        </FlexCenterEnd>
       </StyledForm>
       <FlexCenterBetween my={30} px={30} sx={{ width: "100%" }}>
         <FlexCenter sx={{ justifyContent: "flex-start" }}>
@@ -162,7 +163,7 @@ export default function LoginPage() {
               search: searchParams.toString(),
             }}
           >
-            Sign up
+            Sign Up
           </StyledLink>
         </StyledNewAccountText>
       </FlexCenterBetween>

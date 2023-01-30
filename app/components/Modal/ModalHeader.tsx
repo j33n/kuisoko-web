@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { CiCircleRemove } from "react-icons/ci";
 
 import { Box } from "theme-ui";
+import type { StyledTheme } from "~/styles/page.styled";
 
 export interface IModalHeader {
   title: string;
@@ -17,10 +18,10 @@ export const StyledHeader = styled(Box)`
   padding: 0.5em;
 `;
 
-export const StyledTitle = styled.h1`
+export const StyledTitle = styled.h1<StyledTheme>`
   font-size: 1.5em;
   text-align: center;
-  color: ${(props) => props.theme.colors.nav};
+  color: ${({ theme }) => theme.colors.nav};
 `;
 
 export const StyledCloseButton = styled.span`

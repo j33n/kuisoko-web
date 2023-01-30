@@ -56,6 +56,12 @@ const Document = withEmotionCache(
         <head>
           <Meta />
           <Links />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;600&display=swap"
+            rel="stylesheet"
+          />
           {serverStyleData?.map(({ key, ids, css }) => (
             <style
               key={key}

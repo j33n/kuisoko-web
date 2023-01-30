@@ -19,15 +19,17 @@ export const base: Theme = {
   buttons: {
     primary: {
       color: "color",
-      bg: "nav",
-      border: "none",
+      bg: "red",
+      border: "1px solid rgba(255, 255, 255, 50%)",
       "&:hover": {
+        bg: "rgba(209, 28, 90, 75%)",
         color: "text",
-        bg: "navHover",
+        border: "1px solid rgba(255, 255, 255, 75%)",
       },
       width: "100%",
       minHeight: "48px",
-      fontWeight: "bold",
+      fontWeight: "400",
+      cursor: "pointer",
     },
     secondary: {
       color: "background",
@@ -46,6 +48,22 @@ export const base: Theme = {
       bg: "muted",
     },
   },
+  forms: {
+    // mocked
+    primary: {
+      color: "text",
+      bg: "background",
+      border: "none",
+      "&:hover": {
+        color: "text",
+        bg: "buttonBgHover",
+      },
+      width: "100%",
+      minHeight: "48px",
+      fontWeight: "400",
+      cursor: "pointer",
+    },
+  },
 };
 
 const commonColors = {
@@ -55,8 +73,9 @@ const commonColors = {
   orange: "#e85828",
   red: "#d11c5a",
   white: "#fefefe",
-  nav: "#1a71b5",
-  navHover: "#26a4da",
+  nav: "#d11c5a",
+  navSecondary: "#b84d69",
+  navHover: "rgba(209, 28, 90, 75%)",
 };
 
 // light theme rules
@@ -67,9 +86,9 @@ export const light: ColorModesScale = {
   border: "#303236",
   text: "#202224",
   textDisabled: "#ebebe4",
-  boxShadow: "rgba(0, 0, 0, 0.1)",
-  // find light mode alternative for this
-  labelText: "#4a5568",
+  boxShadow: "rgba(252, 252, 252, 1) 0px 0px 3px 0px, rgba(255, 255, 255, 40%) 0px 3px 7px -3px",
+  boxShadowFocus:
+    "rgba(38, 164, 218, 33%) 0px 6px 12px -2px, rgb(209 28 90) 0px 3px 7px -3px",
   ...commonColors,
 };
 
@@ -81,8 +100,10 @@ export const dark: ColorModesScale = {
   border: "#deebf1",
   text: "#fefefe",
   textDisabled: "rgba(255, 255, 255, 42%)",
-  boxShadow: "rgba(255, 255, 255, 0.8)",
-  labelText: "#4a5568",
+  boxShadow:
+    "rgba(252, 252, 252, 1) 0px 0px 3px 0px, rgba(255, 255, 255, 40%) 0px 3px 7px -3px",
+  boxShadowFocus:
+    "rgba(38, 164, 218, 33%) 0px 6px 12px -2px, rgba(255, 255, 255, 75%) 0px 3px 7px -3px",
   ...commonColors,
 };
 

@@ -15,16 +15,19 @@ export const GlobalStyles = css`
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-      "Noto Color Emoji";
     font-feature-settings: normal;
   }
 
   body {
     margin: 0;
     line-height: inherit;
+
+    * {
+      font-family: "Inter", sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+        "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    }
   }
 
   hr {
@@ -46,11 +49,16 @@ export const GlobalStyles = css`
   h6 {
     font-size: inherit;
     font-weight: inherit;
+    /* font-family: "Inter", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace; */
   }
 
   a {
     color: inherit;
     text-decoration: inherit;
+    /* font-family: "Inter", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace; */
+    font-size: 1em;
   }
 
   b,
@@ -61,8 +69,8 @@ export const GlobalStyles = css`
   kbd,
   samp,
   pre {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
+    /* font-family: "Inter", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace; */
     font-size: 1em;
   }
 
@@ -100,8 +108,8 @@ export const GlobalStyles = css`
   kbd,
   samp,
   pre {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
+    /* font-family: "Inter", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace; */
     font-size: 1em;
   }
 
@@ -136,7 +144,7 @@ export const GlobalStyles = css`
   optgroup,
   select,
   textarea {
-    font-family: inherit;
+    /* font-family: "Inter", sans-serif, inherit; */
     font-size: 100%;
     font-weight: inherit;
     line-height: inherit;

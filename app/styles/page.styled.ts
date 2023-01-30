@@ -46,47 +46,51 @@ export const StyledInputContainer = styled(Box)`
 
 export const StyledLabel = styled(Label)<StyledTheme>`
   display: flex;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.labelText};
+  font-weight: 200;
+  color: ${({ theme }) => theme.colors.text};
   max-width: 10rem;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 1.2rem;
 `;
 
 export const StyledInputBox = styled(Box)`
   display: flex;
+  flex-direction: column;
   width: 100%;
+  position: relative;
+  margin-bottom: 1rem;
 `;
 
 export const StyledInput = styled(Input)<StyledTheme>`
   padding: 0.5rem;
   font-size: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.text};
   border-radius: 0.25rem;
   flex-grow: 1;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
+  border: none;
+  box-shadow: ${({ theme }) => theme.colors.boxShadow};
+  font-weight: 200;
 
   &:focus {
     outline: none;
     border: none;
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
-      rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
-      rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    box-shadow: ${({ theme }) => theme.colors.boxShadowFocus};
   }
 `;
 
 export const StyledError = styled.span<StyledTheme>`
+  position: absolute;
   display: block;
-  padding-top: 0.25rem;
+  height: 1.5rem;
   color: ${({ theme }) => theme.colors.red};
+  top: 100%;
 `;
 
 export const StyledLink = styled(Link)<StyledTheme>`
   font-size: 0.875rem;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.nav};
   &:hover {
     color: ${({ theme }) => theme.colors.navHover};
@@ -128,8 +132,11 @@ export const StyledButton = styled.button<StyledTheme>`
   }
 `;
 
-export const FlexCenter = styled(Box)`
+export const Flex = styled(Box)`
   display: flex;
+`;
+
+export const FlexCenter = styled(Flex)`
   align-items: center;
   justify-content: center;
 `;
@@ -142,26 +149,31 @@ export const FlexCenterRow = styled(FlexCenter)`
   flex-direction: row;
 `;
 
-export const FlexCenterBetween = styled(Box)`
-  display: flex;
+export const FlexCenterBetween = styled(Flex)`
   align-items: center;
   justify-content: space-between;
 `;
 
-export const StyledCheckbox = styled(Input)`
+export const FlexCenterEnd = styled(Flex)`
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+export const StyledCheckbox = styled(Input)<StyledTheme>`
   width: 1rem;
   height: 1rem;
   color: #4299e1;
-  border-color: #e2e8f0;
+  border-color: ${({ theme }) => theme.colors.border};
   border-radius: 0.25rem;
 
   &:focus {
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    box-shadow: ${({ theme }) => theme.colors.boxShadow};
   }
 `;
 
-export const StyledNewAccountText = styled.span`
+export const StyledNewAccountText = styled.span<StyledTheme>`
   font-size: 0.875rem;
+  font-weight: 200;
   text-align: center;
-  color: #718096;
+  color: ${({ theme }) => theme.colors.text};
 `;
