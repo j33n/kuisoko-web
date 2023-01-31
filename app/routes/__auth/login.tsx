@@ -1,14 +1,15 @@
+import { useRef, useEffect } from "react";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, useSearchParams } from "@remix-run/react";
-import * as React from "react";
 
-import { createUserSession, getUserId } from "~/services/session.server";
-
-import { createUser, getUserByEmail } from "~/models/user.server";
-import { safeRedirect, validateEmail } from "~/utils";
 import { CiLogin } from "react-icons/ci";
 import { Button } from "~/components";
+
+import { verifyLogin } from "~/models/user.server";
+import { createUserSession, getUserId } from "~/services/session.server";
+import { safeRedirect, validateEmail } from "~/utils";
+
 import {
   StyledFormContainer,
   StyledForm,
@@ -18,6 +19,8 @@ import {
   StyledInput,
   StyledError,
   FlexCenterEnd,
+  FlexCenter,
+  StyledCheckbox,
   StyledNewAccountText,
   StyledLink,
   StyledFormBottom,
@@ -25,8 +28,12 @@ import {
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
-  if (userId) return redirect("/");
-  return json({});
+
+  console.log("userId ============> 🥹", userId);
+  
+
+  if (userId) return redirect("/stores");
+  return json({ userId });
 }
 
 export async function action({ request }: ActionArgs) {
@@ -34,6 +41,7 @@ export async function action({ request }: ActionArgs) {
   const email = formData.get("email");
   const password = formData.get("password");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
+  const remember = formData.get("remember");
 
   if (!validateEmail(email)) {
     return json(
@@ -44,55 +52,49 @@ export async function action({ request }: ActionArgs) {
 
   if (typeof password !== "string" || password.length === 0) {
     return json(
-      { errors: { email: null, password: "Password is required" } },
+      { errors: { password: "Password is required", email: null } },
       { status: 400 }
     );
   }
 
   if (password.length < 8) {
     return json(
-      { errors: { email: null, password: "Password is too short" } },
+      { errors: { password: "Password is too short", email: null } },
       { status: 400 }
     );
   }
 
-  const existingUser = await getUserByEmail(email);
-  if (existingUser) {
+  const user = await verifyLogin(email, password);
+
+  if (!user) {
     return json(
-      {
-        errors: {
-          email: "A user already exists with this email",
-          password: null,
-        },
-      },
+      { errors: { email: "Invalid email or password", password: null } },
       { status: 400 }
     );
   }
-
-  const user = await createUser(email, password);
 
   return createUserSession({
     request,
     userId: user.id,
-    remember: false,
+    remember: remember === "on" ? true : false,
     redirectTo,
   });
 }
 
 export const meta: MetaFunction = () => {
   return {
-    title: "Sign Up",
+    title: "Login",
   };
 };
 
-export default function Join() {
+export default function LoginPage() {
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") ?? undefined;
+  const redirectTo = searchParams.get("redirectTo") || "/stores";
   const actionData = useActionData<typeof action>();
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef.current?.focus();
     } else if (actionData?.errors?.password) {
@@ -132,7 +134,7 @@ export default function Join() {
               ref={passwordRef}
               name="password"
               type="password"
-              autoComplete="new-password"
+              autoComplete="current-password"
               aria-invalid={actionData?.errors?.password ? true : undefined}
               aria-describedby="password-error"
             />
@@ -146,20 +148,26 @@ export default function Join() {
         <input type="hidden" name="redirectTo" value={redirectTo} />
         <FlexCenterEnd sx={{ marginTop: "2rem" }}>
           <Button sx={{ width: "200px" }} icon={<CiLogin size={32} />}>
-            Create Account
+            Log in
           </Button>
         </FlexCenterEnd>
       </StyledForm>
       <StyledFormBottom>
+        <FlexCenter sx={{ justifyContent: "flex-start" }}>
+          <StyledCheckbox id="remember" name="remember" type="checkbox" />
+          <StyledLabel sx={{ justifyContent: "center" }} htmlFor="remember">
+            Remember me
+          </StyledLabel>
+        </FlexCenter>
         <StyledNewAccountText>
-          Already have an account?{" "}
+          Don't have an account?{" "}
           <StyledLink
             to={{
-              pathname: "/login",
+              pathname: "/join",
               search: searchParams.toString(),
             }}
           >
-            Log in
+            Sign Up
           </StyledLink>
         </StyledNewAccountText>
       </StyledFormBottom>

@@ -8,5 +8,5 @@ export async function action({ request }: ActionArgs) {
 }
 
 export const loader: LoaderFunction = async () => {
-  return redirect("/");
+  return redirect("/login");
 }

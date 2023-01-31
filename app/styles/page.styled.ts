@@ -144,6 +144,7 @@ export const StyledError = styled.span<StyledTheme>`
   height: 1.5rem;
   color: ${({ theme }) => theme.colors.red};
   top: 100%;
+  font-size: ${({ theme }) => theme.fontSizes[0]};
 `;
 
 export const StyledLink = styled(Link)<StyledTheme>`

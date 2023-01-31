@@ -4,5 +4,6 @@ import AdderButton from './AdderButton/AdderButton';
 import PageHeader from './PageHeader/PageHeader';
 import Modal from './Modal/Modal';
 import Button from './Button/Button';
+import Sidebar from "./Layout/Sidebar";
 
-export { Layout, Header, AdderButton, PageHeader, Modal, Button };
+export { Layout, Header, AdderButton, PageHeader, Modal, Button, Sidebar };

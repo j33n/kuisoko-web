@@ -10,8 +10,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { Global } from "@emotion/react";
 
 import { ServerStyleContext, ClientStyleContext } from "./styles/context";
@@ -19,7 +20,9 @@ import { base, light, dark } from "./themes";
 
 import GlobalStyles from "./styles/globals.styled";
 
-import { Layout } from "./components";
+import { Header, Layout, Sidebar } from "./components";
+import { getUser, requireUserId } from "./services/session.server";
+import { useOptionalUser, useUser } from "./utils";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -57,7 +60,11 @@ const Document = withEmotionCache(
           <Meta />
           <Links />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin=""
+          />
           <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;600&display=swap"
             rel="stylesheet"
@@ -86,8 +93,18 @@ const themesMap: any = {
   dark,
 };
 
+export const loader = async ({ request }: LoaderArgs) => {
+  const userId = await requireUserId(request);
+
+  return { userId };
+};
+
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState("dark");
+  const data = useLoaderData<typeof loader>();
+
+
+  
 
   const theme: Theme = { ...base, colors: themesMap[currentTheme] };
 
@@ -96,9 +113,7 @@ export default function App() {
       <Global styles={GlobalStyles} />
       <ThemeProvider theme={theme}>
         <ColorModeProvider>
-          <Layout currentTheme={currentTheme} setCurrentTheme={setCurrentTheme}>
             <Outlet />
-          </Layout>
         </ColorModeProvider>
       </ThemeProvider>
     </Document>

@@ -1,15 +1,13 @@
+import { useEffect, useRef } from "react";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, useSearchParams } from "@remix-run/react";
-import * as React from "react";
-
 import { CiLogin } from "react-icons/ci";
-import { Button } from "~/components";
 
-import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/services/session.server";
+import { createUser, getUserByEmail } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
-
+import { Button } from "~/components";
 import {
   StyledFormContainer,
   StyledForm,
@@ -19,8 +17,6 @@ import {
   StyledInput,
   StyledError,
   FlexCenterEnd,
-  FlexCenter,
-  StyledCheckbox,
   StyledNewAccountText,
   StyledLink,
   StyledFormBottom,
@@ -28,7 +24,7 @@ import {
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
-  if (userId) return redirect("/");
+  // if (userId) return redirect("/");
   return json({});
 }
 
@@ -37,7 +33,6 @@ export async function action({ request }: ActionArgs) {
   const email = formData.get("email");
   const password = formData.get("password");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
-  const remember = formData.get("remember");
 
   if (!validateEmail(email)) {
     return json(
@@ -48,49 +43,60 @@ export async function action({ request }: ActionArgs) {
 
   if (typeof password !== "string" || password.length === 0) {
     return json(
-      { errors: { password: "Password is required", email: null } },
+      { errors: { email: null, password: "Password is required" } },
       { status: 400 }
     );
   }
 
   if (password.length < 8) {
     return json(
-      { errors: { password: "Password is too short", email: null } },
+      { errors: { email: null, password: "Password is too short" } },
       { status: 400 }
     );
   }
 
-  const user = await verifyLogin(email, password);
-
-  if (!user) {
+  const existingUser = await getUserByEmail(email);
+  console.log("existingUser ============>", existingUser);
+  
+  if (existingUser) {
     return json(
-      { errors: { email: "Invalid email or password", password: null } },
+      {
+        errors: {
+          email: "A user already exists with this email",
+          password: null,
+        },
+      },
       { status: 400 }
     );
   }
+
+  const user = await createUser(email, password);
 
   return createUserSession({
     request,
     userId: user.id,
-    remember: remember === "on" ? true : false,
+    remember: false,
     redirectTo,
   });
 }
 
 export const meta: MetaFunction = () => {
   return {
-    title: "Login",
+    title: "Sign Up",
   };
 };
 
-export default function LoginPage() {
+export default function Join() {
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") || "/notes";
+  const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const actionData = useActionData<typeof action>();
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  console.log("actionData ============>", actionData);
+  
+
+  useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef.current?.focus();
     } else if (actionData?.errors?.password) {
@@ -130,7 +136,7 @@ export default function LoginPage() {
               ref={passwordRef}
               name="password"
               type="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
               aria-invalid={actionData?.errors?.password ? true : undefined}
               aria-describedby="password-error"
             />
@@ -144,26 +150,20 @@ export default function LoginPage() {
         <input type="hidden" name="redirectTo" value={redirectTo} />
         <FlexCenterEnd sx={{ marginTop: "2rem" }}>
           <Button sx={{ width: "200px" }} icon={<CiLogin size={32} />}>
-            Log in
+            Create Account
           </Button>
         </FlexCenterEnd>
       </StyledForm>
       <StyledFormBottom>
-        <FlexCenter sx={{ justifyContent: "flex-start" }}>
-          <StyledCheckbox id="remember" name="remember" type="checkbox" />
-          <StyledLabel sx={{ justifyContent: "center" }} htmlFor="remember">
-            Remember me
-          </StyledLabel>
-        </FlexCenter>
         <StyledNewAccountText>
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <StyledLink
             to={{
-              pathname: "/join",
+              pathname: "/login",
               search: searchParams.toString(),
             }}
           >
-            Sign Up
+            Log in
           </StyledLink>
         </StyledNewAccountText>
       </StyledFormBottom>

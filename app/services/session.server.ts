@@ -90,7 +90,11 @@ export async function createUserSession({
 
 export async function logout(request: Request) {
   const session = await getSession(request);
-  return redirect("/", {
+  console.log("+++++++++++++++++++", session);
+
+  // TODO: session not being cleared on logout
+  
+  return redirect("/login", {
     headers: {
       "Set-Cookie": await sessionStorage.destroySession(session),
     },

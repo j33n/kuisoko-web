@@ -4,7 +4,7 @@ export default function Stores() {
 
   return (
     <StyledPage>
-      List of stores
+      List of stores 🤩
     </StyledPage>
   );
 }

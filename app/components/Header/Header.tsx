@@ -1,4 +1,10 @@
-import { CiDark, CiLight, CiCircleQuestion, CiBellOn } from "react-icons/ci";
+import {
+  CiDark,
+  CiLight,
+  CiCircleQuestion,
+  CiBellOn,
+  CiLogout,
+} from "react-icons/ci";
 import { useColorMode } from "theme-ui";
 
 import Logo from "../../assets/logo.svg";
@@ -12,13 +18,15 @@ import {
   StyledIconBox,
 } from "./Header.styled";
 import { useOptionalUser } from "~/utils";
+import { Link } from "@remix-run/react";
 
-export interface IThemeSwitcher {
+export interface IHeader {
   setCurrentTheme: (theme: string) => void;
   currentTheme?: string;
+  authenticated?: boolean;
 }
 
-export const ThemeSwitcher = ({ setCurrentTheme }: IThemeSwitcher) => {
+export const ThemeSwitcher = ({ setCurrentTheme }: IHeader) => {
   const colorModes = [`light`, `dark`];
 
   const [colorMode, setColorMode] = useColorMode();
@@ -38,7 +46,7 @@ export const ThemeSwitcher = ({ setCurrentTheme }: IThemeSwitcher) => {
   );
 };
 
-const Header = ({ setCurrentTheme, currentTheme }: IThemeSwitcher) => {
+const Header = ({ setCurrentTheme, currentTheme, authenticated }: IHeader) => {
   const user = useOptionalUser();
 
   return (
@@ -52,6 +60,15 @@ const Header = ({ setCurrentTheme, currentTheme }: IThemeSwitcher) => {
         {/* <StyledToolbarItem nav>
           <CiCircleQuestion />
         </StyledToolbarItem> */}
+
+        {authenticated && (
+          <Link to="/logout">
+            <StyledToolbarItem nav>
+              <CiLogout />
+            </StyledToolbarItem>
+          </Link>
+        )}
+
         <StyledToolbarItem>
           <ThemeSwitcher
             currentTheme={currentTheme}
