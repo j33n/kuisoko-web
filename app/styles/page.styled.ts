@@ -117,6 +117,8 @@ export const StyledLink = styled(Link)<StyledTheme>`
   font-size: 0.875rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.nav};
+  cursor: pointer;
+  
   &:hover {
     color: ${({ theme }) => theme.colors.navHover};
   }

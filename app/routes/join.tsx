@@ -1,12 +1,15 @@
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
+import { useActionData, useSearchParams } from "@remix-run/react";
 import * as React from "react";
 
 import { createUserSession, getUserId } from "~/services/session.server";
 
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
+import { CiLogin } from "react-icons/ci";
+import { Button } from "~/components";
+import { StyledFormContainer,StyledForm,StyledInputContainer,StyledLabel,StyledInputBox,StyledInput,StyledError,FlexCenterEnd,FlexCenterBetween,FlexCenter,StyledCheckbox,StyledNewAccountText,StyledLink } from "~/styles/page.styled";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -86,86 +89,68 @@ export default function Join() {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center">
-      <div className="mx-auto w-full max-w-md px-8">
-        <Form method="post" className="space-y-6" noValidate>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-            </label>
-            <div className="mt-1">
-              <input
-                ref={emailRef}
-                id="email"
-                required
-                autoFocus={true}
-                name="email"
-                type="email"
-                autoComplete="email"
-                aria-invalid={actionData?.errors?.email ? true : undefined}
-                aria-describedby="email-error"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
-              />
-              {actionData?.errors?.email && (
-                <div className="pt-1 text-red-700" id="email-error">
-                  {actionData.errors.email}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <div className="mt-1">
-              <input
-                id="password"
-                ref={passwordRef}
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                aria-invalid={actionData?.errors?.password ? true : undefined}
-                aria-describedby="password-error"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
-              />
-              {actionData?.errors?.password && (
-                <div className="pt-1 text-red-700" id="password-error">
-                  {actionData.errors.password}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <input type="hidden" name="redirectTo" value={redirectTo} />
-          <button
-            type="submit"
-            className="w-full rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
-          >
+    <StyledFormContainer>
+      <StyledForm method="post" noValidate>
+        <StyledInputContainer>
+          <StyledLabel htmlFor="email">Email address</StyledLabel>
+          <StyledInputBox>
+            <StyledInput
+              ref={emailRef}
+              id="email"
+              required
+              autoFocus={true}
+              name="email"
+              type="email"
+              autoComplete="email"
+              aria-invalid={actionData?.errors?.email ? true : undefined}
+              aria-describedby="email-error"
+            />
+            {actionData?.errors?.email && (
+              <StyledError id="email-error">
+                {actionData.errors.email}
+              </StyledError>
+            )}
+          </StyledInputBox>
+        </StyledInputContainer>
+        <StyledInputContainer>
+          <StyledLabel htmlFor="password">Password</StyledLabel>
+          <StyledInputBox>
+            <StyledInput
+              id="password"
+              ref={passwordRef}
+              name="password"
+              type="password"
+              autoComplete="new-password"
+              aria-invalid={actionData?.errors?.password ? true : undefined}
+              aria-describedby="password-error"
+            />
+            {actionData?.errors?.password && (
+              <StyledError id="password-error">
+                {actionData.errors.password}
+              </StyledError>
+            )}
+          </StyledInputBox>
+        </StyledInputContainer>
+        <input type="hidden" name="redirectTo" value={redirectTo} />
+        <FlexCenterEnd sx={{ marginTop: "2rem" }}>
+          <Button sx={{ width: "200px" }} icon={<CiLogin size={32} />}>
             Create Account
-          </button>
-          <div className="flex items-center justify-center">
-            <div className="text-center text-sm text-gray-500">
-              Already have an account?{" "}
-              <Link
-                className="text-blue-500 underline"
-                to={{
-                  pathname: "/login",
-                  search: searchParams.toString(),
-                }}
-              >
-                Log in
-              </Link>
-            </div>
-          </div>
-        </Form>
-      </div>
-    </div>
+          </Button>
+        </FlexCenterEnd>
+      </StyledForm>
+      <FlexCenterBetween my={30} px={30} sx={{ width: "100%" }}>
+        <StyledNewAccountText>
+          Already have an account?{" "}
+          <StyledLink
+            to={{
+              pathname: "/login",
+              search: searchParams.toString(),
+            }}
+          >
+            Log in
+          </StyledLink>
+        </StyledNewAccountText>
+      </FlexCenterBetween>
+    </StyledFormContainer>
   );
 }
