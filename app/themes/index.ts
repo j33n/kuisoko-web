@@ -116,8 +116,7 @@ export const dark: ColorModesScale = {
   fontWeight: "200",
   boxShadow:
     "rgba(252, 252, 252, 1) 0px 0px 3px 0px, rgba(255, 255, 255, 40%) 0px 3px 7px -3px",
-  boxShadowFocus:
-    "rgba(255, 255, 255, 0%) 0px 6px 12px 15px, rgba(255, 255, 255, 1) 3px 3px 12px 0px",
+  boxShadowFocus: "rgba(255, 255, 255, 40%) 0px 6px 12px -2px, rgba(209, 28, 90, 50%) 0px 3px 7px -3px",
   ...commonColors,
 };
 

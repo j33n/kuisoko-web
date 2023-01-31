@@ -48,9 +48,10 @@ const Header = ({ setCurrentTheme, currentTheme }: IThemeSwitcher) => {
       </StyledLogoBox>
       <StyledToolbarSpacer />
       <StyledToolbarGroup>
-        <StyledToolbarItem nav>
+        {/* TODO: build accordion component and attach to FAQ icons */}
+        {/* <StyledToolbarItem nav>
           <CiCircleQuestion />
-        </StyledToolbarItem>
+        </StyledToolbarItem> */}
         <StyledToolbarItem>
           <ThemeSwitcher
             currentTheme={currentTheme}
