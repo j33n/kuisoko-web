@@ -18,12 +18,12 @@ import {
   StyledInputBox,
   StyledInput,
   StyledError,
-  FlexCenterBetween,
   FlexCenterEnd,
   FlexCenter,
   StyledCheckbox,
   StyledNewAccountText,
   StyledLink,
+  StyledFormBottom,
 } from "~/styles/page.styled";
 
 export async function loader({ request }: LoaderArgs) {
@@ -102,7 +102,7 @@ export default function LoginPage() {
     <StyledFormContainer>
       <StyledForm method="post" noValidate>
         <StyledInputContainer>
-          <StyledLabel htmlFor="email">Email address</StyledLabel>
+          <StyledLabel htmlFor="email">Email/Phone:</StyledLabel>
           <StyledInputBox>
             <StyledInput
               ref={emailRef}
@@ -123,7 +123,7 @@ export default function LoginPage() {
           </StyledInputBox>
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="password">Password</StyledLabel>
+          <StyledLabel htmlFor="password">Password:</StyledLabel>
           <StyledInputBox>
             <StyledInput
               id="password"
@@ -148,7 +148,7 @@ export default function LoginPage() {
           </Button>
         </FlexCenterEnd>
       </StyledForm>
-      <FlexCenterBetween my={30} px={30} sx={{ width: "100%" }}>
+      <StyledFormBottom>
         <FlexCenter sx={{ justifyContent: "flex-start" }}>
           <StyledCheckbox id="remember" name="remember" type="checkbox" />
           <StyledLabel sx={{ justifyContent: "center" }} htmlFor="remember">
@@ -166,7 +166,7 @@ export default function LoginPage() {
             Sign Up
           </StyledLink>
         </StyledNewAccountText>
-      </FlexCenterBetween>
+      </StyledFormBottom>
     </StyledFormContainer>
   );
 }

@@ -9,7 +9,19 @@ import { createUser, getUserByEmail } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
 import { CiLogin } from "react-icons/ci";
 import { Button } from "~/components";
-import { StyledFormContainer,StyledForm,StyledInputContainer,StyledLabel,StyledInputBox,StyledInput,StyledError,FlexCenterEnd,FlexCenterBetween,FlexCenter,StyledCheckbox,StyledNewAccountText,StyledLink } from "~/styles/page.styled";
+import {
+  StyledFormContainer,
+  StyledForm,
+  StyledInputContainer,
+  StyledLabel,
+  StyledInputBox,
+  StyledInput,
+  StyledError,
+  FlexCenterEnd,
+  StyledNewAccountText,
+  StyledLink,
+  StyledFormBottom,
+} from "~/styles/page.styled";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -92,7 +104,7 @@ export default function Join() {
     <StyledFormContainer>
       <StyledForm method="post" noValidate>
         <StyledInputContainer>
-          <StyledLabel htmlFor="email">Email address</StyledLabel>
+          <StyledLabel htmlFor="email">Email/Phone:</StyledLabel>
           <StyledInputBox>
             <StyledInput
               ref={emailRef}
@@ -113,7 +125,7 @@ export default function Join() {
           </StyledInputBox>
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="password">Password</StyledLabel>
+          <StyledLabel htmlFor="password">Password:</StyledLabel>
           <StyledInputBox>
             <StyledInput
               id="password"
@@ -138,7 +150,7 @@ export default function Join() {
           </Button>
         </FlexCenterEnd>
       </StyledForm>
-      <FlexCenterBetween my={30} px={30} sx={{ width: "100%" }}>
+      <StyledFormBottom>
         <StyledNewAccountText>
           Already have an account?{" "}
           <StyledLink
@@ -150,7 +162,7 @@ export default function Join() {
             Log in
           </StyledLink>
         </StyledNewAccountText>
-      </FlexCenterBetween>
+      </StyledFormBottom>
     </StyledFormContainer>
   );
 }

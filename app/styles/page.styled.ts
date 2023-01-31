@@ -64,7 +64,7 @@ export const StyledFormContainer = styled(FlexCenterColumn)<StyledTheme>`
     border-radius: 0;
   }
 
-  @media (min-width: 425px) {
+  @media (min-width: 426px) {
     width: 70%;
   }
 
@@ -80,6 +80,12 @@ export const StyledForm = styled(Form)<StyledTheme>`
 export const StyledInputContainer = styled(Box)`
   display: flex;
   margin: 1rem 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    margin: 0;
+    margin-bottom: 1rem;
+  }
 `;
 
 export const StyledLabel = styled(Label)<StyledTheme>`
@@ -88,8 +94,11 @@ export const StyledLabel = styled(Label)<StyledTheme>`
   color: ${({ theme }) => theme.colors.text};
   max-width: 10rem;
   align-items: center;
-  padding: 0 1.2rem;
   font-size: 0.875rem;
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 0;
+  }
 `;
 
 export const StyledInputBox = styled(Box)`
@@ -116,6 +125,16 @@ export const StyledInput = styled(Input)<StyledTheme>`
     outline: none;
     border: none;
     box-shadow: ${({ theme }) => theme.colors.boxShadowFocus};
+  }
+`;
+
+export const StyledFormBottom = styled(FlexCenterBetween)`
+  width: 100%;
+  margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
   }
 `;
 
@@ -183,7 +202,7 @@ export const StyledCheckbox = styled(Input)<StyledTheme>`
   height: 1rem;
   color: #4299e1;
   border-color: ${({ theme }) => theme.colors.border};
-  border-radius: 0.25rem;
+  margin-right: 1rem;
 
   &:focus {
     box-shadow: ${({ theme }) => theme.colors.boxShadow};

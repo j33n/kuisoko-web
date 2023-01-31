@@ -25,6 +25,10 @@ export const StyledButton = styled(Button)<StyledButtonProps>`
     border: none;
     box-shadow: ${({ theme: { colors } }) => colors.boxShadow};
   }
+
+  @media (max-width: 425px) {
+    width: 100%;
+  };
 `;
 
 export const StyledIcon = styled(Box)<StyledIconProps>`
