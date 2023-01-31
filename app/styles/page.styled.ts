@@ -50,16 +50,17 @@ export const StyledPage = styled.div<StyledTheme>`
   color: ${({ theme: { colors } }) => colors.text};
 `;
 
-export const StyledFormContainer = styled(FlexCenterColumn)<{ width?: string }>`
-  width: ${({ width }) => width || "40%"};
-  height: 100%;
+export const StyledFormContainer = styled(FlexCenterColumn)<StyledTheme>`
+  width: 50%;
+  height: 50%;
+  background: ${({ theme: { colors } }) => colors.background};
+  padding: 1rem;
+  border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
+  border-radius: 0.5rem;
 `;
 
 export const StyledForm = styled(Form)<StyledTheme>`
-  width: 40vw;
-  border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
-  padding: 1rem;
-  border-radius: 0.5rem;
+  width: 100%;
 `;
 
 export const StyledInputContainer = styled(Box)`
@@ -184,10 +185,11 @@ export const StyledText = styled.span<StyledTheme>`
 
 export const StyledFooter = styled(FlexCenterColumn)<StyledTheme>`
   width: 100%;
-  height: 4vh;
+  height: 5rem;
   background: transparent;
   text-align: center;
   border-top: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
+  background: ${({ theme: { colors } }) => colors.background};
 `;
 
 export const StyledFooterText = styled(StyledText)`

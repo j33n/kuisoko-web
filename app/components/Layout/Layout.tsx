@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import type { LoaderArgs } from "@remix-run/node";
 import { faker } from "@faker-js/faker";
@@ -14,15 +14,13 @@ import {
   CiCircleMore,
 } from "react-icons/ci";
 
-import { requireUserId } from "~/services/session.server";
-import { useOptionalUser, useUser } from "~/utils";
-
+import { useOptionalUser } from "~/utils";
 import { Header, PageHeader } from "../";
+import bgImage from "~/assets/images/loginBg.svg";
 
 import {
   StyledLayout,
   StyledContent,
-  StyledTitle,
   StyledLink,
   StyledSidebar,
   StyledSidebarLinks,
@@ -34,6 +32,7 @@ import {
   StyledText,
   StyledProfileSide,
   StyledMoreBox,
+  StyledBgImage,
 } from "./Layout.styled";
 import { StyledFooterText, StyledFooter } from "~/styles/page.styled";
 
@@ -104,6 +103,7 @@ const Layout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
 
   return (
     <StyledLayout>
+      <StyledBgImage src={bgImage} />
       <Header currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} />
       <StyledContent>
         {user && (
@@ -144,9 +144,10 @@ const Layout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
         </StyledBodyContent>
         <StyledFooter>
           <StyledFooterText>
-            Copyright &copy; {currentYear}{" "}
-            <Link to="/">kuisoko ltd</Link>. All rights
-            reserved.
+            &copy; {currentYear} kuisoko |{" "}
+            <Link style={{ fontWeight: 600 }} to="/">
+              Term and Conditions
+            </Link>
           </StyledFooterText>
         </StyledFooter>
       </StyledContent>

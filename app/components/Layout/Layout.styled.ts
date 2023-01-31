@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Box } from "theme-ui";
 import type { ColorModesScale } from "theme-ui";
 import type { StyledTheme } from "~/styles/page.styled";
 
@@ -30,14 +31,23 @@ export const StyledText = styled.p<StyledTheme>`
   }
 `;
 
-export const StyledLayout = styled.div<StyledTheme>`
+export const StyledLayout = styled(Box)<StyledTheme>`
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100vw;
   position: relative;
-  background: ${({ theme: { colors } }) => colors.background};
+  /* background: ${({ theme: { colors } }) => colors.background}; */
   color: ${({ theme: { colors } }) => colors.text};
+`;
+
+export const StyledBgImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
 `;
 
 export const StyledTitle = styled.h1`
@@ -84,6 +94,7 @@ export const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
 `;
 
 export const StyledSidebar = styled(Block)<StyledSidebarProps>`
@@ -204,6 +215,8 @@ export const StyledProfileSide = styled.div<StyledTheme>`
 export const StyledBodyContent = styled(Block)`
   width: 100%;
   height: calc(100vh - (92px + 5rem));
+  position: relative;
+  z-index: 1;
 `;
 
 export const StyledMenuIcon = styled.span`

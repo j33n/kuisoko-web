@@ -1,4 +1,3 @@
-import { Link } from "@remix-run/react";
 import { CiDark, CiLight, CiCircleQuestion, CiBellOn } from "react-icons/ci";
 import { useColorMode } from "theme-ui";
 
