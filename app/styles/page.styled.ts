@@ -57,6 +57,20 @@ export const StyledFormContainer = styled(FlexCenterColumn)<StyledTheme>`
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
   border-radius: 0.5rem;
+
+  @media (max-width: 425px) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  @media (min-width: 425px) {
+    width: 70%;
+  }
+
+  @media (min-width: 768px) {
+    width: 50%;
+  }
 `;
 
 export const StyledForm = styled(Form)<StyledTheme>`
@@ -118,7 +132,7 @@ export const StyledLink = styled(Link)<StyledTheme>`
   font-weight: 600;
   color: ${({ theme }) => theme.colors.nav};
   cursor: pointer;
-  
+
   &:hover {
     color: ${({ theme }) => theme.colors.navHover};
   }
@@ -133,6 +147,11 @@ export const StyledButton = styled.button<StyledTheme>`
   background-color: transparent;
   border-radius: 0.5rem;
   border: 1px solid ${({ theme }) => theme.colors.red};
+
+  @media (max-width: 425px) {
+    width: 100%;
+    height: 100%;
+  }
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.red};

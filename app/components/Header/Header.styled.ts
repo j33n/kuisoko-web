@@ -12,6 +12,7 @@ export const StyledHeader = styled.header<StyledTheme>`
     display: flex;
     width: 100%;
     border-bottom: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
+    background: ${({ theme: { colors } }) => colors.background};
 `;
 
 export const StyledLogoBox = styled.div`
