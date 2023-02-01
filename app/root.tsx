@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { withEmotionCache } from "@emotion/react";
 import { ThemeProvider } from "@theme-ui/core";
 import { ColorModeProvider } from "@theme-ui/color-modes";

@@ -35,7 +35,6 @@ export const StyledLayout = styled(Box)<StyledTheme>`
   height: 100vh;
   width: 100vw;
   position: relative;
-  /* background: ${({ theme: { colors } }) => colors.background}; */
   color: ${({ theme: { colors } }) => colors.text};
 `;
 
@@ -116,7 +115,7 @@ export const StyledSidebar = styled(Block)<StyledLayoutProps>`
 
   /* mobile size */
   @media (max-width: 480px) {
-    max-width: ${({ size }) => size || "25vw"};
+    max-width: ${({ size }) => size || "20vw"};
   }
 
   /* tablet size */
@@ -125,12 +124,12 @@ export const StyledSidebar = styled(Block)<StyledLayoutProps>`
   }
   /* laptop size */
   @media (min-width: 1024px) {
-    max-width: ${({ size }) => size || "30vw"};
+    max-width: ${({ size }) => size || "25vw"};
   }
 
   /* desktop size */
   @media (min-width: 1280px) {
-    max-width: ${({ size }) => size || "30vw"};
+    max-width: ${({ size }) => size || "20vw"};
   }
 
   background: ${({ theme: { colors } }) => colors.background};
@@ -171,7 +170,7 @@ export const StyledSidebarFooter = styled(Block)<StyledTheme>`
     align-items: center;
     flex-wrap: wrap;
 
-    div:first-child {
+    div:first-of-type {
       margin: 4px 0 0 4px;
     }
   }
@@ -190,13 +189,11 @@ export const StyledMoreBox = styled.div`
     width: 2rem;
     height: 2rem;
 
-    /* mobile size */
     @media (max-width: 480px) {
       width: 1.5rem;
       height: 1.5rem;
     }
 
-    /* small mobile size */
     @media (max-width: 320px) {
       display: none;
     }
@@ -206,10 +203,6 @@ export const StyledMoreBox = styled.div`
 export const StyledProfileSide = styled.div<StyledTheme>`
   display: flex;
   order: 1;
-
-  /* @media only screen and (max-width: 768px) {
-    width: 70%;
-  } */
 
   img {
     max-width: 3rem;

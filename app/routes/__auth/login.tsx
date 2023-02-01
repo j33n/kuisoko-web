@@ -7,7 +7,7 @@ import { CiLogin } from "react-icons/ci";
 import { Button } from "~/components";
 
 import { verifyLogin } from "~/models/user.server";
-import { createUserSession, getSession, getUserId, sessionStorage } from "~/services/session.server";
+import { createUserSession, getUserId } from "~/services/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
 
 import {
@@ -28,10 +28,6 @@ import {
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
-
-  // TODO: userId not beinf deleted from session
-  console.log("_+_+_+_+_+_+_+_+_+🎉", userId);
-  
 
   if (userId) return redirect("/stores");
   return json({ userId });

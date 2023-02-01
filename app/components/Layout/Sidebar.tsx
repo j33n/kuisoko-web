@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { faker } from "@faker-js/faker";
 import {
   CiShoppingCart,
@@ -7,8 +7,8 @@ import {
   CiUser,
   CiCoinInsert,
   CiGrid42,
-  CiHome,
   CiCircleMore,
+  CiPower,
 } from "react-icons/ci";
 
 
@@ -23,7 +23,11 @@ import {
   StyledText,
   StyledProfileSide,
   StyledMoreBox,
+  StyledBottomMenu,
+  StyledToolbarItem,
 } from "./Layout.styled";
+import { StyledLogoutBtn } from "../Header/Header.styled";
+import { Text } from "theme-ui";
 
 export interface ILayout {
   children: React.ReactNode;
@@ -33,11 +37,6 @@ export interface ILayout {
 
 const name = faker.name.fullName();
 const links = [
-  {
-    name: "Home",
-    path: "/",
-    icon: <CiHome />,
-  },
   {
     name: "Dashboard",
     path: "/dashboard",
@@ -86,6 +85,18 @@ const Sidebar = () => {
         ))}
       </StyledSidebarLinks>
       <StyledSidebarFooter>
+        <StyledBottomMenu>
+          <Form method="post" action="/logout">
+            <StyledLogoutBtn>
+              <StyledToolbarItem>
+                <CiPower />
+                <Text sx={{ fontWeight: "200", fontSize: "0.875rem" }}>
+                  Logout
+                </Text>
+              </StyledToolbarItem>
+            </StyledLogoutBtn>
+          </Form>
+        </StyledBottomMenu>
         <StyledProfileSide>
           <img src={profilePicture} alt="" />
         </StyledProfileSide>

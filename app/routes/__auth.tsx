@@ -22,7 +22,7 @@ const Auth = ({ currentTheme, setCurrentTheme }: IAuth) => {
   return (
     <StyledLayout>
       <StyledBgImage src={bgImage} />
-      <Header currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} />
+      <Header />
       <StyledContent sx={{ flexDirection: "column" }}>
         <StyledBodyContent>
           <Outlet />

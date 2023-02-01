@@ -1,90 +1,22 @@
 import { useState } from "react";
-import { Form, Link, Outlet } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import type { LoaderArgs } from "@remix-run/node";
-import { faker } from "@faker-js/faker";
-import {
-  CiShoppingCart,
-  CiShop,
-  CiSettings,
-  CiUser,
-  CiCoinInsert,
-  CiGrid42,
-  CiHome,
-  CiCircleMore,
-  CiPower,
-} from "react-icons/ci";
 
-import { Header, PageHeader } from "~/components";
+import { Header, PageHeader, Sidebar } from "~/components";
 
 import {
   StyledLayout,
   StyledContent,
-  StyledLink,
-  StyledSidebar,
-  StyledSidebarLinks,
-  StyledSidebarFooter,
   StyledBodyContent,
-  StyledMenuIcon,
-  StyledAnchor,
-  StyledNameBox,
-  StyledText,
-  StyledProfileSide,
-  StyledMoreBox,
-  StyledToolbarItem,
-  StyledBottomMenu,
 } from "~/components/Layout/Layout.styled";
-import { StyledLogoutBtn } from "~/components/Header/Header.styled";
-
 import { useOptionalUser } from "~/utils";
-import { Text } from "theme-ui";
 
 export interface ILayout {
   children: React.ReactNode;
   setCurrentTheme: (theme: string) => void;
   currentTheme: string;
 }
-
-const name = faker.name.fullName();
-const links = [
-  {
-    name: "Home",
-    path: "/",
-    icon: <CiHome />,
-  },
-  {
-    name: "Dashboard",
-    path: "/dashboard",
-    icon: <CiGrid42 />,
-  },
-  {
-    name: "Stores",
-    path: "/stores",
-    icon: <CiShop />,
-  },
-  {
-    name: "Products",
-    path: "/products",
-    icon: <CiShoppingCart />,
-  },
-  {
-    name: "Orders",
-    path: "/orders",
-    icon: <CiCoinInsert />,
-  },
-  {
-    name: "Customers",
-    path: "/customers",
-    icon: <CiUser />,
-  },
-  {
-    name: "Settings",
-    path: "/settings",
-    icon: <CiSettings />,
-  },
-];
-const email = faker.internet.email();
-const profilePicture = faker.image.avatar();
 
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
@@ -93,7 +25,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ pageName });
 }
 
-const IndexLayout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
+const IndexLayout = () => {
   const [, setShowModal] = useState(false);
 
   const handleAdder = () => {
@@ -106,39 +38,7 @@ const IndexLayout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
     <StyledLayout>
       <Header />
       <StyledContent sx={{ flexDirection: "row" }}>
-        <StyledSidebar>
-          <StyledSidebarLinks>
-            {links.map((link) => (
-              <Link to={link.path} key={link.name}>
-                <StyledLink>
-                  <StyledMenuIcon>{link.icon}</StyledMenuIcon>
-                  <StyledAnchor>{link.name}</StyledAnchor>
-                </StyledLink>
-              </Link>
-            ))}
-          </StyledSidebarLinks>
-          <StyledSidebarFooter>
-            <StyledBottomMenu>
-              <Form method="post" action="/logout">
-                <StyledLogoutBtn>
-                  <StyledToolbarItem>
-                    <CiPower /><Text sx={{ fontWeight: "200", fontSize: "0.875rem" }}>Logout</Text>
-                  </StyledToolbarItem>
-                </StyledLogoutBtn>
-              </Form>
-            </StyledBottomMenu>
-            <StyledProfileSide>
-              <img src={profilePicture} alt="" />
-            </StyledProfileSide>
-            <StyledNameBox>
-              <StyledText>{name}</StyledText>
-              <StyledText disabled>{email}</StyledText>
-            </StyledNameBox>
-            <StyledMoreBox>
-              <CiCircleMore />
-            </StyledMoreBox>
-          </StyledSidebarFooter>
-        </StyledSidebar>
+        <Sidebar />
         <StyledBodyContent>
           {user && (
             <PageHeader
