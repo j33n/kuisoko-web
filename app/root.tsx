@@ -103,9 +103,6 @@ export default function App() {
   const [currentTheme, setCurrentTheme] = useState("dark");
   const data = useLoaderData<typeof loader>();
 
-
-  
-
   const theme: Theme = { ...base, colors: themesMap[currentTheme] };
 
   return (
@@ -113,7 +110,8 @@ export default function App() {
       <Global styles={GlobalStyles} />
       <ThemeProvider theme={theme}>
         <ColorModeProvider>
-            <Outlet />
+          {/* TODO: use context to handle theme switching */}
+          <Outlet />
         </ColorModeProvider>
       </ThemeProvider>
     </Document>

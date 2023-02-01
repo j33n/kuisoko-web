@@ -101,34 +101,36 @@ const IndexLayout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
 
   return (
     <StyledLayout>
-      <Header currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} authenticated={true} />
-      <StyledContent>
-        {user && (
-          <StyledSidebar>
-            <StyledSidebarLinks>
-              {links.map((link) => (
-                <Link to={link.path} key={link.name}>
-                  <StyledLink>
-                    <StyledMenuIcon>{link.icon}</StyledMenuIcon>
-                    <StyledAnchor>{link.name}</StyledAnchor>
-                  </StyledLink>
-                </Link>
-              ))}
-            </StyledSidebarLinks>
-            <StyledSidebarFooter>
-              <StyledProfileSide>
-                <img src={profilePicture} alt="" />
-              </StyledProfileSide>
-              <StyledNameBox>
-                <StyledText>{name}</StyledText>
-                <StyledText disabled>{email}</StyledText>
-              </StyledNameBox>
-              <StyledMoreBox>
-                <CiCircleMore />
-              </StyledMoreBox>
-            </StyledSidebarFooter>
-          </StyledSidebar>
-        )}
+      <Header
+        currentTheme={currentTheme}
+        setCurrentTheme={setCurrentTheme}
+        authenticated={true}
+      />
+      <StyledContent sx={{ flexDirection: "row" }}>
+        <StyledSidebar>
+          <StyledSidebarLinks>
+            {links.map((link) => (
+              <Link to={link.path} key={link.name}>
+                <StyledLink>
+                  <StyledMenuIcon>{link.icon}</StyledMenuIcon>
+                  <StyledAnchor>{link.name}</StyledAnchor>
+                </StyledLink>
+              </Link>
+            ))}
+          </StyledSidebarLinks>
+          <StyledSidebarFooter>
+            <StyledProfileSide>
+              <img src={profilePicture} alt="" />
+            </StyledProfileSide>
+            <StyledNameBox>
+              <StyledText>{name}</StyledText>
+              <StyledText disabled>{email}</StyledText>
+            </StyledNameBox>
+            <StyledMoreBox>
+              <CiCircleMore />
+            </StyledMoreBox>
+          </StyledSidebarFooter>
+        </StyledSidebar>
         <StyledBodyContent>
           {user && (
             <PageHeader
@@ -139,16 +141,6 @@ const IndexLayout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
           )}
           <Outlet />
         </StyledBodyContent>
-        <StyledFooter>
-          <StyledFooterText>
-            &copy; {currentYear} Kuisoko
-            {/* TODO: add terms and conditions page/pdf rendering */}
-            {/* |{" "} */}
-            {/* <Link style={{ fontWeight: 600 }} to="/">
-              Term and Conditions
-            </Link> */}
-          </StyledFooterText>
-        </StyledFooter>
       </StyledContent>
     </StyledLayout>
   );

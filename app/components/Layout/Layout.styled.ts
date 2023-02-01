@@ -90,9 +90,8 @@ export const StyledAnchor = styled.span<StyledTheme>`
 `;
 
 
-export const StyledContent = styled.div`
+export const StyledContent = styled(Box)`
   display: flex;
-  flex-direction: column;
   width: 100%;
   position: relative;
 `;
