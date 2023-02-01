@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useActionData, useSearchParams } from "@remix-run/react";
 import { CiLogin } from "react-icons/ci";
 
@@ -24,8 +24,7 @@ import {
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
-  // if (userId) return redirect("/");
-  return json({});
+  return json({ userId });
 }
 
 export async function action({ request }: ActionArgs) {
@@ -56,7 +55,6 @@ export async function action({ request }: ActionArgs) {
   }
 
   const existingUser = await getUserByEmail(email);
-  console.log("existingUser ============>", existingUser);
   
   if (existingUser) {
     return json(

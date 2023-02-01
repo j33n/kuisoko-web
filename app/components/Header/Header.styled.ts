@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
-import type { ColorModesScale } from "theme-ui";
+import styled from "@emotion/styled";
+import { Button, ColorModesScale } from "theme-ui";
 
 export interface StyledTheme {
   theme?: {
@@ -9,10 +9,11 @@ export interface StyledTheme {
 }
 
 export const StyledHeader = styled.header<StyledTheme>`
-    display: flex;
-    width: 100%;
-    border-bottom: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
-    background: ${({ theme: { colors } }) => colors.background};
+  display: flex;
+  width: 100%;
+  border-bottom: ${({ theme: { colors } }) =>
+    `1px solid ${colors.buttonBgHover}`};
+  background: ${({ theme: { colors } }) => colors.background};
 `;
 
 export const StyledLogoBox = styled.div`
@@ -35,6 +36,16 @@ export const StyledToolbarGroup = styled.div`
   align-items: center;
 `;
 
+export const StyledLogoutBtn = styled.button`
+  border: none;
+  background: none;
+
+  &:hover {
+    background: none;
+    border: none;
+  }
+`;
+
 export const StyledToolbarItem = styled.div<StyledTheme>`
   display: flex;
   flex-direction: row;
@@ -46,9 +57,10 @@ export const StyledToolbarItem = styled.div<StyledTheme>`
     width: 2rem;
     height: 2rem;
     margin: 0.5rem;
-    color: ${({ theme: { colors }, nav }) => (nav ? colors.navSecondary : colors.text)};
-    margin: '0 auto';
-    transition: 'transform 1000ms ease';
+    color: ${({ theme: { colors }, nav }) =>
+      nav ? colors.navSecondary : colors.text};
+    margin: "0 auto";
+    transition: "transform 1000ms ease";
   }
 `;
 

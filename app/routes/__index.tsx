@@ -31,7 +31,6 @@ import {
   StyledProfileSide,
   StyledMoreBox,
 } from "../components/Layout/Layout.styled";
-import { StyledFooterText, StyledFooter } from "~/styles/page.styled";
 import { useOptionalUser } from "~/utils";
 
 export interface ILayout {
@@ -96,8 +95,6 @@ const IndexLayout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
   };
 
   const user = useOptionalUser();
-
-  const currentYear: number = new Date().getFullYear();
 
   return (
     <StyledLayout>

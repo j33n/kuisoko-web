@@ -58,7 +58,10 @@ export async function requireUserId(
 export async function requireUser(request: Request) {
   const userId = await requireUserId(request);
 
-  const user = await getUserById(userId);
+  let user = null;
+  if (userId &&typeof userId === "string") {
+    user = await getUserById(userId);
+  }
   if (user) return user;
 
   throw await logout(request);
@@ -90,10 +93,7 @@ export async function createUserSession({
 
 export async function logout(request: Request) {
   const session = await getSession(request);
-  console.log("+++++++++++++++++++", session);
 
-  // TODO: session not being cleared on logout
-  
   return redirect("/login", {
     headers: {
       "Set-Cookie": await sessionStorage.destroySession(session),

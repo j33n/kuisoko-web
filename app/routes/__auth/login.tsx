@@ -29,6 +29,10 @@ import {
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
 
+  // TODO: userId not beinf deleted from session
+  console.log("_+_+_+_+_+_+_+_+_+🎉", userId);
+  
+
   if (userId) return redirect("/stores");
   return json({ userId });
 };
