@@ -4,6 +4,11 @@ import {
   CiBellOn,
 } from "react-icons/ci";
 import { useColorMode } from "theme-ui";
+import { useContext } from "react";
+import { StyledToolbarItem } from "~/components/Layout/Layout.styled";
+import { useOptionalUser } from "~/utils";
+import type { ThemeProps } from "~/themes/context";
+import ThemeContext from "~/themes/context";
 
 import Logo from "../../assets/logo.svg";
 
@@ -14,8 +19,7 @@ import {
   StyledToolbarGroup,
   StyledIconBox,
 } from "./Header.styled";
-import { StyledToolbarItem } from "~/components/Layout/Layout.styled";
-import { useOptionalUser } from "~/utils";
+
 
 export interface IHeader {
   setCurrentTheme: (theme: string) => void;
@@ -23,18 +27,19 @@ export interface IHeader {
   authenticated?: boolean;
 }
 
-export const ThemeSwitcher = ({ setCurrentTheme }: IHeader) => {
+export const ThemeSwitcher = () => {
   const colorModes = [`light`, `dark`];
-
   const [colorMode, setColorMode] = useColorMode();
+
+  const theme: ThemeProps = useContext(ThemeContext);
 
   return (
     <StyledIconBox
-      onClick={() => {
+      onClick={(e) => {
         const index = colorModes.indexOf(colorMode);
         const next = colorModes[(index + 1) % colorModes.length];
         setColorMode(next);
-        setCurrentTheme(next);
+        theme.setTheme(next);
       }}
       aria-label="Toggle website theme"
     >
@@ -43,7 +48,7 @@ export const ThemeSwitcher = ({ setCurrentTheme }: IHeader) => {
   );
 };
 
-const Header = ({ setCurrentTheme, currentTheme, authenticated }: IHeader) => {
+const Header = () => {
   const user = useOptionalUser();
 
   return (
@@ -59,10 +64,7 @@ const Header = ({ setCurrentTheme, currentTheme, authenticated }: IHeader) => {
         </StyledToolbarItem> */}
 
         <StyledToolbarItem>
-          <ThemeSwitcher
-            currentTheme={currentTheme}
-            setCurrentTheme={setCurrentTheme}
-          />
+          <ThemeSwitcher />
         </StyledToolbarItem>
         {user && (
           <StyledToolbarItem>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { withEmotionCache } from "@emotion/react";
 import { ThemeProvider } from "@theme-ui/core";
 import { ColorModeProvider } from "@theme-ui/color-modes";
@@ -15,14 +15,12 @@ import {
 import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { Global } from "@emotion/react";
 
-import { ServerStyleContext, ClientStyleContext } from "./styles/context";
-import { base, light, dark } from "./themes";
+import { ServerStyleContext, ClientStyleContext } from "~/styles/context";
+import { base, light, dark } from "~/themes";
+import GlobalStyles from "~/styles/globals.styled";
+import { requireUserId } from "~/services/session.server";
+import ThemeContext from "./themes/context";
 
-import GlobalStyles from "./styles/globals.styled";
-
-import { Header, Layout, Sidebar } from "./components";
-import { getUser, requireUserId } from "./services/session.server";
-import { useOptionalUser, useUser } from "./utils";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -105,13 +103,19 @@ export default function App() {
 
   const theme: Theme = { ...base, colors: themesMap[currentTheme] };
 
+  const themeContext = {
+    theme: currentTheme,
+    setTheme: setCurrentTheme,
+  }
+
   return (
     <Document>
       <Global styles={GlobalStyles} />
       <ThemeProvider theme={theme}>
         <ColorModeProvider>
-          {/* TODO: use context to handle theme switching */}
-          <Outlet />
+          <ThemeContext.Provider value={themeContext}>
+            <Outlet />
+          </ThemeContext.Provider>
         </ColorModeProvider>
       </ThemeProvider>
     </Document>

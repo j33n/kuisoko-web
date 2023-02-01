@@ -104,11 +104,7 @@ const IndexLayout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
 
   return (
     <StyledLayout>
-      <Header
-        currentTheme={currentTheme}
-        setCurrentTheme={setCurrentTheme}
-        authenticated={true}
-      />
+      <Header />
       <StyledContent sx={{ flexDirection: "row" }}>
         <StyledSidebar>
           <StyledSidebarLinks>

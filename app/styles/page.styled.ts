@@ -109,22 +109,22 @@ export const StyledInputBox = styled(Box)`
   margin-bottom: 1rem;
 `;
 
-export const StyledInput = styled(Input)<StyledTheme>`
+export const StyledInput = styled.input<StyledTheme>`
   padding: 0.5rem;
   font-size: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
-  color: ${({ theme }) => theme.colors.text};
+  color: #202224;
   border-radius: 0.25rem;
   flex-grow: 1;
   box-sizing: border-box;
   border: none;
   box-shadow: ${({ theme }) => theme.colors.boxShadow};
-  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
+  font-weight: 400;
 
   &:focus {
     outline: none;
     border: none;
-    box-shadow: ${({ theme }) => theme.colors.boxShadowFocus};
+    box-shadow: rgba(201, 191, 191, 1) 0px 0px 3px 0px, rgba(0, 0, 0, 56%) 0px 3px 7px -3px;
   }
 `;
 
