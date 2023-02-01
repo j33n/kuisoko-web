@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Button, ColorModesScale } from "theme-ui";
+import type { ColorModesScale } from "theme-ui";
 
 export interface StyledTheme {
   theme?: {
@@ -39,28 +39,11 @@ export const StyledToolbarGroup = styled.div`
 export const StyledLogoutBtn = styled.button`
   border: none;
   background: none;
+  width: 100%;
 
   &:hover {
     background: none;
     border: none;
-  }
-`;
-
-export const StyledToolbarItem = styled.div<StyledTheme>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-right: 1.5vw;
-
-  svg {
-    width: 2rem;
-    height: 2rem;
-    margin: 0.5rem;
-    color: ${({ theme: { colors }, nav }) =>
-      nav ? colors.navSecondary : colors.text};
-    margin: "0 auto";
-    transition: "transform 1000ms ease";
   }
 `;
 

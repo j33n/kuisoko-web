@@ -1,13 +1,11 @@
 import styled from "@emotion/styled";
 import { Box } from "theme-ui";
-import type { ColorModesScale } from "theme-ui";
 import type { StyledTheme } from "~/styles/page.styled";
 
-export interface StyledSidebarProps {
+export interface StyledLayoutProps {
   size?: string;
-  theme?: {
-    colors: ColorModesScale;
-  };
+  theme?: StyledTheme["theme"];
+  nav?: boolean;
 }
 
 export const Block = styled.div`
@@ -89,14 +87,31 @@ export const StyledAnchor = styled.span<StyledTheme>`
   }
 `;
 
-
 export const StyledContent = styled(Box)`
   display: flex;
   width: 100%;
   position: relative;
 `;
 
-export const StyledSidebar = styled(Block)<StyledSidebarProps>`
+export const StyledToolbarItem = styled.div<StyledLayoutProps>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  margin-right: 1.5vw;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    margin: 0.5rem;
+    color: ${({ theme: { colors }, nav }) =>
+      nav ? colors.navSecondary : colors.text};
+    transition: transform 1000ms ease;
+  }
+`;
+
+export const StyledSidebar = styled(Block)<StyledLayoutProps>`
   max-width: ${({ size }) => size || "30vw"};
 
   /* mobile size */
@@ -150,8 +165,7 @@ export const StyledSidebarFooter = styled(Block)<StyledTheme>`
   width: 100%;
   height: 5rem;
   position: relative;
-  border-top: ${({ theme: { colors } }) =>
-    `1px solid ${colors.buttonBgHover}`};
+  border-top: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
 
   @media only screen and (max-width: 768px) {
     align-items: center;
@@ -239,7 +253,7 @@ export const StyledNameBox = styled.div`
   display: flex;
   flex-direction: column;
   order: 2;
-  
+
   @media only screen and (max-width: 768px) {
     order: 3;
     width: 100%;
@@ -249,9 +263,17 @@ export const StyledNameBox = styled.div`
     p:last-child {
       display: none;
     }
-  };
+  }
 
   @media only screen and (max-width: 480px) {
     font-size: vw;
   }
+`;
+
+export const StyledBottomMenu = styled.div<StyledTheme>`
+  width: 100%;
+  position: absolute;
+  bottom: 5rem;
+  border-top: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
+  margin: 0;
 `;

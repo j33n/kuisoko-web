@@ -1,11 +1,9 @@
 import {
   CiDark,
   CiLight,
-  CiCircleQuestion,
   CiBellOn,
-  CiLogout,
 } from "react-icons/ci";
-import { Button, useColorMode } from "theme-ui";
+import { useColorMode } from "theme-ui";
 
 import Logo from "../../assets/logo.svg";
 
@@ -14,12 +12,10 @@ import {
   StyledLogoBox,
   StyledToolbarSpacer,
   StyledToolbarGroup,
-  StyledToolbarItem,
   StyledIconBox,
-  StyledLogoutBtn,
 } from "./Header.styled";
+import { StyledToolbarItem } from "~/components/Layout/Layout.styled";
 import { useOptionalUser } from "~/utils";
-import { Form } from "@remix-run/react";
 
 export interface IHeader {
   setCurrentTheme: (theme: string) => void;
@@ -68,15 +64,6 @@ const Header = ({ setCurrentTheme, currentTheme, authenticated }: IHeader) => {
             setCurrentTheme={setCurrentTheme}
           />
         </StyledToolbarItem>
-        {authenticated && (
-          <Form method="post" action="/logout">
-            <StyledLogoutBtn>
-              <StyledToolbarItem>
-                <CiLogout />
-              </StyledToolbarItem>
-            </StyledLogoutBtn>
-          </Form>
-        )}
         {user && (
           <StyledToolbarItem>
             <StyledIconBox>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Outlet } from "@remix-run/react";
+import { Form, Link, Outlet } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import type { LoaderArgs } from "@remix-run/node";
 import { faker } from "@faker-js/faker";
@@ -12,9 +12,10 @@ import {
   CiGrid42,
   CiHome,
   CiCircleMore,
+  CiPower,
 } from "react-icons/ci";
 
-import { Header, PageHeader } from "../components";
+import { Header, PageHeader } from "~/components";
 
 import {
   StyledLayout,
@@ -30,8 +31,13 @@ import {
   StyledText,
   StyledProfileSide,
   StyledMoreBox,
-} from "../components/Layout/Layout.styled";
+  StyledToolbarItem,
+  StyledBottomMenu,
+} from "~/components/Layout/Layout.styled";
+import { StyledLogoutBtn } from "~/components/Header/Header.styled";
+
 import { useOptionalUser } from "~/utils";
+import { Text } from "theme-ui";
 
 export interface ILayout {
   children: React.ReactNode;
@@ -116,6 +122,15 @@ const IndexLayout = ({ children, setCurrentTheme, currentTheme }: ILayout) => {
             ))}
           </StyledSidebarLinks>
           <StyledSidebarFooter>
+            <StyledBottomMenu>
+              <Form method="post" action="/logout">
+                <StyledLogoutBtn>
+                  <StyledToolbarItem>
+                    <CiPower /><Text sx={{ fontWeight: "200", fontSize: "0.875rem" }}>Logout</Text>
+                  </StyledToolbarItem>
+                </StyledLogoutBtn>
+              </Form>
+            </StyledBottomMenu>
             <StyledProfileSide>
               <img src={profilePicture} alt="" />
             </StyledProfileSide>
