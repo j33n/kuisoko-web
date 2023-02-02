@@ -3,8 +3,7 @@ import styled from "@emotion/styled";
 import type { StyledTheme } from "~/styles/page.styled";
 import { StyledPage } from "~/styles/page.styled";
 
-import newStore from "~/assets/images/newStore.svg";
-import { Link, Outlet } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 
 export const StyledContainer = styled.div`
   display: flex;

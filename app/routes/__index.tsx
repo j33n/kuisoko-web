@@ -39,7 +39,7 @@ const IndexLayout = () => {
       <Header />
       <StyledContent sx={{ flexDirection: "row" }}>
         <Sidebar />
-        <StyledBodyContent>
+        <StyledBodyContent noFooter>
           {user && (
             <PageHeader
               pageName={"Store xxxxx"}

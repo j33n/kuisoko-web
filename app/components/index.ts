@@ -4,5 +4,6 @@ import PageHeader from './PageHeader/PageHeader';
 import Modal from './Modal/Modal';
 import Button from './Button/Button';
 import Sidebar from "./Layout/Sidebar";
+import { ImageContainer } from './ImageContainer/ImageContainer';
 
-export { Header, AdderButton, PageHeader, Modal, Button, Sidebar };
+export { Header, AdderButton, PageHeader, Modal, Button, Sidebar, ImageContainer};
