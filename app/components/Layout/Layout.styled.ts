@@ -80,10 +80,6 @@ export const StyledAnchor = styled.span<StyledTheme>`
   @media only screen and (min-width: 768px) {
     font-size: 1rem;
   }
-
-  @media only screen and (min-width: 1441px) {
-    font-size: 1.2rem;
-  }
 `;
 
 export const StyledContent = styled(Box)`
