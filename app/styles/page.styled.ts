@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Form, Link } from "@remix-run/react";
 
-import { Box, Input, Label } from "theme-ui";
+import { Box, Input } from "theme-ui";
 
 import type { ColorModesScale } from "theme-ui";
 
@@ -88,44 +88,12 @@ export const StyledInputContainer = styled(Box)`
   }
 `;
 
-export const StyledLabel = styled(Label)<StyledTheme>`
-  display: flex;
-  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
-  color: ${({ theme }) => theme.colors.text};
-  max-width: 10rem;
-  align-items: center;
-  font-size: 0.875rem;
-
-  @media (max-width: 768px) {
-    padding: 0.5rem 0;
-  }
-`;
-
 export const StyledInputBox = styled(Box)`
   display: flex;
   flex-direction: column;
   width: 100%;
   position: relative;
   margin-bottom: 1rem;
-`;
-
-export const StyledInput = styled.input<StyledTheme>`
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
-  color: #202224;
-  border-radius: 0.25rem;
-  flex-grow: 1;
-  box-sizing: border-box;
-  border: none;
-  box-shadow: ${({ theme }) => theme.colors.boxShadow};
-  font-weight: 400;
-
-  &:focus {
-    outline: none;
-    border: none;
-    box-shadow: rgba(201, 191, 191, 1) 0px 0px 3px 0px, rgba(0, 0, 0, 56%) 0px 3px 7px -3px;
-  }
 `;
 
 export const StyledFormBottom = styled(FlexCenterBetween)`

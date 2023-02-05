@@ -51,11 +51,6 @@ export const StyledInputs = ({ theme: { colors } }: any) => css`
   }
 `;
 
-export const StyledLabel = styled.label<StyledTheme>`
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
-  color: rgb(107, 114, 128);
-`;
-
 export const StyledInput = styled.input<StyledTheme>`
   ${StyledInputs}
 `;
@@ -114,11 +109,6 @@ export const StyledImageHolder = styled.div<StyledTheme>`
   img {
     max-width: 5rem;
   }
-`;
-
-export const StyledInputContainer = styled.div<StyledTheme>`
-  display: flex;
-  flex-direction: column;
 `;
 
 export const StyledInputHolder = styled.div<StyledTheme>`

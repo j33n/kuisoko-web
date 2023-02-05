@@ -7,14 +7,12 @@ import { CiLogin } from "react-icons/ci";
 import { createUserSession, getUserId } from "~/services/session.server";
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
-import { Button } from "~/components";
+import { Button, TextInput, TextLabel } from "~/components";
 import {
   StyledFormContainer,
   StyledForm,
   StyledInputContainer,
-  StyledLabel,
   StyledInputBox,
-  StyledInput,
   StyledError,
   FlexCenterEnd,
   StyledNewAccountText,
@@ -91,9 +89,6 @@ export default function Join() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  console.log("actionData ============>", actionData);
-  
-
   useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef.current?.focus();
@@ -106,9 +101,9 @@ export default function Join() {
     <StyledFormContainer>
       <StyledForm method="post" noValidate>
         <StyledInputContainer>
-          <StyledLabel htmlFor="email">Email/Phone:</StyledLabel>
+          <TextLabel htmlFor="email">Email/Phone:</TextLabel>
           <StyledInputBox>
-            <StyledInput
+            <TextInput
               ref={emailRef}
               id="email"
               required
@@ -127,9 +122,9 @@ export default function Join() {
           </StyledInputBox>
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="password">Password:</StyledLabel>
+          <TextLabel htmlFor="password">Password:</TextLabel>
           <StyledInputBox>
-            <StyledInput
+            <TextInput
               id="password"
               ref={passwordRef}
               name="password"

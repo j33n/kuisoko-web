@@ -1,15 +1,27 @@
-import React from "react";
-// import shopImage from "~/assets/images/shop.svg";
-// import { ImageContainer } from "~/components";
-
 import addStoreLogo from "~/assets/images/addStoreLogo.svg";
-import { StyledCreateStore,StyledForm,StyledLabel,StyledInputHolder,StyledLogoBox,StyledImageHolder,StyledInput,StyledInputContainer,StyledTextArea,StyledBtnContainer,StyledButton } from "./styles/new.styled";
+import {
+  StyledCreateStore,
+  StyledForm,
+  StyledInputHolder,
+  StyledLogoBox,
+  StyledImageHolder,
+  StyledInput,
+  StyledTextArea,
+  StyledBtnContainer,
+  StyledButton,
+} from "./styles/new.styled";
+import styled from "@emotion/styled";
+import { TextInput, TextLabel } from "~/components";
+
+export const InputContainer = styled.div`
+  display: flex;
+`;
 
 export default function NewStoreRoute() {
   return (
     <StyledCreateStore>
       <StyledForm className="flex flex-col">
-        <StyledLabel htmlFor="storeName">Logo:</StyledLabel>
+        <TextLabel htmlFor="storeName">Logo:</TextLabel>
         <StyledInputHolder>
           <StyledLogoBox>
             <StyledImageHolder>
@@ -17,16 +29,16 @@ export default function NewStoreRoute() {
               <StyledInput type="file" name="storeLogo" id="storeLogo" hidden />
             </StyledImageHolder>
           </StyledLogoBox>
-          <StyledInputContainer>
-            <StyledLabel htmlFor="storeName">Name:</StyledLabel>
-            <StyledInput type="text" name="storeName" id="storeName" />
-          </StyledInputContainer>
-          <StyledInputContainer>
-            <StyledLabel htmlFor="storeAddress">Address:</StyledLabel>
-            <StyledInput type="text" name="storeAddress" id="storeAddress" />
-          </StyledInputContainer>
+          <InputContainer>
+            <TextInput labelText="Name:" htmlFor="storeName" name="storeName" />
+            <TextInput
+              labelText="Address:"
+              htmlFor="storeAddress"
+              name="storeAddress"
+            />
+          </InputContainer>
         </StyledInputHolder>
-        <StyledLabel htmlFor="storeComment">Comment:</StyledLabel>
+        <TextLabel htmlFor="storeComment">Comment:</TextLabel>
         <StyledTextArea
           name="storeComment"
           id="storeComment"

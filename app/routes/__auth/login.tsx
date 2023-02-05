@@ -4,7 +4,7 @@ import { json, redirect } from "@remix-run/node";
 import { useActionData, useSearchParams } from "@remix-run/react";
 
 import { CiLogin } from "react-icons/ci";
-import { Button } from "~/components";
+import { Button, TextInput, TextLabel } from "~/components";
 
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/services/session.server";
@@ -14,9 +14,7 @@ import {
   StyledFormContainer,
   StyledForm,
   StyledInputContainer,
-  StyledLabel,
   StyledInputBox,
-  StyledInput,
   StyledError,
   FlexCenterEnd,
   FlexCenter,
@@ -103,9 +101,9 @@ export default function LoginPage() {
     <StyledFormContainer>
       <StyledForm method="post" noValidate>
         <StyledInputContainer>
-          <StyledLabel htmlFor="email">Email/Phone:</StyledLabel>
+          <TextLabel htmlFor="email">Email/Phone:</TextLabel>
           <StyledInputBox>
-            <StyledInput
+            <TextInput
               ref={emailRef}
               id="email"
               required
@@ -124,9 +122,9 @@ export default function LoginPage() {
           </StyledInputBox>
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="password">Password:</StyledLabel>
+          <TextLabel htmlFor="password">Password:</TextLabel>
           <StyledInputBox>
-            <StyledInput
+            <TextInput
               id="password"
               ref={passwordRef}
               name="password"
@@ -152,9 +150,9 @@ export default function LoginPage() {
       <StyledFormBottom>
         <FlexCenter sx={{ justifyContent: "flex-start" }}>
           <StyledCheckbox id="remember" name="remember" type="checkbox" />
-          <StyledLabel sx={{ justifyContent: "center" }} htmlFor="remember">
+          <TextLabel sx={{ justifyContent: "center" }} htmlFor="remember">
             Remember me
-          </StyledLabel>
+          </TextLabel>
         </FlexCenter>
         <StyledNewAccountText>
           Don't have an account?{" "}
