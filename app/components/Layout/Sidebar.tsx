@@ -38,11 +38,6 @@ export interface ILayout {
 const name = faker.name.fullName();
 const links = [
   {
-    name: "Dashboard",
-    path: "/dashboard",
-    icon: <CiGrid42 />,
-  },
-  {
     name: "My Stores",
     path: "/stores",
     icon: <CiShop />,
@@ -51,6 +46,11 @@ const links = [
     name: "Items",
     path: "/items",
     icon: <CiShoppingCart />,
+  },
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: <CiGrid42 />,
   },
   {
     name: "Orders",
@@ -62,11 +62,12 @@ const links = [
     path: "/customers",
     icon: <CiUser />,
   },
-  {
-    name: "Settings",
-    path: "/settings",
-    icon: <CiSettings />,
-  },
+  // TODO: find better placemennt for settings link
+  // {
+  //   name: "Settings",
+  //   path: "/settings",
+  //   icon: <CiSettings />,
+  // },
 ];
 const email = faker.internet.email();
 const profilePicture = faker.image.avatar();

@@ -9,10 +9,7 @@ export const StyledLabel = styled(Label)<StyledTheme>`
   max-width: 10rem;
   align-items: center;
   font-size: 0.875rem;
-
-  @media (max-width: 768px) {
-    padding: 0.5rem 0;
-  }
+  padding: 0.5rem 0;
 `;
 
 export interface ICustomLabel {

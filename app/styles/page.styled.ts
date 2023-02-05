@@ -52,11 +52,12 @@ export const StyledPage = styled.div<StyledTheme>`
 
 export const StyledFormContainer = styled(FlexCenterColumn)<StyledTheme>`
   width: 50%;
-  height: 50%;
+  min-height: 50%;
   background: ${({ theme: { colors } }) => colors.background};
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
   border-radius: 0.5rem;
+  overflow: auto;
 
   @media (max-width: 425px) {
     width: 100%;
@@ -79,7 +80,7 @@ export const StyledForm = styled(Form)<StyledTheme>`
 
 export const StyledInputContainer = styled(Box)`
   display: flex;
-  margin: 1rem 0;
+  flex-direction: column;
 
   @media (max-width: 768px) {
     flex-direction: column;

@@ -138,7 +138,7 @@ model Order {
   items           Item[]
   deliveryMethod  DeliveryMethod @relation(fields: [deliveryMethodId], references: [id])
   paymentMethod   PaymentMethod  @relation(fields: [paymentMethodId], references: [id])
-  deliveryAddress String
+  deliveryLocation String
   deliveryFee     Float
   total           Float
   currency        String

@@ -1,31 +1,40 @@
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+
 import Label from "./TextLabel";
+
 import type { StyledTheme } from "~/styles/page.styled";
 import type { InputProps } from "theme-ui";
 
-export const StyledInputContainer = styled.div<StyledTheme>`
-  display: flex;
-  flex-direction: column;
+export interface ITextInput extends StyledTheme {
+  height?: string;
+}
+
+export const StyledInputContainer = styled.div<ITextInput>`
+  height: ${({ height }) => height || "100%"};
 `;
 
-export const StyledInput = styled.input<StyledTheme>`
+export const StyledInputs = ({ theme: { colors } }: any) => css`
+  font-size: 16px;
   padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
-  color: #202224;
   border-radius: 0.25rem;
-  flex-grow: 1;
-  box-sizing: border-box;
-  border: none;
-  box-shadow: ${({ theme }) => theme.colors.boxShadow};
+  margin-bottom: 1rem;
+  color: ${colors.text};
+  background-color: ${colors.buttonBgHover};
   font-weight: 400;
+  border: none;
+  width: 100%;
+  box-shadow: inset 0 0 0 1px ${colors.buttonBgHover};
 
   &:focus {
     outline: none;
-    border: none;
-    box-shadow: rgba(201, 191, 191, 1) 0px 0px 3px 0px,
-      rgba(0, 0, 0, 56%) 0px 3px 7px -3px;
+    box-shadow: inset 0 0 0 1px ${colors.nav};
   }
+`;
+
+export const StyledInput = styled.input<ITextInput>`
+  ${StyledInputs}
+  box-sizing: border-box;
 `;
 
 export interface ITextInput extends InputProps {
@@ -37,7 +46,8 @@ export interface ITextInput extends InputProps {
   id?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-};
+  sx?: any;
+}
 
 const TextInput = ({
   htmlFor,
@@ -48,10 +58,12 @@ const TextInput = ({
   onChange,
   onFocus,
   id,
+  height,
+  sx,
   ...restProps
 }: ITextInput) => {
   return (
-    <StyledInputContainer className={className}>
+    <StyledInputContainer className={className} height={height} sx={sx}>
       {labelText && <Label htmlFor={htmlFor}>{labelText}</Label>}
       <StyledInput
         type={type}

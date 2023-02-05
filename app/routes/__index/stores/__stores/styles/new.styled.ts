@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
 import { Form } from "@remix-run/react";
 import type { StyledTheme } from "~/styles/page.styled";
+import { StyledInputs } from "~/components/Forms/TextInput";
 
 export const StyledCreateStore = styled.div<StyledTheme>`
   display: flex;
@@ -34,25 +34,6 @@ export const StyledForm = styled(Form)<StyledTheme>`
     padding: 0;
     margin: 0.5rem;
   }
-`;
-
-export const StyledInputs = ({ theme: { colors } }: any) => css`
-  font-size: 16px;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  color: ${colors.text};
-  background-color: ${colors.buttonBgHover};
-  border: 1px solid ${colors.text};
-
-  &:focus {
-    outline: none;
-    border: 1px solid ${colors.nav};
-  }
-`;
-
-export const StyledInput = styled.input<StyledTheme>`
-  ${StyledInputs}
 `;
 
 export const StyledTextArea = styled.textarea`
@@ -92,9 +73,11 @@ export const StyledTitle = styled.div<StyledTheme>`
 
 export const StyledLogoBox = styled.div<StyledTheme>`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
+  max-width: 15vw;
 `;
 
 export const StyledImageHolder = styled.div<StyledTheme>`
@@ -114,4 +97,6 @@ export const StyledImageHolder = styled.div<StyledTheme>`
 export const StyledInputHolder = styled.div<StyledTheme>`
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
 `;
