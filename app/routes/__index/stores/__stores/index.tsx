@@ -3,24 +3,33 @@ import { Link } from "@remix-run/react";
 import styled from "@emotion/styled";
 import type { StyledTheme } from "~/styles/page.styled";
 
-export const StyledImg = styled.img<StyledTheme>`
-  width: 300px;
-  padding: 1rem;
+export const StyledImageWrapper = styled.div<StyledTheme>`
+  height: 300px;
+  overflow: hidden;
+  border-radius: 1rem;
   border: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
-  border-radius: 0.5rem;
   cursor: pointer;
+  padding: 1rem;
 
   &:hover {
-    transform: scale(1.1);
+    img {
+      transform: scale(1.1);
+    }
   }
+`;
+
+export const StyledImg = styled.img<StyledTheme>`
+  object-fit: cover;
+  transition: transform 0.8s;
+  height: 100%;
 `;
 
 export default function Stores() {
   return (
-    <>
-      <Link to="/stores/new">
+    <Link to="/stores/new">
+      <StyledImageWrapper>
         <StyledImg src={newStore} alt="create new store" />
-      </Link>
-    </>
+      </StyledImageWrapper>
+    </Link>
   );
 }
