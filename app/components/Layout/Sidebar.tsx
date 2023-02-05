@@ -43,13 +43,13 @@ const links = [
     icon: <CiGrid42 />,
   },
   {
-    name: "Stores",
+    name: "My Stores",
     path: "/stores",
     icon: <CiShop />,
   },
   {
-    name: "Products",
-    path: "/products",
+    name: "Items",
+    path: "/items",
     icon: <CiShoppingCart />,
   },
   {

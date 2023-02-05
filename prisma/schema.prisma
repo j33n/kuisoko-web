@@ -15,7 +15,7 @@ model User {
   profile  String?
   password Password?
 
-  products        Item[]
+  items        Item[]
   notes           Note[]
   chats           Chat[]
   balance         Balance[]
@@ -54,10 +54,12 @@ model Note {
 model Item {
   id          String   @id @default(cuid())
   name        String
-  description String
+  comment     String
   price       Float
-  picture     String
+  currency    String
+  icon        String
   tags        String[]
+  unit        String
   quantity    Int
 
   addedBy   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -86,8 +88,8 @@ model Balance {
 model Store {
   id          String   @id @default(cuid())
   name        String
-  description String
-  logo        String
+  comment     String
+  icon        String
   cover       String
   categories  String[]
   location    String
@@ -104,7 +106,7 @@ model Store {
 model DeliveryMethod {
   id          String @id @default(cuid())
   name        String
-  description String
+  comment     String
   icon        String
 
   orders Order[]
@@ -119,7 +121,7 @@ model DeliveryMethod {
 model PaymentMethod {
   id          String @id @default(cuid())
   name        String
-  description String
+  comment     String
   icon        String
 
   addedBy User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
