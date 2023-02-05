@@ -1,4 +1,4 @@
-import addStoreLogo from "~/assets/images/addStoreLogo.svg";
+import addStoreIcon from "~/assets/images/addStoreIcon.svg";
 import {
   StyledCreateStore,
   StyledForm,
@@ -11,6 +11,7 @@ import {
 } from "./styles/new.styled";
 import styled from "@emotion/styled";
 import { TextInput, TextLabel } from "~/components";
+import { useRef, useState } from "react";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -18,7 +19,40 @@ export const InputContainer = styled.div`
   width: 100%;
 `;
 
+interface props {
+  onChange: (file: File) => any;
+  imageUrl?: string;
+}
+
 export default function NewStoreRoute() {
+  {
+    onChange, imageUrl;
+  }
+  const [draggingOver, setDraggingOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const dropRef = useRef(null);
+
+  // 1
+  const preventDefaults = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  // 2
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    preventDefaults(e);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      onChange(e.dataTransfer.files[0]);
+      e.dataTransfer.clearData();
+    }
+  };
+
+  // 3
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.currentTarget.files && event.currentTarget.files[0]) {
+      onChange(event.currentTarget.files[0]);
+    }
+  };
   return (
     <StyledCreateStore>
       <StyledForm className="flex flex-col">
@@ -26,8 +60,15 @@ export default function NewStoreRoute() {
           <StyledLogoBox>
             <TextLabel htmlFor="storeName">Icon:</TextLabel>
             <StyledImageHolder>
-              <img src={addStoreLogo} alt="add store logo" />
-              <TextInput type="file" name="storeLogo" id="storeLogo" hidden />
+              <img src={addStoreIcon} alt="add store logo" />
+              <TextInput
+                type="file"
+                ref={fileInputRef}
+                onChange={handleChange}
+                name="storeLogo"
+                id="storeLogo"
+                hidden
+              />
             </StyledImageHolder>
           </StyledLogoBox>
           <InputContainer>
