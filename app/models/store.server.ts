@@ -16,14 +16,6 @@ export function getStore({
   });
 }
 
-// export function getStoreListItems({ userId }: { userId: User["id"] }) {
-//   return prisma.store.findMany({
-//     where: { userId },
-//     select: { id: true, title: true },
-//     orderBy: { updatedAt: "desc" },
-//   });
-// }
-
 export function createStore({
   name,
   comment,

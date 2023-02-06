@@ -12,6 +12,7 @@ export interface ITextInput extends StyledTheme {
 
 export const StyledInputContainer = styled.div<ITextInput>`
   height: ${({ height }) => height || "100%"};
+  position: relative;
 `;
 
 export const StyledInputs = ({ theme: { colors } }: any) => css`
@@ -37,6 +38,14 @@ export const StyledInput = styled.input<ITextInput>`
   box-sizing: border-box;
 `;
 
+export const StyledError = styled.div`
+  padding-top: 0.25rem;
+  color: rgb(185, 28, 28);
+  font-size: 0.875rem;
+  position: absolute;
+  bottom: 0;
+`;
+
 export interface ITextInput extends InputProps {
   htmlFor?: string | "";
   labelText?: string;
@@ -47,6 +56,7 @@ export interface ITextInput extends InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   sx?: any;
+  error?: string | null;
 }
 
 const TextInput = ({
@@ -60,6 +70,7 @@ const TextInput = ({
   id,
   height,
   sx,
+  error,
   ...restProps
 }: ITextInput) => {
   return (
@@ -73,6 +84,11 @@ const TextInput = ({
         id={id || name}
         {...restProps}
       />
+      {error && (
+        <StyledError id="body-error">
+          {error}
+        </StyledError>
+      )}
     </StyledInputContainer>
   );
 };

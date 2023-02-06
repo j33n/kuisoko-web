@@ -36,10 +36,6 @@ export const StyledForm = styled(Form)<StyledTheme>`
   }
 `;
 
-export const StyledTextArea = styled.textarea`
-  ${StyledInputs}
-`;
-
 export const StyledButton = styled.button<StyledTheme>`
   border: none;
   border-radius: 0.5rem;

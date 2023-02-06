@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Box } from "theme-ui";
+
 import type { StyledTheme } from "~/styles/page.styled";
 
 export interface StyledLayoutProps {

@@ -20,7 +20,7 @@ export const uploadHandler = async ({
   filename,
   stream,
 }: any) => {
-  if (name !== "icon") {
+  if (name !== "storeIcon") {
     stream.resume();
     return;
   }
@@ -36,13 +36,13 @@ export const uploadHandler = async ({
   return Location;
 };
 
-export const UploadAvatar = async (request: Request) => {
+export const uploadStoreIcon = async (request: Request) => {
   const formData = await unstable_parseMultipartFormData(
     request,
     uploadHandler,
   );
 
-  // const file = formData.get("icon")?.toString() || "";
+  const file = formData.get("storeIcon")?.toString() || "";
 
-  return formData.get("icon");
+  return file
 }

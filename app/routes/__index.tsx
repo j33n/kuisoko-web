@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
 import { requireUser } from "~/services/session.server";
 
-import { Header, PageHeader, Sidebar } from "~/components";
+import { Header, Sidebar } from "~/components";
 import {
   StyledLayout,
   StyledContent,
@@ -28,19 +27,19 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 const IndexLayout = () => {
-  const [, setShowModal] = useState(false);
+  // const [, setShowModal] = useState(false);
 
-  const { user, pageName } = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>();
 
-  const handleAdder = () => {
-    setShowModal(true);
-  };
+  // const handleAdder = () => {
+  //   setShowModal(true);
+  // };
 
   return (
     <StyledLayout>
       <Header />
       <StyledContent sx={{ flexDirection: "row" }}>
-        <Sidebar user={user}/>
+        <Sidebar user={user} />
         <StyledBodyContent noFooter>
           {/* {user && user.id && (
             <PageHeader

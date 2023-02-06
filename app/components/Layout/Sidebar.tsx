@@ -9,6 +9,7 @@ import {
   CiCircleMore,
   CiPower,
 } from "react-icons/ci";
+import { Text } from "theme-ui";
 
 import {
   StyledLink,
@@ -25,11 +26,9 @@ import {
   StyledToolbarItem,
 } from "./Layout.styled";
 import { StyledLogoutBtn } from "../Header/Header.styled";
-import { Text } from "theme-ui";
-import type { User } from "@prisma/client";
 
 export interface ISidebar {
-  user: User
+  user: any;
 }
 
 const links = [
@@ -84,6 +83,7 @@ const Sidebar = ({ user }: ISidebar) => {
       <StyledSidebarFooter>
         <StyledBottomMenu>
           <Form method="post" action="/logout">
+            {/* TODO: add dropdown with logout, theme switching, setting, profile */}
             <StyledLogoutBtn>
               <StyledToolbarItem>
                 <CiPower />

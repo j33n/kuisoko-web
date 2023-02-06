@@ -8,6 +8,7 @@ import { ImageContainer } from './ImageContainer/ImageContainer';
 import TextInput from './Forms/TextInput';
 import TextLabel from './Forms/TextLabel';
 import ImageUploader from './ImageUploader/ImageUploader';
+import TextArea from './Forms/TextArea';
 
 export {
   Header,
@@ -20,4 +21,5 @@ export {
   TextInput,
   TextLabel,
   ImageUploader,
+  TextArea,
 };
