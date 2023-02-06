@@ -7,6 +7,7 @@ import Sidebar from "./Layout/Sidebar";
 import { ImageContainer } from './ImageContainer/ImageContainer';
 import TextInput from './Forms/TextInput';
 import TextLabel from './Forms/TextLabel';
+import ImageUploader from './ImageUploader/ImageUploader';
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   ImageContainer,
   TextInput,
   TextLabel,
+  ImageUploader,
 };

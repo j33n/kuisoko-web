@@ -5,11 +5,11 @@ import { Outlet } from "@remix-run/react";
 import { getNoteListItems } from "~/models/note.server";
 import { requireUserId } from "~/services/session.server";
 
-export async function loader({ request }: LoaderArgs) {
-  const userId = await requireUserId(request);
-  const noteListItems = await getNoteListItems({ userId });
-  return json({ noteListItems });
-}
+// export async function loader({ request }: LoaderArgs) {
+//   const userId = await requireUserId(request);
+//   const noteListItems = await getNoteListItems({ userId });
+//   return json({ noteListItems });
+// }
 
 export default function IndexRoute() {
 

@@ -3,14 +3,12 @@ import { faker } from "@faker-js/faker";
 import {
   CiShoppingCart,
   CiShop,
-  CiSettings,
   CiUser,
   CiCoinInsert,
   CiGrid42,
   CiCircleMore,
   CiPower,
 } from "react-icons/ci";
-
 
 import {
   StyledLink,
@@ -28,14 +26,12 @@ import {
 } from "./Layout.styled";
 import { StyledLogoutBtn } from "../Header/Header.styled";
 import { Text } from "theme-ui";
+import type { User } from "@prisma/client";
 
-export interface ILayout {
-  children: React.ReactNode;
-  setCurrentTheme: (theme: string) => void;
-  currentTheme: string;
+export interface ISidebar {
+  user: User
 }
 
-const name = faker.name.fullName();
 const links = [
   {
     name: "My Stores",
@@ -69,10 +65,10 @@ const links = [
   //   icon: <CiSettings />,
   // },
 ];
-const email = faker.internet.email();
+
 const profilePicture = faker.image.avatar();
 
-const Sidebar = () => {
+const Sidebar = ({ user }: ISidebar) => {
   return (
     <StyledSidebar>
       <StyledSidebarLinks>
@@ -102,8 +98,8 @@ const Sidebar = () => {
           <img src={profilePicture} alt="" />
         </StyledProfileSide>
         <StyledNameBox>
-          <StyledText>{name}</StyledText>
-          <StyledText disabled>{email}</StyledText>
+          {user.name && <StyledText>{user.name}</StyledText>}
+          {user.email && <StyledText disabled>{user.email}</StyledText>}
         </StyledNameBox>
         <StyledMoreBox>
           <CiCircleMore />

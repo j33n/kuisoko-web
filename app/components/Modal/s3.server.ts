@@ -42,7 +42,7 @@ export const UploadAvatar = async (request: Request) => {
     uploadHandler,
   );
 
-  const file = formData.get("icon")?.toString() || "";
+  // const file = formData.get("icon")?.toString() || "";
 
-  return file;
+  return formData.get("icon");
 }

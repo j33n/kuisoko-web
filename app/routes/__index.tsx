@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Outlet } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import type { LoaderArgs } from "@remix-run/node";
+
+import { requireUser } from "~/services/session.server";
 
 import { Header, PageHeader, Sidebar } from "~/components";
-
 import {
   StyledLayout,
   StyledContent,
   StyledBodyContent,
 } from "~/components/Layout/Layout.styled";
-import { useOptionalUser } from "~/utils";
+
+import type { LoaderArgs } from "@remix-run/node";
 
 export interface ILayout {
   children: React.ReactNode;
@@ -18,35 +19,36 @@ export interface ILayout {
   currentTheme: string;
 }
 
-export async function loader({ request }: LoaderArgs) {
+export const loader = async ({ request }: LoaderArgs) => {
+  const userId = await requireUser(request);
   const url = new URL(request.url);
 
   const pageName = url.pathname.replace("/", "");
-  return json({ pageName });
-}
+  return json({ user: { ...userId }, pageName });
+};
 
 const IndexLayout = () => {
   const [, setShowModal] = useState(false);
+
+  const { user, pageName } = useLoaderData<typeof loader>();
 
   const handleAdder = () => {
     setShowModal(true);
   };
 
-  const user = useOptionalUser();
-
   return (
     <StyledLayout>
       <Header />
       <StyledContent sx={{ flexDirection: "row" }}>
-        <Sidebar />
+        <Sidebar user={user}/>
         <StyledBodyContent noFooter>
-          {user && (
+          {/* {user && user.id && (
             <PageHeader
-              pageName={"Store xxxxx"}
+              pageName={pageName}
               allowNew
               handleAdder={handleAdder}
             />
-          )}
+          )} */}
           <Outlet />
         </StyledBodyContent>
       </StyledContent>

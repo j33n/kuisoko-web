@@ -4,14 +4,15 @@ import {
   StyledForm,
   StyledInputHolder,
   StyledLogoBox,
-  StyledImageHolder,
   StyledTextArea,
   StyledBtnContainer,
   StyledButton,
 } from "./styles/new.styled";
 import styled from "@emotion/styled";
-import { TextInput, TextLabel } from "~/components";
-import { useRef, useState } from "react";
+
+import { useState } from "react";
+
+import { TextInput, TextLabel, ImageUploader } from "~/components";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -19,57 +20,41 @@ export const InputContainer = styled.div`
   width: 100%;
 `;
 
-interface props {
-  onChange: (file: File) => any;
-  imageUrl?: string;
-}
+const imagePlaceholder = (<img src={addStoreIcon} alt="add store icon" />);
+
 
 export default function NewStoreRoute() {
-  {
-    onChange, imageUrl;
-  }
-  const [draggingOver, setDraggingOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const dropRef = useRef(null);
+  const imageUrl = "";
+  const [formData, setFormData] = useState({});
 
-  // 1
-  const preventDefaults = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleFileUpload = async (file: File) => {
+    let inputFormData = new FormData();
+    inputFormData.append("icon", file);
+
+    // TODO: fix this
+    const response = await fetch("/avatar", {
+      method: "POST",
+      body: inputFormData,
+    });
+    const { imageUrl } = await response.json();
+    setFormData({
+      ...formData,
+      profilePicture: imageUrl,
+    });
   };
 
-  // 2
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    preventDefaults(e);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      onChange(e.dataTransfer.files[0]);
-      e.dataTransfer.clearData();
-    }
-  };
-
-  // 3
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.currentTarget.files && event.currentTarget.files[0]) {
-      onChange(event.currentTarget.files[0]);
-    }
-  };
   return (
     <StyledCreateStore>
       <StyledForm className="flex flex-col">
         <StyledInputHolder>
           <StyledLogoBox>
-            <TextLabel htmlFor="storeName">Icon:</TextLabel>
-            <StyledImageHolder>
-              <img src={addStoreIcon} alt="add store logo" />
-              <TextInput
-                type="file"
-                ref={fileInputRef}
-                onChange={handleChange}
-                name="storeLogo"
-                id="storeLogo"
-                hidden
-              />
-            </StyledImageHolder>
+            <TextLabel htmlFor="storeIcon">Icon:</TextLabel>
+            <ImageUploader
+              placeholder={imagePlaceholder}
+              // imageUrl={formData.icon || ""}
+              imageUrl={""}
+              onChange={handleFileUpload}
+            />
           </StyledLogoBox>
           <InputContainer>
             <TextInput labelText="Name:" htmlFor="storeName" name="storeName" />
