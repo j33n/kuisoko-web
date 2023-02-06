@@ -27,6 +27,7 @@ export function createStore({
 }: Pick<Store, "name" | "comment" | "icon" | "cover" | "categories" | "location"> & {
   userId: User["id"];
 }) {
+  
   return prisma.store.create({
     data: {
       name,

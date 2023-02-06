@@ -20,6 +20,7 @@ import {
 } from "./styles/new.styled";
 
 import addStoreIcon from "~/assets/images/addStoreIcon.svg";
+import { useEffect, useRef, useState } from "react";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -38,7 +39,7 @@ export async function action({ request }: ActionArgs) {
   const storeComment = formData.get("storeComment");
   const storeIcon = "";
   const storeCover = "";
-  const storeLocation = formData.get("location");
+  const storeLocation = formData.get("storeLocation");
   const storeCategories = [""];
 
   console.log("formData ===============>>>>", formData.get("storeName"));
@@ -48,8 +49,8 @@ export async function action({ request }: ActionArgs) {
       {
         errors: {
           storeName: "Store name is required",
-          storeComment: null,
           storeLocation: null,
+          storeComment: null,
         },
       },
       { status: 400 }
@@ -60,9 +61,9 @@ export async function action({ request }: ActionArgs) {
     return json(
       {
         errors: {
-          storeComment: "Store comment/description is required",
           storeName: null,
           storeLocation: null,
+          storeComment: "Store comment/description is required",
         },
       },
       { status: 400 }
@@ -73,8 +74,8 @@ export async function action({ request }: ActionArgs) {
     return json(
       {
         errors: {
-          storeLocation: "Store location is required",
           storeName: null,
+          storeLocation: "Store location is required",
           storeComment: null,
         },
       },
@@ -129,7 +130,7 @@ export default function NewStoreRoute() {
 
   return (
     <StyledCreateStore>
-      <StyledForm className="flex flex-col" method="post">
+      <StyledForm method="post">
         <StyledInputHolder>
           <StyledLogoBox>
             <TextLabel htmlFor="storeIcon">Icon:</TextLabel>
@@ -162,7 +163,7 @@ export default function NewStoreRoute() {
             id="storeComment"
             rows={5}
             cols={50}
-            error={actionData?.errors?.storeLocation}
+            error={actionData?.errors?.storeComment}
           />
         </StyledInputHolder>
         <StyledBtnContainer>

@@ -8,6 +8,7 @@ export const StyledTextArea = styled.textarea`
 export const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 export interface ITextArea

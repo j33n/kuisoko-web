@@ -5,6 +5,7 @@ import Label from "./TextLabel";
 
 import type { StyledTheme } from "~/styles/page.styled";
 import type { InputProps } from "theme-ui";
+import { useEffect, useState } from "react";
 
 export interface ITextInput extends StyledTheme {
   height?: string;
@@ -38,12 +39,11 @@ export const StyledInput = styled.input<ITextInput>`
   box-sizing: border-box;
 `;
 
-export const StyledError = styled.div`
-  padding-top: 0.25rem;
-  color: rgb(185, 28, 28);
+export const StyledError = styled.div<ITextInput>`
+  color: ${({ theme: { colors } }) => colors.error};
   font-size: 0.875rem;
   position: absolute;
-  bottom: 0;
+  bottom: -0.25rem;
 `;
 
 export interface ITextInput extends InputProps {
@@ -56,7 +56,7 @@ export interface ITextInput extends InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   sx?: any;
-  error?: string | null;
+  error?: string;
 }
 
 const TextInput = ({
@@ -65,30 +65,35 @@ const TextInput = ({
   className,
   type,
   name,
-  onChange,
+  onChange = () => {},
   onFocus,
   id,
   height,
   sx,
-  error,
+  error = "",
   ...restProps
 }: ITextInput) => {
+  const [errorText, setErrorText] = useState(error);
+
+  useEffect(() => {
+    setErrorText(error);
+  }, [error]);
+  
   return (
     <StyledInputContainer className={className} height={height} sx={sx}>
       {labelText && <Label htmlFor={htmlFor}>{labelText}</Label>}
       <StyledInput
         type={type}
         name={name}
-        onChange={onChange}
+        onChange={(e) => {
+          onChange(e);
+          setErrorText("");
+        }}
         onFocus={onFocus}
         id={id || name}
         {...restProps}
       />
-      {error && (
-        <StyledError id="body-error">
-          {error}
-        </StyledError>
-      )}
+      {!!errorText && <StyledError id="body-error">{errorText}</StyledError>}
     </StyledInputContainer>
   );
 };

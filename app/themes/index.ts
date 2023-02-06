@@ -88,6 +88,7 @@ const commonColors = {
   nav: "#d11c5a",
   navSecondary: "#b84d69",
   navHover: "rgba(209, 28, 90, 75%)",
+  error: "rgb(185, 28, 28)",
 };
 
 // light theme rules
