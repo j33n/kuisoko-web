@@ -25,7 +25,6 @@ export const StyledInputs = ({ theme: { colors } }: any) => css`
   background-color: ${colors.buttonBgHover};
   font-weight: 400;
   border: none;
-  width: 100%;
   box-shadow: inset 0 0 0 1px ${colors.buttonBgHover};
 
   &:focus {
@@ -37,6 +36,7 @@ export const StyledInputs = ({ theme: { colors } }: any) => css`
 export const StyledInput = styled.input<ITextInput>`
   ${StyledInputs}
   box-sizing: border-box;
+  width: 100%;
 `;
 
 export const StyledError = styled.div<ITextInput>`
@@ -57,6 +57,7 @@ export interface ITextInput extends InputProps {
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   sx?: any;
   error?: string;
+  required?: boolean;
 }
 
 const TextInput = ({
@@ -69,6 +70,7 @@ const TextInput = ({
   onFocus,
   id,
   height,
+  required,
   sx,
   error = "",
   ...restProps
@@ -78,6 +80,8 @@ const TextInput = ({
   useEffect(() => {
     setErrorText(error);
   }, [error]);
+
+  // TODO: error not persisting after editing
   
   return (
     <StyledInputContainer className={className} height={height} sx={sx}>
@@ -89,6 +93,7 @@ const TextInput = ({
           onChange(e);
           setErrorText("");
         }}
+        required={required}
         onFocus={onFocus}
         id={id || name}
         {...restProps}

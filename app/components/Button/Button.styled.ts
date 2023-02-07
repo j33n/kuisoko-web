@@ -20,6 +20,7 @@ export const StyledButton = styled(Button)<StyledButtonProps>`
   justify-content: center;
   border: none;
   cursor: pointer;
+  background: red;
 
   &:focus {
     border: none;

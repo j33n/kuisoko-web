@@ -1,7 +1,6 @@
 import { useActionData } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import styled from "@emotion/styled";
-import { redirect } from "@remix-run/node";
 
 import type { ActionArgs } from "@remix-run/node";
 
@@ -20,7 +19,6 @@ import {
 } from "./styles/new.styled";
 
 import addStoreIcon from "~/assets/images/addStoreIcon.svg";
-import { useEffect, useRef, useState } from "react";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -44,6 +42,7 @@ export async function action({ request }: ActionArgs) {
 
   console.log("formData ===============>>>>", formData.get("storeName"));
 
+  // server validations
   if (typeof storeName !== "string" || storeName.length === 0) {
     return json(
       {
@@ -100,33 +99,25 @@ export async function action({ request }: ActionArgs) {
 
 export default function NewStoreRoute() {
   const actionData = useActionData<typeof action>();
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   comment: "",
-  //   icon: "",
-  //   cover: "",
-  //   location: "",
-  //   categories: [],
-  // });
 
-  console.log("----------------->>>>>>", actionData);
+  const handleFileUpload = async (file: File) => {
+    let inputFormData = new FormData();
+    inputFormData.append("storeIcon", file);
 
-  // const handleFileUpload = async (file: File) => {
-  //   let inputFormData = new FormData();
-  //   inputFormData.append("storeIcon", file);
+    // TODO: fix this
+    // const response = await fetch("/avatar", {
+    //   method: "POST",
+    //   body: inputFormData,
+    // });
 
-  //   // TODO: fix this
-  //   // const response = await fetch("/avatar", {
-  //   //   method: "POST",
-  //   //   body: inputFormData,
-  //   // });
+    // const { storeIcon } = await response.json();
+    // setFormData({
+    //   ...formData,
+    //   icon: storeIcon,
+    // });
+  };
 
-  //   // const { storeIcon } = await response.json();
-  //   // setFormData({
-  //   //   ...formData,
-  //   //   icon: storeIcon,
-  //   // });
-  // };
+  console.log("+++++++++++++++++++✅", actionData?.errors);
 
   return (
     <StyledCreateStore>
@@ -138,7 +129,7 @@ export default function NewStoreRoute() {
               placeholder={imagePlaceholder}
               // imageUrl={formData.icon || ""}
               imageUrl={""}
-              onChange={() => {}}
+              onChange={handleFileUpload}
             />
           </StyledLogoBox>
           <InputContainer>
@@ -146,24 +137,28 @@ export default function NewStoreRoute() {
               labelText="Name:"
               htmlFor="storeName"
               name="storeName"
-              error={actionData?.errors?.storeName}
+              error={actionData?.errors?.storeName || ""}
+              required
             />
             <TextInput
               labelText="Location:"
               htmlFor="storeLocation"
               name="storeLocation"
-              error={actionData?.errors?.storeLocation}
+              error={actionData?.errors?.storeLocation || ""}
+              required
             />
           </InputContainer>
         </StyledInputHolder>
         <StyledInputHolder>
-          <TextLabel htmlFor="storeComment">Comment:</TextLabel>
           <TextArea
+            labelText="Comment:"
+            htmlFor="storeComment"
             name="storeComment"
             id="storeComment"
             rows={5}
             cols={50}
             error={actionData?.errors?.storeComment}
+            required
           />
         </StyledInputHolder>
         <StyledBtnContainer>
