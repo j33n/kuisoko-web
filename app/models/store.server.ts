@@ -20,11 +20,9 @@ export function createStore({
   name,
   comment,
   icon,
-  cover,
-  categories,
   location,
   userId,
-}: Pick<Store, "name" | "comment" | "icon" | "cover" | "categories" | "location"> & {
+}: Pick<Store, "name" | "comment" | "icon" | "location"> & {
   userId: User["id"];
 }) {
   
@@ -33,8 +31,6 @@ export function createStore({
       name,
       comment,
       icon,
-      cover,
-      categories,
       location,
       addedBy: {
         connect: {

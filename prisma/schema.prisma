@@ -90,8 +90,8 @@ model Store {
   name        String
   comment     String
   icon        String
-  cover       String
-  categories  String[]
+  cover       String?
+  categories  String[] @default([])
   location    String
   items       Item[]
 

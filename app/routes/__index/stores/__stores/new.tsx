@@ -40,12 +40,9 @@ export async function action({ request }: ActionArgs) {
   );
 
   const storeIcon = formData.get("storeIcon");
-
   const storeName = formData.get("storeName");
   const storeComment = formData.get("storeComment");
-  const storeCover = "";
   const storeLocation = formData.get("storeLocation");
-  const storeCategories = [""];
 
   // server validations
   if (typeof storeName !== "string" || storeName.length === 0) {
@@ -55,6 +52,7 @@ export async function action({ request }: ActionArgs) {
           storeName: "Store name is required",
           storeLocation: null,
           storeComment: null,
+          storeIcon: null,
         },
       },
       { status: 400 }
@@ -68,6 +66,7 @@ export async function action({ request }: ActionArgs) {
           storeName: null,
           storeLocation: null,
           storeComment: "Store comment/description is required",
+          storeIcon: null,
         },
       },
       { status: 400 }
@@ -81,6 +80,21 @@ export async function action({ request }: ActionArgs) {
           storeName: null,
           storeLocation: "Store location is required",
           storeComment: null,
+          storeIcon: null,
+        },
+      },
+      { status: 400 }
+    );
+  }
+
+  if (typeof storeIcon !== "string" || storeIcon.length === 0) {
+    return json(
+      {
+        errors: {
+          storeName: null,
+          storeLocation: null,
+          storeComment: null,
+          storeIcon: "Store icon is required",
         },
       },
       { status: 400 }
@@ -92,8 +106,6 @@ export async function action({ request }: ActionArgs) {
     name: storeName,
     comment: storeComment,
     icon: storeIcon,
-    cover: storeCover,
-    categories: storeCategories,
     location: storeLocation,
     userId: user.id,
   });
