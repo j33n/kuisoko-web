@@ -1,6 +1,5 @@
 import { useActionData } from "@remix-run/react";
 import {
-  UploadHandler,
   json,
   redirect,
   unstable_parseMultipartFormData,
@@ -23,9 +22,6 @@ import {
   StyledButton,
 } from "./styles/new.styled";
 
-import addStoreIcon from "~/assets/images/addStoreIcon.svg";
-// import { s3, uploadHandler, uploadStoreIcon } from "~/models/storage.server";
-
 import { useState } from "react";
 import { s3UploaderHandler } from "~/models/uploader-handler.server";
 
@@ -35,14 +31,12 @@ export const InputContainer = styled.div`
   width: 100%;
 `;
 
-const imagePlaceholder = <img src={addStoreIcon} alt="add store icon" />;
-
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
 
   const formData = await unstable_parseMultipartFormData(
     request,
-    s3UploaderHandler,
+    s3UploaderHandler
   );
 
   const storeIcon = formData.get("storeIcon");
@@ -97,7 +91,7 @@ export async function action({ request }: ActionArgs) {
   const store = await createStore({
     name: storeName,
     comment: storeComment,
-    icon: "",
+    icon: storeIcon,
     cover: storeCover,
     categories: storeCategories,
     location: storeLocation,
@@ -109,7 +103,6 @@ export async function action({ request }: ActionArgs) {
 
 export default function NewStoreRoute() {
   const actionData = useActionData<typeof action>();
-  const [progress, setProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState<any>(null);
 
   return (
@@ -119,7 +112,6 @@ export default function NewStoreRoute() {
           <StyledLogoBox>
             <TextLabel htmlFor="storeIcon">Icon:</TextLabel>
             <ImageUploader
-              placeholder={imagePlaceholder}
               // imageUrl={formData.icon || ""}
               imageUrl={""}
               name="storeIcon"
@@ -133,14 +125,14 @@ export default function NewStoreRoute() {
               htmlFor="storeName"
               name="storeName"
               error={actionData?.errors?.storeName || ""}
-              required={false}
+              required
             />
             <TextInput
               labelText="Location:"
               htmlFor="storeLocation"
               name="storeLocation"
               error={actionData?.errors?.storeLocation || ""}
-              required={false}
+              required
             />
           </InputContainer>
         </StyledInputHolder>
@@ -153,7 +145,7 @@ export default function NewStoreRoute() {
             rows={5}
             cols={50}
             error={actionData?.errors?.storeComment}
-            required={false}
+            required
           />
         </StyledInputHolder>
         <StyledBtnContainer>
