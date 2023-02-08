@@ -1,5 +1,10 @@
 import { useActionData } from "@remix-run/react";
-import { json, redirect } from "@remix-run/node";
+import {
+  UploadHandler,
+  json,
+  redirect,
+  unstable_parseMultipartFormData,
+} from "@remix-run/node";
 import styled from "@emotion/styled";
 
 import type { ActionArgs } from "@remix-run/node";
@@ -19,6 +24,10 @@ import {
 } from "./styles/new.styled";
 
 import addStoreIcon from "~/assets/images/addStoreIcon.svg";
+// import { s3, uploadHandler, uploadStoreIcon } from "~/models/storage.server";
+
+import { useState } from "react";
+import { s3UploaderHandler } from "~/models/uploader-handler.server";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -31,16 +40,18 @@ const imagePlaceholder = <img src={addStoreIcon} alt="add store icon" />;
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
 
-  const formData = await request.formData();
+  const formData = await unstable_parseMultipartFormData(
+    request,
+    s3UploaderHandler,
+  );
+
+  const storeIcon = formData.get("storeIcon");
 
   const storeName = formData.get("storeName");
   const storeComment = formData.get("storeComment");
-  const storeIcon = "";
   const storeCover = "";
   const storeLocation = formData.get("storeLocation");
   const storeCategories = [""];
-
-  console.log("formData ===============>>>>", formData.get("storeName"));
 
   // server validations
   if (typeof storeName !== "string" || storeName.length === 0) {
@@ -82,46 +93,28 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
+  // create store
   const store = await createStore({
     name: storeName,
     comment: storeComment,
-    icon: storeIcon,
+    icon: "",
     cover: storeCover,
     categories: storeCategories,
     location: storeLocation,
     userId: user.id,
   });
 
-  console.log("🎉", store);
-
-  return redirect(`/store/${store.id}`);
+  return redirect(`/stores/${store.id}`);
 }
 
 export default function NewStoreRoute() {
   const actionData = useActionData<typeof action>();
-
-  const handleFileUpload = async (file: File) => {
-    let inputFormData = new FormData();
-    inputFormData.append("storeIcon", file);
-
-    // TODO: fix this
-    // const response = await fetch("/avatar", {
-    //   method: "POST",
-    //   body: inputFormData,
-    // });
-
-    // const { storeIcon } = await response.json();
-    // setFormData({
-    //   ...formData,
-    //   icon: storeIcon,
-    // });
-  };
-
-  console.log("+++++++++++++++++++✅", actionData?.errors);
+  const [progress, setProgress] = useState(0);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
 
   return (
     <StyledCreateStore>
-      <StyledForm method="post">
+      <StyledForm method="post" encType="multipart/form-data">
         <StyledInputHolder>
           <StyledLogoBox>
             <TextLabel htmlFor="storeIcon">Icon:</TextLabel>
@@ -129,7 +122,9 @@ export default function NewStoreRoute() {
               placeholder={imagePlaceholder}
               // imageUrl={formData.icon || ""}
               imageUrl={""}
-              onChange={handleFileUpload}
+              name="storeIcon"
+              id="storeIcon"
+              handleFileChange={(file) => setSelectedFile(file)}
             />
           </StyledLogoBox>
           <InputContainer>
@@ -138,14 +133,14 @@ export default function NewStoreRoute() {
               htmlFor="storeName"
               name="storeName"
               error={actionData?.errors?.storeName || ""}
-              required
+              required={false}
             />
             <TextInput
               labelText="Location:"
               htmlFor="storeLocation"
               name="storeLocation"
               error={actionData?.errors?.storeLocation || ""}
-              required
+              required={false}
             />
           </InputContainer>
         </StyledInputHolder>
@@ -158,7 +153,7 @@ export default function NewStoreRoute() {
             rows={5}
             cols={50}
             error={actionData?.errors?.storeComment}
-            required
+            required={false}
           />
         </StyledInputHolder>
         <StyledBtnContainer>

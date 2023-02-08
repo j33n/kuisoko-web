@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import type { StyledTheme } from "~/styles/page.styled";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export const StyledImageHolder = styled.div<StyledTheme>`
   display: flex;
@@ -20,15 +20,26 @@ export const StyledImageHolder = styled.div<StyledTheme>`
 export interface IImageUploader {
   placeholder?: JSX.Element;
   imageUrl?: string;
-  onChange: (file: File) => any;
+  handleFileChange: (file: File) => any;
+  name?: string;
+  id?: string;
 }
 
-const ImageUploader = ({ placeholder, imageUrl, onChange }: IImageUploader) => {
+const ImageUploader = ({
+  placeholder,
+  imageUrl,
+  handleFileChange,
+  name,
+  id,
+}: IImageUploader) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // const [progress, setProgress] = useState(0);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.files && event.currentTarget.files[0]) {
-      onChange(event.currentTarget.files[0]);
+      setSelectedFile(event.currentTarget.files[0]);
+      handleFileChange(event.currentTarget.files[0]);
     }
   };
 
@@ -39,9 +50,9 @@ const ImageUploader = ({ placeholder, imageUrl, onChange }: IImageUploader) => {
       <input
         type="file"
         ref={fileInputRef}
-        onChange={handleChange}
-        name="storeLogo"
-        id="storeLogo"
+        onChange={handleFileInput}
+        name={name}
+        id={id || name}
         hidden
       />
     </StyledImageHolder>

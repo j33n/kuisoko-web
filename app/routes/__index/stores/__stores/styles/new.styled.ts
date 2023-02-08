@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { Form } from "@remix-run/react";
 import type { StyledTheme } from "~/styles/page.styled";
-import { StyledInputs } from "~/components/Forms/TextInput";
 
 export const StyledCreateStore = styled.div<StyledTheme>`
   display: flex;
