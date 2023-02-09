@@ -35,25 +35,6 @@ export const StyledForm = styled(Form)<StyledTheme>`
   }
 `;
 
-export const StyledButton = styled.button<StyledTheme>`
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
-  font-weight: 600;
-  background-color: transparent;
-  border: 1px solid ${({ theme: { colors } }) => colors.nav};
-  color: ${({ theme: { colors } }) => colors.nav};
-  min-width: 30%;
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    color: ${({ theme: { colors } }) => colors.white};
-    background-color: ${({ theme: { colors } }) => colors.nav};
-  }
-`;
-
 export const StyledBtnContainer = styled.div<StyledTheme>`
   display: flex;
   width: 100%;

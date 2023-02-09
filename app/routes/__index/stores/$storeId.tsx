@@ -25,23 +25,23 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json({ store });
 };
 
-export async function action({ request }: ActionArgs) {
-  const user = await requireUser(request);
+// export async function action({ request }: ActionArgs) {
+//   const user = await requireUser(request);
 
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    s3UploaderHandler
-  );
+//   const formData = await unstable_parseMultipartFormData(
+//     request,
+//     s3UploaderHandler
+//   );
 
-  const storeIcon = formData.get("storeIcon");
+//   const storeIcon = formData.get("storeIcon");
 
-  // create store
-  const updateStore = await updateStoreIcon({
-    icon: storeIcon,
-  });
+//   // create store
+//   const updateStore = await updateStoreIcon({
+//     icon: storeIcon,
+//   });
   
-  return null;
-}
+//   return null;
+// }
 
 export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();

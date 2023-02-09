@@ -9,6 +9,7 @@ import TextInput from './Forms/TextInput';
 import TextLabel from './Forms/TextLabel';
 import ImageUploader from './ImageUploader/ImageUploader';
 import TextArea from './Forms/TextArea';
+import Loader from './Loader/Loader';
 
 export {
   Header,
@@ -22,4 +23,5 @@ export {
   TextLabel,
   ImageUploader,
   TextArea,
+  Loader,
 };

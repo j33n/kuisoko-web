@@ -1,8 +1,5 @@
-import { useActionData } from "@remix-run/react";
-import {
-  json,
-  redirect,
-} from "@remix-run/node";
+import { useActionData, useTransition } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
 import styled from "@emotion/styled";
 
 import type { ActionArgs } from "@remix-run/node";
@@ -10,14 +7,13 @@ import type { ActionArgs } from "@remix-run/node";
 import { createStore } from "~/models/store.server";
 import { requireUser } from "~/services/session.server";
 
-import { TextInput, TextArea } from "~/components";
+import { TextInput, TextArea, Button } from "~/components";
 
 import {
   StyledCreateStore,
   StyledForm,
   StyledInputHolder,
   StyledBtnContainer,
-  StyledButton,
 } from "./styles/new.styled";
 
 export const InputContainer = styled.div`
@@ -90,6 +86,7 @@ export async function action({ request }: ActionArgs) {
 
 export default function NewStoreRoute() {
   const actionData = useActionData<typeof action>();
+  const transition = useTransition();
 
   return (
     <StyledCreateStore>
@@ -125,7 +122,9 @@ export default function NewStoreRoute() {
           />
         </StyledInputHolder>
         <StyledBtnContainer>
-          <StyledButton type="submit">Create Store</StyledButton>
+          <Button type="submit" loading="loading">
+            Create Store
+          </Button>
         </StyledBtnContainer>
       </StyledForm>
     </StyledCreateStore>

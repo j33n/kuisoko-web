@@ -13,23 +13,43 @@ export type StyledIconProps = {
 };
 
 export const StyledButton = styled(Button)<StyledButtonProps>`
-  border-radius: 0.5rem;
   min-width: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   cursor: pointer;
-  background: red;
+  background-color: transparent;
+  padding: 0.5rem;
+  border: 1px solid ${({ theme: { colors } }) => colors.nav};
+  color: ${({ theme: { colors } }) => colors.nav};
+  font-weight: 600;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
+  position: relative;
 
+  &:hover,
   &:focus {
-    border: none;
-    box-shadow: ${({ theme: { colors } }) => colors.boxShadow};
+    color: ${({ theme: { colors } }) => colors.white};
+    background-color: ${({ theme: { colors } }) => colors.nav};
   }
+
+  ${({ disabled, theme: { colors } }) =>
+    disabled &&
+    `
+    cursor: not-allowed;
+    color: ${colors.white};
+    background-color: ${colors.nav};
+    
+
+    &:hover, &:focus {
+      background-color: transparent;
+      color: ${colors.nav};
+    }
+  `}
 
   @media (max-width: 425px) {
     width: 100%;
-  };
+  }
 `;
 
 export const StyledIcon = styled(Box)<StyledIconProps>`
