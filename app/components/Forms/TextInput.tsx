@@ -7,11 +7,11 @@ import type { StyledTheme } from "~/styles/page.styled";
 import type { InputProps } from "theme-ui";
 import { useEffect, useState } from "react";
 
-export interface ITextInput extends StyledTheme {
+export interface TextInputProps extends StyledTheme {
   height?: string;
 }
 
-export const StyledInputContainer = styled.div<ITextInput>`
+export const StyledInputContainer = styled.div<TextInputProps>`
   height: ${({ height }) => height || "100%"};
   position: relative;
 `;
@@ -33,25 +33,25 @@ export const StyledInputs = ({ theme: { colors } }: any) => css`
   }
 `;
 
-export const StyledInput = styled.input<ITextInput>`
+export const StyledInput = styled.input<TextInputProps>`
   ${StyledInputs}
   box-sizing: border-box;
   width: 100%;
 `;
 
-export const StyledError = styled.div<ITextInput>`
+export const StyledError = styled.div<TextInputProps>`
   color: ${({ theme: { colors } }) => colors.error};
   font-size: 0.875rem;
   position: absolute;
   bottom: -0.25rem;
 `;
 
-export interface ITextInput extends InputProps {
+export interface ITextInput extends TextInputProps {
   htmlFor?: string | "";
   labelText?: string;
   className?: string;
   type?: string | "text";
-  name?: string;
+  name: string;
   id?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -84,7 +84,7 @@ const TextInput = ({
   // TODO: error not persisting after editing
   
   return (
-    <StyledInputContainer className={className} height={height} sx={sx}>
+    <StyledInputContainer className={className} height={height}>
       {labelText && <Label htmlFor={htmlFor}>{labelText}</Label>}
       <StyledInput
         type={type}

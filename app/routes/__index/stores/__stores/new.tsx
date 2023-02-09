@@ -2,7 +2,6 @@ import { useActionData } from "@remix-run/react";
 import {
   json,
   redirect,
-  unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import styled from "@emotion/styled";
 
@@ -11,19 +10,15 @@ import type { ActionArgs } from "@remix-run/node";
 import { createStore } from "~/models/store.server";
 import { requireUser } from "~/services/session.server";
 
-import { TextInput, TextLabel, ImageUploader, TextArea } from "~/components";
+import { TextInput, TextArea } from "~/components";
 
 import {
   StyledCreateStore,
   StyledForm,
   StyledInputHolder,
-  StyledLogoBox,
   StyledBtnContainer,
   StyledButton,
 } from "./styles/new.styled";
-
-import { useState } from "react";
-import { s3UploaderHandler } from "~/models/uploader-handler.server";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -33,13 +28,8 @@ export const InputContainer = styled.div`
 
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
+  const formData = await request.formData();
 
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    s3UploaderHandler
-  );
-
-  const storeIcon = formData.get("storeIcon");
   const storeName = formData.get("storeName");
   const storeComment = formData.get("storeComment");
   const storeLocation = formData.get("storeLocation");
@@ -87,25 +77,10 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  if (typeof storeIcon !== "string" || storeIcon.length === 0) {
-    return json(
-      {
-        errors: {
-          storeName: null,
-          storeLocation: null,
-          storeComment: null,
-          storeIcon: "Store icon is required",
-        },
-      },
-      { status: 400 }
-    );
-  }
-
   // create store
   const store = await createStore({
     name: storeName,
     comment: storeComment,
-    icon: storeIcon,
     location: storeLocation,
     userId: user.id,
   });
@@ -115,22 +90,11 @@ export async function action({ request }: ActionArgs) {
 
 export default function NewStoreRoute() {
   const actionData = useActionData<typeof action>();
-  const [selectedFile, setSelectedFile] = useState<any>(null);
 
   return (
     <StyledCreateStore>
       <StyledForm method="post" encType="multipart/form-data">
         <StyledInputHolder>
-          <StyledLogoBox>
-            <TextLabel htmlFor="storeIcon">Icon:</TextLabel>
-            <ImageUploader
-              // imageUrl={formData.icon || ""}
-              imageUrl={""}
-              name="storeIcon"
-              id="storeIcon"
-              handleFileChange={(file) => setSelectedFile(file)}
-            />
-          </StyledLogoBox>
           <InputContainer>
             <TextInput
               labelText="Name:"
@@ -164,11 +128,6 @@ export default function NewStoreRoute() {
           <StyledButton type="submit">Create Store</StyledButton>
         </StyledBtnContainer>
       </StyledForm>
-
-      {/* TODO: investigate using images so avoid naked pages */}
-      {/* <ImageContainer align="bottomRight">
-        <StyledImg src={shopImage} alt="shop placeholder" />
-      </ImageContainer> */}
     </StyledCreateStore>
   );
 }

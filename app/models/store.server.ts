@@ -19,10 +19,9 @@ export function getStore({
 export function createStore({
   name,
   comment,
-  icon,
   location,
   userId,
-}: Pick<Store, "name" | "comment" | "icon" | "location"> & {
+}: Pick<Store, "name" | "comment" | "location"> & {
   userId: User["id"];
 }) {
   
@@ -30,7 +29,6 @@ export function createStore({
     data: {
       name,
       comment,
-      icon,
       location,
       addedBy: {
         connect: {

@@ -89,7 +89,7 @@ model Store {
   id          String   @id @default(cuid())
   name        String
   comment     String
-  icon        String
+  icon        String?
   cover       String?
   categories  String[] @default([])
   location    String
