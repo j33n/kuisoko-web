@@ -3,7 +3,6 @@ import React from "react";
 
 import { StyledButton, StyledIcon } from "./Button.styled";
 import Loader from "../Loader/Loader";
-import type { TransitionStates } from "@remix-run/react/dist/transition";
 
 export interface IButton {
   type?: "submit" | "button" | "reset";
@@ -34,7 +33,7 @@ export const Button = ({
       sx={{ ...sx }}
     >
       {loading !== "idle" && <Loader />}
-      {children}
+      {loading === "idle" && children}
       {icon && <StyledIcon>{icon}</StyledIcon>}
     </StyledButton>
   );

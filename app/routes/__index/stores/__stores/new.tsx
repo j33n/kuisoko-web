@@ -122,7 +122,11 @@ export default function NewStoreRoute() {
           />
         </StyledInputHolder>
         <StyledBtnContainer>
-          <Button type="submit" loading="loading">
+          <Button
+            type="submit"
+            loading={transition.state}
+            sx={{ width: "30%" }}
+          >
             Create Store
           </Button>
         </StyledBtnContainer>

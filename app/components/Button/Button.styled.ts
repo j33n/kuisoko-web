@@ -33,17 +33,12 @@ export const StyledButton = styled(Button)<StyledButtonProps>`
     background-color: ${({ theme: { colors } }) => colors.nav};
   }
 
-  ${({ disabled, theme: { colors } }) =>
-    disabled &&
-    `
+  ${({ disabled, theme: { colors } }) => disabled && `
     cursor: not-allowed;
-    color: ${colors.white};
     background-color: ${colors.nav};
     
-
     &:hover, &:focus {
-      background-color: transparent;
-      color: ${colors.nav};
+      background-color: ${colors.nav};
     }
   `}
 
