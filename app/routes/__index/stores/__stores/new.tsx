@@ -125,7 +125,7 @@ export default function NewStoreRoute() {
           <Button
             type="submit"
             loading={transition.state}
-            sx={{ width: "30%" }}
+            sx={{ width: "20vw" }}
           >
             Create Store
           </Button>

@@ -76,8 +76,16 @@ export const StyledStoresList = styled.div<StyledTheme>`
   width: 100%;
   border-top: 1px solid ${({ theme: { colors } }) => colors.border};
   border-bottom: 1px solid ${({ theme: { colors } }) => colors.border};
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   overflow: scroll;
+`;
+
+export const StyledTitle = styled(Text)<StyledTheme>`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: ${({ theme: { colors } }) => colors.text};
+  margin-bottom: 0.5rem;
+  text-align: center;
 `;
 
 const profilePicture = faker.image.avatar();
@@ -100,14 +108,16 @@ const Sidebar = () => {
         ))}
       </StyledSidebarLinks>
       <StyledStoresList>
-        <div>My stores</div>
+        <StyledTitle>All Stores</StyledTitle>
         {storeList.map((store) => (
-          <StyledLink key={store.id}>
-            <StyledMenuIcon>
-              <CiShop />
-            </StyledMenuIcon>
-            <StyledAnchor>{store.name}</StyledAnchor>
-          </StyledLink>
+          <Link to={`/stores/${store.id}`} key={store.id}>
+            <StyledLink>
+              <StyledMenuIcon>
+                {store.icon ? <img src={store.icon} alt="" /> : <CiShop />}
+              </StyledMenuIcon>
+              <StyledAnchor>{store.name}</StyledAnchor>
+            </StyledLink>
+          </Link>
         ))}
       </StyledStoresList>
       <StyledSidebarFooter>
@@ -140,3 +150,5 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+// TODO: change all stores to favorites

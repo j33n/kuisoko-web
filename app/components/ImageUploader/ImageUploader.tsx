@@ -32,7 +32,7 @@ export const StyledImagePlaceholder = styled.img`
 export interface IImageUploader {
   placeholder?: JSX.Element;
   imageUrl?: string;
-  handleFileChange: (file: File) => any;
+  handleFileChange?: any;
   name?: string;
   id?: string;
 }
@@ -60,7 +60,8 @@ const ImageUploader = ({
   };
 
   return (
-    <StyledImageHolder onClick={() => fileInputRef.current?.click()}>
+    <StyledImageHolder onClick={() => {}}>
+      {/* fileInputRef.current?.click() */}
       {!imageUrl &&
         !selectedFile &&
         (placeholder ? (

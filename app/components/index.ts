@@ -10,6 +10,9 @@ import TextLabel from './Forms/TextLabel';
 import ImageUploader from './ImageUploader/ImageUploader';
 import TextArea from './Forms/TextArea';
 import Loader from './Loader/Loader';
+import Dialog from "./Dialog/Dialog";
+import ImageDialog from "./ImageUploader/ImageDialog";
+import EmojiRenderer from "./EmojiRenderer/EmojiRenderer";
 
 export {
   Header,
@@ -24,4 +27,7 @@ export {
   ImageUploader,
   TextArea,
   Loader,
+  Dialog,
+  ImageDialog,
+  EmojiRenderer,
 };

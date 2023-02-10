@@ -47,15 +47,6 @@ export const StyledTitle = styled.div<StyledTheme>`
   text-transform: uppercase;
 `;
 
-export const StyledLogoBox = styled.div<StyledTheme>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-  max-width: 15vw;
-`;
-
 export const StyledImageHolder = styled.div<StyledTheme>`
   display: flex;
   justify-content: center;
