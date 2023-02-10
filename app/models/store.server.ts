@@ -39,11 +39,26 @@ export function createStore({
   });
 }
 
+export function getStores(userId: User["id"]) {
+  return prisma.store.findMany({
+    where: { addedBy: { id: userId } },
+    select: {
+      id: true,
+      name: true,
+      comment: true,
+      location: true,
+      icon: true,
+      cover: true,
+    },
+    orderBy: { updatedAt: "desc" },
+  });
+};
+
 export function deleteStore({
   id,
   userId,
 }: Pick<Store, "id"> & { userId: User["id"] }) {
-  return prisma.note.deleteMany({
+  return prisma.store.deleteMany({
     where: { id, userId },
   });
 }

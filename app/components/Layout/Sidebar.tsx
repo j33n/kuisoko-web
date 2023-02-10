@@ -1,5 +1,6 @@
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import { faker } from "@faker-js/faker";
+import styled from "@emotion/styled";
 import {
   CiShoppingCart,
   CiShop,
@@ -26,6 +27,10 @@ import {
   StyledToolbarItem,
 } from "./Layout.styled";
 import { StyledLogoutBtn } from "../Header/Header.styled";
+
+import type { StyledTheme } from "~/styles/page.styled";
+
+import type { loader } from "~/routes/__index";
 
 export interface ISidebar {
   user: any;
@@ -65,9 +70,23 @@ const links = [
   // },
 ];
 
+export const StyledStoresList = styled.div<StyledTheme>`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid ${({ theme: { colors } }) => colors.border};
+  border-bottom: 1px solid ${({ theme: { colors } }) => colors.border};
+  padding: 1rem 0;
+  overflow: scroll;
+`;
+
 const profilePicture = faker.image.avatar();
 
-const Sidebar = ({ user }: ISidebar) => {
+const Sidebar = () => {
+  const data = useLoaderData<typeof loader>();
+
+  const { user, storeList } = data;
+
   return (
     <StyledSidebar>
       <StyledSidebarLinks>
@@ -80,6 +99,17 @@ const Sidebar = ({ user }: ISidebar) => {
           </Link>
         ))}
       </StyledSidebarLinks>
+      <StyledStoresList>
+        <div>My stores</div>
+        {storeList.map((store) => (
+          <StyledLink key={store.id}>
+            <StyledMenuIcon>
+              <CiShop />
+            </StyledMenuIcon>
+            <StyledAnchor>{store.name}</StyledAnchor>
+          </StyledLink>
+        ))}
+      </StyledStoresList>
       <StyledSidebarFooter>
         <StyledBottomMenu>
           <Form method="post" action="/logout">

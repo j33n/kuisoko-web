@@ -70,16 +70,12 @@ export const StyledAnchor = styled.span<StyledTheme>`
   border-radius: 0.5rem;
   color: ${({ theme: { colors } }) => colors.text};
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
-  font-size: 1rem;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes[0]};
   justify-content: center;
   align-items: center;
 
   @media only screen and (max-width: 480px) {
     font-size: 3.8vw;
-  }
-
-  @media only screen and (min-width: 768px) {
-    font-size: 1rem;
   }
 `;
 
@@ -109,6 +105,7 @@ export const StyledToolbarItem = styled.div<StyledLayoutProps>`
 
 export const StyledSidebar = styled(Block)<StyledLayoutProps>`
   max-width: ${({ size }) => size || "30vw"};
+  justify-content: space-between;
 
   /* mobile size */
   @media (max-width: 480px) {
@@ -136,7 +133,7 @@ export const StyledSidebar = styled(Block)<StyledLayoutProps>`
 
 export const StyledSidebarLinks = styled(Block)<StyledTheme>`
   width: 100%;
-  height: calc(100vh - (92px + 5rem));
+  /* height: calc(100vh - (92px + 5rem)); */
   justify-content: flex-start;
   background: ${({ theme: { colors } }) => colors.background};
   overflow: auto;
@@ -229,8 +226,8 @@ export const StyledMenuIcon = styled.span`
   justify-content: center;
 
   svg {
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
 
     /* mobile size */
     @media (max-width: 480px) {
