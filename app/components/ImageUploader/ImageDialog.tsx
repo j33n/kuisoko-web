@@ -1,36 +1,38 @@
-import styled from "@emotion/styled";
+import { CiFaceSmile } from "react-icons/ci";
 
 import { Dialog, EmojiRenderer, ImageUploader } from "~/components";
 
-import { StyledTabsContent, StyledTabsList, StyledTabsRoot, StyledTabsTrigger } from "./ImageDialog.styled";
-import type { StyledTheme } from "~/styles/page.styled";
+import {
+  StyledIcon,
+  StyledTabsContent,
+  StyledTabsList,
+  StyledTabsRoot,
+  StyledTabsTrigger,
+  StyledText,
+} from "./ImageDialog.styled";
 
-import uploadPlaceholder from "~/assets/images/addStoreIcon.svg";
-import { IconButton } from "../Dialog/Dialog.styled";
-
-export const StyledImagePlaceholder = styled.img<StyledTheme>`
-  display: block;
-  width: 5rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-
-  &:hover {
-    background-color: ${({ theme: { colors } }) => colors.buttonBgHover};
-  }
-`;
+const DialogTrigger = () => (
+  <StyledIcon>
+    <CiFaceSmile />
+    <StyledText>Add Icon</StyledText>
+  </StyledIcon>
+);
 
 const ImageDialog = () => {
   return (
     <Dialog
-      trigger={<IconButton></IconButton>}
+      trigger={
+        <div>
+          <DialogTrigger />
+        </div>
+      }
     >
-      <StyledTabsRoot defaultValue="upload">
+      <StyledTabsRoot defaultValue="custom">
         <StyledTabsList aria-label="Upload store icon">
-          <StyledTabsTrigger value="upload">Upload</StyledTabsTrigger>
+          <StyledTabsTrigger value="custom">Custom</StyledTabsTrigger>
           <StyledTabsTrigger value="emoji">Emoji</StyledTabsTrigger>
         </StyledTabsList>
-        <StyledTabsContent value="upload">
+        <StyledTabsContent value="custom">
           <ImageUploader />
         </StyledTabsContent>
         <StyledTabsContent value="emoji">

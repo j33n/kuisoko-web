@@ -1,4 +1,18 @@
 import type { ColorModesScale, Theme } from "theme-ui";
+import {
+  gray,
+  blue,
+  red,
+  green,
+  crimson,
+  grayDark,
+  blueDark,
+  redDark,
+  greenDark,
+  crimsonDark,
+  blackA,
+  whiteA,
+} from "@radix-ui/colors";
 
 // general theme rules
 export const base: Theme = {
@@ -90,6 +104,8 @@ const commonColors = {
   navHover: "rgba(209, 28, 90, 75%)",
   error: "rgb(185, 28, 28)",
   overlay: "rgba(0, 0, 0, 0.5)",
+  ...whiteA,
+  ...blackA,
 };
 
 // light theme rules
@@ -101,9 +117,15 @@ export const light: ColorModesScale = {
   text: "#202224",
   textDisabled: "#ebebe4",
   fontWeight: "400",
-  boxShadow: "rgba(201, 191, 191, 1) 0px 0px 3px 0px, rgba(0, 0, 0, 56%) 0px 3px 7px -3px",
+  boxShadow:
+    "rgba(201, 191, 191, 1) 0px 0px 3px 0px, rgba(0, 0, 0, 56%) 0px 3px 7px -3px",
   boxShadowFocus:
     "rgba(38, 164, 218, 33%) 0px 6px 12px -2px, rgb(209 28 90) 0px 3px 7px -3px",
+  ...gray,
+  ...blue,
+  ...red,
+  ...green,
+  ...crimson,
   ...commonColors,
 };
 
@@ -118,7 +140,13 @@ export const dark: ColorModesScale = {
   fontWeight: "200",
   boxShadow:
     "rgba(252, 252, 252, 1) 0px 0px 3px 0px, rgba(255, 255, 255, 40%) 0px 3px 7px -3px",
-  boxShadowFocus: "rgba(255, 255, 255, 40%) 0px 6px 12px -2px, rgba(209, 28, 90, 50%) 0px 3px 7px -3px",
+  boxShadowFocus:
+    "rgba(255, 255, 255, 40%) 0px 6px 12px -2px, rgba(209, 28, 90, 50%) 0px 3px 7px -3px",
+  ...grayDark,
+  ...blueDark,
+  ...redDark,
+  ...greenDark,
+  ...crimsonDark,
   ...commonColors,
 };
 

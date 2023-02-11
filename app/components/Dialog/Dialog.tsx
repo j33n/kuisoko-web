@@ -8,9 +8,8 @@ import {
   DialogDescription,
   DialogOverlay,
   DialogTitle,
-  Flex,
-  IconButton,
 } from "./Dialog.styled";
+import { Box } from "theme-ui";
 
 export interface IDialog {
   trigger: React.ReactNode;
@@ -41,17 +40,15 @@ export const Dialog = ({
           {description && <DialogDescription>{description}</DialogDescription>}
           {children}
           {allowButton && (
-            <Flex css={{ marginTop: 25, justifyContent: "flex-end" }}>
+            <Box sx={{ marginTop: "25px", justifyContent: "flex-end" }}>
               <rDialog.Close asChild>
                 <Button>{buttonText || "Save changes"}</Button>
               </rDialog.Close>
-            </Flex>
+            </Box>
           )}
           {closeable && (
             <rDialog.Close asChild>
-              <IconButton aria-label="Close">
-                <CiCircleRemove />
-              </IconButton>
+              Close x
             </rDialog.Close>
           )}
         </DialogContent>

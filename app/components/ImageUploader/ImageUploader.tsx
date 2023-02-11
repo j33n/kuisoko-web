@@ -11,7 +11,6 @@ export const StyledImageHolder = styled.div<StyledTheme>`
   justify-content: center;
   align-items: center;
   align-items: center;
-  background-color: ${({ theme: { colors } }) => colors.buttonBgHover};
   border-radius: 0.5rem;
   padding: 5rem;
   cursor: pointer;
