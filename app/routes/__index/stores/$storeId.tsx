@@ -66,6 +66,8 @@ export const StyledContent = styled.div`
 
 export const StyledSideRight = styled.div<StyledTheme>`
   width: 40%;
+  padding-top: 1rem;
+  padding-left: 0.5rem;
   border-left: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
 `;
 
@@ -100,7 +102,7 @@ export default function StoreDetailsRoute() {
           <StyledComment>{data.store.comment}</StyledComment>
         </StyledContent>
       </StyledBody>
-      <StyledSideRight>No recent orders</StyledSideRight>
+      <StyledSideRight>No recent orders 😌</StyledSideRight>
     </StyledContainer>
   );
 }

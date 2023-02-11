@@ -5,7 +5,6 @@ import { violet, mauve, blackA, green } from "@radix-ui/colors";
 export const StyledTabsRoot = styled(Tabs.Root, {
   display: "flex",
   flexDirection: "column",
-  width: 300,
   boxShadow: `0 2px 10px ${blackA.blackA4}`,
 });
 
@@ -41,10 +40,7 @@ export const StyledTabsTrigger = styled(Tabs.Trigger, {
 
 export const StyledTabsContent = styled(Tabs.Content, {
   flexGrow: 1,
-  padding: 20,
   backgroundColor: "white",
-  borderBottomLeftRadius: 6,
-  borderBottomRightRadius: 6,
   outline: "none",
   "&:focus": { boxShadow: `0 0 0 2px black` },
 });

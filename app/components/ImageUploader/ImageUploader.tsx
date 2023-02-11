@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 
 import uploadPlaceholder from "~/assets/images/addStoreIcon.svg";
 import invariant from "tiny-invariant";
+import { Button } from "~/components";
 
 export const StyledImageHolder = styled.div<StyledTheme>`
   display: flex;
@@ -12,13 +13,17 @@ export const StyledImageHolder = styled.div<StyledTheme>`
   align-items: center;
   background-color: ${({ theme: { colors } }) => colors.buttonBgHover};
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 5rem;
   cursor: pointer;
 
   img {
-    width: 5rem;
-    max-height: 5rem;
+    width: 10vw;
   }
+`;
+
+export const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const StyledImagePlaceholder = styled.img`
@@ -53,37 +58,36 @@ const ImageUploader = ({
     if (event.currentTarget.files && event.currentTarget.files[0]) {
       const file = event.currentTarget.files[0];
       invariant(file.type.match(imageMimeType), "Invalid file type");
-      
+
       setSelectedFile(URL.createObjectURL(file));
       handleFileChange(file);
     }
   };
 
   return (
-    <StyledImageHolder onClick={() => {}}>
-      {/* fileInputRef.current?.click() */}
-      {!imageUrl &&
-        !selectedFile &&
-        (placeholder ? (
-          placeholder
-        ) : (
-          <StyledImagePlaceholder
-            src={uploadPlaceholder}
-            alt="placeholder"
-          />
-        ))}
-      {imageUrl && <img src={imageUrl} alt="store logo" />}
-      {selectedFile && <img src={selectedFile} alt="" />}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileInput}
-        name={name}
-        id={id || name}
-        accept=".png, .jpg, .jpeg, .svg"
-        hidden
-      />
-    </StyledImageHolder>
+    <StyledForm>
+      <StyledImageHolder onClick={() => fileInputRef.current?.click()}>
+        {!imageUrl &&
+          !selectedFile &&
+          (placeholder ? (
+            placeholder
+          ) : (
+            <StyledImagePlaceholder src={uploadPlaceholder} alt="placeholder" />
+          ))}
+        {imageUrl && <img src={imageUrl} alt="store logo" />}
+        {selectedFile && <img src={selectedFile} alt="" />}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileInput}
+          name={name}
+          id={id || name}
+          accept=".png, .jpg, .jpeg, .svg"
+          hidden
+        />
+      </StyledImageHolder>
+      <Button>Upload</Button>
+    </StyledForm>
   );
 };
 

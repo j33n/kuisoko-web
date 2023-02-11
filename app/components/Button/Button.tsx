@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import { StyledButton, StyledIcon } from "./Button.styled";
 import Loader from "../Loader/Loader";
 
@@ -13,7 +12,7 @@ export interface IButton {
   icon?: React.ReactNode;
   variant?: "primary" | "secondary" | "disabled" | string;
   sx?: any;
-  loading?: string
+  loading?: string;
 }
 
 export const Button = ({
@@ -28,12 +27,12 @@ export const Button = ({
   return (
     <StyledButton
       type={type || "submit"}
-      disabled={disabled || loading !== "idle"}
+      disabled={disabled || loading === "loading" || loading === "submitting"}
       variant={variant || "primary"}
       sx={{ ...sx }}
     >
-      {loading !== "idle" && <Loader />}
-      {loading === "idle" && children}
+      {(loading === "loading" || loading === "submitting") && <Loader />}
+      {(!loading || loading === "idle") && children}
       {icon && <StyledIcon>{icon}</StyledIcon>}
     </StyledButton>
   );

@@ -2,27 +2,28 @@ import styled from "@emotion/styled";
 
 import { Dialog, EmojiRenderer, ImageUploader } from "~/components";
 
-import uploadPlaceholder from "~/assets/images/addStoreIcon.svg";
 import { StyledTabsContent, StyledTabsList, StyledTabsRoot, StyledTabsTrigger } from "./ImageDialog.styled";
+import type { StyledTheme } from "~/styles/page.styled";
 
-export const StyledImagePlaceholder = styled.img`
+import uploadPlaceholder from "~/assets/images/addStoreIcon.svg";
+import { IconButton } from "../Dialog/Dialog.styled";
+
+export const StyledImagePlaceholder = styled.img<StyledTheme>`
   display: block;
   width: 5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 
   &:hover {
-    opacity: 0.5;
+    background-color: ${({ theme: { colors } }) => colors.buttonBgHover};
   }
 `;
 
 const ImageDialog = () => {
   return (
     <Dialog
-      trigger={
-        <StyledImagePlaceholder src={uploadPlaceholder} alt="placeholder" />
-      }
-      title="Upload image"
-      description="Upload image"
-      closeable
+      trigger={<IconButton></IconButton>}
     >
       <StyledTabsRoot defaultValue="upload">
         <StyledTabsList aria-label="Upload store icon">
