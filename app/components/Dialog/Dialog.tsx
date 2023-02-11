@@ -1,5 +1,6 @@
 import React from "react";
 import { CiCircleRemove } from "react-icons/ci";
+import { Box } from "theme-ui";
 import * as rDialog from "@radix-ui/react-dialog";
 
 import { Button } from "~/components";
@@ -9,7 +10,6 @@ import {
   DialogOverlay,
   DialogTitle,
 } from "./Dialog.styled";
-import { Box } from "theme-ui";
 
 export interface IDialog {
   trigger: React.ReactNode;
@@ -19,6 +19,7 @@ export interface IDialog {
   children?: React.ReactNode;
   buttonText?: string;
   allowButton?: boolean;
+  sxContent?: any;
 }
 
 export const Dialog = ({
@@ -28,6 +29,7 @@ export const Dialog = ({
   closeable = true,
   children,
   buttonText,
+  sxContent,
   allowButton = false,
 }: IDialog) => {
   return (
@@ -35,7 +37,7 @@ export const Dialog = ({
       <rDialog.Trigger asChild>{trigger}</rDialog.Trigger>
       <rDialog.Portal>
         <DialogOverlay />
-        <DialogContent>
+        <DialogContent style={sxContent}>
           {title && <DialogTitle>{title}</DialogTitle>}
           {description && <DialogDescription>{description}</DialogDescription>}
           {children}
@@ -48,7 +50,7 @@ export const Dialog = ({
           )}
           {closeable && (
             <rDialog.Close asChild>
-              Close x
+              <CiCircleRemove />
             </rDialog.Close>
           )}
         </DialogContent>

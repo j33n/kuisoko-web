@@ -4,6 +4,12 @@ import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import type { StyledTheme } from "~/styles/page.styled";
 
+export interface IDialogContent {
+  theme?: StyledTheme["theme"];
+  noPadding?: boolean;
+  sx?: any;
+}
+
 const overlayShow = keyframes`
   0% { opacity: 0 };
   100%: { opacity: 1 };
@@ -22,8 +28,9 @@ export const DialogOverlay = styled(Dialog.Overlay)<StyledTheme>`
   z-index: 1;
 `;
 
-export const DialogContent = styled(Dialog.Content)<StyledTheme>`
-  background-color: ${({ theme: { colors } }) => colors.white};
+export const DialogContent = styled(Dialog.Content)<IDialogContent>`
+  background-color: ${({ theme: { colors } }) => colors.background};
+  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
   border-radius: 6px;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
     hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
@@ -34,7 +41,7 @@ export const DialogContent = styled(Dialog.Content)<StyledTheme>`
   width: 90vw;
   max-width: 450px;
   max-height: 60vh;
-  padding: 25px;
+  padding: 1.5rem;
   animation: ${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
 

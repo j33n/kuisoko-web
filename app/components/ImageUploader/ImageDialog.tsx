@@ -21,6 +21,8 @@ const DialogTrigger = () => (
 const ImageDialog = () => {
   return (
     <Dialog
+      closeable
+      sxContent={{ padding: 0, borderRadius: "0.5rem", paddingTop: "1rem" }}
       trigger={
         <div>
           <DialogTrigger />

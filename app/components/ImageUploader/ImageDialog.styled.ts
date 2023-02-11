@@ -17,9 +17,10 @@ export const StyledTabsList = styled(Tabs.List)<StyledTheme>`
 
 export const StyledTabsTrigger = styled(Tabs.Trigger)<StyledTheme>`
   all: unset;
-  background-color: ${({ theme: { colors } }) => colors.whiteA12};
+  background-color: ${({ theme: { colors } }) => colors.background };
+  color: ${({ theme: { colors } }) => colors.nav};
   padding: 0 20px;
-  height: 45px;
+  height: 2.5rem;
   flex: 1;
   display: flex;
   align-items: center;
