@@ -8,7 +8,7 @@ import type { ColorModesScale } from "theme-ui";
 export interface StyledTheme {
   theme?: {
     colors: ColorModesScale;
-    fontSizes: string[];
+    fontSizes?: any;
   };
   disabled?: boolean;
 }
@@ -113,7 +113,7 @@ export const StyledError = styled.span<StyledTheme>`
   height: 1.5rem;
   color: ${({ theme }) => theme.colors.red};
   top: 100%;
-  font-size: ${({ theme }) => theme.fontSizes[0]};
+  font-size: ${({ theme }) => theme.fontSizes.xxs};
 `;
 
 export const StyledLink = styled(Link)<StyledTheme>`
@@ -189,7 +189,7 @@ export const StyledNewAccountText = styled.span<StyledTheme>`
 export const StyledText = styled.span<StyledTheme>`
   color: ${({ theme: { colors } }) => colors.text};
   text-align: center;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[0]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
 `;
 
@@ -206,7 +206,7 @@ export const StyledFooterText = styled(StyledText)`
   text-align: center;
 
   @media screen and (max-width: 481px) {
-    font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
+    font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
     padding: 1rem;
   }
 

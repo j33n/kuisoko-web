@@ -31,7 +31,7 @@ export const StyledTabsTrigger = styled(Tabs.Trigger)<StyledTheme>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
   user-select: none;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -79,7 +79,7 @@ export const StyledIcon = styled.div<StyledTheme>`
 
 export const StyledText = styled.span<StyledTheme>`
   display: block;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[0]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   margin-left: 1rem;
 `;
 

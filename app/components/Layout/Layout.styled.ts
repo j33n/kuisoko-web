@@ -70,7 +70,7 @@ export const StyledAnchor = styled.span<StyledTheme>`
   border-radius: 0.5rem;
   color: ${({ theme: { colors } }) => colors.text};
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[0]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   justify-content: center;
   align-items: center;
 

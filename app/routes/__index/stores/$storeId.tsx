@@ -6,12 +6,11 @@ import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
 import { useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { s3UploaderHandler } from "~/models/uploader-handler.server";
-import { ImageDialog } from "~/components";
+import { Editable, ImageDialog } from "~/components";
 import { requireUser } from "~/services/session.server";
 import styled from "@emotion/styled";
 import { StyledTheme } from "~/styles/page.styled";
 import { useState } from "react";
-
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.storeId, "Missing store id");
@@ -98,8 +97,11 @@ export default function StoreDetailsRoute() {
           <StyledLogoBox>
             <ImageDialog tabsWidth="75%" />
           </StyledLogoBox>
-          <StyledHeader>{data.store.name}</StyledHeader>
-          <StyledComment>{data.store.comment}</StyledComment>
+          <Editable defaultValue={data.store.name} fontSize="lg" />
+          <Editable
+            defaultValue={data.store.comment}
+            sx={{ marginTop: "1rem" }}
+          />
         </StyledContent>
       </StyledBody>
       <StyledSideRight>No recent orders 😌</StyledSideRight>

@@ -29,19 +29,15 @@ export const base: Theme = {
   fonts: {
     body: "Inter, sans-serif",
   },
-  fontSizes: [
-    "0.875rem",
-    "1rem",
-    "1.25rem",
-    "1.5rem",
-    "1.75rem",
-    "2rem",
-    "3rem",
-    "3.5rem",
-    "4rem",
-    "5rem",
-    "6rem",
-  ],
+  fontSizes: {
+    xxs: "0.875rem",
+    xs: "1rem",
+    sm: "1.25rem",
+    md: "1.5rem",
+    lg: "1.75rem",
+    xl: "2rem",
+    xxl: "3rem",
+  },
   buttons: {
     primary: {
       color: "color",

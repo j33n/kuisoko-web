@@ -13,6 +13,7 @@ import Loader from './Loader/Loader';
 import Dialog from "./Dialog/Dialog";
 import ImageDialog from "./ImageUploader/ImageDialog";
 import EmojiRenderer from "./EmojiRenderer/EmojiRenderer";
+import Editable from "./Editable/Editable";
 
 export {
   Header,
@@ -30,4 +31,5 @@ export {
   Dialog,
   ImageDialog,
   EmojiRenderer,
+  Editable,
 };

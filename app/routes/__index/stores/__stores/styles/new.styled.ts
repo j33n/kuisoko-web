@@ -42,7 +42,7 @@ export const StyledBtnContainer = styled.div<StyledTheme>`
 `;
 
 export const StyledTitle = styled.div<StyledTheme>`
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
   font-weight: 200;
   text-transform: uppercase;
 `;

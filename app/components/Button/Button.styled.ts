@@ -24,7 +24,7 @@ export const StyledButton = styled(Button)<StyledButtonProps>`
   border: 1px solid ${({ theme: { colors } }) => colors.nav};
   color: ${({ theme: { colors } }) => colors.nav};
   font-weight: 600;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
   position: relative;
 
   &:hover {

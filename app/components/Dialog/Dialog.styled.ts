@@ -54,13 +54,13 @@ export const DialogTitle = styled(Dialog.Title)<StyledTheme>`
   margin: 0,
   font-weight: 500,
   color: ${({ theme: { colors } }) => colors.crimson9};
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[2]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.sm};
 `;
 
 export const DialogDescription = styled(Dialog.Description)<StyledTheme>`
   margin: 10px 0 20px;
   color: ${({ theme: { colors } }) => colors.gray9};
-  font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
   line-height: 1.5rem;
 `;
 
