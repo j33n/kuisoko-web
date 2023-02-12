@@ -3,22 +3,28 @@ import * as Tabs from "@radix-ui/react-tabs";
 
 import type { StyledTheme } from "~/styles/page.styled";
 
+export interface StyledTabsListProps {
+  theme?: StyledTheme["theme"];
+  tabsWidth?: string;
+}
+
 export const StyledTabsRoot = styled(Tabs.Root)<StyledTheme>`
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 10px ${({ theme: { colors } }) => colors.blackA7};
 `;
 
-export const StyledTabsList = styled(Tabs.List)<StyledTheme>`
+export const StyledTabsList = styled(Tabs.List)<StyledTabsListProps>`
   flex-shrink: 0;
   display: flex;
   border-bottom: 1px solid ${({ theme: { colors } }) => colors.blackA4};
+  width: ${({ tabsWidth }) => tabsWidth || "100%"};
 `;
 
 export const StyledTabsTrigger = styled(Tabs.Trigger)<StyledTheme>`
   all: unset;
-  background-color: ${({ theme: { colors } }) => colors.background };
-  color: ${({ theme: { colors } }) => colors.nav};
+  background-color: ${({ theme: { colors } }) => colors.background};
+  color: ${({ theme: { colors } }) => colors.blueA4};
   padding: 0 20px;
   height: 2.5rem;
   flex: 1;
@@ -26,31 +32,30 @@ export const StyledTabsTrigger = styled(Tabs.Trigger)<StyledTheme>`
   align-items: center;
   justify-content: center;
   font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
-  color: ${({ theme: { colors } }) => colors.crimson9};
   user-select: none;
   cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-right: 0.25rem;
 
-  &:hover: {
-    color: ${({ theme: { colors } }) => colors.crimson11};
+  &:hover,
+  &[data-state="active"] {
+    color: ${({ theme: { colors } }) => colors.text};
+    border-bottom: 2px solid ${({ theme: { colors } }) => colors.nav};
   }
 
-  &[data-state=active]: {
-    color: ${({ theme: { colors } }) => colors.crimson11};
-    box-shadow: inset 0 -1px 0 0 red, 0 1px 0 0 red;
-  }
-
-  &:focus: {
-    position: relative;
-    box-shadow: 0 0 0 2px black;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
   }
 `;
 
 export const StyledTabsContent = styled(Tabs.Content)<StyledTheme>`
   flex-grow: 1;
-  background-color: white;
+  background-color: ${({ theme: { colors } }) => colors.background};
   outline: none;
-  &:focus: {
-    box-shadow: 0 0 0 2px black;
+
+  &:focus {
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
   }
 `;
 

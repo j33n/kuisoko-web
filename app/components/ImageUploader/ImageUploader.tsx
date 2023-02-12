@@ -14,6 +14,8 @@ export const StyledImageHolder = styled.div<StyledTheme>`
   border-radius: 0.5rem;
   padding: 5rem;
   cursor: pointer;
+  background-color: ${({theme: {colors}}) => colors.whiteA3};
+  margin: 0.5rem 0;
 
   img {
     width: 10vw;
@@ -23,6 +25,8 @@ export const StyledImageHolder = styled.div<StyledTheme>`
 export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
+  padding: 0.5rem;
+  align-items: center;
 `;
 
 export const StyledImagePlaceholder = styled.img`
@@ -31,6 +35,12 @@ export const StyledImagePlaceholder = styled.img`
   &:hover {
     opacity: 0.5;
   }
+`;
+
+export const StyledBtnContainer = styled.div<StyledTheme>`
+  display: flex;
+  width: 50%;
+  justify-content: flex-end;
 `;
 
 export interface IImageUploader {
@@ -85,7 +95,9 @@ const ImageUploader = ({
           hidden
         />
       </StyledImageHolder>
-      <Button>Upload</Button>
+      <StyledBtnContainer>
+        <Button>Upload</Button>
+      </StyledBtnContainer>
     </StyledForm>
   );
 };

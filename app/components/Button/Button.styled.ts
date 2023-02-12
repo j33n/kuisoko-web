@@ -27,13 +27,19 @@ export const StyledButton = styled(Button)<StyledButtonProps>`
   font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
   position: relative;
 
-  &:hover,
-  &:focus {
+  &:hover {
     color: ${({ theme: { colors } }) => colors.white};
     background-color: ${({ theme: { colors } }) => colors.nav};
   }
 
-  ${({ disabled, theme: { colors } }) => disabled && `
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
+  }
+
+  ${({ disabled, theme: { colors } }) =>
+    disabled &&
+    `
     cursor: not-allowed;
     background-color: ${colors.nav};
     

@@ -9,6 +9,7 @@ import {
   DialogDescription,
   DialogOverlay,
   DialogTitle,
+  IconButton,
 } from "./Dialog.styled";
 
 export interface IDialog {
@@ -42,7 +43,7 @@ export const Dialog = ({
           {description && <DialogDescription>{description}</DialogDescription>}
           {children}
           {allowButton && (
-            <Box sx={{ marginTop: "25px", justifyContent: "flex-end" }}>
+            <Box sx={{ justifyContent: "flex-end" }}>
               <rDialog.Close asChild>
                 <Button>{buttonText || "Save changes"}</Button>
               </rDialog.Close>
@@ -50,7 +51,9 @@ export const Dialog = ({
           )}
           {closeable && (
             <rDialog.Close asChild>
-              <CiCircleRemove />
+              <IconButton>
+                <CiCircleRemove size={20} />
+              </IconButton>
             </rDialog.Close>
           )}
         </DialogContent>

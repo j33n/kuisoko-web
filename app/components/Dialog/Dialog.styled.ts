@@ -31,7 +31,7 @@ export const DialogOverlay = styled(Dialog.Overlay)<StyledTheme>`
 export const DialogContent = styled(Dialog.Content)<IDialogContent>`
   background-color: ${({ theme: { colors } }) => colors.background};
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-  border-radius: 6px;
+  border-radius: 0.5rem;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
     hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   position: fixed;
@@ -45,7 +45,7 @@ export const DialogContent = styled(Dialog.Content)<IDialogContent>`
   animation: ${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
 
-  &focus: {
+  &:focus {
     outline: "none";
   }
 `;
@@ -62,4 +62,28 @@ export const DialogDescription = styled(Dialog.Description)<StyledTheme>`
   color: ${({ theme: { colors } }) => colors.gray9};
   font-size: ${({ theme: { fontSizes } }) => fontSizes[1]};
   line-height: 1.5rem;
+`;
+
+export const IconButton = styled.button<StyledTheme>`
+  all: unset;
+  font-family: inherit;
+  border-radius: 0.5rem;
+  height: 2rem;
+  width: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme: { colors } }) => colors.text};
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+
+  &:hover {
+    color: ${({ theme: { colors } }) => colors.white};
+    background-color: ${({ theme: { colors } }) => colors.nav};
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
+  }
 `;

@@ -8,6 +8,7 @@ export const StyledEmojiWrapper = styled(Box)`
   aside {
     width: 100% !important;
     border-width: 0 !important;
+    background-color: transparent !important;
   }
 `;
 

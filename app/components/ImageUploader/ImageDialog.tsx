@@ -18,11 +18,15 @@ const DialogTrigger = () => (
   </StyledIcon>
 );
 
-const ImageDialog = () => {
+export interface IImageDialog {
+  tabsWidth?: string;
+}
+
+const ImageDialog = ({ tabsWidth }: IImageDialog) => {
   return (
     <Dialog
       closeable
-      sxContent={{ padding: 0, borderRadius: "0.5rem", paddingTop: "1rem" }}
+      sxContent={{ padding: 0 }}
       trigger={
         <div>
           <DialogTrigger />
@@ -30,7 +34,7 @@ const ImageDialog = () => {
       }
     >
       <StyledTabsRoot defaultValue="custom">
-        <StyledTabsList aria-label="Upload store icon">
+        <StyledTabsList aria-label="Upload store icon" tabsWidth={tabsWidth}>
           <StyledTabsTrigger value="custom">Custom</StyledTabsTrigger>
           <StyledTabsTrigger value="emoji">Emoji</StyledTabsTrigger>
         </StyledTabsList>

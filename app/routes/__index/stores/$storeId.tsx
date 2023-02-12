@@ -96,7 +96,7 @@ export default function StoreDetailsRoute() {
         {/* <Cover /> */}
         <StyledContent>
           <StyledLogoBox>
-            <ImageDialog />
+            <ImageDialog tabsWidth="75%" />
           </StyledLogoBox>
           <StyledHeader>{data.store.name}</StyledHeader>
           <StyledComment>{data.store.comment}</StyledComment>
