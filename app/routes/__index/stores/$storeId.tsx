@@ -11,6 +11,7 @@ import { requireUser } from "~/services/session.server";
 import styled from "@emotion/styled";
 import { StyledTheme } from "~/styles/page.styled";
 import { useState } from "react";
+import { updateStoreComment, updateStoreName } from "~/models/store.server";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.storeId, "Missing store id");
@@ -97,10 +98,15 @@ export default function StoreDetailsRoute() {
           <StyledLogoBox>
             <ImageDialog tabsWidth="75%" />
           </StyledLogoBox>
-          <Editable defaultValue={data.store.name} fontSize="lg" />
+          <Editable
+            defaultValue={data.store.name}
+            fontSize="lg"
+            onSave={(storeName) => updateStoreName({ id: data.store.id, name: storeName, userId: data.store.userId })}
+          />
           <Editable
             defaultValue={data.store.comment}
             sx={{ marginTop: "1rem" }}
+            onSave={(storeComment) => updateStoreComment({id: data.store.id, comment: storeComment, userId: data.store.userId})}
           />
         </StyledContent>
       </StyledBody>

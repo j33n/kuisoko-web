@@ -10,7 +10,7 @@ import { useOptionalUser } from "~/utils";
 import type { ThemeProps } from "~/themes/context";
 import ThemeContext from "~/themes/context";
 
-import Logo from "../../assets/logo.svg";
+import Logo from "~/assets/logo.svg";
 
 import {
   StyledHeader,

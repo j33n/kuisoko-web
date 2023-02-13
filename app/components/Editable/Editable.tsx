@@ -1,22 +1,27 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { CiEdit, CiSquareCheck, CiSquareRemove } from "react-icons/ci";
-import { Box, Text } from "theme-ui";
+import { Box, Input, Text } from "theme-ui";
+import invariant from "tiny-invariant";
 
 export interface EditableProps {
   defaultValue?: string;
   fontSize?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | null;
   sx?: any;
+  onSave: (value: string) => void;
 }
 
 export const StyledEditButton = styled(Box)<any>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem;
-  height: 2rem;
   border-radius: 0.5rem;
+  min-width: 32px;
+  height: 2rem;
   background-color: ${({ theme: { colors } }) => colors.gray4};
+  color: ${({ theme: { colors } }) => colors.white};
+  cursor: pointer;
 `;
 
 export const StyledEditableContent = styled(Box)<any>`
@@ -24,44 +29,52 @@ export const StyledEditableContent = styled(Box)<any>`
   flex-direction: row;
 `;
 
-export const StyledText = styled(Text)<any>`
+export const StyledEditable = styled(Box)<any>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 2rem;
-  font-size: ${({ theme: { fontSizes }, fontSize }) => fontSizes[fontSize]};
-  color: ${({ theme: { colors } }) => colors.text};
   gap: 0.5rem;
 `;
 
-export const EditablePreview = ({ children, ...props }: any) => (
-  <StyledText {...props}>{children}</StyledText>
-);
+export const StyledText = ({ theme: { fontSizes, colors }, fontSize }: any) => css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: ${fontSizes[fontSize]};
+  color: ${colors.text};
+  gap: 0.5rem;
+`;
 
-export const EditableInput = ({ children, ...props }: any) => (
-  <Box {...props}>{children}</Box>
-);
+export const StyledEditablePreview = styled(Text)<any>`
+  ${StyledText}
+  height: 2rem;
+`;
 
-export const Editable = ({ defaultValue, fontSize, sx }: EditableProps) => {
+export const StyledEditableInput = styled(Input)<any>`
+  ${StyledText}
+  border: none;
+  border-bottom: 1px dashed ${({ theme: { colors } }) => colors.gray4};
+  max-width: 200px;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const Editable = ({
+  defaultValue,
+  fontSize,
+  sx,
+  onSave,
+}: EditableProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(defaultValue);
-  const [showEditButton, setShowEditButton] = useState(true);
+  const [showEditButton, setShowEditButton] = useState(false);
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  //   const handleCancel = () => {
-  //     setIsEditing(false);
-  //     setInputValue(value);
-  //   };
-
-  //   const handleSave = () => {
-  //     setIsEditing(false);
-  //   };
-
-  const handleMouseOver = () => {
-    setShowEditButton(true);
+  const handleSave = () => {
+    setIsEditing(false);
+    invariant(inputValue, "Input value cannot be empty");
+    onSave(inputValue);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,25 +83,36 @@ export const Editable = ({ defaultValue, fontSize, sx }: EditableProps) => {
 
   return (
     <StyledEditableContent sx={{ ...sx }}>
-      <EditablePreview
-        showEditButton={showEditButton}
-        onMouseOver={() => setShowEditButton(true)}
-        onMouseOut={() => setShowEditButton(false)}
-        fontSize={fontSize || "xs"}
-      >
-        {defaultValue}
-        {showEditButton && (
-          <StyledEditButton onClick={handleEdit}>
-            <CiEdit size={24} />
-          </StyledEditButton>
-        )}
-      </EditablePreview>
+      {!isEditing && (
+        <StyledEditablePreview
+          showEditButton={showEditButton}
+          onMouseOver={() => setShowEditButton(true)}
+          onMouseOut={() => setShowEditButton(false)}
+          fontSize={fontSize || "xs"}
+          onDoubleClick={() => setIsEditing(true)}
+        >
+          {defaultValue}
+          {showEditButton && (
+            <StyledEditButton onClick={() => setIsEditing(true)}>
+              <CiEdit size={24} />
+            </StyledEditButton>
+          )}
+        </StyledEditablePreview>
+      )}
       {isEditing && (
-        <>
-          <EditableInput>{inputValue}</EditableInput>
-          <CiSquareCheck size={24} />
-          <CiSquareRemove size={24} />
-        </>
+        <StyledEditable>
+          <StyledEditableInput
+            fontSize={fontSize || "xs"}
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+          <StyledEditButton onClick={handleSave}>
+            <CiSquareCheck size={24} />
+          </StyledEditButton>
+          <StyledEditButton onClick={() => setIsEditing(false)}>
+            <CiSquareRemove size={24} />
+          </StyledEditButton>
+        </StyledEditable>
       )}
     </StyledEditableContent>
   );
