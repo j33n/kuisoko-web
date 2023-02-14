@@ -1,12 +1,6 @@
 
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-// import { getItem } from "~/models/items.server";
-
-// export const loader = async () => {
-//     // fakerjs load ecommerce items
-//   return json(getItem(''));
-// };
 
 
 export default function itemsRoute() {
