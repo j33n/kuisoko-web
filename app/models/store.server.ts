@@ -10,8 +10,8 @@ export function getStore({
 }: Pick<Store, "id"> & {
   userId: User["id"];
 }) {
-  return prisma.note.findFirst({
-    select: { id: true, body: true, title: true },
+  return prisma.store.findFirst({
+    select: { id: true, name: true, comment: true, location: true, icon: true, cover: true },
     where: { id, userId },
   });
 }

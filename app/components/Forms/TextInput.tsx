@@ -7,7 +7,8 @@ import type { StyledTheme } from "~/styles/page.styled";
 import type { InputProps } from "theme-ui";
 import { useEffect, useState } from "react";
 
-export interface TextInputProps extends StyledTheme {
+export interface TextInputProps {
+  theme?: StyledTheme["theme"];
   height?: string;
 }
 
@@ -46,7 +47,7 @@ export const StyledError = styled.div<TextInputProps>`
   bottom: -0.25rem;
 `;
 
-export interface ITextInput extends TextInputProps {
+export interface ITextInput extends InputProps {
   htmlFor?: string | "";
   labelText?: string;
   className?: string;
@@ -58,6 +59,7 @@ export interface ITextInput extends TextInputProps {
   sx?: any;
   error?: string;
   required?: boolean;
+  height?: string;
 }
 
 const TextInput = ({

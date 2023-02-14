@@ -212,7 +212,7 @@ export const StyledProfileSide = styled.div<StyledTheme>`
   }
 `;
 
-export const StyledBodyContent = styled(Block)<{ noFooter: boolean }>`
+export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
   width: 100%;
   height: ${({ noFooter }) =>
     noFooter ? "calc(100vh - 92px)" : "calc(100vh - (92px + 5rem))"};

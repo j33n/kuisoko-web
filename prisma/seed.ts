@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
@@ -24,19 +25,21 @@ async function seed() {
     },
   });
 
-  await prisma.note.create({
+  await prisma.store.create({
     data: {
-      title: "My first note",
-      body: "Hello, world!",
+      name: faker.company.name(),
+      comment: faker.lorem.sentence(),
       userId: user.id,
+      location: faker.address.streetAddress(),
     },
   });
 
-  await prisma.note.create({
+  await prisma.store.create({
     data: {
-      title: "My second note",
-      body: "Hello, world!",
+      name: faker.company.name(),
+      comment: faker.lorem.sentence(),
       userId: user.id,
+      location: faker.address.streetAddress(),
     },
   });
 

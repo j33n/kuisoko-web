@@ -27,14 +27,6 @@ export function getItem({
   });
 }
 
-// export function getItemListItems({ userId }: { userId: User["id"] }) {
-//   return prisma.item.findMany({
-//     where: { userId },
-//     select: { id: true, name: true },
-//     orderBy: { updatedAt: "desc" },
-//   });
-// }
-
 export function createItem({
   name,
   comment,
@@ -44,8 +36,11 @@ export function createItem({
   tags,
   quantity,
   unit,
+  userId,
+  storeId,
 }: Pick<Item, "name" | "comment" | "price" | "currency" | "icon" |"tags" |"quantity" | "unit"> & {
   userId: User["id"];
+  storeId: Item["storeId"];
 }) {
   return prisma.item.create({
     data: {
@@ -57,6 +52,11 @@ export function createItem({
       tags,
       quantity,
       unit,
+      belongsTo: {
+        connect: {
+          id: storeId,
+        },
+      },
       addedBy: {
         connect: {
           id: userId,
