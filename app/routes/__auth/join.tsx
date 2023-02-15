@@ -102,7 +102,7 @@ export default function Join() {
   return (
     <StyledFormContainer>
       <AuthMenu />
-      <Box sx={{ padding: "1rem", width: "100%" }}>
+      <Box sx={{ padding: "2rem", width: "100%" }}>
         <StyledForm method="post" noValidate>
           <StyledInputContainer>
             <TextLabel htmlFor="email">Email:</TextLabel>

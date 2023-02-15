@@ -19,14 +19,14 @@ export const StyledLink = styled(Link)<any>`
   text-align: center;
   font-size: ${({ theme: { fontSizes } }) => fontSizes.sm};
   font-weight: 200;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
   width: 50%;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
 
   ${({ active, theme: { colors } }) =>
     active &&
     `
-    border-bottom: 1px solid ${colors.nav};
+    border-bottom: 2px solid ${colors.nav};
   `}
 
   &:hover {

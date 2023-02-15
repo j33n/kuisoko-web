@@ -34,7 +34,7 @@ export const Button = ({
       {(loading === "loading" || loading === "submitting") && <Loader />}
       {(!loading || loading === "idle") && (
         <>
-          children
+          {children}
           {icon && <StyledIcon>{icon}</StyledIcon>}
         </>
       )}
