@@ -14,6 +14,8 @@ import Dialog from "./Dialog/Dialog";
 import ImageDialog from "./ImageUploader/ImageDialog";
 import EmojiRenderer from "./EmojiRenderer/EmojiRenderer";
 import Editable from "./Editable/Editable";
+import AuthMenu from './AuthMenu/AuthMenu';
+import Separator from './Separator/Separator';
 
 export {
   Header,
@@ -32,4 +34,6 @@ export {
   ImageDialog,
   EmojiRenderer,
   Editable,
+  AuthMenu,
+  Separator,
 };

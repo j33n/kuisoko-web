@@ -54,7 +54,6 @@ export const StyledFormContainer = styled(FlexCenterColumn)<StyledTheme>`
   width: 50%;
   min-height: 50%;
   background: ${({ theme: { colors } }) => colors.background};
-  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.buttonBgHover};
   border-radius: 0.5rem;
   overflow: auto;
@@ -94,7 +93,7 @@ export const StyledInputBox = styled(Box)`
   flex-direction: column;
   width: 100%;
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
 
 export const StyledFormBottom = styled(FlexCenterBetween)`

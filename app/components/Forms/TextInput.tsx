@@ -21,7 +21,6 @@ export const StyledInputs = ({ theme: { colors } }: any) => css`
   font-size: 16px;
   padding: 0.5rem;
   border-radius: 0.25rem;
-  margin-bottom: 1rem;
   color: ${colors.text};
   background-color: ${colors.buttonBgHover};
   font-weight: 400;

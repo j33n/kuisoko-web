@@ -68,6 +68,7 @@ export function updateStoreName({
   name,
   userId
 }: Pick<Store, "id" | "name"> & { userId: User["id"] }) {
+  console.log("=================>>>>>>", id, name, userId)
   return prisma.store.update({
     where: { id },
     data: { name },

@@ -1,10 +1,10 @@
 import { useRef, useEffect } from "react";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useSearchParams } from "@remix-run/react";
+import { useActionData, useSearchParams, useTransition } from "@remix-run/react";
 
 import { CiLogin } from "react-icons/ci";
-import { Button, TextInput, TextLabel } from "~/components";
+import { AuthMenu, Button, TextInput, TextLabel } from "~/components";
 
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/services/session.server";
@@ -23,6 +23,7 @@ import {
   StyledLink,
   StyledFormBottom,
 } from "~/styles/page.styled";
+import { Box } from "theme-ui";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -88,6 +89,7 @@ export default function LoginPage() {
   const actionData = useActionData<typeof action>();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const transition = useTransition();
 
   useEffect(() => {
     if (actionData?.errors?.email) {
@@ -99,73 +101,80 @@ export default function LoginPage() {
 
   return (
     <StyledFormContainer>
-      <StyledForm method="post" noValidate>
-        <StyledInputContainer>
-          <TextLabel htmlFor="email">Email/Phone:</TextLabel>
-          <StyledInputBox>
-            <TextInput
-              ref={emailRef}
-              id="email"
-              required
-              autoFocus={true}
-              name="email"
-              type="email"
-              autoComplete="email"
-              aria-invalid={actionData?.errors?.email ? true : undefined}
-              aria-describedby="email-error"
-            />
-            {actionData?.errors?.email && (
-              <StyledError id="email-error">
-                {actionData.errors.email}
-              </StyledError>
-            )}
-          </StyledInputBox>
-        </StyledInputContainer>
-        <StyledInputContainer>
-          <TextLabel htmlFor="password">Password:</TextLabel>
-          <StyledInputBox>
-            <TextInput
-              id="password"
-              ref={passwordRef}
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              aria-invalid={actionData?.errors?.password ? true : undefined}
-              aria-describedby="password-error"
-            />
-            {actionData?.errors?.password && (
-              <StyledError id="password-error">
-                {actionData.errors.password}
-              </StyledError>
-            )}
-          </StyledInputBox>
-        </StyledInputContainer>
-        <input type="hidden" name="redirectTo" value={redirectTo} />
-        <FlexCenterEnd sx={{ marginTop: "2rem" }}>
-          <Button sx={{ width: "200px" }} icon={<CiLogin size={32} />}>
-            Log in
-          </Button>
-        </FlexCenterEnd>
-      </StyledForm>
-      <StyledFormBottom>
-        <FlexCenter sx={{ justifyContent: "flex-start" }}>
-          <StyledCheckbox id="remember" name="remember" type="checkbox" />
-          <TextLabel sx={{ justifyContent: "center" }} htmlFor="remember">
-            Remember me
-          </TextLabel>
-        </FlexCenter>
-        <StyledNewAccountText>
-          Don't have an account?{" "}
-          <StyledLink
-            to={{
-              pathname: "/join",
-              search: searchParams.toString(),
-            }}
-          >
-            Sign Up
-          </StyledLink>
-        </StyledNewAccountText>
-      </StyledFormBottom>
+      <AuthMenu />
+      <Box sx={{ padding: "2rem", width: "100%" }}>
+        <StyledForm method="post" noValidate>
+          <StyledInputContainer>
+            <TextLabel htmlFor="email">Email:</TextLabel>
+            <StyledInputBox>
+              <TextInput
+                ref={emailRef}
+                id="email"
+                required
+                autoFocus={true}
+                name="email"
+                type="email"
+                autoComplete="email"
+                aria-invalid={actionData?.errors?.email ? true : undefined}
+                aria-describedby="email-error"
+              />
+              {actionData?.errors?.email && (
+                <StyledError id="email-error">
+                  {actionData.errors.email}
+                </StyledError>
+              )}
+            </StyledInputBox>
+          </StyledInputContainer>
+          <StyledInputContainer>
+            <TextLabel htmlFor="password">Password:</TextLabel>
+            <StyledInputBox>
+              <TextInput
+                id="password"
+                ref={passwordRef}
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                aria-invalid={actionData?.errors?.password ? true : undefined}
+                aria-describedby="password-error"
+              />
+              {actionData?.errors?.password && (
+                <StyledError id="password-error">
+                  {actionData.errors.password}
+                </StyledError>
+              )}
+            </StyledInputBox>
+          </StyledInputContainer>
+          <input type="hidden" name="redirectTo" value={redirectTo} />
+          <FlexCenterEnd sx={{ marginTop: "2rem" }}>
+            <Button
+              sx={{ width: "200px" }}
+              icon={<CiLogin size={32} />}
+              loading={transition.state}
+            >
+              Log in
+            </Button>
+          </FlexCenterEnd>
+        </StyledForm>
+        <StyledFormBottom>
+          <FlexCenter sx={{ justifyContent: "flex-start" }}>
+            <StyledCheckbox id="remember" name="remember" type="checkbox" />
+            <TextLabel sx={{ justifyContent: "center" }} htmlFor="remember">
+              Remember me
+            </TextLabel>
+          </FlexCenter>
+          <StyledNewAccountText>
+            Don't have an account?{" "}
+            <StyledLink
+              to={{
+                pathname: "/join",
+                search: searchParams.toString(),
+              }}
+            >
+              Sign Up
+            </StyledLink>
+          </StyledNewAccountText>
+        </StyledFormBottom>
+      </Box>
     </StyledFormContainer>
   );
 }
