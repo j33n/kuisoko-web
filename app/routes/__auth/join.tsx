@@ -154,8 +154,7 @@ export default function Join() {
               Create Account
             </Button>
           </FlexCenterEnd>
-        </StyledForm>
-        <StyledFormBottom>
+          <StyledFormBottom>
           <StyledNewAccountText>
             Already have an account?{" "}
             <StyledLink
@@ -168,6 +167,7 @@ export default function Join() {
             </StyledLink>
           </StyledNewAccountText>
         </StyledFormBottom>
+        </StyledForm>
       </Box>
     </StyledFormContainer>
   );

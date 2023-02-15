@@ -171,6 +171,7 @@ export const StyledNewAccountText = styled.span<StyledTheme>`
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
   text-align: center;
   color: ${({ theme }) => theme.colors.text};
+  height: 40px;
 `;
 
 export const StyledText = styled.span<StyledTheme>`
