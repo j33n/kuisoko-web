@@ -32,8 +32,12 @@ export const Button = ({
       sx={{ ...sx }}
     >
       {(loading === "loading" || loading === "submitting") && <Loader />}
-      {(!loading || loading === "idle") && children}
-      {icon && <StyledIcon>{icon}</StyledIcon>}
+      {(!loading || loading === "idle") && (
+        <>
+          {children}
+          {icon && <StyledIcon>{icon}</StyledIcon>}
+        </>
+      )}
     </StyledButton>
   );
 };

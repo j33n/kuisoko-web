@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Form, Link } from "@remix-run/react";
 
-import { Box, Input } from "theme-ui";
+import { Box, Checkbox } from "theme-ui";
 
 import type { ColorModesScale } from "theme-ui";
 
@@ -166,23 +166,12 @@ export const StyledButton = styled.button<StyledTheme>`
   }
 `;
 
-export const StyledCheckbox = styled(Input)<StyledTheme>`
-  width: 1rem;
-  height: 1rem;
-  color: #4299e1;
-  border-color: ${({ theme }) => theme.colors.border};
-  margin-right: 1rem;
-
-  &:focus {
-    box-shadow: ${({ theme }) => theme.colors.boxShadow};
-  }
-`;
-
 export const StyledNewAccountText = styled.span<StyledTheme>`
   font-size: 0.875rem;
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
   text-align: center;
   color: ${({ theme }) => theme.colors.text};
+  height: 40px;
 `;
 
 export const StyledText = styled.span<StyledTheme>`

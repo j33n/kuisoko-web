@@ -102,7 +102,7 @@ export default function Join() {
   return (
     <StyledFormContainer>
       <AuthMenu />
-      <Box sx={{ padding: "1rem", width: "100%" }}>
+      <Box sx={{ padding: "2rem", width: "100%" }}>
         <StyledForm method="post" noValidate>
           <StyledInputContainer>
             <TextLabel htmlFor="email">Email:</TextLabel>
@@ -154,8 +154,7 @@ export default function Join() {
               Create Account
             </Button>
           </FlexCenterEnd>
-        </StyledForm>
-        <StyledFormBottom>
+          <StyledFormBottom>
           <StyledNewAccountText>
             Already have an account?{" "}
             <StyledLink
@@ -168,6 +167,7 @@ export default function Join() {
             </StyledLink>
           </StyledNewAccountText>
         </StyledFormBottom>
+        </StyledForm>
       </Box>
     </StyledFormContainer>
   );
