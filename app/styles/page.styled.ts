@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Form, Link } from "@remix-run/react";
 
-import { Box, Input } from "theme-ui";
+import { Box, Checkbox } from "theme-ui";
 
 import type { ColorModesScale } from "theme-ui";
 
@@ -163,18 +163,6 @@ export const StyledButton = styled.button<StyledTheme>`
   &:disabled:focus {
     background-color: #cbd5e0;
     color: #a0aec0;
-  }
-`;
-
-export const StyledCheckbox = styled(Input)<StyledTheme>`
-  width: 1rem;
-  height: 1rem;
-  color: #4299e1;
-  border-color: ${({ theme }) => theme.colors.border};
-  margin-right: 1rem;
-
-  &:focus {
-    box-shadow: ${({ theme }) => theme.colors.boxShadow};
   }
 `;
 

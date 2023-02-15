@@ -1,7 +1,11 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useSearchParams, useTransition } from "@remix-run/react";
+import {
+  useActionData,
+  useSearchParams,
+  useTransition,
+} from "@remix-run/react";
 
 import { CiLogin } from "react-icons/ci";
 import { AuthMenu, Button, TextInput, TextLabel } from "~/components";
@@ -18,19 +22,19 @@ import {
   StyledError,
   FlexCenterEnd,
   FlexCenter,
-  StyledCheckbox,
   StyledNewAccountText,
   StyledLink,
   StyledFormBottom,
 } from "~/styles/page.styled";
-import { Box } from "theme-ui";
+import { Box, Checkbox, Label } from "theme-ui";
+import { StyledLabel } from "~/components/Forms/TextLabel";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
 
   if (userId) return redirect("/stores");
   return json({ userId });
-};
+}
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
@@ -38,6 +42,8 @@ export async function action({ request }: ActionArgs) {
   const password = formData.get("password");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
   const remember = formData.get("remember");
+
+  console.log("________++++++++++", remember);
 
   if (!validateEmail(email)) {
     return json(
@@ -90,6 +96,8 @@ export default function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const transition = useTransition();
+
+  const [rememberVal, setRememberVal] = useState(false);
 
   useEffect(() => {
     if (actionData?.errors?.email) {
@@ -154,26 +162,26 @@ export default function LoginPage() {
               Log in
             </Button>
           </FlexCenterEnd>
+          <StyledFormBottom>
+            <FlexCenter sx={{ justifyContent: "flex-start" }}>
+              <StyledLabel>
+                <Checkbox name="remember" defaultChecked={false} />
+                Remember me
+              </StyledLabel>
+            </FlexCenter>
+            <StyledNewAccountText>
+              Don't have an account?{" "}
+              <StyledLink
+                to={{
+                  pathname: "/join",
+                  search: searchParams.toString(),
+                }}
+              >
+                Sign Up
+              </StyledLink>
+            </StyledNewAccountText>
+          </StyledFormBottom>
         </StyledForm>
-        <StyledFormBottom>
-          <FlexCenter sx={{ justifyContent: "flex-start" }}>
-            <StyledCheckbox id="remember" name="remember" type="checkbox" />
-            <TextLabel sx={{ justifyContent: "center" }} htmlFor="remember">
-              Remember me
-            </TextLabel>
-          </FlexCenter>
-          <StyledNewAccountText>
-            Don't have an account?{" "}
-            <StyledLink
-              to={{
-                pathname: "/join",
-                search: searchParams.toString(),
-              }}
-            >
-              Sign Up
-            </StyledLink>
-          </StyledNewAccountText>
-        </StyledFormBottom>
       </Box>
     </StyledFormContainer>
   );
