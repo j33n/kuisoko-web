@@ -101,12 +101,26 @@ export default function StoreDetailsRoute() {
           <Editable
             defaultValue={data.store.name}
             fontSize="lg"
-            onSave={(storeName) => updateStoreName({ id: data.store.id, name: storeName, userId: data.store.userId })}
+            name="storeName"
+            onSave={(storeName) =>
+              updateStoreName({
+                id: data.store.id,
+                name: storeName,
+                userId: data.store.userId,
+              })
+            }
           />
           <Editable
             defaultValue={data.store.comment}
             sx={{ marginTop: "1rem" }}
-            onSave={(storeComment) => updateStoreComment({id: data.store.id, comment: storeComment, userId: data.store.userId})}
+            name="storeComment"
+            onSave={(storeComment) =>
+              updateStoreComment({
+                id: data.store.id,
+                comment: storeComment,
+                userId: data.store.userId,
+              })
+            }
           />
         </StyledContent>
       </StyledBody>

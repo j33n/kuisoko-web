@@ -1,65 +1,33 @@
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
 import { useState } from "react";
+import { Form } from "@remix-run/react";
 import { CiEdit, CiSquareCheck, CiSquareRemove } from "react-icons/ci";
-import { Box, Input, Text } from "theme-ui";
 import invariant from "tiny-invariant";
+
+import type { DataFunctionArgs } from "@remix-run/node";
+
+import {
+  StyledEditButton,
+  StyledEditable,
+  StyledEditableContent,
+  StyledEditableInput,
+  StyledEditablePreview,
+} from "./Editable.styled";
+import { requireUser } from "~/services/session.server";
 
 export interface EditableProps {
   defaultValue?: string;
   fontSize?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | null;
   sx?: any;
   onSave: (value: string) => void;
+  name: string;
 }
 
-export const StyledEditButton = styled(Box)<any>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.5rem;
-  min-width: 32px;
-  height: 2rem;
-  background-color: ${({ theme: { colors } }) => colors.gray4};
-  color: ${({ theme: { colors } }) => colors.white};
-  cursor: pointer;
-`;
+export async function action({ params, request }: DataFunctionArgs) {
+  const formData = await request.formData();
+  const { id: userId } = await requireUser(request);
 
-export const StyledEditableContent = styled(Box)<any>`
-  display: flex;
-  flex-direction: row;
-`;
-
-export const StyledEditable = styled(Box)<any>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-export const StyledText = ({ theme: { fontSizes, colors }, fontSize }: any) => css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: ${fontSizes[fontSize]};
-  color: ${colors.text};
-  gap: 0.5rem;
-`;
-
-export const StyledEditablePreview = styled(Text)<any>`
-  ${StyledText}
-  height: 2rem;
-`;
-
-export const StyledEditableInput = styled(Input)<any>`
-  ${StyledText}
-  border: none;
-  border-bottom: 1px dashed ${({ theme: { colors } }) => colors.gray4};
-  max-width: 200px;
-
-  &:focus {
-    outline: none;
-  }
-`;
+  const storeName = formData.get("storeName");
+}
 
 export const Editable = ({
   defaultValue,
@@ -101,17 +69,20 @@ export const Editable = ({
       )}
       {isEditing && (
         <StyledEditable>
-          <StyledEditableInput
-            fontSize={fontSize || "xs"}
-            value={inputValue}
-            onChange={handleInputChange}
-          />
-          <StyledEditButton onClick={handleSave}>
-            <CiSquareCheck size={24} />
-          </StyledEditButton>
-          <StyledEditButton onClick={() => setIsEditing(false)}>
-            <CiSquareRemove size={24} />
-          </StyledEditButton>
+          <Form method="post" onSubmit={handleSave}>
+            <StyledEditableInput
+              fontSize={fontSize || "xs"}
+              name={name}
+              value={inputValue}
+              onChange={handleInputChange}
+            />
+            <StyledEditButton>
+              <CiSquareCheck size={24} />
+            </StyledEditButton>
+            <StyledEditButton onClick={() => setIsEditing(false)}>
+              <CiSquareRemove size={24} />
+            </StyledEditButton>
+          </Form>
         </StyledEditable>
       )}
     </StyledEditableContent>
