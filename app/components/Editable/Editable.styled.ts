@@ -1,19 +1,24 @@
-import { Box, Input, Text } from "theme-ui";
+import { Box, Button, Input, Text } from "theme-ui";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import type { StyledTheme } from "~/styles/page.styled";
 
-export const StyledEditButton = styled(Box)<StyledTheme>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const StyledEditButton = styled(Button)<StyledTheme>`
   border-radius: 0.5rem;
-  min-width: 32px;
+  min-height: 2rem;
+  min-width: 2rem;
+  width: 2rem;
   height: 2rem;
   background-color: ${({ theme: { colors } }) => colors.gray4};
   color: ${({ theme: { colors } }) => colors.text};
   cursor: pointer;
+  border: 1px solid ${({ theme: { colors } }) => colors.gray7};
+
+  &:hover {
+    background-color: ${({ theme: { colors } }) => colors.gray6};
+    border: 1px solid ${({ theme: { colors } }) => colors.gray9};
+  }
 `;
 
 export const StyledEditableContent = styled(Box)`

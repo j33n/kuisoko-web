@@ -4,13 +4,13 @@ import { unstable_parseMultipartFormData } from "@remix-run/node";
 
 import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
-import { useCatch, useLoaderData, useParams } from "@remix-run/react";
+import { Form, useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { s3UploaderHandler } from "~/models/uploader-handler.server";
 import { Editable, ImageDialog } from "~/components";
 import { requireUser } from "~/services/session.server";
 import styled from "@emotion/styled";
 import { StyledTheme } from "~/styles/page.styled";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { updateStoreComment, updateStoreName } from "~/models/store.server";
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -87,8 +87,55 @@ export const StyledComment = styled.p`
   font-weight: 200;
 `;
 
+export async function action({ params, request }: ActionArgs) {
+  const formData = await request.formData();
+  const user = await requireUser(request);
+
+  const { storeId } = params;
+
+  const storeName = formData.get("storeName");
+  const storeComment = formData.get("storeComment");
+
+  console.log(storeComment, storeName, params, user, "💎");
+
+  let store;
+
+  if (storeName && typeof storeName === "string" && storeId) {
+    store = await updateStoreName({
+      id: storeId,
+      name: storeName,
+      userId: user.id,
+    });
+  }
+
+  if (storeComment && typeof storeComment === "string" && storeId) {
+    store = await updateStoreComment({
+      id: storeId,
+      comment: storeComment,
+      userId: user.id,
+    });
+  }
+
+  return store;
+}
+
 export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
+  //TODO: check store is updated and clear state
+  const [newStoreName, setNewStoreName] = useState("");
+  const [newStoreComment, setNewStoreComment] = useState("");
+
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
+
+  const handleSaveStoreName = (val: string) => {
+    submitBtnRef.current?.click();
+    setNewStoreName(val);
+  };
+
+  const handleSaveStoreComment = (val: string) => {
+    submitBtnRef.current?.click();
+    setNewStoreComment(val);
+  };
 
   return (
     <StyledContainer>
@@ -98,30 +145,23 @@ export default function StoreDetailsRoute() {
           <StyledLogoBox>
             <ImageDialog tabsWidth="75%" />
           </StyledLogoBox>
-          <Editable
-            defaultValue={data.store.name}
-            fontSize="lg"
-            name="storeName"
-            onSave={(storeName) =>
-              updateStoreName({
-                id: data.store.id,
-                name: storeName,
-                userId: data.store.userId,
-              })
-            }
-          />
-          <Editable
-            defaultValue={data.store.comment}
-            sx={{ marginTop: "1rem" }}
-            name="storeComment"
-            onSave={(storeComment) =>
-              updateStoreComment({
-                id: data.store.id,
-                comment: storeComment,
-                userId: data.store.userId,
-              })
-            }
-          />
+          <Form method="post" action={`/stores/${data.store.id}`}>
+            <Editable
+              defaultValue={newStoreName || data.store.name}
+              fontSize="lg"
+              name="storeName"
+              onSave={handleSaveStoreName}
+            />
+            <Editable
+              defaultValue={newStoreComment || data.store.comment}
+              sx={{ marginTop: "1rem" }}
+              name="storeComment"
+              onSave={handleSaveStoreComment}
+            />
+            <button type="submit" ref={submitBtnRef} hidden>
+              Save
+            </button>
+          </Form>
         </StyledContent>
       </StyledBody>
       <StyledSideRight>No recent orders 😌</StyledSideRight>
