@@ -1,5 +1,6 @@
+import { useColorMode } from "theme-ui";
 import styled from "@emotion/styled";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { Theme } from "emoji-picker-react";
 import { Box } from "theme-ui";
 
 export const StyledEmojiWrapper = styled(Box)`
@@ -8,14 +9,18 @@ export const StyledEmojiWrapper = styled(Box)`
   aside {
     width: 100% !important;
     border-width: 0 !important;
-    background-color: transparent !important;
   }
 `;
 
-const EmojiRenderer = () => (
-  <StyledEmojiWrapper>
-    <EmojiPicker />
-  </StyledEmojiWrapper>
-);
+const EmojiRenderer = () => {
+  const [colorMode] = useColorMode();
+  const emojiTheme = colorMode === "dark" ? Theme.DARK : Theme.LIGHT;
+
+  return (
+    <StyledEmojiWrapper>
+      <EmojiPicker onEmojiClick={() => {}} theme={emojiTheme} />
+    </StyledEmojiWrapper>
+  );
+};
 
 export default EmojiRenderer;

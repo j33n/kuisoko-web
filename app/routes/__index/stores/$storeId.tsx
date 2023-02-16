@@ -9,7 +9,7 @@ import { s3UploaderHandler } from "~/models/uploader-handler.server";
 import { Editable, ImageDialog } from "~/components";
 import { requireUser } from "~/services/session.server";
 import styled from "@emotion/styled";
-import { StyledTheme } from "~/styles/page.styled";
+import type { StyledTheme } from "~/styles/page.styled";
 import { useRef, useState } from "react";
 import { updateStoreComment, updateStoreName } from "~/models/store.server";
 
