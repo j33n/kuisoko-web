@@ -18,16 +18,18 @@ export interface IDialog {
 }
 
 const DialogTrigger = ({ triggerIcon }: IDialog) => (
-  <StyledIcon>
+  <>
     {triggerIcon ? (
-      <img src={triggerIcon} alt="Store icon" />
+      <StyledIcon sx={{ padding: "0.5rem" }}>
+        <img src={triggerIcon} alt="Store icon" />
+      </StyledIcon>
     ) : (
-      <>
+      <StyledIcon sx={{ padding: "0.2rem 0.5rem" }}>
         <CiFaceSmile />
         <StyledText>Add Icon</StyledText>
-      </>
+      </StyledIcon>
     )}
-  </StyledIcon>
+  </>
 );
 
 const ImageDialog = ({ tabsWidth, triggerIcon }: IDialog) => {
