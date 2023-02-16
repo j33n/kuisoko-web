@@ -12,18 +12,25 @@ import {
 } from "./ImageDialog.styled";
 import { useState } from "react";
 
-const DialogTrigger = () => (
+export interface IDialog {
+  tabsWidth?: string;
+  triggerIcon?: string | null;
+}
+
+const DialogTrigger = ({ triggerIcon }: IDialog) => (
   <StyledIcon>
-    <CiFaceSmile />
-    <StyledText>Add Icon</StyledText>
+    {triggerIcon ? (
+      <img src={triggerIcon} alt="Store icon" />
+    ) : (
+      <>
+        <CiFaceSmile />
+        <StyledText>Add Icon</StyledText>
+      </>
+    )}
   </StyledIcon>
 );
 
-export interface IImageDialog {
-  tabsWidth?: string;
-}
-
-const ImageDialog = ({ tabsWidth }: IImageDialog) => {
+const ImageDialog = ({ tabsWidth, triggerIcon }: IDialog) => {
   const [open, setOpen] = useState(false);
   return (
     <Dialog
@@ -32,7 +39,7 @@ const ImageDialog = ({ tabsWidth }: IImageDialog) => {
       sxContent={{ padding: 0 }}
       trigger={
         <div onClick={() => setOpen(true)}>
-          <DialogTrigger />
+          <DialogTrigger triggerIcon={triggerIcon} />
         </div>
       }
     >

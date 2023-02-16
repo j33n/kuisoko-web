@@ -40,3 +40,13 @@ export const StyledComment = styled.p`
   font-size: 1rem;
   font-weight: 200;
 `;
+
+export const StyledOverlay = styled.div<StyledTheme>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background: ${({ theme: { colors } }) => colors.blackA7};
+`;

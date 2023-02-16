@@ -4,13 +4,26 @@ import { unstable_parseMultipartFormData } from "@remix-run/node";
 
 import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
-import { Form, useCatch, useLoaderData, useParams } from "@remix-run/react";
+import {
+  Form,
+  useCatch,
+  useLoaderData,
+  useParams,
+  useTransition,
+} from "@remix-run/react";
 import { s3UploaderHandler } from "~/models/uploader-handler.server";
-import { Editable, ImageDialog } from "~/components";
+import { Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { updateStoreComment, updateStoreName } from "~/models/store.server";
-import { StyledBody, StyledContainer, StyledContent, StyledLogoBox, StyledSideRight } from "~/styles/stores/singleStore.styled";
+import {
+  StyledBody,
+  StyledContainer,
+  StyledContent,
+  StyledLogoBox,
+  StyledOverlay,
+  StyledSideRight,
+} from "~/styles/stores/singleStore.styled";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.storeId, "Missing store id");
@@ -79,41 +92,36 @@ export async function action({ params, request }: ActionArgs) {
 export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
   //TODO: check store is updated and clear state
-  const [newStoreName, setNewStoreName] = useState("");
-  const [newStoreComment, setNewStoreComment] = useState("");
 
   const submitBtnRef = useRef<HTMLButtonElement>(null);
-
-  const handleSaveStoreName = (val: string) => {
-    submitBtnRef.current?.click();
-    setNewStoreName(val);
-  };
-
-  const handleSaveStoreComment = (val: string) => {
-    submitBtnRef.current?.click();
-    setNewStoreComment(val);
-  };
+  const transition = useTransition();
 
   return (
     <StyledContainer>
       <StyledBody>
         {/* <Cover /> */}
+        {(transition.state === "loading" ||
+          transition.state === "submitting") && (
+          <StyledOverlay>
+            <Loader sx={{ zIndex: 2 }} />
+          </StyledOverlay>
+        )}
         <StyledContent>
           <StyledLogoBox>
-            <ImageDialog tabsWidth="75%" />
+            <ImageDialog tabsWidth="75%" triggerIcon={data.store.icon} />
           </StyledLogoBox>
           <Form method="post" action={`/stores/${data.store.id}`}>
             <Editable
-              defaultValue={newStoreName || data.store.name}
+              defaultValue={data.store.name}
               fontSize="lg"
               name="storeName"
-              onSave={handleSaveStoreName}
+              onSave={() => submitBtnRef.current?.click()}
             />
             <Editable
-              defaultValue={newStoreComment || data.store.comment}
+              defaultValue={data.store.comment}
               sx={{ marginTop: "1rem" }}
               name="storeComment"
-              onSave={handleSaveStoreComment}
+              onSave={() => submitBtnRef.current?.click()}
             />
             <button type="submit" ref={submitBtnRef} hidden>
               Save

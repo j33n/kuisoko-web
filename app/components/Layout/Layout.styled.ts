@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box } from "theme-ui";
 
-import type { StyledTheme } from "~/styles/page.styled";
+import { FlexCenterRow, StyledTheme } from "~/styles/page.styled";
 
 export interface StyledLayoutProps {
   size?: string;
@@ -58,6 +58,20 @@ export const StyledLink = styled.div<StyledTheme>`
   width: 100%;
   display: flex;
   flex-direction: row;
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+export const StyledLinkList = styled(FlexCenterRow)<StyledTheme>`
+  width: 100%;
+  cursor: pointer;
+  border-bottom: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
+
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.buttonBgHover};
+  }
 
   @media only screen and (max-width: 768px) {
     flex-direction: column;
@@ -158,7 +172,7 @@ export const StyledSidebarFooter = styled(Block)<StyledTheme>`
   width: 100%;
   height: 5rem;
   position: relative;
-  border-top: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
+  border-top: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
 
   @media only screen and (max-width: 768px) {
     align-items: center;
@@ -220,12 +234,12 @@ export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
   z-index: 1;
 `;
 
-export const StyledMenuIcon = styled.span`
+export const StyledMenuLink = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  svg {
+  svg, img {
     width: 1.5rem;
     height: 1.5rem;
 
@@ -236,6 +250,7 @@ export const StyledMenuIcon = styled.span`
     }
   }
 `;
+
 
 export const StyledNameBox = styled.div`
   display: flex;
