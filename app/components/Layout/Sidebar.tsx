@@ -109,17 +109,21 @@ const Sidebar = () => {
         ))}
       </StyledSidebarLinks>
       <StyledStoresList>
-        <StyledTitle>All Stores</StyledTitle>
-        {storeList.map((store) => (
-          <Link to={`/stores/${store.id}`} key={store.id}>
-            <StyledLinkList>
-              <StyledMenuLink>
-                {store.icon ? <img src={store.icon} alt="" /> : <CiShop />}
-              </StyledMenuLink>
-              <StyledAnchor>{store.name}</StyledAnchor>
-            </StyledLinkList>
-          </Link>
-        ))}
+        {storeList.length > 0 && (
+          <>
+            <StyledTitle>All Stores</StyledTitle>
+            {storeList.map((store) => (
+              <Link to={`/stores/${store.id}`} key={store.id}>
+                <StyledLinkList>
+                  <StyledMenuLink>
+                    {store.icon ? <img src={store.icon} alt="" /> : <CiShop />}
+                  </StyledMenuLink>
+                  <StyledAnchor>{store.name}</StyledAnchor>
+                </StyledLinkList>
+              </Link>
+            ))}
+          </>
+        )}
       </StyledStoresList>
       <StyledSidebarFooter>
         <StyledBottomMenu>

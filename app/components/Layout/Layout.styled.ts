@@ -68,6 +68,7 @@ export const StyledLinkList = styled(FlexCenterRow)<StyledTheme>`
   width: 100%;
   cursor: pointer;
   border-bottom: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
+  padding: 0.5rem 0;
 
   &:hover {
     background: ${({ theme: { colors } }) => colors.buttonBgHover};

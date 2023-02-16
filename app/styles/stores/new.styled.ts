@@ -68,3 +68,24 @@ export const StyledInputHolder = styled.div<StyledTheme>`
   width: 100%;
   flex-wrap: wrap;
 `;
+
+export const StyledImageWrapper = styled.div<StyledTheme>`
+  height: 300px;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
+  cursor: pointer;
+  padding: 1rem;
+
+  &:hover {
+    img {
+      transform: scale(1.1);
+    }
+  }
+`;
+
+export const StyledImgNew = styled.img<StyledTheme>`
+  object-fit: cover;
+  transition: transform 0.8s;
+  height: 100%;
+`;

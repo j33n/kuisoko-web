@@ -1,35 +1,46 @@
 import newStore from "~/assets/images/newStore.svg";
-import { Link } from "@remix-run/react";
-import styled from "@emotion/styled";
-import type { StyledTheme } from "~/styles/page.styled";
+import { Link, useLoaderData } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 
-export const StyledImageWrapper = styled.div<StyledTheme>`
-  height: 300px;
-  overflow: hidden;
-  border-radius: 1rem;
-  border: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
-  cursor: pointer;
-  padding: 1rem;
+import { requireUser } from "~/services/session.server";
+import { getStores } from "~/models/store.server";
 
-  &:hover {
-    img {
-      transform: scale(1.1);
-    }
-  }
-`;
+import { StyledImageWrapper, StyledImgNew } from "~/styles/stores/new.styled";
 
-export const StyledImg = styled.img<StyledTheme>`
-  object-fit: cover;
-  transition: transform 0.8s;
-  height: 100%;
-`;
+export const loader = async ({ request }: LoaderArgs) => {
+  const user = await requireUser(request);
+  const url = new URL(request.url);
+
+  const pageName = url.pathname.replace("/", "");
+
+  const storeList = await getStores(user.id);
+
+  return json({ user, storeList, pageName });
+};
 
 export default function Stores() {
+  const data = useLoaderData<typeof loader>();
+
   return (
-    <Link to="/stores/new">
-      <StyledImageWrapper>
-        <StyledImg src={newStore} alt="create new store" />
-      </StyledImageWrapper>
-    </Link>
+    <>
+      {data.storeList.length === 0 ? (
+        <Link to="/stores/new">
+          <StyledImageWrapper>
+            <StyledImgNew src={newStore} alt="create new store" />
+          </StyledImageWrapper>
+        </Link>
+      ) : (
+        <>
+          <h2>My Stores</h2>
+          {data.storeList.map((store) => (
+            <div key={store.id}>
+              <h3>{store.name}</h3>
+              <p>{store.comment}</p>
+            </div>
+          ))}
+        </>
+      )}
+    </>
   );
 }

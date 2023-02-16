@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import * as Tabs from "@radix-ui/react-tabs";
+import { Box } from "theme-ui";
 
 import type { StyledTheme } from "~/styles/page.styled";
 
@@ -59,13 +60,12 @@ export const StyledTabsContent = styled(Tabs.Content)<StyledTheme>`
   }
 `;
 
-export const StyledIcon = styled.div<StyledTheme>`
+export const StyledIcon = styled(Box)<StyledTheme>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 0.2rem 0.5rem;
   border-radius: 0.2rem;
 
   svg {
