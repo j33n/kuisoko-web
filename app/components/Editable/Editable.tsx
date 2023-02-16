@@ -22,18 +22,12 @@ export interface EditableProps {
   name: string;
 }
 
-export async function action({ params, request }: DataFunctionArgs) {
-  const formData = await request.formData();
-  const { id: userId } = await requireUser(request);
-
-  const storeName = formData.get("storeName");
-}
-
 export const Editable = ({
   defaultValue,
   fontSize,
   sx,
   onSave,
+  name,
 }: EditableProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(defaultValue);
@@ -41,7 +35,8 @@ export const Editable = ({
 
   const handleSave = () => {
     setIsEditing(false);
-    invariant(inputValue, "Input value cannot be empty");
+    invariant(inputValue, `${inputValue} value cannot be empty`);
+    if (inputValue === defaultValue) return;
     onSave(inputValue);
   };
 
@@ -61,7 +56,12 @@ export const Editable = ({
         >
           {defaultValue}
           {showEditButton && (
-            <StyledEditButton onClick={() => setIsEditing(true)}>
+            <StyledEditButton
+              onClick={(e) => {
+                e.preventDefault();
+                setIsEditing(true);
+              }}
+            >
               <CiEdit size={24} />
             </StyledEditButton>
           )}
@@ -69,20 +69,18 @@ export const Editable = ({
       )}
       {isEditing && (
         <StyledEditable>
-          <Form method="post" onSubmit={handleSave}>
-            <StyledEditableInput
-              fontSize={fontSize || "xs"}
-              name={name}
-              value={inputValue}
-              onChange={handleInputChange}
-            />
-            <StyledEditButton>
-              <CiSquareCheck size={24} />
-            </StyledEditButton>
-            <StyledEditButton onClick={() => setIsEditing(false)}>
-              <CiSquareRemove size={24} />
-            </StyledEditButton>
-          </Form>
+          <StyledEditableInput
+            fontSize={fontSize || "xs"}
+            name={name}
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+          <StyledEditButton type="submit" onClick={() => handleSave()}>
+            <CiSquareCheck size={24} />
+          </StyledEditButton>
+          <StyledEditButton onClick={() => setIsEditing(false)}>
+            <CiSquareRemove size={24} />
+          </StyledEditButton>
         </StyledEditable>
       )}
     </StyledEditableContent>

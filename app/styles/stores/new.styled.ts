@@ -39,6 +39,7 @@ export const StyledBtnContainer = styled.div<StyledTheme>`
   display: flex;
   width: 100%;
   justify-content: flex-end;
+  margin-top: 1rem;
 `;
 
 export const StyledTitle = styled.div<StyledTheme>`

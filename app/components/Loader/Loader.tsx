@@ -1,7 +1,8 @@
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import { Box } from "theme-ui";
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled(Box)`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -46,8 +47,8 @@ export const StyledDot = styled.div`
   }
 `;
 
-const Loader = () => (
-  <StyledContainer>
+const Loader = ({sx}: any) => (
+  <StyledContainer sx={sx}>
     <StyledDot />
     <StyledDot />
     <StyledDot />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CiCircleRemove } from "react-icons/ci";
 import { Box } from "theme-ui";
 import * as rDialog from "@radix-ui/react-dialog";
@@ -21,6 +21,7 @@ export interface IDialog {
   buttonText?: string;
   allowButton?: boolean;
   sxContent?: any;
+  open?: boolean;
 }
 
 export const Dialog = ({
@@ -32,9 +33,16 @@ export const Dialog = ({
   buttonText,
   sxContent,
   allowButton = false,
+  open,
 }: IDialog) => {
+  const [isOpen, setIsOpen] = React.useState(open);
+
+  useEffect(() => {
+    setIsOpen(open);
+  }, [open]);
+
   return (
-    <rDialog.Root>
+    <rDialog.Root open={isOpen}>
       <rDialog.Trigger asChild>{trigger}</rDialog.Trigger>
       <rDialog.Portal>
         <DialogOverlay />
@@ -50,7 +58,11 @@ export const Dialog = ({
             </Box>
           )}
           {closeable && (
-            <rDialog.Close asChild>
+            <rDialog.Close
+              asChild
+              onClick={() => setIsOpen(false)}
+              style={{ cursor: "pointer" }}
+            >
               <IconButton>
                 <CiCircleRemove size={20} />
               </IconButton>

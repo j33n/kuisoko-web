@@ -17,7 +17,6 @@ import {
   StyledSidebar,
   StyledSidebarLinks,
   StyledSidebarFooter,
-  StyledMenuIcon,
   StyledAnchor,
   StyledNameBox,
   StyledText,
@@ -25,6 +24,8 @@ import {
   StyledMoreBox,
   StyledBottomMenu,
   StyledToolbarItem,
+  StyledMenuLink,
+  StyledLinkList,
 } from "./Layout.styled";
 import { StyledLogoutBtn } from "../Header/Header.styled";
 
@@ -101,7 +102,7 @@ const Sidebar = () => {
         {links.map((link) => (
           <Link to={link.path} key={link.name}>
             <StyledLink>
-              <StyledMenuIcon>{link.icon}</StyledMenuIcon>
+              <StyledMenuLink>{link.icon}</StyledMenuLink>
               <StyledAnchor>{link.name}</StyledAnchor>
             </StyledLink>
           </Link>
@@ -111,12 +112,12 @@ const Sidebar = () => {
         <StyledTitle>All Stores</StyledTitle>
         {storeList.map((store) => (
           <Link to={`/stores/${store.id}`} key={store.id}>
-            <StyledLink>
-              <StyledMenuIcon>
+            <StyledLinkList>
+              <StyledMenuLink>
                 {store.icon ? <img src={store.icon} alt="" /> : <CiShop />}
-              </StyledMenuIcon>
+              </StyledMenuLink>
               <StyledAnchor>{store.name}</StyledAnchor>
-            </StyledLink>
+            </StyledLinkList>
           </Link>
         ))}
       </StyledStoresList>

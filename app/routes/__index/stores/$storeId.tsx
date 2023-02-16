@@ -4,14 +4,26 @@ import { unstable_parseMultipartFormData } from "@remix-run/node";
 
 import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
-import { useCatch, useLoaderData, useParams } from "@remix-run/react";
+import {
+  Form,
+  useCatch,
+  useLoaderData,
+  useParams,
+  useTransition,
+} from "@remix-run/react";
 import { s3UploaderHandler } from "~/models/uploader-handler.server";
-import { Editable, ImageDialog } from "~/components";
+import { Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
-import styled from "@emotion/styled";
-import { StyledTheme } from "~/styles/page.styled";
-import { useState } from "react";
+import { useRef } from "react";
 import { updateStoreComment, updateStoreName } from "~/models/store.server";
+import {
+  StyledBody,
+  StyledContainer,
+  StyledContent,
+  StyledLogoBox,
+  StyledOverlay,
+  StyledSideRight,
+} from "~/styles/stores/singleStore.styled";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.storeId, "Missing store id");
@@ -47,81 +59,74 @@ export const loader = async ({ params }: LoaderArgs) => {
 //   return null;
 // }
 
-export const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-`;
+export async function action({ params, request }: ActionArgs) {
+  const formData = await request.formData();
+  const user = await requireUser(request);
 
-export const StyledBody = styled.div`
-  width: 60vw;
-  margin-top: 10vh;
-`;
+  const { storeId } = params;
 
-export const StyledContent = styled.div`
-  width: 80%;
-  margin: 0 auto;
-`;
+  const storeName = formData.get("storeName");
+  const storeComment = formData.get("storeComment");
 
-export const StyledSideRight = styled.div<StyledTheme>`
-  width: 40%;
-  padding-top: 1rem;
-  padding-left: 0.5rem;
-  border-left: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-`;
+  let store;
 
-export const StyledHeader = styled.h1`
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-`;
+  if (storeName && typeof storeName === "string" && storeId) {
+    store = await updateStoreName({
+      id: storeId,
+      name: storeName,
+      userId: user.id,
+    });
+  }
 
-export const StyledLogoBox = styled.div<StyledTheme>`
-  display: flex;
-  margin-bottom: 1rem;
-`;
+  if (storeComment && typeof storeComment === "string" && storeId) {
+    store = await updateStoreComment({
+      id: storeId,
+      comment: storeComment,
+      userId: user.id,
+    });
+  }
 
-export const StyledComment = styled.p`
-  font-size: 1rem;
-  font-weight: 200;
-`;
+  return store;
+}
 
 export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
+  //TODO: check store is updated and clear state
+
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
+  const transition = useTransition();
 
   return (
     <StyledContainer>
       <StyledBody>
         {/* <Cover /> */}
+        {(transition.state === "loading" ||
+          transition.state === "submitting") && (
+          <StyledOverlay>
+            <Loader sx={{ zIndex: 2 }} />
+          </StyledOverlay>
+        )}
         <StyledContent>
           <StyledLogoBox>
-            <ImageDialog tabsWidth="75%" />
+            <ImageDialog tabsWidth="75%" triggerIcon={data.store.icon} />
           </StyledLogoBox>
-          <Editable
-            defaultValue={data.store.name}
-            fontSize="lg"
-            name="storeName"
-            onSave={(storeName) =>
-              updateStoreName({
-                id: data.store.id,
-                name: storeName,
-                userId: data.store.userId,
-              })
-            }
-          />
-          <Editable
-            defaultValue={data.store.comment}
-            sx={{ marginTop: "1rem" }}
-            name="storeComment"
-            onSave={(storeComment) =>
-              updateStoreComment({
-                id: data.store.id,
-                comment: storeComment,
-                userId: data.store.userId,
-              })
-            }
-          />
+          <Form method="post" action={`/stores/${data.store.id}`}>
+            <Editable
+              defaultValue={data.store.name}
+              fontSize="lg"
+              name="storeName"
+              onSave={() => submitBtnRef.current?.click()}
+            />
+            <Editable
+              defaultValue={data.store.comment}
+              sx={{ marginTop: "1rem" }}
+              name="storeComment"
+              onSave={() => submitBtnRef.current?.click()}
+            />
+            <button type="submit" ref={submitBtnRef} hidden>
+              Save
+            </button>
+          </Form>
         </StyledContent>
       </StyledBody>
       <StyledSideRight>No recent orders 😌</StyledSideRight>

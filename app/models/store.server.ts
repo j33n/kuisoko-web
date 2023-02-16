@@ -66,9 +66,7 @@ export function deleteStore({
 export function updateStoreName({
   id,
   name,
-  userId
-}: Pick<Store, "id" | "name"> & { userId: User["id"] }) {
-  console.log("=================>>>>>>", id, name, userId)
+}: Pick<Store, "id" | "name" > & { userId: User["id"] }) {
   return prisma.store.update({
     where: { id },
     data: { name },
@@ -83,5 +81,16 @@ export function updateStoreComment({
   return prisma.store.update({
     where: { id },
     data: { comment },
+  });
+}
+
+export function updateStoreIcon({
+  id,
+  icon,
+  userId
+}: Pick<Store, "id" | "icon"> & { userId: User["id"] }) {
+  return prisma.store.update({
+    where: { id },
+    data: { icon },
   });
 }
