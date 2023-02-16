@@ -10,6 +10,7 @@ import {
   StyledTabsTrigger,
   StyledText,
 } from "./ImageDialog.styled";
+import { useState } from "react";
 
 const DialogTrigger = () => (
   <StyledIcon>
@@ -23,12 +24,14 @@ export interface IImageDialog {
 }
 
 const ImageDialog = ({ tabsWidth }: IImageDialog) => {
+  const [open, setOpen] = useState(false);
   return (
     <Dialog
       closeable
+      open={open}
       sxContent={{ padding: 0 }}
       trigger={
-        <div>
+        <div onClick={() => setOpen(true)}>
           <DialogTrigger />
         </div>
       }
@@ -42,7 +45,7 @@ const ImageDialog = ({ tabsWidth }: IImageDialog) => {
           <ImageUploader />
         </StyledTabsContent>
         <StyledTabsContent value="emoji">
-          <EmojiRenderer />
+          <EmojiRenderer closeDialog={() => setOpen(false)} />
         </StyledTabsContent>
       </StyledTabsRoot>
     </Dialog>

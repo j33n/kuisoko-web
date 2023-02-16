@@ -21,6 +21,7 @@ export interface IDialog {
   buttonText?: string;
   allowButton?: boolean;
   sxContent?: any;
+  open?: boolean;
 }
 
 export const Dialog = ({
@@ -32,9 +33,10 @@ export const Dialog = ({
   buttonText,
   sxContent,
   allowButton = false,
+  open,
 }: IDialog) => {
   return (
-    <rDialog.Root>
+    <rDialog.Root open={open}>
       <rDialog.Trigger asChild>{trigger}</rDialog.Trigger>
       <rDialog.Portal>
         <DialogOverlay />

@@ -83,3 +83,14 @@ export function updateStoreComment({
     data: { comment },
   });
 }
+
+export function updateStoreIcon({
+  id,
+  icon,
+  userId
+}: Pick<Store, "id" | "icon"> & { userId: User["id"] }) {
+  return prisma.store.update({
+    where: { id },
+    data: { icon },
+  });
+}

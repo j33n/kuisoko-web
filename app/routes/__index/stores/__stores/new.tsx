@@ -14,7 +14,7 @@ import {
   StyledForm,
   StyledInputHolder,
   StyledBtnContainer,
-} from "./styles/new.styled";
+} from "~/styles/stores/new.styled";
 
 export const InputContainer = styled.div`
   display: flex;

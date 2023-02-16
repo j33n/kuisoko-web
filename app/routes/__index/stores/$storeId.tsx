@@ -8,10 +8,9 @@ import { Form, useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { s3UploaderHandler } from "~/models/uploader-handler.server";
 import { Editable, ImageDialog } from "~/components";
 import { requireUser } from "~/services/session.server";
-import styled from "@emotion/styled";
-import type { StyledTheme } from "~/styles/page.styled";
 import { useRef, useState } from "react";
 import { updateStoreComment, updateStoreName } from "~/models/store.server";
+import { StyledBody, StyledContainer, StyledContent, StyledLogoBox, StyledSideRight } from "~/styles/stores/singleStore.styled";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.storeId, "Missing store id");
@@ -47,46 +46,6 @@ export const loader = async ({ params }: LoaderArgs) => {
 //   return null;
 // }
 
-export const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-`;
-
-export const StyledBody = styled.div`
-  width: 60vw;
-  margin-top: 10vh;
-`;
-
-export const StyledContent = styled.div`
-  width: 80%;
-  margin: 0 auto;
-`;
-
-export const StyledSideRight = styled.div<StyledTheme>`
-  width: 40%;
-  padding-top: 1rem;
-  padding-left: 0.5rem;
-  border-left: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-`;
-
-export const StyledHeader = styled.h1`
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-`;
-
-export const StyledLogoBox = styled.div<StyledTheme>`
-  display: flex;
-  margin-bottom: 1rem;
-`;
-
-export const StyledComment = styled.p`
-  font-size: 1rem;
-  font-weight: 200;
-`;
-
 export async function action({ params, request }: ActionArgs) {
   const formData = await request.formData();
   const user = await requireUser(request);
@@ -95,8 +54,6 @@ export async function action({ params, request }: ActionArgs) {
 
   const storeName = formData.get("storeName");
   const storeComment = formData.get("storeComment");
-
-  console.log(storeComment, storeName, params, user, "💎");
 
   let store;
 
