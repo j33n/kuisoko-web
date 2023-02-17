@@ -6,7 +6,11 @@ import { json } from "@remix-run/node";
 import { requireUser } from "~/services/session.server";
 import { getStores } from "~/models/store.server";
 
-import { StyledImageWrapper, StyledImgNew } from "~/styles/stores/new.styled";
+import {
+  StyledImageWrapper,
+  StyledImgNew,
+  StyledStoreAlbum,
+} from "~/styles/stores/new.styled";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -31,15 +35,14 @@ export default function Stores() {
           </StyledImageWrapper>
         </Link>
       ) : (
-        <>
-          <h2>My Stores</h2>
+        <StyledStoreAlbum>
           {data.storeList.map((store) => (
             <div key={store.id}>
               <h3>{store.name}</h3>
               <p>{store.comment}</p>
             </div>
           ))}
-        </>
+        </StyledStoreAlbum>
       )}
     </>
   );

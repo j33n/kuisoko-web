@@ -58,11 +58,6 @@ const Header = () => {
       </StyledLogoBox>
       <StyledToolbarSpacer />
       <StyledToolbarGroup>
-        {/* TODO: build accordion component and attach to FAQ icons */}
-        {/* <StyledToolbarItem nav>
-          <CiCircleQuestion />
-        </StyledToolbarItem> */}
-
         <StyledToolbarItem>
           <ThemeSwitcher />
         </StyledToolbarItem>

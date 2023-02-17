@@ -1,14 +1,17 @@
 import styled from "@emotion/styled";
 
-import type { StyledTheme } from "~/styles/page.styled";
 import { StyledPage } from "~/styles/page.styled";
 
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import { requireUser } from "~/services/session.server";
-import { LoaderArgs, json } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { getStores } from "~/models/store.server";
 import { IconButton } from "theme-ui";
 import { CiSquarePlus } from "react-icons/ci";
+
+import type { StyledTheme } from "~/styles/page.styled";
+import type { LoaderArgs } from "@remix-run/node";
+
+import { requireUser } from "~/services/session.server";
 
 export const StyledContainer = styled.div`
   display: flex;
@@ -83,7 +86,10 @@ export default function Stores() {
             <Link to="/stores">
               <StyledTitle>My Stores</StyledTitle>
             </Link>
-            <Link to="/stores/new" style={{ height: "100%", lineHeight: "100%" }}>
+            <Link
+              to="/stores/new"
+              style={{ height: "100%", lineHeight: "100%" }}
+            >
               <StyledIconButton>
                 <CiSquarePlus />
                 New Store

@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { Form } from "@remix-run/react";
 import { CiEdit, CiSquareCheck, CiSquareRemove } from "react-icons/ci";
 import invariant from "tiny-invariant";
-
-import type { DataFunctionArgs } from "@remix-run/node";
 
 import {
   StyledEditButton,
@@ -12,7 +9,6 @@ import {
   StyledEditableInput,
   StyledEditablePreview,
 } from "./Editable.styled";
-import { requireUser } from "~/services/session.server";
 
 export interface EditableProps {
   defaultValue?: string;
