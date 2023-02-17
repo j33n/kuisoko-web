@@ -16,6 +16,7 @@ import EmojiRenderer from "./EmojiRenderer/EmojiRenderer";
 import Editable from "./Editable/Editable";
 import AuthMenu from './AuthMenu/AuthMenu';
 import Separator from './Separator/Separator';
+import Builder from './Builder/Builder';
 
 export {
   Header,
@@ -36,4 +37,5 @@ export {
   Editable,
   AuthMenu,
   Separator,
+  Builder,
 };

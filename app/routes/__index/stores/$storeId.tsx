@@ -1,5 +1,5 @@
 import invariant from "tiny-invariant";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
 import { unstable_parseMultipartFormData } from "@remix-run/node";
 
 import { json } from "@remix-run/node";
@@ -12,10 +12,11 @@ import {
   useTransition,
 } from "@remix-run/react";
 import { s3UploaderHandler } from "~/models/uploader-handler.server";
-import { Editable, ImageDialog, Loader } from "~/components";
+import { Builder, Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
 import { useRef } from "react";
 import { updateStoreComment, updateStoreName } from "~/models/store.server";
+
 import {
   StyledBody,
   StyledContainer,
@@ -24,6 +25,12 @@ import {
   StyledOverlay,
   StyledSideRight,
 } from "~/styles/stores/singleStore.styled";
+
+import stylesheetQuill from "~/styles/quill.bubble.css";
+
+export const links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: stylesheetQuill }];
+};
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.storeId, "Missing store id");
@@ -86,13 +93,15 @@ export async function action({ params, request }: ActionArgs) {
     });
   }
 
-  return store;
+  const textEditorValue = formData.get("textEditor");
+  // return json({ textEditorValue });
+
+  return json({store, textEditorValue });
 }
 
 export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
   //TODO: check store is updated and clear state
-
   const submitBtnRef = useRef<HTMLButtonElement>(null);
   const transition = useTransition();
 
@@ -127,6 +136,7 @@ export default function StoreDetailsRoute() {
               Save
             </button>
           </Form>
+          <Builder />
         </StyledContent>
       </StyledBody>
       <StyledSideRight>No recent orders 😌</StyledSideRight>

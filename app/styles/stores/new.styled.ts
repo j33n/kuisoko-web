@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Form } from "@remix-run/react";
+import { Box } from "theme-ui";
 import type { StyledTheme } from "~/styles/page.styled";
 
 export const StyledCreateStore = styled.div<StyledTheme>`
@@ -88,4 +89,8 @@ export const StyledImgNew = styled.img<StyledTheme>`
   object-fit: cover;
   transition: transform 0.8s;
   height: 100%;
+`;
+
+export const StyledStoreAlbum = styled(Box)<StyledTheme>`
+  display: flex;
 `;
