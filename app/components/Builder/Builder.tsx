@@ -1,8 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { StyledContainer } from "./Builder.styled";
-
-// import stylesheetQuill from "react-quill/dist/quill.snow.css";
 import { ClientOnly } from "remix-utils";
 
 import { FallbackComponent } from "~/components/fallback-component";
@@ -10,7 +7,7 @@ import { TextEditor } from "~/components/textEditor.client";
 
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import { StyledForm } from "./Builder.styled";
 
 export const action = async ({ request }: ActionArgs) => {
   const form = await request.formData();
@@ -22,13 +19,12 @@ export const Builder = () => {
   const [textEditor, setTextEditor] = useState("");
 
   return (
-      <Form method="post">
+      <StyledForm method="post">
         <ClientOnly fallback={<FallbackComponent />}>
           {() => (
             <TextEditor
-              name="textEditor"
-              theme="snow"
-              placeholder="Write description"
+              theme="bubble"
+              placeholder="Type / for block suggestions"
               onChange={setTextEditor}
               value={textEditor}
             />
@@ -36,8 +32,8 @@ export const Builder = () => {
         </ClientOnly>
         <input type="hidden" name="textEditor" value={textEditor} />
         <br />
-        <button type="submit">Submit</button>
-      </Form>
+        <button type="submit" hidden>Submit</button>
+      </StyledForm>
   );
 };
 

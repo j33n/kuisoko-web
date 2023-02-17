@@ -25,7 +25,8 @@ import {
   StyledOverlay,
   StyledSideRight,
 } from "~/styles/stores/singleStore.styled";
-import stylesheetQuill from "react-quill/dist/quill.snow.css";
+
+import stylesheetQuill from "~/styles/quill.bubble.css";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesheetQuill }];
