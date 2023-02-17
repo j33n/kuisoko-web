@@ -8,5 +8,5 @@ export const StyledContainer = styled(Box)`
 `;
 
 export const StyledForm = styled(Form)`
-margin-top: 1rem;
+  margin-top: 1rem;
 `;
