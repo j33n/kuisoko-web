@@ -1,4 +1,4 @@
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData, useLocation, useMatches, useParams } from "@remix-run/react";
 import { faker } from "@faker-js/faker";
 import styled from "@emotion/styled";
 import {
@@ -93,6 +93,7 @@ const profilePicture = faker.image.avatar();
 
 const Sidebar = () => {
   const data = useLoaderData<typeof loader>();
+  const { pathname } = useLocation();
 
   const { user, storeList } = data;
 
@@ -100,12 +101,14 @@ const Sidebar = () => {
     <StyledSidebar>
       <StyledSidebarLinks>
         {links.map((link) => (
-          <Link to={link.path} key={link.name}>
-            <StyledLink>
+            <StyledLink
+              active={pathname === link.path}
+              to={link.path}
+              key={link.name}
+            >
               <StyledMenuLink>{link.icon}</StyledMenuLink>
               <StyledAnchor>{link.name}</StyledAnchor>
             </StyledLink>
-          </Link>
         ))}
       </StyledSidebarLinks>
       <StyledStoresList>

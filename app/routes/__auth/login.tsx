@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
@@ -8,7 +8,12 @@ import {
 } from "@remix-run/react";
 
 import { CiLogin } from "react-icons/ci";
-import { AuthMenu, Button, TextInput, TextLabel } from "~/components";
+import {
+  AuthMenu,
+  Button,
+  TextInput,
+  TextLabel,
+} from "~/components";
 
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/services/session.server";
@@ -25,9 +30,28 @@ import {
   StyledNewAccountText,
   StyledLink,
   StyledFormBottom,
+  FlexCenterColumn,
 } from "~/styles/page.styled";
-import { Box, Checkbox, Label } from "theme-ui";
+import { Box, Checkbox } from "theme-ui";
 import { StyledLabel } from "~/components/Forms/TextLabel";
+import styled from "@emotion/styled";
+
+// interface SocialButtonProps {
+//   provider: SocialsProvider;
+//   label: string;
+// }
+
+export const StyledSocialForm = styled(FlexCenterColumn)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  form {
+    width: 100%;
+  }
+`;
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -89,6 +113,12 @@ export const meta: MetaFunction = () => {
   };
 };
 
+// const SocialButton: React.FC<SocialButtonProps> = ({ provider, label }) => (
+//   <Form action={`/socials/${provider}`} method="post">
+//     <Button>{label}</Button>
+//   </Form>
+// );
+
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/stores";
@@ -96,8 +126,6 @@ export default function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const transition = useTransition();
-
-  const [rememberVal, setRememberVal] = useState(false);
 
   useEffect(() => {
     if (actionData?.errors?.email) {
@@ -183,6 +211,16 @@ export default function LoginPage() {
           </StyledFormBottom>
         </StyledForm>
       </Box>
+      {/* <StyledSocialForm>
+        <SocialButton
+          provider={SocialsProvider.GOOGLE}
+          label="Login with Google"
+        />
+        <SocialButton
+          provider={SocialsProvider.FACEBOOK}
+          label="Login with Facebook"
+        />
+      </StyledSocialForm> */}
     </StyledFormContainer>
   );
 }

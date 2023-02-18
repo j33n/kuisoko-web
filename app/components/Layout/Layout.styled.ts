@@ -1,12 +1,19 @@
 import styled from "@emotion/styled";
+import { Link } from "@remix-run/react";
 import { Box } from "theme-ui";
 
-import { FlexCenterRow, StyledTheme } from "~/styles/page.styled";
+import type { StyledTheme } from "~/styles/page.styled";
+import { FlexCenterRow } from "~/styles/page.styled";
 
 export interface StyledLayoutProps {
   size?: string;
   theme?: StyledTheme["theme"];
   nav?: boolean;
+}
+
+export interface IStyledLink {
+  theme?: StyledTheme["theme"];
+  active?: boolean;
 }
 
 export const Block = styled.div`
@@ -54,13 +61,25 @@ export const StyledTitle = styled.h1`
   color: palevioletred;
 `;
 
-export const StyledLink = styled.div<StyledTheme>`
+export const StyledLink = styled(Link)<IStyledLink>`
   width: 100%;
   display: flex;
   flex-direction: row;
+  width: 70%;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  ${({ active, theme: { colors } }) =>
+    active && `background: ${colors.buttonBgHover};`}
 
   @media only screen and (max-width: 768px) {
     flex-direction: column;
+  }
+
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.buttonBgHover};
   }
 `;
 
@@ -152,17 +171,6 @@ export const StyledSidebarLinks = styled(Block)<StyledTheme>`
   justify-content: flex-start;
   background: ${({ theme: { colors } }) => colors.background};
   overflow: auto;
-
-  a {
-    width: 70%;
-    margin: 0.5rem 0 0 0;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-
-    &:hover {
-      background: ${({ theme: { colors } }) => colors.buttonBgHover};
-    }
-  }
 `;
 
 export const StyledSidebarFooter = styled(Block)<StyledTheme>`
@@ -240,7 +248,8 @@ export const StyledMenuLink = styled.span`
   align-items: center;
   justify-content: center;
 
-  svg, img {
+  svg,
+  img {
     width: 1.5rem;
     height: 1.5rem;
 
@@ -251,7 +260,6 @@ export const StyledMenuLink = styled.span`
     }
   }
 `;
-
 
 export const StyledNameBox = styled.div`
   display: flex;
