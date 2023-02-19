@@ -1,95 +1,67 @@
-import { Form, Link, useLoaderData, useLocation, useMatches, useParams } from "@remix-run/react";
+import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
 import { faker } from "@faker-js/faker";
-import styled from "@emotion/styled";
-import {
-  CiShoppingCart,
-  CiShop,
-  CiUser,
-  CiCoinInsert,
-  CiGrid42,
-  CiCircleMore,
-  CiPower,
-} from "react-icons/ci";
+import { CiShop, CiCircleMore, CiPower } from "react-icons/ci";
 import { Text } from "theme-ui";
+
+import useImageColor from "use-image-color";
 
 import {
   StyledLink,
   StyledSidebar,
   StyledSidebarLinks,
   StyledSidebarFooter,
-  StyledAnchor,
   StyledNameBox,
   StyledText,
   StyledProfileSide,
   StyledMoreBox,
   StyledBottomMenu,
   StyledToolbarItem,
-  StyledMenuLink,
-  StyledLinkList,
 } from "./Layout.styled";
 import { StyledLogoutBtn } from "../Header/Header.styled";
 
-import type { StyledTheme } from "~/styles/page.styled";
-
 import type { loader } from "~/routes/__index";
+import {
+  StyledImage,
+  StyledImageContainer,
+  StyledStoresList,
+  StyledAnchor,
+  StyledMenuLink,
+  StyledLinkStores,
+  StyledAnchorStores,
+  StyledLinkList,
+} from "./Sidebar.styled";
+import { links } from "./links";
 
 export interface ISidebar {
   user: any;
 }
 
-const links = [
-  {
-    name: "My Stores",
-    path: "/stores",
-    icon: <CiShop />,
-  },
-  {
-    name: "Items",
-    path: "/items",
-    icon: <CiShoppingCart />,
-  },
-  {
-    name: "Dashboard",
-    path: "/dashboard",
-    icon: <CiGrid42 />,
-  },
-  {
-    name: "Orders",
-    path: "/orders",
-    icon: <CiCoinInsert />,
-  },
-  {
-    name: "Customers",
-    path: "/customers",
-    icon: <CiUser />,
-  },
-  // TODO: find better placemennt for settings link
-  // {
-  //   name: "Settings",
-  //   path: "/settings",
-  //   icon: <CiSettings />,
-  // },
-];
+const RenderIcon = ({ src }: IRenderIcon) => {
+  const { colors } = useImageColor(src, { cors: true, colors: 5 });
 
-export const StyledStoresList = styled.div<StyledTheme>`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-top: 1px solid ${({ theme: { colors } }) => colors.border};
-  border-bottom: 1px solid ${({ theme: { colors } }) => colors.border};
-  padding: 0.5rem 0;
-  overflow: scroll;
-`;
+  const bgColor = () => {
+    if (colors && colors.length > 0) {
+      if (colors[0] === "#040404") {
+        return colors[1];
+      } else {
+        return colors[0];
+      }
+    }
+    return "transparent";
+  };
 
-export const StyledTitle = styled(Text)<StyledTheme>`
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: ${({ theme: { colors } }) => colors.text};
-  margin-bottom: 0.5rem;
-  text-align: center;
-`;
+  return (
+    <StyledImageContainer bgColor={bgColor()}>
+      <StyledImage src={src} alt="icon" />
+    </StyledImageContainer>
+  );
+};
 
 const profilePicture = faker.image.avatar();
+
+export interface IRenderIcon {
+  src: string;
+}
 
 const Sidebar = () => {
   const data = useLoaderData<typeof loader>();
@@ -101,37 +73,36 @@ const Sidebar = () => {
     <StyledSidebar>
       <StyledSidebarLinks>
         {links.map((link) => (
-            <StyledLink
-              active={pathname === link.path}
-              to={link.path}
-              key={link.name}
-            >
-              <StyledMenuLink>{link.icon}</StyledMenuLink>
-              <StyledAnchor>{link.name}</StyledAnchor>
-            </StyledLink>
+          <StyledLink
+            active={pathname === link.path}
+            to={link.path}
+            key={link.name}
+          >
+            <StyledMenuLink>{link.icon}</StyledMenuLink>
+            <StyledAnchor>{link.name}</StyledAnchor>
+          </StyledLink>
         ))}
       </StyledSidebarLinks>
-      <StyledStoresList>
-        {storeList.length > 0 && (
+      {storeList.length > 0 && (
+        <StyledStoresList>
           <>
-            <StyledTitle>All Stores</StyledTitle>
+            {/* <StyledTitle>All Stores</StyledTitle> */}
             {storeList.map((store) => (
               <Link to={`/stores/${store.id}`} key={store.id}>
                 <StyledLinkList>
-                  <StyledMenuLink>
-                    {store.icon ? <img src={store.icon} alt="" /> : <CiShop />}
-                  </StyledMenuLink>
-                  <StyledAnchor>{store.name}</StyledAnchor>
+                  <StyledAnchorStores>
+                    {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
+                  </StyledAnchorStores>
+                  <StyledLinkStores>{store.name}</StyledLinkStores>
                 </StyledLinkList>
               </Link>
             ))}
           </>
-        )}
-      </StyledStoresList>
+        </StyledStoresList>
+      )}
       <StyledSidebarFooter>
         <StyledBottomMenu>
           <Form method="post" action="/logout">
-            {/* TODO: add dropdown with logout, theme switching, setting, profile */}
             <StyledLogoutBtn>
               <StyledToolbarItem>
                 <CiPower />
@@ -158,5 +129,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-// TODO: change all stores to favorites

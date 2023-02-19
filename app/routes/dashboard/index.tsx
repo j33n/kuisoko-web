@@ -9,8 +9,6 @@ export const loader = async ({ request }: LoaderArgs) => {
     // failureRedirect: "/",
   });
 
-  console.log("============>>>>>> 🚀", user)
-
   return {
     user,
   };
