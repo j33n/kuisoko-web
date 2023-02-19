@@ -16,7 +16,6 @@ import {
   StyledMoreBox,
   StyledBottomMenu,
   StyledToolbarItem,
-  StyledTitle,
 } from "./Layout.styled";
 import { StyledLogoutBtn } from "../Header/Header.styled";
 
