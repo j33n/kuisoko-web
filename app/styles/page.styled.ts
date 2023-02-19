@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Form, Link } from "@remix-run/react";
 
-import { Box, Checkbox } from "theme-ui";
+import { Box } from "theme-ui";
 
 import type { ColorModesScale } from "theme-ui";
 

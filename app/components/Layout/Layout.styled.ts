@@ -3,7 +3,6 @@ import { Link } from "@remix-run/react";
 import { Box } from "theme-ui";
 
 import type { StyledTheme } from "~/styles/page.styled";
-import { FlexCenterRow } from "~/styles/page.styled";
 
 export interface StyledLayoutProps {
   size?: string;
@@ -56,7 +55,7 @@ export const StyledBgImage = styled.img`
 `;
 
 export const StyledTitle = styled.h1`
-  font-size: 1.5em;
+  font-size: 1.2rem;
   text-align: center;
   color: palevioletred;
 `;
@@ -80,35 +79,6 @@ export const StyledLink = styled(Link)<IStyledLink>`
 
   &:hover {
     background: ${({ theme: { colors } }) => colors.buttonBgHover};
-  }
-`;
-
-export const StyledLinkList = styled(FlexCenterRow)<StyledTheme>`
-  width: 100%;
-  cursor: pointer;
-  padding: 0.5rem 0;
-
-  &:hover {
-    background: ${({ theme: { colors } }) => colors.buttonBgHover};
-  }
-
-  @media only screen and (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
-export const StyledAnchor = styled.span<StyledTheme>`
-  display: flex;
-  margin: 0 1rem;
-  border-radius: 0.5rem;
-  color: ${({ theme: { colors } }) => colors.text};
-  font-weight: ${({ theme: { colors } }) => colors.fontWeight};
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
-  justify-content: center;
-  align-items: center;
-
-  @media only screen and (max-width: 480px) {
-    font-size: 3.8vw;
   }
 `;
 
@@ -216,7 +186,7 @@ export const StyledMoreBox = styled.div`
   }
 `;
 
-export const StyledProfileSide = styled.div<StyledTheme>`
+export const StyledProfileSide = styled(Box)<StyledTheme>`
   display: flex;
   order: 1;
 
@@ -240,24 +210,6 @@ export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
     noFooter ? "calc(100vh - 92px)" : "calc(100vh - (92px + 5rem))"};
   position: relative;
   z-index: 1;
-`;
-
-export const StyledMenuLink = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  svg,
-  img {
-    width: 1.5rem;
-    height: 1.5rem;
-
-    /* mobile size */
-    @media (max-width: 480px) {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-  }
 `;
 
 export const StyledNameBox = styled.div`
