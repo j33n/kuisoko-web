@@ -13,7 +13,5 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     failureRedirect: "/login",
   });
 
-  console.log("============>>>>>> 🚀", resp)
-
   return resp;
 };

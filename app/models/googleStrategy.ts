@@ -134,19 +134,15 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
     if (this.loginHint) {
       params.set("login_hint", this.loginHint);
     }
-    console.log("_+_+_+__++++++params", params)
     return params;
   }
 
   protected async userProfile(accessToken: string): Promise<GoogleProfile> {
-    console.log("++++++++++++++++++++++", accessToken, this.userInfoURL);
     const response = await fetch(this.userInfoURL, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
-    console.log("++++++++++++++++++++++", response);
     
     const raw: GoogleProfile["_json"] = await response.json();
     const profile: GoogleProfile = {

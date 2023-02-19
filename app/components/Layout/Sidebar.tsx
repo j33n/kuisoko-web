@@ -1,4 +1,9 @@
-import { Form, Link, useLoaderData, useLocation, useMatches, useParams } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
 import { faker } from "@faker-js/faker";
 import styled from "@emotion/styled";
 import {
@@ -11,6 +16,8 @@ import {
   CiPower,
 } from "react-icons/ci";
 import { Text } from "theme-ui";
+
+import useImageColor, { Image } from "use-image-color";
 
 import {
   StyledLink,
@@ -63,12 +70,6 @@ const links = [
     path: "/customers",
     icon: <CiUser />,
   },
-  // TODO: find better placemennt for settings link
-  // {
-  //   name: "Settings",
-  //   path: "/settings",
-  //   icon: <CiSettings />,
-  // },
 ];
 
 export const StyledStoresList = styled.div<StyledTheme>`
@@ -91,6 +92,56 @@ export const StyledTitle = styled(Text)<StyledTheme>`
 
 const profilePicture = faker.image.avatar();
 
+export interface IRenderIcon {
+  src: string;
+}
+
+const RenderIcon = ({ src }: IRenderIcon) => {
+  const { colors } = useImageColor(src, { cors: true, colors: 5 });
+
+  const bgColor = () => {
+    if (colors && colors.length > 0) {
+      if (colors[0] === "#040404") {
+        return colors[1];
+      } else {
+        return colors[0];
+      }
+    }
+    return "transparent";
+  };
+
+  const StyledImageContainer = styled.div`
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    position: relative;
+    background: #fff;
+    border-radius: 0.5rem;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: ${bgColor()};
+      opacity: 0.3;
+      border-radius: 0.5rem;
+    }
+  `;
+
+  const StyledImage = styled(Image)`
+    position: absolute;
+    z-index: 1;
+  `;
+
+  return (
+    <StyledImageContainer>
+      <StyledImage src={src} alt="icon" />
+    </StyledImageContainer>
+  );
+};
+
 const Sidebar = () => {
   const data = useLoaderData<typeof loader>();
   const { pathname } = useLocation();
@@ -101,14 +152,14 @@ const Sidebar = () => {
     <StyledSidebar>
       <StyledSidebarLinks>
         {links.map((link) => (
-            <StyledLink
-              active={pathname === link.path}
-              to={link.path}
-              key={link.name}
-            >
-              <StyledMenuLink>{link.icon}</StyledMenuLink>
-              <StyledAnchor>{link.name}</StyledAnchor>
-            </StyledLink>
+          <StyledLink
+            active={pathname === link.path}
+            to={link.path}
+            key={link.name}
+          >
+            <StyledMenuLink>{link.icon}</StyledMenuLink>
+            <StyledAnchor>{link.name}</StyledAnchor>
+          </StyledLink>
         ))}
       </StyledSidebarLinks>
       <StyledStoresList>
@@ -119,7 +170,7 @@ const Sidebar = () => {
               <Link to={`/stores/${store.id}`} key={store.id}>
                 <StyledLinkList>
                   <StyledMenuLink>
-                    {store.icon ? <img src={store.icon} alt="" /> : <CiShop />}
+                    {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
                   </StyledMenuLink>
                   <StyledAnchor>{store.name}</StyledAnchor>
                 </StyledLinkList>
@@ -131,7 +182,6 @@ const Sidebar = () => {
       <StyledSidebarFooter>
         <StyledBottomMenu>
           <Form method="post" action="/logout">
-            {/* TODO: add dropdown with logout, theme switching, setting, profile */}
             <StyledLogoutBtn>
               <StyledToolbarItem>
                 <CiPower />
@@ -158,5 +208,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-// TODO: change all stores to favorites
