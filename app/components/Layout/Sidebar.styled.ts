@@ -4,7 +4,7 @@ import { Box, Text } from "theme-ui";
 import { Image } from "use-image-color";
 
 import type { ColorModesScale } from "theme-ui";
-import { FlexCenterRow, StyledTheme } from "~/styles/page.styled";
+import type { StyledTheme } from "~/styles/page.styled";
 
 export interface IStyledImageContainer {
   theme?: StyledTheme["theme"];
