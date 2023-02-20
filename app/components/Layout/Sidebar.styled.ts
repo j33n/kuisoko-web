@@ -133,12 +133,16 @@ export const StyledAnchorStores = styled.span<StyledTheme>`
   }
 `;
 
-export const StyledLinkStores = styled.span`
+export const StyledLinkStores = styled.span<StyledTheme>`
   ${StyledLink}
   justify-content: flex-start;
 
   @media only screen and (max-width: 768px) {
     justify-content: center;
     text-align: center;
+  }
+
+  @media only screen and (max-width: 425px) {
+    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   }
 `;
