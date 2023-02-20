@@ -17,6 +17,7 @@ import Editable from "./Editable/Editable";
 import AuthMenu from './AuthMenu/AuthMenu';
 import Separator from './Separator/Separator';
 import Builder from './Builder/Builder';
+import AccountMenuBar from './AccountMenuBar/AccountMenuBar';
 
 export {
   Header,
@@ -38,4 +39,5 @@ export {
   AuthMenu,
   Separator,
   Builder,
+  AccountMenuBar,
 };

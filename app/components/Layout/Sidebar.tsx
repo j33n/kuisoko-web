@@ -112,7 +112,7 @@ const Sidebar = () => {
             </StyledLogoutBtn>
           </Form>
         </StyledBottomMenu>
-        <StyledProfilePageLink to={"/profile"}>
+        <StyledProfilePageLink to={"/account"}>
           <StyledProfileSide>
             {user.profile ? (
               <img src={user.profile} alt="" />

@@ -2,6 +2,7 @@ import { Outlet } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
 import { requireUser } from "~/services/session.server";
+import { AccountMenuBar } from "~/components";
 
 import { Header, Sidebar } from "~/components";
 import {
@@ -37,6 +38,7 @@ const UserLayout = () => {
       <StyledContent sx={{ flexDirection: "row" }}>
         <Sidebar />
         <StyledBodyContent noFooter>
+          <AccountMenuBar />
           <Outlet />
         </StyledBodyContent>
       </StyledContent>

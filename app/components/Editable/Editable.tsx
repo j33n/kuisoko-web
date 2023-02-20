@@ -11,7 +11,7 @@ import {
 } from "./Editable.styled";
 
 export interface EditableProps {
-  defaultValue?: string;
+  defaultValue?: string | null;
   fontSize?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | null;
   sx?: any;
   onSave: (value: string) => void;
