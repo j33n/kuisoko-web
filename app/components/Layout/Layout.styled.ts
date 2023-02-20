@@ -239,4 +239,6 @@ export const StyledBottomMenu = styled.div<StyledTheme>`
   bottom: 5rem;
   border-top: ${({ theme: { colors } }) => `1px solid ${colors.buttonBgHover}`};
   margin: 0;
+  height: 0;
+  visibility: hidden;
 `;
