@@ -1,6 +1,5 @@
 import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
-import { faker } from "@faker-js/faker";
-import { CiShop, CiCircleMore, CiPower } from "react-icons/ci";
+import { CiShop, CiCircleMore, CiPower, CiUser } from "react-icons/ci";
 import { Text } from "theme-ui";
 
 import useImageColor from "use-image-color";
@@ -29,6 +28,8 @@ import {
   StyledLinkStores,
   StyledAnchorStores,
   StyledLinkList,
+  StyledProfilePlaceholder,
+  StyledProfilePageLink,
 } from "./Sidebar.styled";
 import { links } from "./links";
 
@@ -56,8 +57,6 @@ const RenderIcon = ({ src }: IRenderIcon) => {
     </StyledImageContainer>
   );
 };
-
-const profilePicture = faker.image.avatar();
 
 export interface IRenderIcon {
   src: string;
@@ -113,13 +112,21 @@ const Sidebar = () => {
             </StyledLogoutBtn>
           </Form>
         </StyledBottomMenu>
-        <StyledProfileSide>
-          <img src={profilePicture} alt="" />
-        </StyledProfileSide>
-        <StyledNameBox>
-          {user.name && <StyledText>{user.name}</StyledText>}
-          {user.email && <StyledText disabled>{user.email}</StyledText>}
-        </StyledNameBox>
+        <StyledProfilePageLink to={"/profile"}>
+          <StyledProfileSide>
+            {user.profile ? (
+              <img src={user.profile} alt="" />
+            ) : (
+              <StyledProfilePlaceholder>
+                <CiUser size={24} />
+              </StyledProfilePlaceholder>
+            )}
+          </StyledProfileSide>
+          <StyledNameBox>
+            {user.name && <StyledText>{user.name}</StyledText>}
+            {user.email && <StyledText disabled>{user.email}</StyledText>}
+          </StyledNameBox>
+        </StyledProfilePageLink>
         <StyledMoreBox>
           <CiCircleMore />
         </StyledMoreBox>

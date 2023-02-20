@@ -4,7 +4,8 @@ import { Box, Text } from "theme-ui";
 import { Image } from "use-image-color";
 
 import type { ColorModesScale } from "theme-ui";
-import type { StyledTheme } from "~/styles/page.styled";
+import { FlexCenter, StyledTheme } from "~/styles/page.styled";
+import { Link } from "@remix-run/react";
 
 export interface IStyledImageContainer {
   theme?: StyledTheme["theme"];
@@ -144,5 +145,34 @@ export const StyledLinkStores = styled.span<StyledTheme>`
 
   @media only screen and (max-width: 425px) {
     font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+  }
+`;
+
+export const StyledProfilePlaceholder = styled(FlexCenter)<StyledTheme>`
+  border: 1px solid ${({ theme: { colors } }) => colors.gray4};
+  border-radius: 50%;
+  min-width: 2.5rem;
+
+  svg {
+    min-width: 1.5rem;
+    padding: 0.5rem;
+  }
+`;
+
+export const StyledProfilePageLink = styled(Link)<StyledTheme>`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 75%;
+  height: 100%;
+  cursor: pointer;
+  margin-left: 0.5rem;
+
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.buttonBgHover};
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 45%;
   }
 `;

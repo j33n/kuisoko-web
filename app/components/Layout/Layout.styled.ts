@@ -3,6 +3,7 @@ import { Link } from "@remix-run/react";
 import { Box } from "theme-ui";
 
 import type { StyledTheme } from "~/styles/page.styled";
+import { FlexCenter } from "~/styles/page.styled";
 
 export interface StyledLayoutProps {
   size?: string;
@@ -26,7 +27,7 @@ export const Block = styled.div`
 export const StyledText = styled.p<StyledTheme>`
   font-size: 0.8rem;
   color: ${({ theme: { colors }, disabled }) =>
-    disabled ? colors.textDisabled : colors.text};
+    disabled ? colors.gray10 : colors.text};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -145,10 +146,10 @@ export const StyledSidebarLinks = styled(Block)<StyledTheme>`
 export const StyledSidebarFooter = styled(Block)<StyledTheme>`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 5rem;
+  height: 4rem;
   position: relative;
   border-top: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
 
@@ -156,19 +157,25 @@ export const StyledSidebarFooter = styled(Block)<StyledTheme>`
     align-items: center;
     flex-wrap: wrap;
 
-    div:first-of-type {
+    /* div:first-of-type {
       margin: 4px 0 0 4px;
-    }
+    } */
   }
 `;
 
-export const StyledMoreBox = styled.div`
-  display: flex;
+export const StyledMoreBox = styled(FlexCenter)<StyledTheme>`
+  width: 20%;
+  height: 100%;
   order: 3;
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.buttonBgHover};
+  }
 
   @media only screen and (max-width: 768px) {
     order: 2;
-    width: 30%;
+    width: 45%;
   }
 
   svg {
@@ -189,6 +196,7 @@ export const StyledMoreBox = styled.div`
 export const StyledProfileSide = styled(Box)<StyledTheme>`
   display: flex;
   order: 1;
+  min-width: 3.5rem;
 
   img {
     max-width: 3rem;
@@ -212,9 +220,11 @@ export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
   z-index: 1;
 `;
 
-export const StyledNameBox = styled.div`
+export const StyledNameBox = styled.div<StyledTheme>`
   display: flex;
   flex-direction: column;
+  padding: 0 0.5rem;
+  max-width: 12vw;
   order: 2;
 
   @media only screen and (max-width: 768px) {
@@ -222,14 +232,7 @@ export const StyledNameBox = styled.div`
     width: 100%;
     margin-bottom: 2px;
     text-align: center;
-
-    p:last-child {
-      display: none;
-    }
-  }
-
-  @media only screen and (max-width: 480px) {
-    font-size: vw;
+    display: none;
   }
 `;
 

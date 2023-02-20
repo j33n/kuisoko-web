@@ -23,7 +23,6 @@ import {
   StyledContent,
   StyledLogoBox,
   StyledOverlay,
-  StyledSideRight,
 } from "~/styles/stores/singleStore.styled";
 
 import stylesheetQuill from "~/styles/quill.bubble.css";
@@ -139,7 +138,7 @@ export default function StoreDetailsRoute() {
           <Builder />
         </StyledContent>
       </StyledBody>
-      <StyledSideRight>No recent orders 😌</StyledSideRight>
+      {/* <StyledSideRight>No recent orders 😌</StyledSideRight> */}
     </StyledContainer>
   );
 }
