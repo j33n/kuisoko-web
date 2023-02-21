@@ -37,6 +37,7 @@ export const StyledTabsTrigger = styled(Tabs.Trigger)<StyledTheme>`
   cursor: pointer;
   border-bottom: 2px solid transparent;
   margin-right: 0.25rem;
+  border-radius: 0.5rem 0 0 0;
 
   &:hover,
   &[data-state="active"] {

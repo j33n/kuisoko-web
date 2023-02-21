@@ -1,6 +1,5 @@
 import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
-import { faker } from "@faker-js/faker";
-import { CiShop, CiCircleMore, CiPower } from "react-icons/ci";
+import { CiShop, CiCircleMore, CiPower, CiUser } from "react-icons/ci";
 import { Text } from "theme-ui";
 
 import useImageColor from "use-image-color";
@@ -29,8 +28,12 @@ import {
   StyledLinkStores,
   StyledAnchorStores,
   StyledLinkList,
+  StyledProfilePlaceholder,
+  StyledProfilePageLink,
 } from "./Sidebar.styled";
 import { links } from "./links";
+import DropDownMenu from "./DropDownMenu/DropDownMenu";
+import { StyledIconButton } from "./DropDownMenu/DropDownMenu.styled";
 
 export interface ISidebar {
   user: any;
@@ -56,8 +59,6 @@ const RenderIcon = ({ src }: IRenderIcon) => {
     </StyledImageContainer>
   );
 };
-
-const profilePicture = faker.image.avatar();
 
 export interface IRenderIcon {
   src: string;
@@ -85,19 +86,14 @@ const Sidebar = () => {
       </StyledSidebarLinks>
       {storeList.length > 0 && (
         <StyledStoresList>
-          <>
-            {/* <StyledTitle>All Stores</StyledTitle> */}
-            {storeList.map((store) => (
-              <Link to={`/stores/${store.id}`} key={store.id}>
-                <StyledLinkList>
-                  <StyledAnchorStores>
-                    {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
-                  </StyledAnchorStores>
-                  <StyledLinkStores>{store.name}</StyledLinkStores>
-                </StyledLinkList>
-              </Link>
-            ))}
-          </>
+          {storeList.map((store) => (
+            <StyledLinkList to={`/stores/${store.id}`} key={store.id}>
+              <StyledAnchorStores>
+                {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
+              </StyledAnchorStores>
+              <StyledLinkStores>{store.name}</StyledLinkStores>
+            </StyledLinkList>
+          ))}
         </StyledStoresList>
       )}
       <StyledSidebarFooter>
@@ -113,15 +109,23 @@ const Sidebar = () => {
             </StyledLogoutBtn>
           </Form>
         </StyledBottomMenu>
-        <StyledProfileSide>
-          <img src={profilePicture} alt="" />
-        </StyledProfileSide>
-        <StyledNameBox>
-          {user.name && <StyledText>{user.name}</StyledText>}
-          {user.email && <StyledText disabled>{user.email}</StyledText>}
-        </StyledNameBox>
+        <StyledProfilePageLink to={"/account"}>
+          <StyledProfileSide>
+            {user.profile ? (
+              <img src={user.profile} alt="" />
+            ) : (
+              <StyledIconButton>
+                <CiUser size={24} />
+              </StyledIconButton>
+            )}
+          </StyledProfileSide>
+          <StyledNameBox>
+            {user.name && <StyledText>{user.name}</StyledText>}
+            {user.email && <StyledText disabled>{user.email}</StyledText>}
+          </StyledNameBox>
+        </StyledProfilePageLink>
         <StyledMoreBox>
-          <CiCircleMore />
+          <DropDownMenu trigger={<CiCircleMore />} />
         </StyledMoreBox>
       </StyledSidebarFooter>
     </StyledSidebar>
