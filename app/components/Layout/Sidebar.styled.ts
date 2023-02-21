@@ -3,9 +3,11 @@ import styled from "@emotion/styled";
 import { Box, Text } from "theme-ui";
 import { Image } from "use-image-color";
 
-import type { ColorModesScale } from "theme-ui";
-import { FlexCenter, StyledTheme } from "~/styles/page.styled";
+import { FlexCenter } from "~/styles/page.styled";
 import { Link } from "@remix-run/react";
+
+import type { ColorModesScale } from "theme-ui";
+import type { StyledTheme } from "~/styles/page.styled";
 
 export interface IStyledImageContainer {
   theme?: StyledTheme["theme"];
@@ -94,7 +96,11 @@ export const Anchor = ({ theme: { colors, fontSizes } }: IAnchor) => css`
   align-items: center;
 
   @media only screen and (max-width: 480px) {
-    font-size: 3.8vw;
+    font-size: 0.75rem;
+    margin: 0;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
   }
 `;
 
@@ -106,7 +112,7 @@ export const StyledMenuLink = styled.span`
   ${StyledLink}
 `;
 
-export const StyledLinkList = styled(Box)<StyledTheme>`
+export const StyledLinkList = styled(Link)<StyledTheme>`
   display: flex;
   justify-content: flex-start;
   width: 100%;
@@ -115,6 +121,11 @@ export const StyledLinkList = styled(Box)<StyledTheme>`
 
   &:hover {
     background: ${({ theme: { colors } }) => colors.buttonBgHover};
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue5};
   }
 
   @media only screen and (max-width: 768px) {
@@ -144,18 +155,7 @@ export const StyledLinkStores = styled.span<StyledTheme>`
   }
 
   @media only screen and (max-width: 425px) {
-    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
-  }
-`;
-
-export const StyledProfilePlaceholder = styled(FlexCenter)<StyledTheme>`
-  border: 1px solid ${({ theme: { colors } }) => colors.gray4};
-  border-radius: 50%;
-  min-width: 2.5rem;
-
-  svg {
-    min-width: 1.5rem;
-    padding: 0.5rem;
+    font-size: 0.75rem;
   }
 `;
 
@@ -166,7 +166,7 @@ export const StyledProfilePageLink = styled(Link)<StyledTheme>`
   width: 75%;
   height: 100%;
   cursor: pointer;
-  margin-left: 0.5rem;
+  padding-left: 0.5rem;
 
   &:hover {
     background: ${({ theme: { colors } }) => colors.buttonBgHover};

@@ -32,6 +32,8 @@ import {
   StyledProfilePageLink,
 } from "./Sidebar.styled";
 import { links } from "./links";
+import DropDownMenu from "./DropDownMenu/DropDownMenu";
+import { StyledIconButton } from "./DropDownMenu/DropDownMenu.styled";
 
 export interface ISidebar {
   user: any;
@@ -84,19 +86,14 @@ const Sidebar = () => {
       </StyledSidebarLinks>
       {storeList.length > 0 && (
         <StyledStoresList>
-          <>
-            {/* <StyledTitle>All Stores</StyledTitle> */}
-            {storeList.map((store) => (
-              <Link to={`/stores/${store.id}`} key={store.id}>
-                <StyledLinkList>
-                  <StyledAnchorStores>
-                    {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
-                  </StyledAnchorStores>
-                  <StyledLinkStores>{store.name}</StyledLinkStores>
-                </StyledLinkList>
-              </Link>
-            ))}
-          </>
+          {storeList.map((store) => (
+            <StyledLinkList to={`/stores/${store.id}`} key={store.id}>
+              <StyledAnchorStores>
+                {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
+              </StyledAnchorStores>
+              <StyledLinkStores>{store.name}</StyledLinkStores>
+            </StyledLinkList>
+          ))}
         </StyledStoresList>
       )}
       <StyledSidebarFooter>
@@ -117,9 +114,9 @@ const Sidebar = () => {
             {user.profile ? (
               <img src={user.profile} alt="" />
             ) : (
-              <StyledProfilePlaceholder>
+              <StyledIconButton>
                 <CiUser size={24} />
-              </StyledProfilePlaceholder>
+              </StyledIconButton>
             )}
           </StyledProfileSide>
           <StyledNameBox>
@@ -128,7 +125,7 @@ const Sidebar = () => {
           </StyledNameBox>
         </StyledProfilePageLink>
         <StyledMoreBox>
-          <CiCircleMore />
+          <DropDownMenu trigger={<CiCircleMore />} />
         </StyledMoreBox>
       </StyledSidebarFooter>
     </StyledSidebar>

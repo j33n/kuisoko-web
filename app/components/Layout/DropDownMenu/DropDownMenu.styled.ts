@@ -1,0 +1,166 @@
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+
+import { Button, Box } from "theme-ui";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
+import { slideDownAndFade, slideLeftAndFade, slideRightAndFade, slideUpAndFade } from "~/components/Modal/Keyframes.styled";
+
+export interface StyledTheme {
+  theme: any;
+};
+
+export interface IStyledIconButton {
+  theme?: StyledTheme["theme"];
+};
+
+export const DropdownMenuArrow = styled(DropdownMenu.Arrow)`
+  fill: white;
+`;
+
+export const ItemStyles = ({ theme: { colors } }: StyledTheme) => css`
+  all: unset;
+  font-size: 13px;
+  line-height: 1px;
+  color: ${colors.crimson9};
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 0 5px;
+  position: relative;
+  padding-left: 25px;
+  user-select: none;
+
+  &[data-disabled] {
+    color: ${colors.gray11};
+    pointer-events: none;
+  }
+
+  &[data-highlighted] {
+    background-color: ${colors.blue4};
+    color: ${colors.crimson4};
+  }
+`;
+
+export const StyledCheckboxItem = styled(DropdownMenu.CheckboxItem)`
+  ${ItemStyles}
+`;
+
+export const ContentStyles = ({ theme: { colors } }: StyledTheme) => css`
+  min-width: 220px;
+  background-color: ${colors.background};
+  border-radius: 6px;
+  padding: 5px;
+  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
+    0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+
+  &[data-state="open"] {
+    &[data-side="top"] {
+      animation-name: ${slideDownAndFade};
+    }
+
+    &[data-side="right"] {
+      animation-name: ${slideLeftAndFade};
+    }
+
+    &[data-side="bottom"] {
+      animation-name: ${slideUpAndFade};
+    }
+
+    &[data-side="left"] {
+      animation-name: ${slideRightAndFade};
+    }
+  }
+`;
+
+export const StyledContent = styled(DropdownMenu.Content)`
+  ${ContentStyles};
+`;
+
+export const StyledItem = styled(DropdownMenu.Item)`
+  ${ItemStyles};
+`;
+
+export const StyledItemIndicator = styled(DropdownMenu.ItemIndicator)`
+  position: absolute;
+  left: 0;
+  width: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const StyledLabel = styled(DropdownMenu.Label)<StyledTheme>`
+  padding-left: 25px;
+  font-size: 12px;
+  line-height: 25px;
+  color: ${({ theme: { colors }}) => colors.crimson11};
+`;
+
+export const StyledRadioItem = styled(DropdownMenu.RadioItem)`
+  ${ItemStyles}
+`;
+
+export const StyledSeparator = styled(DropdownMenu.Separator)<StyledTheme>`
+  height: 1px;
+  background-color: ${({ theme: { colors } }) => colors.gray4};
+  margin: 5px;
+`;
+
+export const StyledSubContent = styled(DropdownMenu.SubContent)`
+  ${ContentStyles}
+`;
+
+export const StyledSubTrigger = styled(DropdownMenu.SubTrigger)<StyledTheme>`
+  &[data-state="open"] {
+    background-color: ${({ theme: { colors } }) => colors.crimson4};
+    color: ${({ theme: { colors } }) => colors.text};
+  };
+
+  ${ItemStyles}
+`;
+
+export const StyledIconButton = styled(Button)<IStyledIconButton>`
+  all: unset;
+  font-family: inherit;
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme: { colors } }) => colors.text};
+  background-color: ${({ theme: { colors } }) => colors.background};
+  border: 1px solid ${({ theme: { colors } }) => colors.gray4};
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &:hover {
+    background-color: ${({ theme: { colors } }) => colors.blue4};
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue5};
+  }
+`;
+
+export const StyledRightSlot = styled(Box)`
+  margin-left: auto;
+  padding-left: 20px;
+  color: ${({ theme: { colors } }: StyledTheme) => colors.blue11};
+
+  [data-highlighted] > & {
+    color: white;
+  }
+
+  [data-disabled] & {
+    color: ${({ theme: { colors } }: StyledTheme) => colors.crimson11};
+  }
+`;

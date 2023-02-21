@@ -33,7 +33,7 @@ export const StyledText = styled.p<StyledTheme>`
   text-overflow: ellipsis;
 
   @media only screen and (max-width: 480px) {
-    font-size: 3vw;
+    font-size: 0.75rem;
   }
 `;
 
@@ -80,6 +80,11 @@ export const StyledLink = styled(Link)<IStyledLink>`
 
   &:hover {
     background: ${({ theme: { colors } }) => colors.buttonBgHover};
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue5};
   }
 `;
 
@@ -141,6 +146,7 @@ export const StyledSidebarLinks = styled(Block)<StyledTheme>`
   justify-content: flex-start;
   background: ${({ theme: { colors } }) => colors.background};
   overflow: auto;
+  padding-bottom: 0.5rem;
 `;
 
 export const StyledSidebarFooter = styled(Block)<StyledTheme>`

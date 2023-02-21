@@ -1,17 +1,30 @@
 import {
-    StyledMenuBox,
+  StyledMenuBox,
   StyledMenubar,
   StyledMenubarLink,
   StyledMenubarWrapper,
 } from "./AccountMenuBar.styled";
 import { useLocation } from "@remix-run/react";
-import { CiCreditCard1, CiDeliveryTruck, CiSettings, CiUser } from "react-icons/ci";
+import {
+//   HiOutlineCog6Tooth,
+//   HiOutlineCreditCard,
+//   HiOutlineTruck,
+  HiOutlineUserCircle,
+} from "react-icons/hi2";
 
 const links = [
-  { name: "My Info", path: "/account", icon: <CiUser /> },
-  { name: "Preferences", path: "/account/preferences", icon: <CiSettings /> },
-  { name: "Payments", path: "/account/payments", icon: <CiCreditCard1 /> },
-  { name: "Delivery", path: "/account/delivery", icon: <CiDeliveryTruck /> },
+  { name: "My Info", path: "/account", icon: <HiOutlineUserCircle /> },
+//   {
+//     name: "Preferences",
+//     path: "/account/preferences",
+//     icon: <HiOutlineCog6Tooth />,
+//   },
+//   {
+//     name: "Payments",
+//     path: "/account/payments",
+//     icon: <HiOutlineCreditCard />,
+//   },
+//   { name: "Delivery", path: "/account/delivery", icon: <HiOutlineTruck /> },
 ];
 
 const AccountMenuBar = () => {

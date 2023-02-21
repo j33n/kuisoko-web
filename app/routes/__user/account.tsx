@@ -1,5 +1,5 @@
 import invariant from "tiny-invariant";
-import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { unstable_parseMultipartFormData } from "@remix-run/node";
 
 import { json } from "@remix-run/node";
@@ -24,6 +24,21 @@ import {
   StyledLogoBox,
   StyledOverlay,
 } from "~/styles/stores/singleStore.styled";
+import { Paragraph } from "theme-ui";
+import styled from "@emotion/styled";
+import type { StyledTheme } from "~/styles/page.styled";
+
+export interface IStyledParagraph {
+  theme?: StyledTheme["theme"];
+  disabled?: boolean;
+}
+
+export const StyledParagraph = styled(Paragraph)<IStyledParagraph>`
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: ${({ theme: { colors }, disabled }) => disabled ? colors.gray9 : colors.text};
+`;
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
@@ -47,29 +62,33 @@ export default function StoreDetailsRoute() {
     <StyledContainer>
       <StyledBody>
         {/* <Cover /> */}
-        {(transition.state === "loading" ||
-          transition.state === "submitting") && (
+        {(transition.state === "loading" || transition.state === "submitting") && (
           <StyledOverlay>
             <Loader sx={{ zIndex: 2 }} />
           </StyledOverlay>
         )}
         <StyledContent>
-          <StyledLogoBox>
-            <ImageDialog tabsWidth="75%" triggerIcon={user.profile} />
-          </StyledLogoBox>
           <Form method="post" action={`/profile`}>
+            <StyledLogoBox>
+              <ImageDialog tabsWidth="75%" triggerIcon={user.profile} />
+            </StyledLogoBox>
             <Editable
               defaultValue={user.name}
               fontSize="lg"
-              name="storeName"
+              name="userName"
               onSave={() => submitBtnRef.current?.click()}
             />
-            <Editable
-              defaultValue={user.email}
-              sx={{ marginTop: "1rem" }}
-              name="storeComment"
-              onSave={() => submitBtnRef.current?.click()}
-            />
+            {user.name ? (
+              <Editable
+                defaultValue={user.name}
+                fontSize="lg"
+                name="userEmail"
+                onSave={() => submitBtnRef.current?.click()}
+              />
+            ) : (
+              <StyledParagraph disabled>names</StyledParagraph>
+            )}
+            <p>{user.email}</p>
             <button type="submit" ref={submitBtnRef} hidden>
               Save
             </button>
