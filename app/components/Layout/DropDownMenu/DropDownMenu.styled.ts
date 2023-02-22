@@ -4,15 +4,20 @@ import styled from "@emotion/styled";
 import { Button, Box } from "theme-ui";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-import { slideDownAndFade, slideLeftAndFade, slideRightAndFade, slideUpAndFade } from "~/components/Modal/Keyframes.styled";
+import {
+  slideDownAndFade,
+  slideLeftAndFade,
+  slideRightAndFade,
+  slideUpAndFade,
+} from "~/components/Modal/Keyframes.styled";
 
 export interface StyledTheme {
   theme: any;
-};
+}
 
-export interface IStyledIconButton {
+export interface IStyledTheme {
   theme?: StyledTheme["theme"];
-};
+}
 
 export const DropdownMenuArrow = styled(DropdownMenu.Arrow)`
   fill: white;
@@ -20,13 +25,13 @@ export const DropdownMenuArrow = styled(DropdownMenu.Arrow)`
 
 export const ItemStyles = ({ theme: { colors } }: StyledTheme) => css`
   all: unset;
-  font-size: 13px;
+  font-size: 1rem;
   line-height: 1px;
-  color: ${colors.crimson9};
+  color: ${colors.text};
   border-radius: 3px;
   display: flex;
   align-items: center;
-  height: 25px;
+  height: 2rem;
   padding: 0 5px;
   position: relative;
   padding-left: 25px;
@@ -38,8 +43,7 @@ export const ItemStyles = ({ theme: { colors } }: StyledTheme) => css`
   }
 
   &[data-highlighted] {
-    background-color: ${colors.blue4};
-    color: ${colors.crimson4};
+    box-shadow: 0 0 0 2px ${colors.blue5};
   }
 `;
 
@@ -49,7 +53,7 @@ export const StyledCheckboxItem = styled(DropdownMenu.CheckboxItem)`
 
 export const ContentStyles = ({ theme: { colors } }: StyledTheme) => css`
   min-width: 220px;
-  background-color: ${colors.background};
+  background-color: ${colors.gray4};
   border-radius: 6px;
   padding: 5px;
   box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
@@ -81,8 +85,13 @@ export const StyledContent = styled(DropdownMenu.Content)`
   ${ContentStyles};
 `;
 
-export const StyledItem = styled(DropdownMenu.Item)`
+export const StyledItem = styled(DropdownMenu.Item)<IStyledTheme>`
   ${ItemStyles};
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme: { colors } }) => colors.blue4};
+  }
 `;
 
 export const StyledItemIndicator = styled(DropdownMenu.ItemIndicator)`
@@ -98,7 +107,7 @@ export const StyledLabel = styled(DropdownMenu.Label)<StyledTheme>`
   padding-left: 25px;
   font-size: 12px;
   line-height: 25px;
-  color: ${({ theme: { colors }}) => colors.crimson11};
+  color: ${({ theme: { colors } }) => colors.crimson11};
 `;
 
 export const StyledRadioItem = styled(DropdownMenu.RadioItem)`
@@ -119,12 +128,12 @@ export const StyledSubTrigger = styled(DropdownMenu.SubTrigger)<StyledTheme>`
   &[data-state="open"] {
     background-color: ${({ theme: { colors } }) => colors.crimson4};
     color: ${({ theme: { colors } }) => colors.text};
-  };
+  }
 
   ${ItemStyles}
 `;
 
-export const StyledIconButton = styled(Button)<IStyledIconButton>`
+export const StyledIconButton = styled(Button)<IStyledTheme>`
   all: unset;
   font-family: inherit;
   border-radius: 50%;

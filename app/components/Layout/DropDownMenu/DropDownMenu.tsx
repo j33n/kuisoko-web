@@ -1,31 +1,43 @@
 import * as rDropdownMenu from "@radix-ui/react-dropdown-menu";
 
 import { AiOutlineMenu } from "react-icons/ai";
-import {
-  StyledContent,
-  StyledIconButton,
-  StyledItem,
-  StyledRightSlot,
-} from "./DropDownMenu.styled";
+import { StyledContent, StyledIconButton } from "./DropDownMenu.styled";
 
 export interface IDropDownMenu {
   trigger?: React.ReactNode;
+  children: React.ReactNode;
+  onOpenChange?: (open: boolean) => void;
+  open?: boolean;
+  defaultOpen?: boolean;
+  modal?: boolean;
+  triggerIcon?: React.ReactNode;
 }
 
-const DropDownMenu = ({ trigger }: IDropDownMenu) => {
+const DropDownMenu = ({
+  trigger,
+  children,
+  onOpenChange,
+  defaultOpen = false,
+  open,
+  modal = true,
+  triggerIcon = <AiOutlineMenu />,
+}: IDropDownMenu) => {
   return (
-    <rDropdownMenu.Root>
+    <rDropdownMenu.Root
+      onOpenChange={onOpenChange}
+      open={open}
+      defaultOpen={defaultOpen}
+      modal={modal}
+    >
       <rDropdownMenu.Trigger asChild>
+        {trigger || (
           <StyledIconButton aria-label="Customise options">
-            {trigger || (<AiOutlineMenu />)}
+            {triggerIcon}
           </StyledIconButton>
+        )}
       </rDropdownMenu.Trigger>
       <rDropdownMenu.Portal>
-        <StyledContent sideOffset={5}>
-          <StyledItem>
-            Logout <StyledRightSlot>⌘+T</StyledRightSlot>
-          </StyledItem>
-        </StyledContent>
+        <StyledContent sideOffset={5}>{children}</StyledContent>
       </rDropdownMenu.Portal>
     </rDropdownMenu.Root>
   );
