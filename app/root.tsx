@@ -12,7 +12,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Global } from "@emotion/react";
 
 import { ServerStyleContext, ClientStyleContext } from "~/styles/context";
@@ -20,6 +20,13 @@ import { base, light, dark } from "~/themes";
 import GlobalStyles from "~/styles/globals.styled";
 import { requireUserId } from "~/services/session.server";
 import ThemeContext from "./themes/context";
+
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+
+// i18n
+import { useTranslation } from "react-i18next";
+import i18next from "~/i18next.server";
+import { useChangeLanguage } from "./hooks/useChangeLanguage";
 
 
 export const meta: MetaFunction = () => ({
@@ -33,10 +40,36 @@ interface DocumentProps {
   children: React.ReactNode;
 }
 
+export const loader = async ({ request }: LoaderArgs) => {
+  const userId = await requireUserId(request);
+  let locale = await i18next.getLocale(request);
+
+  return json({ locale, userId });
+};
+
+export let handle = {
+  // In the handle export, we can add a i18n key with namespaces our route
+  // will need to load. This key can be a single string or an array of strings.
+  // TIP: In most cases, you should set this to your defaultNS from your i18n config
+  // or if you did not set one, set it to the i18next default namespace "translation"
+  i18n: "common",
+};
+
 const Document = withEmotionCache(
   ({ children }: DocumentProps, emotionCache) => {
     const serverStyleData = useContext(ServerStyleContext);
     const clientStyleData = useContext(ClientStyleContext);
+
+    // Get the locale from the loader
+    let { locale } = useLoaderData<typeof loader>();
+
+    let { i18n } = useTranslation();
+
+    // This hook will change the i18n instance language to the current locale
+    // detected by the loader, this way, when we do something to change the
+    // language, this locale will change and i18next will load the correct
+    // translation files
+    useChangeLanguage(locale);
 
     // Only executed on client
     useEffect(() => {
@@ -53,7 +86,7 @@ const Document = withEmotionCache(
     }, []);
 
     return (
-      <html lang="en">
+      <html lang={locale} dir={i18n.dir()}>
         <head>
           <Meta />
           <Links />
@@ -91,22 +124,15 @@ const themesMap: any = {
   dark,
 };
 
-export const loader = async ({ request }: LoaderArgs) => {
-  const userId = await requireUserId(request);
-
-  return { userId };
-};
-
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState("dark");
-  const data = useLoaderData<typeof loader>();
 
   const theme: Theme = { ...base, colors: themesMap[currentTheme] };
 
   const themeContext = {
     theme: currentTheme,
     setTheme: setCurrentTheme,
-  }
+  };
 
   return (
     <Document>

@@ -1,10 +1,6 @@
-import {
-  CiDark,
-  CiLight,
-  CiBellOn,
-} from "react-icons/ci";
+import { CiDark, CiLight, CiBellOn } from "react-icons/ci";
 import { useColorMode } from "theme-ui";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { StyledToolbarItem } from "~/components/Layout/Layout.styled";
 import { useOptionalUser } from "~/utils";
 import type { ThemeProps } from "~/themes/context";
@@ -19,7 +15,26 @@ import {
   StyledToolbarGroup,
   StyledIconBox,
 } from "./Header.styled";
+import styled from "@emotion/styled";
+import type { StyledTheme } from "~/styles/page.styled";
+import { useChangeLanguage } from "~/hooks/useChangeLanguage";
 
+export const StyledSelect = styled.select<StyledTheme>`
+  background-color: transparent;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  margin-left: 1rem;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
+  }
+
+  option {
+    height: 2rem;
+  }
+`;
 
 export interface IHeader {
   setCurrentTheme: (theme: string) => void;
@@ -50,6 +65,17 @@ export const ThemeSwitcher = () => {
 
 const Header = () => {
   const user = useOptionalUser();
+  const [langSelected, setLangSelected] = useState<string>("");
+
+  useChangeLanguage(langSelected);
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const lang = e.target.value;
+
+    localStorage.setItem("lang", lang);
+
+    setLangSelected(lang);
+  };
 
   return (
     <StyledHeader>
@@ -60,6 +86,13 @@ const Header = () => {
       <StyledToolbarGroup>
         <StyledToolbarItem>
           <ThemeSwitcher />
+          <form action="/lang" method="post">
+            <StyledSelect name="lang" onChange={handleChange}>
+              <option value="rw">🇷🇼</option>
+              <option value="en">🏴󠁧󠁢󠁥󠁮󠁧󠁿</option>
+            </StyledSelect>
+            <input type="submit" value="submit" hidden />
+          </form>
         </StyledToolbarItem>
         {user && (
           <StyledToolbarItem>

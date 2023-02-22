@@ -1,5 +1,5 @@
-import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
-import { CiShop, CiCircleMore, CiPower, CiUser } from "react-icons/ci";
+import { Form, useLoaderData, useLocation } from "@remix-run/react";
+import { CiShop, CiPower, CiUser, CiLogout } from "react-icons/ci";
 import { Text } from "theme-ui";
 
 import useImageColor from "use-image-color";
@@ -28,12 +28,18 @@ import {
   StyledLinkStores,
   StyledAnchorStores,
   StyledLinkList,
-  StyledProfilePlaceholder,
   StyledProfilePageLink,
 } from "./Sidebar.styled";
 import { links } from "./links";
 import DropDownMenu from "./DropDownMenu/DropDownMenu";
-import { StyledIconButton } from "./DropDownMenu/DropDownMenu.styled";
+import {
+  StyledIconButton,
+  StyledItem,
+  StyledRightSlot,
+} from "./DropDownMenu/DropDownMenu.styled";
+import { AiOutlineEllipsis } from "react-icons/ai";
+import { useRef, useTransition } from "react";
+import { useTranslation } from "react-i18next";
 
 export interface ISidebar {
   user: any;
@@ -67,6 +73,8 @@ export interface IRenderIcon {
 const Sidebar = () => {
   const data = useLoaderData<typeof loader>();
   const { pathname } = useLocation();
+  const logoutBtnRef = useRef<HTMLButtonElement>(null);
+  const { t } = useTranslation();
 
   const { user, storeList } = data;
 
@@ -80,7 +88,7 @@ const Sidebar = () => {
             key={link.name}
           >
             <StyledMenuLink>{link.icon}</StyledMenuLink>
-            <StyledAnchor>{link.name}</StyledAnchor>
+            <StyledAnchor>{t(link.name)}</StyledAnchor>
           </StyledLink>
         ))}
       </StyledSidebarLinks>
@@ -125,8 +133,20 @@ const Sidebar = () => {
           </StyledNameBox>
         </StyledProfilePageLink>
         <StyledMoreBox>
-          <DropDownMenu trigger={<CiCircleMore />} />
+          <DropDownMenu triggerIcon={<AiOutlineEllipsis />}>
+            <StyledItem onClick={() => logoutBtnRef.current?.click()}>
+              Logout
+              <StyledRightSlot>
+                <CiLogout size={32} />
+              </StyledRightSlot>
+            </StyledItem>
+          </DropDownMenu>
         </StyledMoreBox>
+        <form action="/logout" method="post">
+          <button type="submit" ref={logoutBtnRef} hidden>
+            Logout
+          </button>
+        </form>
       </StyledSidebarFooter>
     </StyledSidebar>
   );
