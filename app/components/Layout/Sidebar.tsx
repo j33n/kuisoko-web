@@ -144,12 +144,12 @@ const Sidebar = () => {
               </StyledRightSlot>
             </StyledItem>
           </DropDownMenu>
-          <form action="/logout" method="post">
-            <button type="submit" ref={logoutBtnRef} hidden>
-              Logout
-            </button>
-          </form>
         </StyledMoreBox>
+        <form action="/logout" method="post">
+          <button type="submit" ref={logoutBtnRef} hidden>
+            Logout
+          </button>
+        </form>
       </StyledSidebarFooter>
     </StyledSidebar>
   );
