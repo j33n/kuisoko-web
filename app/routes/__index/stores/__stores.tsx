@@ -12,6 +12,7 @@ import type { StyledTheme } from "~/styles/page.styled";
 import type { LoaderArgs } from "@remix-run/node";
 
 import { requireUser } from "~/services/session.server";
+import { useTranslation } from "react-i18next";
 
 export const StyledContainer = styled.div`
   display: flex;
@@ -76,6 +77,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Stores() {
   const data = useLoaderData<typeof loader>();
+  let { t } = useTranslation();
   return (
     <StyledPage>
       <StyledPageHeader>
@@ -84,7 +86,7 @@ export default function Stores() {
         ) : (
           <StyledHeader>
             <Link to="/stores">
-              <StyledTitle>My Stores</StyledTitle>
+              <StyledTitle>{t("myStores")}</StyledTitle>
             </Link>
             <Link
               to="/stores/new"

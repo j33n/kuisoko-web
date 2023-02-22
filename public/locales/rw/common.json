@@ -1,3 +1,27 @@
 {
-    "greeting": "Bite"
+    "greeting": "Bite",
+    "myStores": "Amaduka Yanjye",
+    "orders": "Ibyatumwe",
+    "products": "Ibicuruzwa",
+    "customers": "Abakiriya",
+    "items": "Ibicuruzwa",
+    "dashboard": "Ikibaho Mbarira",
+    "newStore": "Iduka Rishya",
+    "logout": "Gusohoka",
+    "login": "Injira",
+    "register": "Iyandikishe",
+    "email": "Imeri",
+    "password": "Ijambo ry' Ibanga",
+    "confirmPassword": "Emeza Ibanga",
+    "resetPassword": "Hindura Ibanga",
+    "rememberMe": "Nyibuka",
+    "name": "Izina",
+    "storeName": "Izina ry'Iduka",
+    "storeDescription": "Ubusobanuro bw'Iduka",
+    "storeLogo": "Ikirango cy'Iduka",
+    "storeBanner": "Ikirango Kinini cy'Iduka",
+    "storeAddress": "Aho Iduka Ribarizwa",
+    "storePhone": "Nimero y' Iduka",
+    "storeEmail": "Imeli y'Iduka",
+    "myInfo": "Amakuru Yanjye"
 }

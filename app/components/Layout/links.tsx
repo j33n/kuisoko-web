@@ -8,27 +8,27 @@ import {
 
 export const links = [
   {
-    name: "My Stores",
+    name: "myStores",
     path: "/stores",
     icon: <CiShop />,
   },
   {
-    name: "Items",
+    name: "items",
     path: "/items",
     icon: <CiShoppingCart />,
   },
   {
-    name: "Dashboard",
+    name: "dashboard",
     path: "/dashboard",
     icon: <CiGrid42 />,
   },
   {
-    name: "Orders",
+    name: "orders",
     path: "/orders",
     icon: <CiCoinInsert />,
   },
   {
-    name: "Customers",
+    name: "customers",
     path: "/customers",
     icon: <CiUser />,
   },

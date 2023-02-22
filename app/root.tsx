@@ -69,7 +69,7 @@ const Document = withEmotionCache(
     // detected by the loader, this way, when we do something to change the
     // language, this locale will change and i18next will load the correct
     // translation files
-    useChangeLanguage("rw");
+    useChangeLanguage(locale);
 
     // Only executed on client
     useEffect(() => {
