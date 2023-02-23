@@ -18,6 +18,7 @@ import AuthMenu from './AuthMenu/AuthMenu';
 import Separator from './Separator/Separator';
 import Builder from './Builder/Builder';
 import AccountMenuBar from './AccountMenuBar/AccountMenuBar';
+import RenderIcon from './RenderIcon/RenderIcon';
 
 export {
   Header,
@@ -40,4 +41,5 @@ export {
   Separator,
   Builder,
   AccountMenuBar,
+  RenderIcon,
 };

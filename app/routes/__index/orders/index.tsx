@@ -1,9 +1,7 @@
-import React from "react";
-
 export default function OrdersRoute() {
   return (
     <div>
-      <h1>/Orders</h1>
+      <h1>There are no orders yet</h1>
     </div>
   );
 }

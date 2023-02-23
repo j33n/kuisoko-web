@@ -25,6 +25,7 @@ export const StyledSelect = styled.select<StyledTheme>`
   width: 3rem;
   border-radius: 50%;
   margin-left: 1rem;
+  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
 
   &:focus {
     outline: none;
@@ -88,8 +89,8 @@ const Header = () => {
           <ThemeSwitcher />
           <form action="/lang" method="post">
             <StyledSelect name="lang" onChange={handleChange}>
-              <option value="rw">🇷🇼</option>
-              <option value="en">🏴󠁧󠁢󠁥󠁮󠁧󠁿</option>
+              <option value="rw">RW</option>
+              <option value="en">EN</option>
             </StyledSelect>
             <input type="submit" value="submit" hidden />
           </form>

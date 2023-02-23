@@ -2,8 +2,6 @@ import { Form, useLoaderData, useLocation } from "@remix-run/react";
 import { CiShop, CiPower, CiUser, CiLogout } from "react-icons/ci";
 import { Text } from "theme-ui";
 
-import useImageColor from "use-image-color";
-
 import {
   StyledLink,
   StyledSidebar,
@@ -20,8 +18,6 @@ import { StyledLogoutBtn } from "../Header/Header.styled";
 
 import type { loader } from "~/routes/__index";
 import {
-  StyledImage,
-  StyledImageContainer,
   StyledStoresList,
   StyledAnchor,
   StyledMenuLink,
@@ -38,37 +34,13 @@ import {
   StyledRightSlot,
 } from "./DropDownMenu/DropDownMenu.styled";
 import { AiOutlineEllipsis } from "react-icons/ai";
-import { useRef, useTransition } from "react";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import RenderIcon from "../RenderIcon/RenderIcon";
 
 export interface ISidebar {
   user: any;
-}
-
-const RenderIcon = ({ src }: IRenderIcon) => {
-  const { colors } = useImageColor(src, { cors: true, colors: 5 });
-
-  const bgColor = () => {
-    if (colors && colors.length > 0) {
-      if (colors[0] === "#040404") {
-        return colors[1];
-      } else {
-        return colors[0];
-      }
-    }
-    return "transparent";
-  };
-
-  return (
-    <StyledImageContainer bgColor={bgColor()}>
-      <StyledImage src={src} alt="icon" />
-    </StyledImageContainer>
-  );
 };
-
-export interface IRenderIcon {
-  src: string;
-}
 
 const Sidebar = () => {
   const data = useLoaderData<typeof loader>();

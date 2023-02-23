@@ -140,6 +140,14 @@ export const StyledSidebar = styled(Block)<StyledLayoutProps>`
     `1px solid ${colors.buttonBgHover}`};
 `;
 
+export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
+  max-width: 80%;
+  height: ${({ noFooter }) =>
+    noFooter ? "calc(100vh - 92px)" : "calc(100vh - (92px + 5rem))"};
+  position: relative;
+  z-index: 1;
+`;
+
 export const StyledSidebarLinks = styled(Block)<StyledTheme>`
   width: 100%;
   /* height: calc(100vh - (92px + 5rem)); */
@@ -216,14 +224,6 @@ export const StyledProfileSide = styled(Box)<StyledTheme>`
       max-height: 2rem;
     }
   }
-`;
-
-export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
-  width: 100%;
-  height: ${({ noFooter }) =>
-    noFooter ? "calc(100vh - 92px)" : "calc(100vh - (92px + 5rem))"};
-  position: relative;
-  z-index: 1;
 `;
 
 export const StyledNameBox = styled.div<StyledTheme>`
