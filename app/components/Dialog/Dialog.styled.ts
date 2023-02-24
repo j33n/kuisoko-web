@@ -2,10 +2,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import type { StyledTheme } from "~/styles/page.styled";
 
 export interface IDialogContent {
-  theme?: StyledTheme["theme"];
   noPadding?: boolean;
   sx?: any;
 }
@@ -20,7 +18,7 @@ const contentShow = keyframes`
   100%: { opacity: 1, transform: translate(-50%, -50%) scale(1) };
 `;
 
-export const DialogOverlay = styled(Dialog.Overlay)<StyledTheme>`
+export const DialogOverlay = styled(Dialog.Overlay)`
   background-color: ${({ theme: { colors } }) => colors.blackA9};
   position: fixed;
   inset: 0;
@@ -50,21 +48,21 @@ export const DialogContent = styled(Dialog.Content)<IDialogContent>`
   }
 `;
 
-export const DialogTitle = styled(Dialog.Title)<StyledTheme>`
+export const DialogTitle = styled(Dialog.Title)`
   margin: 0,
   font-weight: 500,
   color: ${({ theme: { colors } }) => colors.crimson9};
   font-size: ${({ theme: { fontSizes } }) => fontSizes.sm};
 `;
 
-export const DialogDescription = styled(Dialog.Description)<StyledTheme>`
+export const DialogDescription = styled(Dialog.Description)`
   margin: 10px 0 20px;
   color: ${({ theme: { colors } }) => colors.gray9};
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
   line-height: 1.5rem;
 `;
 
-export const IconButton = styled.button<StyledTheme>`
+export const IconButton = styled.button`
   all: unset;
   font-family: inherit;
   border-radius: 0.5rem;

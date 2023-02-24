@@ -2,9 +2,7 @@ import { Box, Button, Input, Text } from "theme-ui";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import type { StyledTheme } from "~/styles/page.styled";
-
-export const StyledEditButton = styled(Button)<StyledTheme>`
+export const StyledEditButton = styled(Button)`
   border-radius: 0.5rem;
   min-height: 2rem;
   min-width: 2rem;

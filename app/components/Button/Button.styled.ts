@@ -1,15 +1,12 @@
 import styled from "@emotion/styled";
 import { Button, Box } from "theme-ui";
-import type { StyledTheme } from "~/styles/page.styled";
 
 export interface StyledButtonProps {
   size?: string;
-  theme?: StyledTheme["theme"];
 }
 
 export type StyledIconProps = {
   icon?: React.ReactNode;
-  theme?: StyledTheme["theme"];
 };
 
 export const StyledButton = styled(Button)<StyledButtonProps>`

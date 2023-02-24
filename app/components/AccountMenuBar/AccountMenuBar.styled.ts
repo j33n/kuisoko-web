@@ -2,14 +2,12 @@ import styled from "@emotion/styled";
 import { Link } from "@remix-run/react";
 
 import { Box } from "theme-ui";
-import type { StyledTheme } from "~/styles/page.styled";
 
 export interface IStyledMenuBox {
-  theme?: StyledTheme["theme"];
   active?: boolean;
 }
 
-export const StyledMenubarWrapper = styled(Box)<StyledTheme>`
+export const StyledMenubarWrapper = styled(Box)`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -17,7 +15,7 @@ export const StyledMenubarWrapper = styled(Box)<StyledTheme>`
   justify-content: space-evenly;
 `;
 
-export const StyledMenubar = styled(Link)<StyledTheme>`
+export const StyledMenubar = styled(Link)`
   display: flex;
   padding: 0.5rem 0;
   min-width: 15vw;
@@ -35,7 +33,7 @@ export const StyledMenuBox = styled(Box)<IStyledMenuBox>`
     active ? colors.buttonBgHover : "transparent"};
 `;
 
-export const StyledMenubarLink = styled(Box)<StyledTheme>`
+export const StyledMenubarLink = styled(Box)`
   display: flex;
 
   svg {

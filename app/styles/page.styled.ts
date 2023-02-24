@@ -3,16 +3,6 @@ import { Form, Link } from "@remix-run/react";
 
 import { Box } from "theme-ui";
 
-import type { ColorModesScale } from "theme-ui";
-
-export interface StyledTheme {
-  theme?: {
-    colors: ColorModesScale;
-    fontSizes?: any;
-  };
-  disabled?: boolean;
-}
-
 export const Flex = styled(Box)`
   display: flex;
 `;
@@ -40,7 +30,7 @@ export const FlexCenterEnd = styled(Flex)`
   justify-content: flex-end;
 `;
 
-export const StyledPage = styled.div<StyledTheme>`
+export const StyledPage = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -50,7 +40,7 @@ export const StyledPage = styled.div<StyledTheme>`
   color: ${({ theme: { colors } }) => colors.text};
 `;
 
-export const StyledFormContainer = styled(FlexCenterColumn)<StyledTheme>`
+export const StyledFormContainer = styled(FlexCenterColumn)`
   width: 50%;
   min-height: 50%;
   background: ${({ theme: { colors } }) => colors.background};
@@ -73,7 +63,7 @@ export const StyledFormContainer = styled(FlexCenterColumn)<StyledTheme>`
   }
 `;
 
-export const StyledForm = styled(Form)<StyledTheme>`
+export const StyledForm = styled(Form)`
   width: 100%;
 `;
 
@@ -106,7 +96,7 @@ export const StyledFormBottom = styled(FlexCenterBetween)`
   }
 `;
 
-export const StyledError = styled.span<StyledTheme>`
+export const StyledError = styled.span`
   position: absolute;
   display: block;
   height: 1.5rem;
@@ -115,7 +105,7 @@ export const StyledError = styled.span<StyledTheme>`
   font-size: ${({ theme }) => theme.fontSizes.xxs};
 `;
 
-export const StyledLink = styled(Link)<StyledTheme>`
+export const StyledLink = styled(Link)`
   font-size: 0.875rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.nav};
@@ -126,7 +116,7 @@ export const StyledLink = styled(Link)<StyledTheme>`
   }
 `;
 
-export const StyledButton = styled.button<StyledTheme>`
+export const StyledButton = styled.button`
   width: 100%;
   margin: 1rem 0;
   padding: 0.5rem;
@@ -166,7 +156,7 @@ export const StyledButton = styled.button<StyledTheme>`
   }
 `;
 
-export const StyledNewAccountText = styled.span<StyledTheme>`
+export const StyledNewAccountText = styled.span`
   font-size: 0.875rem;
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
   text-align: center;
@@ -174,14 +164,14 @@ export const StyledNewAccountText = styled.span<StyledTheme>`
   height: 40px;
 `;
 
-export const StyledText = styled.span<StyledTheme>`
+export const StyledText = styled.span`
   color: ${({ theme: { colors } }) => colors.text};
   text-align: center;
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
 `;
 
-export const StyledFooter = styled(FlexCenterColumn)<StyledTheme>`
+export const StyledFooter = styled(FlexCenterColumn)`
   width: 100%;
   height: 5rem;
   background: transparent;

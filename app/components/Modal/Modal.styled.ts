@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import type { ModalAnimation } from "./Modal";
 import { css } from "@emotion/react";
 import * as keyframes from "./Keyframes.styled";
-import type { StyledTheme } from "~/styles/page.styled";
 
 // Modal animations types
 export const ModalAnimations = [
@@ -50,10 +49,9 @@ const {
   zoomOut,
 } = keyframes;
 
-export interface StyledModalContainerProps {
-  theme?: StyledTheme["theme"];
-  modalAnimation: ModalAnimation;
-  open: boolean;
+export type StyledModalContainerProps = {
+  modalAnimation: ModalAnimation,
+  open: boolean,
 }
 
 export const StyledModalContainer = styled.div<StyledModalContainerProps>`
@@ -331,14 +329,14 @@ export const StyledModalContainer = styled.div<StyledModalContainerProps>`
     `};
 `;
 
-export const StyledModalBackground = styled.div<StyledTheme>`
+export const StyledModalBackground = styled.div`
   display: table-cell;
   background: rgba(0, 0, 0, 0.8);
   text-align: center;
   vertical-align: middle;
 `;
 
-export const StyledModal = styled.div<StyledTheme>`
+export const StyledModal = styled.div`
   background: white;
   padding: 1rem;
   display: inline-block;
@@ -363,21 +361,7 @@ export const StyledModal = styled.div<StyledTheme>`
   }
 `;
 
-// export const StyledModal = styled.div<StyledTheme>`
-//   display: flex;
-//   flex-direction: column;
-//   width: 100%;
-//   height: 20%;
-//   position: relative;
-//   background: ${({ theme: { colors } }) => colors.background};
-//   /* animate modal open */
-//   animation: modalOpen 0.5s ease-in-out;
-
-//   /* animate modal close */
-//   animation: modalClose 0.5s ease-in-out;
-// `;
-
-export const StyledHeaderContent = styled.div<StyledTheme>`
+export const StyledHeaderContent = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -387,7 +371,7 @@ export const StyledHeaderContent = styled.div<StyledTheme>`
   color: ${({ theme: { colors } }) => colors.text};
 `;
 
-export const StyledModalContent = styled.div<StyledTheme>`
+export const StyledModalContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -396,7 +380,7 @@ export const StyledModalContent = styled.div<StyledTheme>`
 `;
 
 // Modal Footer
-export const StyledModalFooter = styled.div<StyledTheme>`
+export const StyledModalFooter = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -406,7 +390,7 @@ export const StyledModalFooter = styled.div<StyledTheme>`
   color: ${({ theme: { colors } }) => colors.text};
 `;
 
-export const StyledButton = styled.button<StyledTheme>`
+export const StyledButton = styled.button`
   display: flex;
   flex-direction: row;
   width: 100%;

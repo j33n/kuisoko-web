@@ -1,24 +1,32 @@
 import styled from "@emotion/styled";
-import type { StyledTheme } from "~/styles/page.styled";
+
+import { FlexCenter } from "~/styles/page.styled";
 
 export const StyledContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: center;
 `;
 
-export const StyledBody = styled.div`
+export const StyledBody = styled(FlexCenter)`
   width: 60vw;
-  margin-top: 10vh;
+  height: fit-content;
+  margin-top: 5vh;
+  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
+  border-radius: 0.5rem;
+  padding-top: 1rem;
 `;
 
 export const StyledContent = styled.div`
-  width: 80%;
+  width: 100%;
+  padding: 0 1rem;
   margin: 0 auto;
+  position: relative;
 `;
 
-export const StyledSideRight = styled.div<StyledTheme>`
+export const StyledSideRight = styled.div`
   width: 40%;
   padding-top: 1rem;
   padding-left: 0.5rem;
@@ -31,7 +39,7 @@ export const StyledHeader = styled.h1`
   margin-bottom: 1rem;
 `;
 
-export const StyledLogoBox = styled.div<StyledTheme>`
+export const StyledLogoBox = styled.div`
   display: flex;
   margin-bottom: 1rem;
 `;
@@ -41,7 +49,7 @@ export const StyledComment = styled.p`
   font-weight: 200;
 `;
 
-export const StyledOverlay = styled.div<StyledTheme>`
+export const StyledOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;

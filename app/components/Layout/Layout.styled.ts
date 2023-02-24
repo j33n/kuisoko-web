@@ -2,19 +2,20 @@ import styled from "@emotion/styled";
 import { Link } from "@remix-run/react";
 import { Box } from "theme-ui";
 
-import type { StyledTheme } from "~/styles/page.styled";
 import { FlexCenter } from "~/styles/page.styled";
 
 export interface StyledLayoutProps {
   size?: string;
-  theme?: StyledTheme["theme"];
   nav?: boolean;
 }
 
 export interface IStyledLink {
-  theme?: StyledTheme["theme"];
   active?: boolean;
 }
+
+export type StyledTextProps = {
+  disabled?: boolean;
+};
 
 export const Block = styled.div`
   display: flex;
@@ -24,7 +25,7 @@ export const Block = styled.div`
   width: 100%;
 `;
 
-export const StyledText = styled.p<StyledTheme>`
+export const StyledText = styled.p<StyledTextProps>`
   font-size: 0.8rem;
   color: ${({ theme: { colors }, disabled }) =>
     disabled ? colors.gray10 : colors.text};
@@ -37,7 +38,7 @@ export const StyledText = styled.p<StyledTheme>`
   }
 `;
 
-export const StyledLayout = styled(Box)<StyledTheme>`
+export const StyledLayout = styled(Box)`
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -148,7 +149,7 @@ export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
   z-index: 1;
 `;
 
-export const StyledSidebarLinks = styled(Block)<StyledTheme>`
+export const StyledSidebarLinks = styled(Block)`
   width: 100%;
   /* height: calc(100vh - (92px + 5rem)); */
   justify-content: flex-start;
@@ -157,7 +158,7 @@ export const StyledSidebarLinks = styled(Block)<StyledTheme>`
   padding-bottom: 0.5rem;
 `;
 
-export const StyledSidebarFooter = styled(Block)<StyledTheme>`
+export const StyledSidebarFooter = styled(Block)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -177,7 +178,7 @@ export const StyledSidebarFooter = styled(Block)<StyledTheme>`
   }
 `;
 
-export const StyledMoreBox = styled(FlexCenter)<StyledTheme>`
+export const StyledMoreBox = styled(FlexCenter)`
   width: 20%;
   height: 100%;
   order: 3;
@@ -207,7 +208,7 @@ export const StyledMoreBox = styled(FlexCenter)<StyledTheme>`
   }
 `;
 
-export const StyledProfileSide = styled(Box)<StyledTheme>`
+export const StyledProfileSide = styled(Box)`
   display: flex;
   order: 1;
   min-width: 3.5rem;
@@ -226,7 +227,7 @@ export const StyledProfileSide = styled(Box)<StyledTheme>`
   }
 `;
 
-export const StyledNameBox = styled.div<StyledTheme>`
+export const StyledNameBox = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 0.5rem;
@@ -242,7 +243,7 @@ export const StyledNameBox = styled.div<StyledTheme>`
   }
 `;
 
-export const StyledBottomMenu = styled.div<StyledTheme>`
+export const StyledBottomMenu = styled.div`
   width: 100%;
   position: absolute;
   bottom: 5rem;

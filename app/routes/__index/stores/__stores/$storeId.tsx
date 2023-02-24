@@ -26,6 +26,14 @@ import {
 } from "~/styles/stores/singleStore.styled";
 
 import stylesheetQuill from "~/styles/quill.bubble.css";
+import { AiOutlineMore } from "react-icons/ai";
+import styled from "@emotion/styled";
+import { CiStar } from "react-icons/ci";
+import DropDownMenu from "~/components/Layout/DropDownMenu/DropDownMenu";
+import {
+  StyledItem,
+  StyledRightSlot,
+} from "~/components/Layout/DropDownMenu/DropDownMenu.styled";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesheetQuill }];
@@ -95,8 +103,16 @@ export async function action({ params, request }: ActionArgs) {
   const textEditorValue = formData.get("textEditor");
   // return json({ textEditorValue });
 
-  return json({store, textEditorValue });
+  return json({ store, textEditorValue });
 }
+
+export const StyledMenuTrigger = styled.div`
+  /* position: absolute;
+  top: 0;
+  right: 0; */
+  padding: 1rem;
+  cursor: pointer;
+`;
 
 export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
@@ -118,6 +134,39 @@ export default function StoreDetailsRoute() {
           <StyledLogoBox>
             <ImageDialog tabsWidth="75%" triggerIcon={data.store.icon} />
           </StyledLogoBox>
+          <DropDownMenu>
+            <StyledItem onClick={() => {}}>
+              Add to Favorites
+              <StyledRightSlot>
+                <CiStar />
+              </StyledRightSlot>
+            </StyledItem>
+            <StyledItem onClick={() => {}}>
+              Add to Favorites
+              <StyledRightSlot>
+                <CiStar />
+              </StyledRightSlot>
+            </StyledItem>
+            <StyledItem onClick={() => {}}>
+              Add to Favorites
+              <StyledRightSlot>
+                <CiStar />
+              </StyledRightSlot>
+            </StyledItem>
+            <StyledItem onClick={() => {}}>
+              Add to Favorites
+              <StyledRightSlot>
+                <CiStar />
+              </StyledRightSlot>
+            </StyledItem>
+            <StyledItem onClick={() => {}}>
+              Add to Favorites
+              <StyledRightSlot>
+                <CiStar />
+              </StyledRightSlot>
+            </StyledItem>
+            
+          </DropDownMenu>
           <Form method="post" action={`/stores/${data.store.id}`}>
             <Editable
               defaultValue={data.store.name}

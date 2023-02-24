@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import type { StyledTheme } from "~/styles/page.styled";
+
 import { useRef, useState } from "react";
 
 import uploadPlaceholder from "~/assets/images/addStoreIcon.svg";
 import invariant from "tiny-invariant";
 import { Button } from "~/components";
 
-export const StyledImageHolder = styled.div<StyledTheme>`
+export const StyledImageHolder = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@ export const StyledImagePlaceholder = styled.img`
   }
 `;
 
-export const StyledBtnContainer = styled.div<StyledTheme>`
+export const StyledBtnContainer = styled.div`
   display: flex;
   width: 50%;
   justify-content: flex-end;

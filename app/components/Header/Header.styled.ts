@@ -1,14 +1,6 @@
 import styled from "@emotion/styled";
-import type { ColorModesScale } from "theme-ui";
 
-export interface StyledTheme {
-  theme?: {
-    colors: ColorModesScale;
-  };
-  nav?: boolean;
-}
-
-export const StyledHeader = styled.header<StyledTheme>`
+export const StyledHeader = styled.header`
   display: flex;
   width: 100%;
   border-bottom: ${({ theme: { colors } }) =>
@@ -47,7 +39,7 @@ export const StyledLogoutBtn = styled.button`
   }
 `;
 
-export const StyledIconBox = styled.div<StyledTheme>`
+export const StyledIconBox = styled.div`
   display: flex;
   flex-direction: row;
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};

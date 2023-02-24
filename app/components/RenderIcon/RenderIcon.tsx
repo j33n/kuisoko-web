@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
-import type { StyledTheme } from "~/styles/page.styled";
 
 import useImageColor from "use-image-color";
 import { Image } from "use-image-color";
 
 export interface IStyledImageContainer {
-  theme?: StyledTheme["theme"];
   bgColor?: string;
 }
 
@@ -38,11 +36,11 @@ export const StyledImage = styled(Image)`
   padding: 0.5rem;
 `;
 
-export interface IRenderIcon {
-  src: string;
+export type RenderIconProps = {
+  src: string,
 }
 
-const RenderIcon = ({ src }: IRenderIcon) => {
+const RenderIcon = ({ src }: RenderIconProps) => {
   const { colors } = useImageColor(src, { cors: true, colors: 5 });
 
   const bgColor = () => {

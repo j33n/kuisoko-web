@@ -26,18 +26,17 @@ import {
 } from "~/styles/stores/singleStore.styled";
 import { Paragraph } from "theme-ui";
 import styled from "@emotion/styled";
-import type { StyledTheme } from "~/styles/page.styled";
 
-export interface IStyledParagraph {
-  theme?: StyledTheme["theme"];
+export type StyledParagraphType = {
   disabled?: boolean;
 }
 
-export const StyledParagraph = styled(Paragraph)<IStyledParagraph>`
+export const StyledParagraph = styled(Paragraph)<StyledParagraphType>`
   font-size: 1.5rem;
   font-weight: 500;
   margin-bottom: 1rem;
-  color: ${({ theme: { colors }, disabled }) => disabled ? colors.gray9 : colors.text};
+  color: ${({ theme: { colors }, disabled }) =>
+    disabled ? colors.gray9 : colors.text};
 `;
 
 export async function loader({ request }: LoaderArgs) {

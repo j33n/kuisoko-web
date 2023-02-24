@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 
-import type { StyledTheme } from "~/styles/page.styled";
-
-export const StyledAdd = styled.div<StyledTheme>`
+export const StyledAdd = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -20,6 +18,6 @@ export const StyledAdd = styled.div<StyledTheme>`
   }
 `;
 
-export const StyledText = styled.span<StyledTheme>`
+export const StyledText = styled.span`
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
 `;

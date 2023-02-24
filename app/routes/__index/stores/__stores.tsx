@@ -8,7 +8,6 @@ import { getStores } from "~/models/store.server";
 import { IconButton } from "theme-ui";
 import { CiShop, CiSquarePlus } from "react-icons/ci";
 
-import type { StyledTheme } from "~/styles/page.styled";
 import type { LoaderArgs } from "@remix-run/node";
 
 import { requireUser } from "~/services/session.server";
@@ -24,23 +23,22 @@ export const StyledContainer = styled.div`
   width: 100%;
 `;
 
-export const StyledPageHeader = styled.div<StyledTheme>`
+export const StyledPageHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  border-bottom: ${({ theme: { colors } }) =>
-    `1px solid ${colors.buttonBgHover}`};
+  margin-bottom: 2rem;
 `;
 
-export const StyledTitle = styled.div<StyledTheme>`
+export const StyledTitle = styled.div`
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme: { colors } }) => colors.text};
   margin-left: 1.5rem;
 `;
 
-export const StyledHeader = styled.div<StyledTheme>`
+export const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,7 +47,7 @@ export const StyledHeader = styled.div<StyledTheme>`
   max-width: 78vw;
 `;
 
-export const StyledIconButton = styled(IconButton)<StyledTheme>`
+export const StyledIconButton = styled(IconButton)`
   width: auto;
   height: auto;
   padding: 0.2rem 0.5rem;
@@ -65,7 +63,16 @@ export const StyledIconButton = styled(IconButton)<StyledTheme>`
   }
 `;
 
-export const StyledPinContainer = styled.div<StyledTheme>`
+export const StyledNewStoreLink = styled(Link)`
+  height: 100%;
+  margin-left: 1rem;
+
+  svg {
+    margin-right: 0 !important;
+  }
+`;
+
+export const StyledPinContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -75,7 +82,7 @@ export const StyledPinContainer = styled.div<StyledTheme>`
   gap: 1rem;
 `;
 
-export const StyledPin = styled(Link)<StyledTheme>`
+export const StyledPin = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,11 +101,11 @@ export const StyledPin = styled(Link)<StyledTheme>`
   }
 `;
 
-export const StyledPinImg = styled.div<StyledTheme>`
+export const StyledPinImg = styled.div`
   display: flex;
 `;
 
-export const StyledPinText = styled.span<StyledTheme>`
+export const StyledPinText = styled.span`
   font-weight: 200;
   font-size: ${({ theme: { fontSizes } }) => fontSizes["xxs"]};
   height: 2.5rem;
@@ -143,14 +150,11 @@ export default function Stores() {
                 </StyledPin>
               ))}
             </StyledPinContainer>
-            <Link
-              to="/stores/new"
-              style={{ height: "100%", lineHeight: "100%" }}
-            >
+            <StyledNewStoreLink to="/stores/new">
               <StyledIconButton>
                 <CiSquarePlus />
               </StyledIconButton>
-            </Link>
+            </StyledNewStoreLink>
           </StyledHeader>
         )}
       </StyledPageHeader>

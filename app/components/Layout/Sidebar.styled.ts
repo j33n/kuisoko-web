@@ -4,17 +4,7 @@ import { Text } from "theme-ui";
 
 import { Link } from "@remix-run/react";
 
-import type { ColorModesScale } from "theme-ui";
-import type { StyledTheme } from "~/styles/page.styled";
-
-export interface IAnchor {
-  theme: {
-    colors: ColorModesScale;
-    fontSizes?: any;
-  };
-}
-
-export const StyledStoresList = styled.div<StyledTheme>`
+export const StyledStoresList = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -25,7 +15,7 @@ export const StyledStoresList = styled.div<StyledTheme>`
   max-height: 50vh;
 `;
 
-export const StyledTitle = styled(Text)<StyledTheme>`
+export const StyledTitle = styled(Text)`
   font-size: 0.8rem;
   font-weight: 600;
   color: ${({ theme: { colors } }) => colors.text};
@@ -50,7 +40,7 @@ export const StyledLink = css`
   }
 `;
 
-export const Anchor = ({ theme: { colors, fontSizes } }: IAnchor) => css`
+export const Anchor = ({ theme: { colors, fontSizes } }: any) => css`
   display: flex;
   margin: 0 1rem;
   border-radius: 0.5rem;
@@ -69,7 +59,7 @@ export const Anchor = ({ theme: { colors, fontSizes } }: IAnchor) => css`
   }
 `;
 
-export const StyledAnchor = styled.span<StyledTheme>`
+export const StyledAnchor = styled.span`
   ${Anchor}
 `;
 
@@ -77,7 +67,7 @@ export const StyledMenuLink = styled.span`
   ${StyledLink}
 `;
 
-export const StyledLinkList = styled(Link)<StyledTheme>`
+export const StyledLinkList = styled(Link)`
   display: flex;
   justify-content: flex-start;
   width: 100%;
@@ -98,7 +88,7 @@ export const StyledLinkList = styled(Link)<StyledTheme>`
   }
 `;
 
-export const StyledAnchorStores = styled.span<StyledTheme>`
+export const StyledAnchorStores = styled.span`
   ${Anchor}
   margin: 0;
   padding: 0 1rem;
@@ -110,7 +100,7 @@ export const StyledAnchorStores = styled.span<StyledTheme>`
   }
 `;
 
-export const StyledLinkStores = styled.span<StyledTheme>`
+export const StyledLinkStores = styled.span`
   ${StyledLink}
   justify-content: flex-start;
 
@@ -124,7 +114,7 @@ export const StyledLinkStores = styled.span<StyledTheme>`
   }
 `;
 
-export const StyledProfilePageLink = styled(Link)<StyledTheme>`
+export const StyledProfilePageLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: space-evenly;

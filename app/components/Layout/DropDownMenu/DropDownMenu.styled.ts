@@ -11,19 +11,11 @@ import {
   slideUpAndFade,
 } from "~/components/Modal/Keyframes.styled";
 
-export interface StyledTheme {
-  theme: any;
-}
-
-export interface IStyledTheme {
-  theme?: StyledTheme["theme"];
-}
-
 export const DropdownMenuArrow = styled(DropdownMenu.Arrow)`
   fill: white;
 `;
 
-export const ItemStyles = ({ theme: { colors } }: StyledTheme) => css`
+export const ItemStyles = ({ theme: { colors } }: any) => css`
   all: unset;
   font-size: 1rem;
   line-height: 1px;
@@ -51,7 +43,7 @@ export const StyledCheckboxItem = styled(DropdownMenu.CheckboxItem)`
   ${ItemStyles}
 `;
 
-export const ContentStyles = ({ theme: { colors } }: StyledTheme) => css`
+export const ContentStyles = ({ theme: { colors } }: any) => css`
   min-width: 220px;
   background-color: ${colors.gray4};
   border-radius: 6px;
@@ -85,7 +77,7 @@ export const StyledContent = styled(DropdownMenu.Content)`
   ${ContentStyles};
 `;
 
-export const StyledItem = styled(DropdownMenu.Item)<IStyledTheme>`
+export const StyledItem = styled(DropdownMenu.Item)`
   ${ItemStyles};
   cursor: pointer;
 
@@ -103,7 +95,7 @@ export const StyledItemIndicator = styled(DropdownMenu.ItemIndicator)`
   justify-content: center;
 `;
 
-export const StyledLabel = styled(DropdownMenu.Label)<StyledTheme>`
+export const StyledLabel = styled(DropdownMenu.Label)`
   padding-left: 25px;
   font-size: 12px;
   line-height: 25px;
@@ -114,7 +106,7 @@ export const StyledRadioItem = styled(DropdownMenu.RadioItem)`
   ${ItemStyles}
 `;
 
-export const StyledSeparator = styled(DropdownMenu.Separator)<StyledTheme>`
+export const StyledSeparator = styled(DropdownMenu.Separator)`
   height: 1px;
   background-color: ${({ theme: { colors } }) => colors.gray4};
   margin: 5px;
@@ -124,7 +116,7 @@ export const StyledSubContent = styled(DropdownMenu.SubContent)`
   ${ContentStyles}
 `;
 
-export const StyledSubTrigger = styled(DropdownMenu.SubTrigger)<StyledTheme>`
+export const StyledSubTrigger = styled(DropdownMenu.SubTrigger)`
   &[data-state="open"] {
     background-color: ${({ theme: { colors } }) => colors.crimson4};
     color: ${({ theme: { colors } }) => colors.text};
@@ -133,7 +125,7 @@ export const StyledSubTrigger = styled(DropdownMenu.SubTrigger)<StyledTheme>`
   ${ItemStyles}
 `;
 
-export const StyledIconButton = styled(Button)<IStyledTheme>`
+export const StyledIconButton = styled(Button)`
   all: unset;
   font-family: inherit;
   border-radius: 50%;
@@ -163,13 +155,13 @@ export const StyledIconButton = styled(Button)<IStyledTheme>`
 export const StyledRightSlot = styled(Box)`
   margin-left: auto;
   padding-left: 20px;
-  color: ${({ theme: { colors } }: StyledTheme) => colors.blue11};
+  color: ${({ theme: { colors } }) => colors.blue11};
 
   [data-highlighted] > & {
     color: white;
   }
 
   [data-disabled] & {
-    color: ${({ theme: { colors } }: StyledTheme) => colors.crimson11};
+    color: ${({ theme: { colors } }) => colors.crimson11};
   }
 `;

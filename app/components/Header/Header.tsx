@@ -16,10 +16,10 @@ import {
   StyledIconBox,
 } from "./Header.styled";
 import styled from "@emotion/styled";
-import type { StyledTheme } from "~/styles/page.styled";
+
 import { useChangeLanguage } from "~/hooks/useChangeLanguage";
 
-export const StyledSelect = styled.select<StyledTheme>`
+export const StyledSelect = styled.select`
   background-color: transparent;
   height: 3rem;
   width: 3rem;

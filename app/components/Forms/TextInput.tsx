@@ -3,12 +3,10 @@ import { css } from "@emotion/react";
 
 import Label from "./TextLabel";
 
-import type { StyledTheme } from "~/styles/page.styled";
 import type { InputProps } from "theme-ui";
 import { useEffect, useState } from "react";
 
 export interface TextInputProps {
-  theme?: StyledTheme["theme"];
   height?: string;
 }
 

@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 
-import type { StyledTheme } from "~/styles/page.styled";
-
-export const StyledHeader = styled.div<StyledTheme>`
+export const StyledHeader = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -2,14 +2,11 @@ import styled from "@emotion/styled";
 import * as Tabs from "@radix-ui/react-tabs";
 import { Box } from "theme-ui";
 
-import type { StyledTheme } from "~/styles/page.styled";
-
 export interface StyledTabsListProps {
-  theme?: StyledTheme["theme"];
   tabsWidth?: string;
 }
 
-export const StyledTabsRoot = styled(Tabs.Root)<StyledTheme>`
+export const StyledTabsRoot = styled(Tabs.Root)`
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 10px ${({ theme: { colors } }) => colors.blackA7};
@@ -22,7 +19,7 @@ export const StyledTabsList = styled(Tabs.List)<StyledTabsListProps>`
   width: ${({ tabsWidth }) => tabsWidth || "100%"};
 `;
 
-export const StyledTabsTrigger = styled(Tabs.Trigger)<StyledTheme>`
+export const StyledTabsTrigger = styled(Tabs.Trigger)`
   all: unset;
   background-color: ${({ theme: { colors } }) => colors.background};
   color: ${({ theme: { colors } }) => colors.blueA4};
@@ -51,7 +48,7 @@ export const StyledTabsTrigger = styled(Tabs.Trigger)<StyledTheme>`
   }
 `;
 
-export const StyledTabsContent = styled(Tabs.Content)<StyledTheme>`
+export const StyledTabsContent = styled(Tabs.Content)`
   flex-grow: 1;
   background-color: ${({ theme: { colors } }) => colors.background};
   outline: none;
@@ -61,7 +58,7 @@ export const StyledTabsContent = styled(Tabs.Content)<StyledTheme>`
   }
 `;
 
-export const StyledIcon = styled(Box)<StyledTheme>`
+export const StyledIcon = styled(Box)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -78,13 +75,13 @@ export const StyledIcon = styled(Box)<StyledTheme>`
   }
 `;
 
-export const StyledText = styled.span<StyledTheme>`
+export const StyledText = styled.span`
   display: block;
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   margin-left: 1rem;
 `;
 
-export const StyledImagePlaceholder = styled.img<StyledTheme>`
+export const StyledImagePlaceholder = styled.img`
   display: block;
   width: 5rem;
   cursor: pointer;
