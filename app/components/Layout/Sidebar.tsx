@@ -120,7 +120,7 @@ const Sidebar = () => {
           </DropDownMenu>
         </StyledMoreBox>
         <form action="/logout" method="post">
-          <button type="submit" ref={logoutBtnRef} hidden>
+          <button type="submit" name="logout" ref={logoutBtnRef} hidden>
             Logout
           </button>
         </form>
