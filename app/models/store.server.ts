@@ -54,6 +54,21 @@ export function getStores(userId: User["id"]) {
   });
 };
 
+export function getFavoriteStores(userId: User["id"]) {
+  return prisma.store.findMany({
+    where: { addedBy: { id: userId }, favorite: true },
+    select: {
+      id: true,
+      name: true,
+      comment: true,
+      location: true,
+      icon: true,
+      cover: true,
+    },
+    orderBy: { updatedAt: "desc" },
+  });
+};
+
 export function deleteStore({
   id,
   userId,
@@ -76,7 +91,6 @@ export function updateStoreName({
 export function updateStoreComment({
   id,
   comment,
-  userId
 }: Pick<Store, "id" | "comment"> & { userId: User["id"] }) {
   return prisma.store.update({
     where: { id },
@@ -87,10 +101,20 @@ export function updateStoreComment({
 export function updateStoreIcon({
   id,
   icon,
-  userId
 }: Pick<Store, "id" | "icon"> & { userId: User["id"] }) {
   return prisma.store.update({
     where: { id },
     data: { icon },
+  });
+}
+
+export function updateStoreFavorite({
+  id,
+  favorite,
+  userId
+}: Pick<Store, "id" | "favorite"> & { userId: User["id"] }) {
+  return prisma.store.update({
+    where: { id },
+    data: { favorite },
   });
 }

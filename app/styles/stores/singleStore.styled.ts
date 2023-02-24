@@ -24,6 +24,13 @@ export const StyledContent = styled.div`
   padding: 0 1rem;
   margin: 0 auto;
   position: relative;
+
+  > button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 1rem;
+  }
 `;
 
 export const StyledSideRight = styled.div`

@@ -4,7 +4,7 @@ import { StyledPage } from "~/styles/page.styled";
 
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { getStores } from "~/models/store.server";
+import { getFavoriteStores, getStores } from "~/models/store.server";
 import { IconButton } from "theme-ui";
 import { CiShop, CiSquarePlus } from "react-icons/ci";
 
@@ -125,23 +125,22 @@ export const loader = async ({ request }: LoaderArgs) => {
   const pageName = url.pathname.replace("/", "");
 
   const storeList = await getStores(user.id);
+  const favoriteStoreList = await getFavoriteStores(user.id);
 
-  return json({ user, storeList, pageName });
+  return json({ user, storeList, favoriteStoreList, pageName });
 };
 
 export default function Stores() {
   const data = useLoaderData<typeof loader>();
   let { t } = useTranslation();
+  
   return (
     <StyledPage>
       <StyledPageHeader>
         {data.storeList.length === 0 ? (
-          <StyledTitle>New Store</StyledTitle>
+          <StyledTitle>{t("newStore")}</StyledTitle>
         ) : (
           <StyledHeader>
-            {/* <Link to="/stores">
-              <CiSquarePlus />
-            </Link> */}
             <StyledPinContainer>
               {data.storeList.map((store) => (
                 <StyledPin key={store.id} to={store.id}>

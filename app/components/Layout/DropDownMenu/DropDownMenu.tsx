@@ -1,7 +1,7 @@
 import * as rDropdownMenu from "@radix-ui/react-dropdown-menu";
 
 import { AiOutlineMore } from "react-icons/ai";
-import { StyledContent, StyledIconButton, StyledItem } from "./DropDownMenu.styled";
+import { StyledContent, StyledIconButton } from "./DropDownMenu.styled";
 
 export interface IDropDownMenu {
   trigger?: React.ReactNode;
@@ -39,9 +39,6 @@ const DropDownMenu = ({
       <rDropdownMenu.Portal>
         <StyledContent sideOffset={5}>
           {children}
-          <StyledItem>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-          </StyledItem>
         </StyledContent>
       </rDropdownMenu.Portal>
     </rDropdownMenu.Root>

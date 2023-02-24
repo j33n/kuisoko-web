@@ -166,6 +166,10 @@ export const GlobalStyles = css`
     background-color: transparent;
     background-image: none;
   }
+  
+  [data-radix-popper-content-wrapper] {
+    z-index: 9 !important;
+  }
 
   :-moz-focusring {
     outline: auto;
