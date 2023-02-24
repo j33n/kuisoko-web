@@ -1,8 +1,6 @@
-import { Form, useLoaderData, useLocation } from "@remix-run/react";
+import { Form, useLocation, useMatches } from "@remix-run/react";
 import { CiShop, CiPower, CiUser, CiLogout } from "react-icons/ci";
 import { Text } from "theme-ui";
-
-import useImageColor from "use-image-color";
 
 import {
   StyledLink,
@@ -18,10 +16,7 @@ import {
 } from "./Layout.styled";
 import { StyledLogoutBtn } from "../Header/Header.styled";
 
-import type { loader } from "~/routes/__index";
 import {
-  StyledImage,
-  StyledImageContainer,
   StyledStoresList,
   StyledAnchor,
   StyledMenuLink,
@@ -29,6 +24,7 @@ import {
   StyledAnchorStores,
   StyledLinkList,
   StyledProfilePageLink,
+  StyledTitle,
 } from "./Sidebar.styled";
 import { links } from "./links";
 import DropDownMenu from "./DropDownMenu/DropDownMenu";
@@ -38,45 +34,24 @@ import {
   StyledRightSlot,
 } from "./DropDownMenu/DropDownMenu.styled";
 import { AiOutlineEllipsis } from "react-icons/ai";
-import { useRef, useTransition } from "react";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import RenderIcon from "../RenderIcon/RenderIcon";
 
 export interface ISidebar {
   user: any;
 }
 
-const RenderIcon = ({ src }: IRenderIcon) => {
-  const { colors } = useImageColor(src, { cors: true, colors: 5 });
-
-  const bgColor = () => {
-    if (colors && colors.length > 0) {
-      if (colors[0] === "#040404") {
-        return colors[1];
-      } else {
-        return colors[0];
-      }
-    }
-    return "transparent";
-  };
-
-  return (
-    <StyledImageContainer bgColor={bgColor()}>
-      <StyledImage src={src} alt="icon" />
-    </StyledImageContainer>
-  );
-};
-
-export interface IRenderIcon {
-  src: string;
-}
-
 const Sidebar = () => {
-  const data = useLoaderData<typeof loader>();
+  const path = "/stores";
+  const matches = useMatches();
+  const data = matches.find((m) => m.pathname === path)?.data;
+
   const { pathname } = useLocation();
   const logoutBtnRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
 
-  const { user, storeList } = data;
+  const { user, favoriteStoreList } = data;
 
   return (
     <StyledSidebar>
@@ -92,9 +67,10 @@ const Sidebar = () => {
           </StyledLink>
         ))}
       </StyledSidebarLinks>
-      {storeList.length > 0 && (
+      {favoriteStoreList.length > 0 && (
         <StyledStoresList>
-          {storeList.map((store) => (
+          <StyledTitle>{t("favorites")}</StyledTitle>
+          {favoriteStoreList.map((store) => (
             <StyledLinkList to={`/stores/${store.id}`} key={store.id}>
               <StyledAnchorStores>
                 {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
@@ -105,18 +81,6 @@ const Sidebar = () => {
         </StyledStoresList>
       )}
       <StyledSidebarFooter>
-        <StyledBottomMenu>
-          <Form method="post" action="/logout">
-            <StyledLogoutBtn>
-              <StyledToolbarItem>
-                <CiPower />
-                <Text sx={{ fontWeight: "200", fontSize: "0.875rem" }}>
-                  Logout
-                </Text>
-              </StyledToolbarItem>
-            </StyledLogoutBtn>
-          </Form>
-        </StyledBottomMenu>
         <StyledProfilePageLink to={"/account"}>
           <StyledProfileSide>
             {user.profile ? (
@@ -132,6 +96,18 @@ const Sidebar = () => {
             {user.email && <StyledText disabled>{user.email}</StyledText>}
           </StyledNameBox>
         </StyledProfilePageLink>
+        <StyledBottomMenu>
+          <Form method="post" action="/logout">
+            <StyledLogoutBtn>
+              <StyledToolbarItem>
+                <CiPower />
+                <Text sx={{ fontWeight: "200", fontSize: "0.875rem" }}>
+                  Logout
+                </Text>
+              </StyledToolbarItem>
+            </StyledLogoutBtn>
+          </Form>
+        </StyledBottomMenu>
         <StyledMoreBox>
           <DropDownMenu triggerIcon={<AiOutlineEllipsis />}>
             <StyledItem onClick={() => logoutBtnRef.current?.click()}>

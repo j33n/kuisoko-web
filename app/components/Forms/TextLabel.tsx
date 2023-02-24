@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 import { Label } from "theme-ui";
-import type { StyledTheme } from "~/styles/page.styled";
 
-export const StyledLabel = styled(Label)<StyledTheme>`
+export const StyledLabel = styled(Label)`
   display: flex;
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
   color: ${({ theme }) => theme.colors.text};

@@ -3,12 +3,10 @@ import { useColorMode } from "theme-ui";
 
 import { CiCamera } from "react-icons/ci";
 
-import type { StyledTheme } from "../Header/Header.styled";
-
 import coverDark from "~/assets/images/coverDark.svg";
 import coverLight from "~/assets/images/coverLight.svg";
 
-export const StyledCover = styled.div<StyledTheme>`
+export const StyledCover = styled.div`
   display: flex;
   height: 250px;
   align-items: flex-start;

@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
 import { Form } from "@remix-run/react";
 import { Box } from "theme-ui";
-import type { StyledTheme } from "~/styles/page.styled";
 
-export const StyledCreateStore = styled.div<StyledTheme>`
+export const StyledCreateStore = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -14,12 +13,12 @@ export const StyledCreateStore = styled.div<StyledTheme>`
   align-items: center;
 `;
 
-export const StyledImg = styled.img<StyledTheme>`
+export const StyledImg = styled.img`
   max-height: 300px;
   opacity: 0.7;
 `;
 
-export const StyledForm = styled(Form)<StyledTheme>`
+export const StyledForm = styled(Form)`
   width: 50%;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -36,20 +35,20 @@ export const StyledForm = styled(Form)<StyledTheme>`
   }
 `;
 
-export const StyledBtnContainer = styled.div<StyledTheme>`
+export const StyledBtnContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
   margin-top: 1rem;
 `;
 
-export const StyledTitle = styled.div<StyledTheme>`
+export const StyledTitle = styled.div`
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
   font-weight: 200;
   text-transform: uppercase;
 `;
 
-export const StyledImageHolder = styled.div<StyledTheme>`
+export const StyledImageHolder = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,14 +62,14 @@ export const StyledImageHolder = styled.div<StyledTheme>`
   }
 `;
 
-export const StyledInputHolder = styled.div<StyledTheme>`
+export const StyledInputHolder = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
   flex-wrap: wrap;
 `;
 
-export const StyledImageWrapper = styled.div<StyledTheme>`
+export const StyledImageWrapper = styled.div`
   height: 300px;
   overflow: hidden;
   border-radius: 1rem;
@@ -85,12 +84,12 @@ export const StyledImageWrapper = styled.div<StyledTheme>`
   }
 `;
 
-export const StyledImgNew = styled.img<StyledTheme>`
+export const StyledImgNew = styled.img`
   object-fit: cover;
   transition: transform 0.8s;
   height: 100%;
 `;
 
-export const StyledStoreAlbum = styled(Box)<StyledTheme>`
+export const StyledStoreAlbum = styled(Box)`
   display: flex;
 `;

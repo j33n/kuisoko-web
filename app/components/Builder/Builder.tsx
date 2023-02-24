@@ -55,7 +55,7 @@ export const Builder = () => {
         {() => (
           <TextEditor
             theme="bubble"
-            placeholder="Type / for block suggestions"
+            placeholder="Store description"
             onChange={setTextEditor}
             value={textEditor}
           />

@@ -1,27 +1,10 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Box, Text } from "theme-ui";
-import { Image } from "use-image-color";
+import { Text } from "theme-ui";
 
-import { FlexCenter } from "~/styles/page.styled";
 import { Link } from "@remix-run/react";
 
-import type { ColorModesScale } from "theme-ui";
-import type { StyledTheme } from "~/styles/page.styled";
-
-export interface IStyledImageContainer {
-  theme?: StyledTheme["theme"];
-  bgColor?: string;
-}
-
-export interface IAnchor {
-  theme: {
-    colors: ColorModesScale;
-    fontSizes?: any;
-  };
-}
-
-export const StyledStoresList = styled.div<StyledTheme>`
+export const StyledStoresList = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -32,40 +15,12 @@ export const StyledStoresList = styled.div<StyledTheme>`
   max-height: 50vh;
 `;
 
-export const StyledTitle = styled(Text)<StyledTheme>`
+export const StyledTitle = styled(Text)`
   font-size: 0.8rem;
   font-weight: 600;
   color: ${({ theme: { colors } }) => colors.text};
   margin-bottom: 0.5rem;
   text-align: center;
-`;
-
-export const StyledImageContainer = styled.div<IStyledImageContainer>`
-  border-radius: 0.5rem;
-  padding: 0.2rem;
-  position: relative;
-  background: #fff;
-  border-radius: 0.5rem;
-
-  &:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: ${({ bgColor }) => bgColor};
-    opacity: 0.3;
-    border-radius: 0.5rem;
-  }
-`;
-
-export const StyledImage = styled(Image)`
-  position: absolute;
-  z-index: 1;
-  height: 1.5rem !important;
-  width: 1.5rem !important;
-  padding: 0.5rem;
 `;
 
 export const StyledLink = css`
@@ -85,7 +40,7 @@ export const StyledLink = css`
   }
 `;
 
-export const Anchor = ({ theme: { colors, fontSizes } }: IAnchor) => css`
+export const Anchor = ({ theme: { colors, fontSizes } }: any) => css`
   display: flex;
   margin: 0 1rem;
   border-radius: 0.5rem;
@@ -104,7 +59,7 @@ export const Anchor = ({ theme: { colors, fontSizes } }: IAnchor) => css`
   }
 `;
 
-export const StyledAnchor = styled.span<StyledTheme>`
+export const StyledAnchor = styled.span`
   ${Anchor}
 `;
 
@@ -112,7 +67,7 @@ export const StyledMenuLink = styled.span`
   ${StyledLink}
 `;
 
-export const StyledLinkList = styled(Link)<StyledTheme>`
+export const StyledLinkList = styled(Link)`
   display: flex;
   justify-content: flex-start;
   width: 100%;
@@ -133,7 +88,7 @@ export const StyledLinkList = styled(Link)<StyledTheme>`
   }
 `;
 
-export const StyledAnchorStores = styled.span<StyledTheme>`
+export const StyledAnchorStores = styled.span`
   ${Anchor}
   margin: 0;
   padding: 0 1rem;
@@ -145,7 +100,7 @@ export const StyledAnchorStores = styled.span<StyledTheme>`
   }
 `;
 
-export const StyledLinkStores = styled.span<StyledTheme>`
+export const StyledLinkStores = styled.span`
   ${StyledLink}
   justify-content: flex-start;
 
@@ -159,7 +114,7 @@ export const StyledLinkStores = styled.span<StyledTheme>`
   }
 `;
 
-export const StyledProfilePageLink = styled(Link)<StyledTheme>`
+export const StyledProfilePageLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: space-evenly;

@@ -1,6 +1,7 @@
 import invariant from "tiny-invariant";
 import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
 import { unstable_parseMultipartFormData } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
 
 import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
@@ -9,12 +10,13 @@ import {
   useCatch,
   useLoaderData,
   useParams,
+  useSubmit,
   useTransition,
 } from "@remix-run/react";
 import { s3UploaderHandler } from "~/models/uploader-handler.server";
 import { Builder, Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { updateStoreComment, updateStoreName } from "~/models/store.server";
 
 import {
@@ -26,6 +28,12 @@ import {
 } from "~/styles/stores/singleStore.styled";
 
 import stylesheetQuill from "~/styles/quill.bubble.css";
+import { CiStar } from "react-icons/ci";
+import DropDownMenu from "~/components/Layout/DropDownMenu/DropDownMenu";
+import {
+  StyledItem,
+  StyledRightSlot,
+} from "~/components/Layout/DropDownMenu/DropDownMenu.styled";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesheetQuill }];
@@ -93,14 +101,42 @@ export async function action({ params, request }: ActionArgs) {
   }
 
   const textEditorValue = formData.get("textEditor");
-  // return json({ textEditorValue });
 
-  return json({store, textEditorValue });
+  return json({ store, textEditorValue });
 }
+
+export type FavoriteFormProps = {
+  storeId: string;
+};
+
+export const FavoriteForm = ({ storeId }: FavoriteFormProps) => {
+  const [isStoreFavorite, setIsStoreFavorite] = useState<"on" | "off">("off");
+  const submit = useSubmit();
+
+  const handleSubmitFav = () => {
+    setIsStoreFavorite(isStoreFavorite === "off" ? "on" : "off");
+
+    let formData = new FormData();
+    formData.append("favorite", isStoreFavorite === "off" ? "on" : "off");
+    formData.append("storeId", storeId);
+
+    submit(formData, { method: "post", action: "/forms/favorites" });
+  };
+
+  return (
+    <Form method="post">
+      <StyledItem onClick={handleSubmitFav}>
+        Add to Favorites
+        <StyledRightSlot>
+          <CiStar />
+        </StyledRightSlot>
+      </StyledItem>
+    </Form>
+  );
+};
 
 export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
-  //TODO: check store is updated and clear state
   const submitBtnRef = useRef<HTMLButtonElement>(null);
   const transition = useTransition();
 
@@ -118,6 +154,9 @@ export default function StoreDetailsRoute() {
           <StyledLogoBox>
             <ImageDialog tabsWidth="75%" triggerIcon={data.store.icon} />
           </StyledLogoBox>
+          <DropDownMenu>
+            <FavoriteForm storeId={data.store.id} />
+          </DropDownMenu>
           <Form method="post" action={`/stores/${data.store.id}`}>
             <Editable
               defaultValue={data.store.name}
@@ -138,6 +177,7 @@ export default function StoreDetailsRoute() {
           <Builder />
         </StyledContent>
       </StyledBody>
+      {/* TODO: make this slidable */}
       {/* <StyledSideRight>No recent orders 😌</StyledSideRight> */}
     </StyledContainer>
   );

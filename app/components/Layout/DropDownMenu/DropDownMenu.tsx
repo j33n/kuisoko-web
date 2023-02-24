@@ -1,6 +1,6 @@
 import * as rDropdownMenu from "@radix-ui/react-dropdown-menu";
 
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMore } from "react-icons/ai";
 import { StyledContent, StyledIconButton } from "./DropDownMenu.styled";
 
 export interface IDropDownMenu {
@@ -20,7 +20,7 @@ const DropDownMenu = ({
   defaultOpen = false,
   open,
   modal = true,
-  triggerIcon = <AiOutlineMenu />,
+  triggerIcon = <AiOutlineMore />,
 }: IDropDownMenu) => {
   return (
     <rDropdownMenu.Root
@@ -37,7 +37,9 @@ const DropDownMenu = ({
         )}
       </rDropdownMenu.Trigger>
       <rDropdownMenu.Portal>
-        <StyledContent sideOffset={5}>{children}</StyledContent>
+        <StyledContent sideOffset={5}>
+          {children}
+        </StyledContent>
       </rDropdownMenu.Portal>
     </rDropdownMenu.Root>
   );

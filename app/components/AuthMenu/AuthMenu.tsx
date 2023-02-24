@@ -4,9 +4,7 @@ import styled from "@emotion/styled";
 
 import { FlexCenterRow } from "~/styles/page.styled";
 
-import type { StyledTheme } from "../Header/Header.styled";
-
-export const StyledAuthMenu = styled(FlexCenterRow)<StyledTheme>`
+export const StyledAuthMenu = styled(FlexCenterRow)`
   width: 100%;
   color: ${({ theme: { colors } }) => colors.text};
   box-sizing: border-box;
