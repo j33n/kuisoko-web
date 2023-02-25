@@ -1,4 +1,4 @@
-import { Outlet } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
 import { requireUser } from "~/services/session.server";
@@ -32,11 +32,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 const UserLayout = () => {
+  const { user, storeList } = useLoaderData<any>();
+
   return (
     <StyledLayout>
       <Header />
       <StyledContent sx={{ flexDirection: "row" }}>
-        <Sidebar />
+        <Sidebar user={user} storeList={storeList} />
         <StyledBodyContent noFooter>
           <AccountMenuBar />
           <Outlet />

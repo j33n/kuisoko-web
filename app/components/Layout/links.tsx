@@ -14,7 +14,7 @@ export const links = [
   },
   {
     name: "items",
-    path: "/items",
+    path: "/stores/items",
     icon: <CiShoppingCart />,
   },
   {

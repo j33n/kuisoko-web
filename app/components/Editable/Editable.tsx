@@ -34,6 +34,7 @@ export const Editable = ({
     invariant(inputValue, `${inputValue} value cannot be empty`);
     if (inputValue === defaultValue) return;
     onSave(inputValue);
+    setInputValue(inputValue);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

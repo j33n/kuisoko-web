@@ -6,7 +6,7 @@ import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { getFavoriteStores, getStores } from "~/models/store.server";
 import { IconButton } from "theme-ui";
-import { CiShop, CiSquarePlus } from "react-icons/ci";
+import { CiSquarePlus } from "react-icons/ci";
 
 import type { LoaderArgs } from "@remix-run/node";
 
@@ -144,7 +144,7 @@ export default function Stores() {
             <StyledPinContainer>
               {data.storeList.map((store) => (
                 <StyledPin key={store.id} to={store.id}>
-                  {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
+                  <RenderIcon src={store.icon} />
                   <StyledPinText>{store.name}</StyledPinText>
                 </StyledPin>
               ))}

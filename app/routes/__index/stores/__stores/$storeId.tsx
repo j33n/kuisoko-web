@@ -1,7 +1,5 @@
 import invariant from "tiny-invariant";
 import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
-import { unstable_parseMultipartFormData } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
 
 import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
@@ -13,7 +11,6 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
-import { s3UploaderHandler } from "~/models/uploader-handler.server";
 import { Builder, Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
 import { useRef, useState } from "react";
@@ -34,6 +31,7 @@ import {
   StyledItem,
   StyledRightSlot,
 } from "~/components/Layout/DropDownMenu/DropDownMenu.styled";
+import { useTranslation } from "react-i18next";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesheetQuill }];
@@ -55,6 +53,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json({ store });
 };
 
+// TODO: move this to separate resource route
 // export async function action({ request }: ActionArgs) {
 //   const user = await requireUser(request);
 
@@ -79,30 +78,42 @@ export async function action({ params, request }: ActionArgs) {
 
   const { storeId } = params;
 
-  const storeName = formData.get("storeName");
-  const storeComment = formData.get("storeComment");
+  const { _action, storeName, storeComment } = Object.fromEntries(formData);
 
   let store;
 
-  if (storeName && typeof storeName === "string" && storeId) {
-    store = await updateStoreName({
-      id: storeId,
-      name: storeName,
-      userId: user.id,
-    });
+  if (_action === "updateStoreName") {
+    
+    if (storeName && typeof storeName === "string" && storeId) {
+      store = await updateStoreName({
+        id: storeId,
+        name: storeName,
+        userId: user.id,
+      });
+    }
   }
 
-  if (storeComment && typeof storeComment === "string" && storeId) {
-    store = await updateStoreComment({
-      id: storeId,
-      comment: storeComment,
-      userId: user.id,
-    });
+  if (_action === "updateStoreComment") {
+    if (storeComment && typeof storeComment === "string" && storeId) {
+      store = await updateStoreComment({
+        id: storeId,
+        comment: storeComment,
+        userId: user.id,
+      });
+    }
   }
 
-  const textEditorValue = formData.get("textEditor");
+  if (_action === "updateStoreContent") {
+    console.log(_action);
+    console.log("upate store content");
+  }
 
-  return json({ store, textEditorValue });
+  if (_action === "uploadStoreImage") {
+    console.log(_action);
+    console.log("upload store image");
+  }
+
+  return json({ store });
 }
 
 export type FavoriteFormProps = {
@@ -112,6 +123,8 @@ export type FavoriteFormProps = {
 export const FavoriteForm = ({ storeId }: FavoriteFormProps) => {
   const [isStoreFavorite, setIsStoreFavorite] = useState<"on" | "off">("off");
   const submit = useSubmit();
+
+  const { t } = useTranslation();
 
   const handleSubmitFav = () => {
     setIsStoreFavorite(isStoreFavorite === "off" ? "on" : "off");
@@ -126,7 +139,7 @@ export const FavoriteForm = ({ storeId }: FavoriteFormProps) => {
   return (
     <Form method="post">
       <StyledItem onClick={handleSubmitFav}>
-        Add to Favorites
+        {t("favorite")}
         <StyledRightSlot>
           <CiStar />
         </StyledRightSlot>
@@ -137,7 +150,8 @@ export const FavoriteForm = ({ storeId }: FavoriteFormProps) => {
 
 export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
-  const submitBtnRef = useRef<HTMLButtonElement>(null);
+  const saveNameBtnRef = useRef<HTMLButtonElement>(null);
+  const saveCommentBtnRef = useRef<HTMLButtonElement>(null);
   const transition = useTransition();
 
   return (
@@ -162,15 +176,32 @@ export default function StoreDetailsRoute() {
               defaultValue={data.store.name}
               fontSize="lg"
               name="storeName"
-              onSave={() => submitBtnRef.current?.click()}
+              onSave={() => saveNameBtnRef.current?.click()}
             />
+            <button
+              type="submit"
+              aria-label="update store"
+              name="_action"
+              value="updateStoreName"
+              ref={saveNameBtnRef}
+              hidden
+            >
+              Save
+            </button>
             <Editable
               defaultValue={data.store.comment}
               sx={{ marginTop: "1rem" }}
               name="storeComment"
-              onSave={() => submitBtnRef.current?.click()}
+              onSave={() => saveCommentBtnRef.current?.click()}
             />
-            <button type="submit" ref={submitBtnRef} hidden>
+            <button
+              type="submit"
+              aria-label="update store"
+              name="_action"
+              value="updateStoreComment"
+              ref={saveCommentBtnRef}
+              hidden
+            >
               Save
             </button>
           </Form>
