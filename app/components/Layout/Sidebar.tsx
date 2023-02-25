@@ -36,7 +36,10 @@ import {
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import RenderIcon from "../RenderIcon/RenderIcon";
+import RenderIcon, {
+  StyledImageContainer,
+  StyledIcon,
+} from "../RenderIcon/RenderIcon";
 import type { Store } from "@prisma/client";
 
 export interface ISidebar {
@@ -74,7 +77,7 @@ const Sidebar = () => {
           {favoriteStoreList.map((store: Store) => (
             <StyledLinkList to={`/stores/${store.id}`} key={store.id}>
               <StyledAnchorStores>
-                {store.icon ? <RenderIcon src={store.icon} /> : <CiShop />}
+                <RenderIcon src={store.icon} />
               </StyledAnchorStores>
               <StyledLinkStores>{store.name}</StyledLinkStores>
             </StyledLinkList>
