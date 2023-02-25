@@ -1,19 +1,13 @@
-import invariant from "tiny-invariant";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { unstable_parseMultipartFormData } from "@remix-run/node";
 
 import { json } from "@remix-run/node";
-import { prisma } from "~/db.server";
 import {
   Form,
-  useActionData,
-  useCatch,
   useLoaderData,
-  useParams,
   useTransition,
 } from "@remix-run/react";
-import { s3UploaderHandler } from "~/models/uploader-handler.server";
-import { Builder, Editable, ImageDialog, Loader } from "~/components";
+
+import { Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
 import { useRef } from "react";
 
@@ -44,8 +38,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ user });
 }
 
-export async function action({ params, request }: ActionArgs) {
-  const formData = await request.formData();
+export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
 
   return json({ user });
@@ -94,7 +87,6 @@ export default function StoreDetailsRoute() {
           </Form>
         </StyledContent>
       </StyledBody>
-      {/* <StyledSideRight>No recent orders 😌</StyledSideRight> */}
     </StyledContainer>
   );
 }

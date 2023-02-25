@@ -13,7 +13,7 @@ export interface IStyledImageContainer {
 export const StyledImageContainer = styled.div<IStyledImageContainer>`
   border-radius: 0.5rem;
   position: relative;
-  background: ${({ theme: { colors } }) => colors.text};
+  background: ${({ theme: { colors } }) => colors.white};
   border-radius: 0.5rem;
   min-width: 2.5rem;
   min-height: 2.5rem;
@@ -25,7 +25,8 @@ export const StyledImageContainer = styled.div<IStyledImageContainer>`
     left: 0;
     width: 100%;
     height: 100%;
-    background: ${({ bgColor }) => bgColor || "transparent"};
+    background: ${({ theme: { colors }, bgColor }) =>
+      bgColor || "transparent"};
     opacity: 0.3;
     border-radius: 0.5rem;
   }
@@ -47,6 +48,8 @@ export const StyledIcon = styled(Box)`
   svg {
     ${iconStyles}
     color: ${({ theme: { colors } }) => colors.background};
+    background: ${({ theme: { colors } }) => colors.text};
+    border-radius: 0.5rem;
   }
 `;
 

@@ -4,6 +4,8 @@ import { Box } from "theme-ui";
 
 import { FlexCenter } from "~/styles/page.styled";
 
+export const headerHeight = "93px";
+
 export interface StyledLayoutProps {
   size?: string;
   nav?: boolean;
@@ -115,6 +117,7 @@ export const StyledToolbarItem = styled.div<StyledLayoutProps>`
 
 export const StyledSidebar = styled(Block)<StyledLayoutProps>`
   max-width: ${({ size }) => size || "30vw"};
+  height: calc(100vh - ${headerHeight});
   justify-content: space-between;
 
   /* mobile size */
@@ -144,14 +147,13 @@ export const StyledSidebar = styled(Block)<StyledLayoutProps>`
 export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
   max-width: 80%;
   height: ${({ noFooter }) =>
-    noFooter ? "calc(100vh - 92px)" : "calc(100vh - (92px + 5rem))"};
+    noFooter ? `calc(100vh - ${headerHeight})` : `calc(100vh - (${headerHeight} + 5rem))`};
   position: relative;
   z-index: 1;
 `;
 
 export const StyledSidebarLinks = styled(Block)`
   width: 100%;
-  /* height: calc(100vh - (92px + 5rem)); */
   justify-content: flex-start;
   background: ${({ theme: { colors } }) => colors.background};
   overflow: auto;

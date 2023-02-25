@@ -36,10 +36,7 @@ import {
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import RenderIcon, {
-  StyledImageContainer,
-  StyledIcon,
-} from "../RenderIcon/RenderIcon";
+import { RenderIcon } from "~/components";
 import type { Store } from "@prisma/client";
 
 export interface ISidebar {
@@ -55,6 +52,7 @@ const Sidebar = () => {
   const logoutBtnRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
 
+  // BUG: this is not working on some pages 
   const { user, favoriteStoreList } = data;
 
   return (

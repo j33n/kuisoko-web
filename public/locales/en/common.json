@@ -24,5 +24,6 @@
     "storePhone": "Store Phone",
     "storeEmail": "Store Email",
     "myInfo": "My Info",
-    "favorites": "Favorites"
+    "favorites": "Favorites",
+    "favorite": "Favorite"
 }

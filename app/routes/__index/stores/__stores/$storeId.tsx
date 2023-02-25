@@ -34,6 +34,7 @@ import {
   StyledItem,
   StyledRightSlot,
 } from "~/components/Layout/DropDownMenu/DropDownMenu.styled";
+import { useTranslation } from "react-i18next";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesheetQuill }];
@@ -85,7 +86,6 @@ export async function action({ params, request }: ActionArgs) {
   let store;
 
   if (_action === "updateStoreName") {
-    console.log("_+________________🎉", _action);
     
     if (storeName && typeof storeName === "string" && storeId) {
       store = await updateStoreName({
@@ -97,7 +97,6 @@ export async function action({ params, request }: ActionArgs) {
   }
 
   if (_action === "updateStoreComment") {
-    console.log("_+________________🎉", _action);
     if (storeComment && typeof storeComment === "string" && storeId) {
       store = await updateStoreComment({
         id: storeId,
@@ -128,6 +127,8 @@ export const FavoriteForm = ({ storeId }: FavoriteFormProps) => {
   const [isStoreFavorite, setIsStoreFavorite] = useState<"on" | "off">("off");
   const submit = useSubmit();
 
+  const { t } = useTranslation();
+
   const handleSubmitFav = () => {
     setIsStoreFavorite(isStoreFavorite === "off" ? "on" : "off");
 
@@ -141,7 +142,7 @@ export const FavoriteForm = ({ storeId }: FavoriteFormProps) => {
   return (
     <Form method="post">
       <StyledItem onClick={handleSubmitFav}>
-        Add to Favorites
+        {t("favorite")}
         <StyledRightSlot>
           <CiStar />
         </StyledRightSlot>
