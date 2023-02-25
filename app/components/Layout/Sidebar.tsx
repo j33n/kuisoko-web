@@ -1,6 +1,5 @@
-import { Form, useLocation, useMatches } from "@remix-run/react";
-import { CiShop, CiPower, CiUser, CiLogout } from "react-icons/ci";
-import { Text } from "theme-ui";
+import { useLocation } from "@remix-run/react";
+import { CiUser, CiLogout } from "react-icons/ci";
 
 import {
   StyledLink,
@@ -11,10 +10,7 @@ import {
   StyledText,
   StyledProfileSide,
   StyledMoreBox,
-  StyledBottomMenu,
-  StyledToolbarItem,
 } from "./Layout.styled";
-import { StyledLogoutBtn } from "../Header/Header.styled";
 
 import {
   StyledStoresList,
@@ -37,23 +33,17 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderIcon } from "~/components";
-import type { Store } from "@prisma/client";
+import type { Store, User } from "@prisma/client";
 
-export interface ISidebar {
-  user: any;
-}
+export type SideBarProps = {
+  user: User,
+  storeList: Store[],
+};
 
-const Sidebar = () => {
-  const path = "/stores";
-  const matches = useMatches();
-  const data = matches.find((m) => m.pathname === path)?.data;
-
+const Sidebar = ({ user, storeList }: SideBarProps) => {
   const { pathname } = useLocation();
   const logoutBtnRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
-
-  // BUG: this is not working on some pages 
-  const { user, favoriteStoreList } = data;
 
   return (
     <StyledSidebar>
@@ -69,10 +59,10 @@ const Sidebar = () => {
           </StyledLink>
         ))}
       </StyledSidebarLinks>
-      {favoriteStoreList.length > 0 && (
+      {storeList.length > 0 && (
         <StyledStoresList>
           <StyledTitle>{t("favorites")}</StyledTitle>
-          {favoriteStoreList.map((store: Store) => (
+          {storeList.map((store: Store) => (
             <StyledLinkList to={`/stores/${store.id}`} key={store.id}>
               <StyledAnchorStores>
                 <RenderIcon src={store.icon} />
@@ -98,22 +88,10 @@ const Sidebar = () => {
             {user.email && <StyledText disabled>{user.email}</StyledText>}
           </StyledNameBox>
         </StyledProfilePageLink>
-        <StyledBottomMenu>
-          <Form method="post" action="/logout">
-            <StyledLogoutBtn>
-              <StyledToolbarItem>
-                <CiPower />
-                <Text sx={{ fontWeight: "200", fontSize: "0.875rem" }}>
-                  Logout
-                </Text>
-              </StyledToolbarItem>
-            </StyledLogoutBtn>
-          </Form>
-        </StyledBottomMenu>
         <StyledMoreBox>
           <DropDownMenu triggerIcon={<AiOutlineEllipsis />}>
             <StyledItem onClick={() => logoutBtnRef.current?.click()}>
-              Logout
+              {t("logout")}
               <StyledRightSlot>
                 <CiLogout size={32} />
               </StyledRightSlot>

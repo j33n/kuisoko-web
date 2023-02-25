@@ -1,4 +1,4 @@
-import { Outlet } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
 import { requireUser } from "~/services/session.server";
@@ -22,7 +22,7 @@ export interface ILayout {
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
   const url = new URL(request.url);
-  
+
   const pageName = url.pathname.replace("/", "");
 
   const storeList = await getStores(user.id);
@@ -31,11 +31,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 const IndexLayout = () => {
+  const { user, storeList } = useLoaderData<any>();
+
   return (
     <StyledLayout>
       <Header />
       <StyledContent sx={{ flexDirection: "row" }}>
-        <Sidebar />
+        <Sidebar user={user} storeList={storeList} />
         <StyledBodyContent noFooter>
           <Outlet />
         </StyledBodyContent>

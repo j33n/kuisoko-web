@@ -1,7 +1,5 @@
 import invariant from "tiny-invariant";
 import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
-import { unstable_parseMultipartFormData } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
 
 import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
@@ -13,7 +11,6 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
-import { s3UploaderHandler } from "~/models/uploader-handler.server";
 import { Builder, Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
 import { useRef, useState } from "react";
