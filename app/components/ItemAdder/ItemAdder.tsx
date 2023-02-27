@@ -9,7 +9,7 @@ export type ItemAdderProps = {
   item: Item;
 };
 
-export const ItemAdder = ({ item }: ItemAdderProps) => {
+export const ItemAdder = ({ item,  }: ItemAdderProps) => {
   const saveNameBtnRef = () => {
     console.log("_______________");
   };
@@ -26,10 +26,9 @@ export const ItemAdder = ({ item }: ItemAdderProps) => {
       {/* quantity */}
 
       <StyledLogoBox>
-        <ImageDialog tabsWidth="75%" triggerIcon={""} />
+        <ImageDialog tabSize="75%" triggerIcon={""} />
       </StyledLogoBox>
       <p contentEditable="true">kshdfaksdhfkasdhf sdjbfhkjshdbfhasdf</p>
-      
     </StyledContent>
   );
 };

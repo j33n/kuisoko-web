@@ -14,7 +14,7 @@ export function getAllItems(userId: User["id"]) {
       price: true,
       currency: true,
       icon: true,
-      tags: true,
+      categories: true,
       unit: true,
       quantity: true,
       createdAt: true,
@@ -37,7 +37,7 @@ export function getItem({
       price: true,
       currency: true,
       icon: true,
-      tags: true,
+      categories: true,
       quantity: true,
       unit: true,
       updatedAt: true,
@@ -52,12 +52,22 @@ export function createItem({
   price,
   currency,
   icon,
-  tags,
+  categories,
   quantity,
   unit,
   userId,
   storeId,
-}: Pick<Item, "name" | "comment" | "price" | "currency" | "icon" |"tags" |"quantity" | "unit"> & {
+}: Pick<
+  Item,
+  | "name"
+  | "comment"
+  | "price"
+  | "currency"
+  | "icon"
+  | "categories"
+  | "quantity"
+  | "unit"
+> & {
   userId: User["id"];
   storeId: Item["storeId"];
 }) {
@@ -68,7 +78,7 @@ export function createItem({
       price,
       currency,
       icon,
-      tags,
+      categories,
       quantity,
       unit,
       belongsTo: {

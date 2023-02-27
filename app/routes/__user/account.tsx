@@ -54,7 +54,8 @@ export default function StoreDetailsRoute() {
     <StyledContainer>
       <StyledBody>
         {/* <Cover /> */}
-        {(transition.state === "loading" || transition.state === "submitting") && (
+        {(transition.state === "loading" ||
+          transition.state === "submitting") && (
           <StyledOverlay>
             <Loader sx={{ zIndex: 2 }} />
           </StyledOverlay>
@@ -62,7 +63,7 @@ export default function StoreDetailsRoute() {
         <StyledContent>
           <Form method="post" action={`/profile`}>
             <StyledLogoBox>
-              <ImageDialog tabsWidth="75%" triggerIcon={user.profile} />
+              <ImageDialog tabSize="75%" triggerIcon={user.profile} />
             </StyledLogoBox>
             <Editable
               defaultValue={user.name}

@@ -50,7 +50,7 @@ export function getStores(userId: User["id"]) {
       icon: true,
       cover: true,
     },
-    orderBy: { updatedAt: "desc" },
+    orderBy: { createdAt: "desc" },
   });
 };
 

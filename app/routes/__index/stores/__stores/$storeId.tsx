@@ -167,15 +167,12 @@ export default function StoreDetailsRoute() {
   const transition = useTransition();
 
   useEffect(() => {
-    if (data.store.body && typeof data.store.body === "string") {
-      setTextEditor(data.store.body);
-    }
+    setTextEditor(data.store.body);
   }, [data.store]);
 
   return (
     <StyledContainer>
       <StyledBody>
-        {/* <Cover /> */}
         {(transition.state === "loading" ||
           transition.state === "submitting") && (
           <StyledOverlay>
@@ -184,7 +181,7 @@ export default function StoreDetailsRoute() {
         )}
         <StyledContent>
           <StyledLogoBox>
-            <ImageDialog tabsWidth="75%" triggerIcon={data.store.icon} />
+            <ImageDialog tabSize="75%" triggerIcon={data.store.icon} />
           </StyledLogoBox>
           <DropDownMenu>
             <FavoriteForm storeId={data.store.id} />
@@ -243,8 +240,6 @@ export default function StoreDetailsRoute() {
           </Form>
         </StyledContent>
       </StyledBody>
-      {/* TODO: make this slidable */}
-      {/* <StyledSideRight>No recent orders 😌</StyledSideRight> */}
     </StyledContainer>
   );
 }
