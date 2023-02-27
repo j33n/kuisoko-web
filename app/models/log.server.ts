@@ -14,6 +14,7 @@ export function log({
 }: Pick<Log, "type" | "event" | "description" | "icon" | "notify"> & {
   userId: User["id"];
 }) {
+    console.log("=====================>>>>>", description);
   return prisma.log.create({
     data: {
       type,

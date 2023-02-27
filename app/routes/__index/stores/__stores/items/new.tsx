@@ -93,7 +93,8 @@ export async function action({ request }: ActionArgs) {
     comment: itemComment,
     price: itemPrice,
     quantity: itemQuantity,
-    store: ""
+    store: "",
+    userId: user.id
   });
 
   return redirect(`/stores/${store.id}`);

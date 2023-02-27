@@ -1,6 +1,8 @@
 import type { User, Item } from "@prisma/client";
 
 import { prisma } from "~/db.server";
+import { log } from "./log.server";
+import { getUserById } from "./user.server";
 
 export type { Item } from "@prisma/client";
 
@@ -21,7 +23,7 @@ export function getAllItems(userId: User["id"]) {
     },
     orderBy: { createdAt: "desc" },
   });
-};
+}
 
 export function getItem({
   id,
@@ -46,23 +48,30 @@ export function getItem({
   });
 }
 
-export function createItem({
+export async function createItem({
   name,
   comment,
   price,
   quantity,
   userId,
   storeId,
-}: Pick<
-  Item,
-  | "name"
-  | "comment"
-  | "price"
-  | "quantity"
-> & {
+}: Pick<Item, "name" | "comment" | "price" | "quantity"> & {
   userId: User["id"];
   storeId: Item["storeId"];
 }) {
+  const user = await getUserById(userId);
+
+  if (user) {
+    await log({
+      type: "info",
+      event: "create item",
+      description: `User ${user.name || user.email} created store ${name}`,
+      icon: "🛒",
+      notify: false,
+      userId,
+    });
+  };
+
   return prisma.item.create({
     data: {
       name,
@@ -83,10 +92,22 @@ export function createItem({
   });
 }
 
-export function deleteItem({
+export async function deleteItem({
   id,
   userId,
 }: Pick<Item, "id"> & { userId: User["id"] }) {
+  const user = await getUserById(userId);
+
+  if (user) {
+    await log({
+      type: "info",
+      event: "delete item",
+      description: `User ${user.name || user.email} deleted item with id ${id}`,
+      icon: "🛒",
+      notify: false,
+      userId,
+    });
+  }
   return prisma.item.deleteMany({
     where: { id, userId },
   });
