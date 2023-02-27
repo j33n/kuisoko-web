@@ -1,6 +1,7 @@
 import type { User, Store } from "@prisma/client";
 
 import { prisma } from "~/db.server";
+import { log } from "./log.server";
 
 export type { Store } from "@prisma/client";
 
@@ -24,6 +25,14 @@ export function createStore({
 }: Pick<Store, "name" | "comment" | "location"> & {
   userId: User["id"];
 }) {
+    log({
+      type: "info",
+      event: "submit",
+      description: "Create Store",
+      icon: "🏪",
+      notify: false,
+      userId
+    });
   
   return prisma.store.create({
     data: {
