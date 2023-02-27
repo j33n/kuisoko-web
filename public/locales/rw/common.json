@@ -17,6 +17,9 @@
     "resetPassword": "Hindura Ibanga",
     "rememberMe": "Nyibuka",
     "name": "Izina",
+    "price": "Igiciro",
+    "quantity": "Ingano",
+    "comment": "Ubusobanuro",
     "storeName": "Izina ry'Iduka",
     "storeDescription": "Ubusobanuro bw'Iduka",
     "storeLogo": "Ikirango cy'Iduka",
@@ -24,6 +27,8 @@
     "storeAddress": "Aho Iduka Ribarizwa",
     "storePhone": "Nimero y' Iduka",
     "storeEmail": "Imeli y'Iduka",
+    "createStore": "Tangiza Iduka",
+    "createItem": "Tangiza Igicuruzwa",
     "myInfo": "Amakuru Yanjye",
     "favorites": "Intoneshwa",
     "favorite": "Tonesha"

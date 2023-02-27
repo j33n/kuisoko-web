@@ -50,10 +50,7 @@ export function createItem({
   name,
   comment,
   price,
-  icon,
-  categories,
   quantity,
-  unit,
   userId,
   storeId,
 }: Pick<
@@ -61,10 +58,7 @@ export function createItem({
   | "name"
   | "comment"
   | "price"
-  | "icon"
-  | "categories"
   | "quantity"
-  | "unit"
 > & {
   userId: User["id"];
   storeId: Item["storeId"];
@@ -74,10 +68,7 @@ export function createItem({
       name,
       comment,
       price,
-      icon,
-      categories,
       quantity,
-      unit,
       belongsTo: {
         connect: {
           id: storeId,

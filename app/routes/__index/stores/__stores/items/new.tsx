@@ -15,6 +15,7 @@ import {
   StyledInputHolder,
   StyledBtnContainer,
 } from "~/styles/stores/new.styled";
+import { useTranslation } from "react-i18next";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -26,8 +27,8 @@ export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
   const formData = await request.formData();
 
-  const itemName = formData.get("itemName");
-  const itemComment = formData.get("itemComment");
+  const { itemName, itemComment, itemPrice, itemQuantity } =
+    Object.fromEntries(formData);
 
   // server validations
   if (typeof itemName !== "string" || itemName.length === 0) {
@@ -36,7 +37,8 @@ export async function action({ request }: ActionArgs) {
         errors: {
           itemName: "Item name is required",
           itemComment: null,
-          itemIcon: null,
+          itemPrice: null,
+          itemQuantity: null,
         },
       },
       { status: 400 }
@@ -49,20 +51,49 @@ export async function action({ request }: ActionArgs) {
         errors: {
           itemName: null,
           itemComment: "Item comment is required",
-          itemIcon: null,
+          itemPrice: null,
+          itemQuantity: null,
         },
       },
       { status: 400 }
     );
   }
 
+  if (typeof itemQuantity !== "number") {
+    return json(
+      {
+        errors: {
+          itemName: null,
+          itemComment: null,
+          itemPrice: null,
+          itemQuantity: "Item quantity is required",
+        },
+      },
+      { status: 400 }
+    );
+  }
+
+   if (typeof itemPrice !== "number") {
+     return json(
+       {
+         errors: {
+           itemName: null,
+           itemComment: null,
+           itemPrice: "Item price is required",
+           itemQuantity: null,
+         },
+       },
+       { status: 400 }
+     );
+   }
+
   // create store
   const store = await createItem({
     name: itemName,
     comment: itemComment,
-    price: 0,
-    categories: [],
-    quantity: 0,
+    price: itemPrice,
+    quantity: itemQuantity,
+    store: ""
   });
 
   return redirect(`/stores/${store.id}`);
@@ -72,36 +103,59 @@ export default function NewStoreRoute() {
   const actionData = useActionData<typeof action>();
   const transition = useTransition();
 
+  const { t } = useTranslation();
+
+  console.log("_+_+_+++++++++++", transition.state);
+
   return (
     <StyledCreateStore>
-      <StyledForm method="post" encType="multipart/form-data">
+      <StyledForm method="post">
         <StyledInputHolder>
           <InputContainer>
             <TextInput
-              labelText="Name:"
+              labelText={`${t("name")}:`}
               htmlFor="itemName"
-              name="storeName"
-              error={actionData?.errors?.storeName || ""}
+              name="itemName"
+              error={actionData?.errors?.itemName || ""}
               required
             />
+          </InputContainer>
+        </StyledInputHolder>
+        <StyledInputHolder>
+          <InputContainer>
             <TextInput
-              labelText="Location:"
-              htmlFor="storeLocation"
-              name="storeLocation"
-              error={actionData?.errors?.storeLocation || ""}
+              labelText={`${t("price")}:`}
+              htmlFor="itemPrice"
+              name="itemPrice"
+              type="number"
+              error={actionData?.errors?.itemPrice || ""}
+              min="0"
+              required
+            />
+          </InputContainer>
+        </StyledInputHolder>
+        <StyledInputHolder>
+          <InputContainer>
+            <TextInput
+              labelText={`${t("quantity")}:`}
+              htmlFor="itemQuantity"
+              name="itemQuantity"
+              type="number"
+              error={actionData?.errors?.itemPrice || ""}
+              min="0"
               required
             />
           </InputContainer>
         </StyledInputHolder>
         <StyledInputHolder>
           <TextArea
-            labelText="Comment:"
-            htmlFor="storeComment"
-            name="storeComment"
-            id="storeComment"
+            labelText={`${t("comment")}:`}
+            htmlFor="itemComment"
+            name="itemComment"
+            id="itemComment"
             rows={5}
             cols={50}
-            error={actionData?.errors?.storeComment}
+            error={actionData?.errors?.itemComment}
             required
           />
         </StyledInputHolder>
@@ -111,7 +165,7 @@ export default function NewStoreRoute() {
             loading={transition.state}
             sx={{ width: "20vw" }}
           >
-            Create Item
+            {t("createItem")}
           </Button>
         </StyledBtnContainer>
       </StyledForm>
