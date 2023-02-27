@@ -108,6 +108,16 @@ export function updateStoreIcon({
   });
 }
 
+export function updateStoreBody({
+  id,
+  body,
+}: Pick<Store, "id" | "body"> & { userId: User["id"] }) {
+  return prisma.store.update({
+    where: { id },
+    data: { body },
+  });
+}
+
 export function updateStoreFavorite({
   id,
   favorite,

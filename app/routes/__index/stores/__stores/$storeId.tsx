@@ -13,8 +13,12 @@ import {
 } from "@remix-run/react";
 import { Builder, Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
-import { useRef, useState } from "react";
-import { updateStoreComment, updateStoreName } from "~/models/store.server";
+import { useEffect, useRef, useState } from "react";
+import {
+  updateStoreBody,
+  updateStoreComment,
+  updateStoreName,
+} from "~/models/store.server";
 
 import {
   StyledBody,
@@ -78,12 +82,12 @@ export async function action({ params, request }: ActionArgs) {
 
   const { storeId } = params;
 
-  const { _action, storeName, storeComment } = Object.fromEntries(formData);
+  const { _action, storeName, storeComment, storeBody } =
+    Object.fromEntries(formData);
 
   let store;
 
   if (_action === "updateStoreName") {
-    
     if (storeName && typeof storeName === "string" && storeId) {
       store = await updateStoreName({
         id: storeId,
@@ -103,9 +107,14 @@ export async function action({ params, request }: ActionArgs) {
     }
   }
 
-  if (_action === "updateStoreContent") {
-    console.log(_action);
-    console.log("upate store content");
+  if (_action === "updateStoreBody") {
+    if (storeBody && typeof storeBody === "string" && storeId) {
+      store = await updateStoreBody({
+        id: storeId,
+        body: storeBody,
+        userId: user.id,
+      });
+    }
   }
 
   if (_action === "uploadStoreImage") {
@@ -152,7 +161,16 @@ export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
   const saveNameBtnRef = useRef<HTMLButtonElement>(null);
   const saveCommentBtnRef = useRef<HTMLButtonElement>(null);
+  const saveBodyBtnRef = useRef<HTMLButtonElement>(null);
+
+  const [textEditor, setTextEditor] = useState<any>("");
   const transition = useTransition();
+
+  useEffect(() => {
+    if (data.store.body && typeof data.store.body === "string") {
+      setTextEditor(data.store.body);
+    }
+  }, [data.store]);
 
   return (
     <StyledContainer>
@@ -205,7 +223,24 @@ export default function StoreDetailsRoute() {
               Save
             </button>
           </Form>
-          <Builder />
+          <Form method="post">
+            <Builder
+              onSubmit={() => saveBodyBtnRef.current?.click()}
+              onChange={setTextEditor}
+              value={textEditor}
+            />
+            <input type="hidden" name="storeBody" value={textEditor} />
+            <button
+              type="submit"
+              aria-label="update store body content"
+              name="_action"
+              value="updateStoreBody"
+              ref={saveBodyBtnRef}
+              hidden
+            >
+              Save
+            </button>
+          </Form>
         </StyledContent>
       </StyledBody>
       {/* TODO: make this slidable */}

@@ -4,6 +4,25 @@ import { prisma } from "~/db.server";
 
 export type { Item } from "@prisma/client";
 
+export function getAllItems(userId: User["id"]) {
+  return prisma.item.findMany({
+    where: { addedBy: { id: userId } },
+    select: {
+      id: true,
+      name: true,
+      comment: true,
+      price: true,
+      currency: true,
+      icon: true,
+      tags: true,
+      unit: true,
+      quantity: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+};
+
 export function getItem({
   id,
   userId,

@@ -14,7 +14,7 @@ export const StyledImageHolder = styled.div`
   border-radius: 0.5rem;
   padding: 5rem;
   cursor: pointer;
-  background-color: ${({theme: {colors}}) => colors.whiteA3};
+  background-color: ${({ theme: { colors } }) => colors.whiteA3};
   margin: 0.5rem 0;
 
   img {

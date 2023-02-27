@@ -39,15 +39,15 @@ model Password {
 }
 
 model Item {
-  id       String   @id @default(cuid())
-  name     String
-  comment  String
-  price    Float
-  currency String
-  icon     String
-  tags     String[]
-  unit     String
-  quantity Int
+  id         String   @id @default(cuid())
+  name       String
+  comment    String
+  price      Float
+  currency   String
+  icon       String
+  categories String[]
+  unit       String
+  quantity   Int
 
   addedBy   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   belongsTo Store  @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -81,6 +81,7 @@ model Store {
   categories String[] @default([])
   location   String
   items      Item[]
+  body       String?
   favorite   Boolean  @default(false)
   color      String?
 

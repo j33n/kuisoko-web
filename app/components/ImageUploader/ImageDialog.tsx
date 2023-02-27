@@ -46,16 +46,16 @@ const ImageDialog = ({ tabsWidth, triggerIcon }: IDialog) => {
       }
     >
       <StyledTabsRoot defaultValue="custom">
-        <StyledTabsList aria-label="Upload store icon" tabsWidth={tabsWidth}>
-          <StyledTabsTrigger value="custom">Custom</StyledTabsTrigger>
-          <StyledTabsTrigger value="emoji">Emoji</StyledTabsTrigger>
-        </StyledTabsList>
+        {/* <StyledTabsList aria-label="Upload store icon" tabsWidth={tabsWidth}>
+          <StyledTabsTrigger value="custom">Custom</StyledTabsTrigger> */}
+          {/* <StyledTabsTrigger value="emoji">Emoji</StyledTabsTrigger> */}
+        {/* </StyledTabsList> */}
         <StyledTabsContent value="custom">
           <ImageUploader />
         </StyledTabsContent>
-        <StyledTabsContent value="emoji">
+        {/* <StyledTabsContent value="emoji">
           <EmojiRenderer closeDialog={() => setOpen(false)} />
-        </StyledTabsContent>
+        </StyledTabsContent> */}
       </StyledTabsRoot>
     </Dialog>
   );
