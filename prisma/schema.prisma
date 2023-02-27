@@ -43,7 +43,7 @@ model Item {
   name       String
   comment    String
   price      Float
-  currency   String
+  currency   String?
   icon       String
   categories String[]
   unit       String

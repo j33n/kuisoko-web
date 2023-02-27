@@ -73,6 +73,7 @@ export const StyledLink = styled(Link)<IStyledLink>`
   padding: 0.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  align-items: center;
 
   ${({ active, theme: { colors } }) =>
     active && `background: ${colors.buttonBgHover};`}

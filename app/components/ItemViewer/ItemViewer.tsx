@@ -8,19 +8,27 @@ import { CiShoppingCart } from "react-icons/ci";
 import { LoaderArgs } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import styled from "@emotion/styled";
+import { FlexCenter } from "~/styles/page.styled";
+import { useState } from "react";
 
 export type ItemAdderProps = {
-  item: Item;
+  item: any;
 };
 
 export const StyledPlaceholder = styled.span`
   color: ${({ theme: { colors } }) => colors.gray4};
 `;
 
-export const ItemAdder = ({ item }: ItemAdderProps) => {
+export const StyledNewItemBox = styled(FlexCenter)`
+  flex-direction: column;
+`;
+
+export const ItemViewer = ({ item }: ItemAdderProps) => {
+  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false)
   // const saveNameBtnRef = () => {
   //   console.log("_______________");
   // };
+
 
   return (
     <StyledContent>
@@ -36,12 +44,18 @@ export const ItemAdder = ({ item }: ItemAdderProps) => {
       {/* <StyledLogoBox>
         <ImageDialog tabSize="75%" trigger={<CiShoppingCart />} />
   </StyledLogoBox> */}
-      <p contentEditable="true">
-        <StyledPlaceholder>Item comment</StyledPlaceholder>
-      </p>
-      <p contentEditable="true">
-        <StyledPlaceholder>Item comment</StyledPlaceholder>
-      </p>
+      <StyledNewItemBox>
+        <p contentEditable="true" onFocus={() => setShowPlaceholder(false)}>
+          {item.name || (
+            <StyledPlaceholder>
+              comment
+            </StyledPlaceholder>
+          )}
+        </p>
+        <p contentEditable="true">
+          {item.comment || <StyledPlaceholder>Item comment</StyledPlaceholder>}
+        </p>
+      </StyledNewItemBox>
       {/* <p contentEditable="true">{item.price}</p>
       <p contentEditable="true">{item.categories}</p>
       <p contentEditable="true">{item.unit}</p>
@@ -50,4 +64,4 @@ export const ItemAdder = ({ item }: ItemAdderProps) => {
   );
 };
 
-export default ItemAdder;
+export default ItemViewer;

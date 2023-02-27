@@ -8,8 +8,8 @@ export const StyledStoresList = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-top: 1px solid ${({ theme: { colors } }) => colors.border};
-  border-bottom: 1px solid ${({ theme: { colors } }) => colors.border};
+  border-top: 1px solid ${({ theme: { colors } }) => colors.gray4};
+  border-bottom: 1px solid ${({ theme: { colors } }) => colors.gray4};
   padding: 0.5rem 0;
   overflow: scroll;
   max-height: 50vh;
@@ -61,6 +61,7 @@ export const Anchor = ({ theme: { colors, fontSizes } }: any) => css`
 
 export const StyledAnchor = styled.span`
   ${Anchor}
+  white-space: nowrap;
 `;
 
 export const StyledMenuLink = styled.span`

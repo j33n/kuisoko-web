@@ -50,7 +50,6 @@ export function createItem({
   name,
   comment,
   price,
-  currency,
   icon,
   categories,
   quantity,
@@ -62,7 +61,6 @@ export function createItem({
   | "name"
   | "comment"
   | "price"
-  | "currency"
   | "icon"
   | "categories"
   | "quantity"
@@ -76,7 +74,6 @@ export function createItem({
       name,
       comment,
       price,
-      currency,
       icon,
       categories,
       quantity,

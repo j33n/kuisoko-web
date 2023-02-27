@@ -1,6 +1,7 @@
-import type { ComponentProps} from "react";
 import { useEffect, useRef } from "react";
 import ReactQuill from "react-quill";
+
+import type { ComponentProps } from "react";
 
 type ReactQuillProps = ComponentProps<typeof ReactQuill>;
 export type TextEditorProps = Pick<
@@ -19,7 +20,7 @@ const toolBarOptions = {
       { indent: "-1" },
       { indent: "+1" },
     ],
-    ["link", "image", "video"],
+    ["link"],
     ["clean"],
   ],
 };

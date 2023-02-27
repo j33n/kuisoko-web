@@ -10,7 +10,11 @@ import { StyledPageHeader, StyledTitle } from "../../__stores";
 
 import type { LoaderArgs } from "@remix-run/node";
 import { ItemAdder } from "~/components";
-import { StyledBody, StyledContainer } from "~/styles/stores/singleStore.styled";
+import {
+  StyledBody,
+  StyledContainer,
+} from "~/styles/stores/singleStore.styled";
+import ItemViewer from "~/components/ItemViewer/ItemViewer";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -24,6 +28,10 @@ export default function ItemsRoute() {
   const data = useLoaderData<typeof loader>();
   let { t } = useTranslation();
 
+  const onSaveItem = (e: any) => {
+    console.log("------------>", e);
+  };
+
   return (
     <StyledContainer>
       <StyledBody>
@@ -33,7 +41,11 @@ export default function ItemsRoute() {
           ) : (
             <>{data.items.length} Items so far</>
           )}
-          <ItemAdder onSave={() => {}} />
+
+          {data.items.length > 0 &&
+            data.items.map((item) => <ItemViewer item={item} key={item.id} />)}
+
+          <ItemAdder onBlur={onSaveItem} />
         </StyledPageHeader>
       </StyledBody>
     </StyledContainer>

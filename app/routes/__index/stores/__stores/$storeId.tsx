@@ -33,7 +33,7 @@ import { CiStar } from "react-icons/ci";
 import DropDownMenu from "~/components/Layout/DropDownMenu/DropDownMenu";
 import {
   StyledItem,
-  StyledRightSlot,
+StyledRightSlot,
 } from "~/components/Layout/DropDownMenu/DropDownMenu.styled";
 import { useTranslation } from "react-i18next";
 

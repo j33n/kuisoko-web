@@ -11,11 +11,13 @@ export const links = [
     name: "myStores",
     path: "/stores",
     icon: <CiShop />,
+    menu: true,
   },
   {
     name: "items",
     path: "/stores/items",
     icon: <CiShoppingCart />,
+    menu: true,
   },
   {
     name: "dashboard",

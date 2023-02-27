@@ -118,6 +118,12 @@ export const StyledPinText = styled.span`
   text-overflow: ellipsis;
 `;
 
+export const StyledNewText = styled.span`
+  display: block;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+  min-width: 100px;
+`;
+
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
   const url = new URL(request.url);
@@ -133,7 +139,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function Stores() {
   const data = useLoaderData<typeof loader>();
   let { t } = useTranslation();
-  
+
   return (
     <StyledPage>
       <StyledPageHeader>
@@ -152,6 +158,7 @@ export default function Stores() {
             <StyledNewStoreLink to="/stores/new">
               <StyledIconButton>
                 <CiSquarePlus />
+                <StyledNewText>New Store</StyledNewText>
               </StyledIconButton>
             </StyledNewStoreLink>
           </StyledHeader>
