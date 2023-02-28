@@ -110,3 +110,7 @@ export function breakpoint() {
 
   return null;
 }
+
+export function containsOnlyNumbers(str: string) {
+  return /^\d+$/.test(str);
+}

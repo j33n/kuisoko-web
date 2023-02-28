@@ -16,6 +16,8 @@ import {
   StyledBtnContainer,
 } from "~/styles/stores/new.styled";
 import { useTranslation } from "react-i18next";
+import invariant from "tiny-invariant";
+import { containsOnlyNumbers } from "~/utils";
 
 export const InputContainer = styled.div`
   display: flex;
@@ -23,9 +25,11 @@ export const InputContainer = styled.div`
   width: 100%;
 `;
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request, params }: ActionArgs) {
   const user = await requireUser(request);
   const formData = await request.formData();
+
+  const { storeId } = params;
 
   const { itemName, itemComment, itemPrice, itemQuantity } =
     Object.fromEntries(formData);
@@ -59,7 +63,7 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  if (typeof itemQuantity !== "number") {
+  if (typeof itemQuantity !== "string" || !containsOnlyNumbers(itemQuantity)) {
     return json(
       {
         errors: {
@@ -73,31 +77,33 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-   if (typeof itemPrice !== "number") {
-     return json(
-       {
-         errors: {
-           itemName: null,
-           itemComment: null,
-           itemPrice: "Item price is required",
-           itemQuantity: null,
-         },
-       },
-       { status: 400 }
-     );
-   }
+  if (typeof itemPrice !== "string" || !containsOnlyNumbers(itemPrice)) {
+    return json(
+      {
+        errors: {
+          itemName: null,
+          itemComment: null,
+          itemPrice: "Item price is required",
+          itemQuantity: null,
+        },
+      },
+      { status: 400 }
+    );
+  }
+
+  invariant(storeId, "store id is missing")
 
   // create store
-  const store = await createItem({
+  const item = await createItem({
     name: itemName,
     comment: itemComment,
-    price: itemPrice,
-    quantity: itemQuantity,
-    store: "",
-    userId: user.id
+    price: Number(itemPrice),
+    quantity: Number(itemQuantity),
+    storeId,
+    userId: user.id,
   });
 
-  return redirect(`/stores/${store.id}`);
+  return redirect(`/stores/${storeId}`);
 }
 
 export default function NewStoreRoute() {
@@ -105,8 +111,6 @@ export default function NewStoreRoute() {
   const transition = useTransition();
 
   const { t } = useTranslation();
-
-  console.log("_+_+_+++++++++++", transition.state);
 
   return (
     <StyledCreateStore>

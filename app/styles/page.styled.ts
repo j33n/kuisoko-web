@@ -30,16 +30,6 @@ export const FlexCenterEnd = styled(Flex)`
   justify-content: flex-end;
 `;
 
-export const StyledPage = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background: ${({ theme: { colors } }) => colors.background};
-  color: ${({ theme: { colors } }) => colors.text};
-`;
-
 export const StyledFormContainer = styled(FlexCenterColumn)`
   width: 50%;
   min-height: 50%;

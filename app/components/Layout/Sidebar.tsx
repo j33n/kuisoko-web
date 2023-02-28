@@ -95,6 +95,9 @@ const Sidebar = ({ user, storeList }: SideBarProps) => {
                 <RenderIcon src={store.icon} />
               </StyledAnchorStores>
               <StyledLinkStores>{store.name}</StyledLinkStores>
+              <StyledIconLink to={`/stores/${store.id}/items/new`}>
+                <HiOutlinePlus />
+              </StyledIconLink>
             </StyledLinkList>
           ))}
         </StyledStoresList>

@@ -30,7 +30,6 @@ export async function action({ request }: ActionArgs) {
   const storeComment = formData.get("storeComment");
   const storeLocation = formData.get("storeLocation");
 
-  // server validations
   if (typeof storeName !== "string" || storeName.length === 0) {
     return json(
       {
@@ -73,7 +72,6 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  // create store
   const store = await createStore({
     name: storeName,
     comment: storeComment,

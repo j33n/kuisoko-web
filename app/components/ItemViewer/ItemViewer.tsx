@@ -23,12 +23,15 @@ export const StyledNewItemBox = styled(FlexCenter)`
   flex-direction: column;
 `;
 
+export const StyledItemContainer = styled.div`
+  display: flex;
+`;
+
 export const ItemViewer = ({ item }: ItemAdderProps) => {
-  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false)
+  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false);
   // const saveNameBtnRef = () => {
   //   console.log("_______________");
   // };
-
 
   return (
     <StyledContent>
@@ -44,18 +47,20 @@ export const ItemViewer = ({ item }: ItemAdderProps) => {
       {/* <StyledLogoBox>
         <ImageDialog tabSize="75%" trigger={<CiShoppingCart />} />
   </StyledLogoBox> */}
-      <StyledNewItemBox>
+      <StyledItemContainer>
         <p contentEditable="true" onFocus={() => setShowPlaceholder(false)}>
-          {item.name || (
-            <StyledPlaceholder>
-              comment
-            </StyledPlaceholder>
-          )}
+          {item.name}
         </p>
         <p contentEditable="true">
           {item.comment || <StyledPlaceholder>Item comment</StyledPlaceholder>}
         </p>
-      </StyledNewItemBox>
+        <p contentEditable="true">
+          {item.price || <StyledPlaceholder>Item comment</StyledPlaceholder>}
+        </p>
+        <p contentEditable="true">
+          {item.quantity || <StyledPlaceholder>Item comment</StyledPlaceholder>}
+        </p>
+      </StyledItemContainer>
       {/* <p contentEditable="true">{item.price}</p>
       <p contentEditable="true">{item.categories}</p>
       <p contentEditable="true">{item.unit}</p>

@@ -1,10 +1,12 @@
 import invariant from "tiny-invariant";
-import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { cssBundleHref } from "@remix-run/css-bundle";
 
 import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
 import {
   Form,
+  Outlet,
   useCatch,
   useLoaderData,
   useParams,
@@ -28,17 +30,23 @@ import {
   StyledOverlay,
 } from "~/styles/stores/singleStore.styled";
 
-import stylesheetQuill from "~/styles/quill.bubble.css";
 import { CiStar } from "react-icons/ci";
 import DropDownMenu from "~/components/Layout/DropDownMenu/DropDownMenu";
 import {
   StyledItem,
-StyledRightSlot,
+  StyledRightSlot,
 } from "~/components/Layout/DropDownMenu/DropDownMenu.styled";
 import { useTranslation } from "react-i18next";
 
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesheetQuill }];
+import stylesheetQuill from "~/styles/quill.bubble.css";
+import emojiPickerStyles from "~/styles/emoji-picker.css";
+
+export const links: any = () => {
+  return [
+    { rel: "stylesheet", href: stylesheetQuill },
+    { rel: "stylesheet", href: cssBundleHref },
+    { rel: "stylesheet", href: emojiPickerStyles },
+  ];
 };
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -240,6 +248,8 @@ export default function StoreDetailsRoute() {
           </Form>
         </StyledContent>
       </StyledBody>
+      {/* not working */}
+      <Outlet />
     </StyledContainer>
   );
 }

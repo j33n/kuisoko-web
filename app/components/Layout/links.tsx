@@ -17,7 +17,7 @@ export const links = [
     name: "items",
     path: "/stores/items",
     icon: <CiShoppingCart />,
-    menu: true,
+    menu: false,
   },
   {
     name: "dashboard",

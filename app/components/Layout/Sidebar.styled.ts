@@ -74,6 +74,7 @@ export const StyledLinkList = styled(Link)`
   width: 100%;
   cursor: pointer;
   padding: 0.5rem 0;
+  align-items: center;
 
   &:hover {
     background: ${({ theme: { colors } }) => colors.buttonBgHover};
