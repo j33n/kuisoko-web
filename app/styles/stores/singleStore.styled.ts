@@ -11,26 +11,34 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledBody = styled(FlexCenter)`
+  flex-direction: column;
   width: 60vw;
   height: fit-content;
   margin-top: 5vh;
-  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-  border-radius: 0.5rem;
-  padding-top: 1rem;
 `;
 
 export const StyledContent = styled.div`
   width: 100%;
-  padding: 0 1rem;
-  margin: 0 auto;
   position: relative;
+  border-radius: 0.5rem 0.5rem 0 0;
+  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
+  padding: 1rem;
 
   > button {
     position: absolute;
     top: 0;
     right: 0;
-    margin-right: 1rem;
+    margin: 1rem 1rem 0 0;
   }
+`;
+
+export const StyledItemLister = styled.div`
+  width: 100%;
+  display: flex;
+  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
+  border-top: 0;
+  padding: 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
 `;
 
 export const StyledSideRight = styled.div`

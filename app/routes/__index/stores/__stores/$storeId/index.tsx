@@ -26,6 +26,7 @@ import {
   StyledBody,
   StyledContainer,
   StyledContent,
+  StyledItemLister,
   StyledLogoBox,
   StyledOverlay,
 } from "~/styles/stores/singleStore.styled";
@@ -247,9 +248,10 @@ export default function StoreDetailsRoute() {
             </button>
           </Form>
         </StyledContent>
+        <StyledItemLister>
+          List of items goes here
+        </StyledItemLister>
       </StyledBody>
-      {/* not working */}
-      <Outlet />
     </StyledContainer>
   );
 }

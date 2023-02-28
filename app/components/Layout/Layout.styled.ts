@@ -119,7 +119,7 @@ export const StyledToolbarItem = styled.div<StyledLayoutProps>`
 // sidebar styles
 export const StyledSidebar = styled(Block)<StyledLayoutProps>`
   max-width: ${({ size }) => size || "30vw"};
-  height: calc(100vh - ${headerHeight});
+  min-height: calc(100vh - ${headerHeight});
   justify-content: space-between;
 
   /* mobile size */

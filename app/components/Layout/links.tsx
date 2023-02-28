@@ -13,12 +13,12 @@ export const links = [
     icon: <CiShop />,
     menu: true,
   },
-  {
-    name: "items",
-    path: "/stores/items",
-    icon: <CiShoppingCart />,
-    menu: false,
-  },
+  // {
+  //   name: "items",
+  //   path: "/stores/items",
+  //   icon: <CiShoppingCart />,
+  //   menu: false,
+  // },
   {
     name: "dashboard",
     path: "/dashboard",
