@@ -6,7 +6,6 @@ import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
 import {
   Form,
-  Outlet,
   useCatch,
   useLoaderData,
   useParams,
