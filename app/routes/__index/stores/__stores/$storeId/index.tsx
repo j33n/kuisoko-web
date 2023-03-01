@@ -1,8 +1,8 @@
 import invariant from "tiny-invariant";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
-
 import { json } from "@remix-run/node";
+
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { prisma } from "~/db.server";
 import {
   Form,
@@ -12,7 +12,7 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
-import { Builder, Editable, ImageDialog, Loader } from "~/components";
+import { Builder, Editable, ImageDialog, ItemView, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -30,7 +30,7 @@ import {
   StyledOverlay,
 } from "~/styles/stores/singleStore.styled";
 
-import { CiStar } from "react-icons/ci";
+import { CiShop, CiStar } from "react-icons/ci";
 import DropDownMenu from "~/components/Layout/DropDownMenu/DropDownMenu";
 import {
   StyledItem,
@@ -40,6 +40,7 @@ import { useTranslation } from "react-i18next";
 
 import stylesheetQuill from "~/styles/quill.snow.css";
 import emojiPickerStyles from "~/styles/emoji-picker.css";
+import { getStoreItems } from "~/models/items.server";
 
 export const links: any = () => {
   return [
@@ -49,8 +50,9 @@ export const links: any = () => {
   ];
 };
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ params, request }: LoaderArgs) => {
   invariant(params.storeId, "Missing store id");
+  const user = await requireUser(request);
 
   const store = await prisma.store.findFirst({
     where: {
@@ -58,11 +60,17 @@ export const loader = async ({ params }: LoaderArgs) => {
     },
   });
 
+  let items;
+
+  if (store) {
+    items = await getStoreItems(store.id, user.id);
+  }
+
   if (!store) {
     throw new Response("Oops, Store not found", { status: 404 });
   }
 
-  return json({ store });
+  return json({ store, items });
 };
 
 // TODO: move this to separate resource route
@@ -166,7 +174,7 @@ export const FavoriteForm = ({ storeId }: FavoriteFormProps) => {
 };
 
 export default function StoreDetailsRoute() {
-  const data = useLoaderData<typeof loader>();
+  const { store, items } = useLoaderData<typeof loader>();
   const saveNameBtnRef = useRef<HTMLButtonElement>(null);
   const saveCommentBtnRef = useRef<HTMLButtonElement>(null);
   const saveBodyBtnRef = useRef<HTMLButtonElement>(null);
@@ -175,8 +183,10 @@ export default function StoreDetailsRoute() {
   const transition = useTransition();
 
   useEffect(() => {
-    setTextEditor(data.store.body);
-  }, [data.store]);
+    setTextEditor(store.body);
+  }, [store]);
+
+  const defaultTriggerIcon = <CiShop />;
 
   return (
     <StyledContainer>
@@ -189,14 +199,18 @@ export default function StoreDetailsRoute() {
         )}
         <StyledContent>
           <StyledLogoBox>
-            <ImageDialog tabSize="75%" triggerIcon={data.store.icon} />
+            <ImageDialog
+              tabSize="75%"
+              triggerIcon={store.icon}
+              defaultTriggerIcon={defaultTriggerIcon}
+            />
           </StyledLogoBox>
           <DropDownMenu>
-            <FavoriteForm storeId={data.store.id} />
+            <FavoriteForm storeId={store.id} />
           </DropDownMenu>
-          <Form method="post" action={`/stores/${data.store.id}`}>
+          <Form method="post" action={`/stores/${store.id}`}>
             <Editable
-              defaultValue={data.store.name}
+              defaultValue={store.name}
               fontSize="lg"
               name="storeName"
               onSave={() => saveNameBtnRef.current?.click()}
@@ -212,7 +226,7 @@ export default function StoreDetailsRoute() {
               Save
             </button>
             <Editable
-              defaultValue={data.store.comment}
+              defaultValue={store.comment}
               sx={{ marginTop: "1rem" }}
               name="storeComment"
               onSave={() => saveCommentBtnRef.current?.click()}
@@ -248,7 +262,11 @@ export default function StoreDetailsRoute() {
           </Form>
         </StyledContent>
         <StyledItemLister>
-          
+          {items && items.length > 0
+            ? items.map((item) => {
+                return <ItemView key={item.id} item={item}>{item.name}</ItemView>;
+              })
+            : "No items"}
         </StyledItemLister>
       </StyledBody>
     </StyledContainer>
