@@ -1,11 +1,12 @@
-import type { ComponentProps} from "react";
 import { useEffect, useRef } from "react";
 import ReactQuill from "react-quill";
 
+import type { ComponentProps } from "react";
+
 type ReactQuillProps = ComponentProps<typeof ReactQuill>;
-type Props = Pick<
+export type TextEditorProps = Pick<
   ReactQuillProps,
-  "onChange" | "placeholder" | "theme" | "value"
+  "onChange" | "placeholder" | "theme" | "value" | "onBlur"
 >;
 
 const toolBarOptions = {
@@ -19,13 +20,15 @@ const toolBarOptions = {
       { indent: "-1" },
       { indent: "+1" },
     ],
-    ["link", "image", "video"],
+    ["link"],
     ["clean"],
   ],
 };
 
-export const TextEditor = (props: Props) => {
-  const { placeholder } = props;
+// TODO: handle image and video addition ["link", "image", "video"]
+
+export const TextEditor = (props: TextEditorProps) => {
+  const { placeholder, onBlur } = props;
 
   const textEditorRef = useRef<ReactQuill>(null);
 
@@ -36,5 +39,12 @@ export const TextEditor = (props: Props) => {
     }
   }, [textEditorRef, placeholder]);
 
-  return <ReactQuill ref={textEditorRef} {...props} modules={toolBarOptions} />;
-}
+  return (
+    <ReactQuill
+      ref={textEditorRef}
+      {...props}
+      modules={toolBarOptions}
+      onBlur={onBlur}
+    />
+  );
+};

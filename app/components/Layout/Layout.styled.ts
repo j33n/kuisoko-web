@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Link } from "@remix-run/react";
-import { Box } from "theme-ui";
+import { Box, IconButton } from "theme-ui";
 
 import { FlexCenter } from "~/styles/page.styled";
 
@@ -73,6 +73,7 @@ export const StyledLink = styled(Link)<IStyledLink>`
   padding: 0.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  align-items: center;
 
   ${({ active, theme: { colors } }) =>
     active && `background: ${colors.buttonBgHover};`}
@@ -115,9 +116,10 @@ export const StyledToolbarItem = styled.div<StyledLayoutProps>`
   }
 `;
 
+// sidebar styles
 export const StyledSidebar = styled(Block)<StyledLayoutProps>`
   max-width: ${({ size }) => size || "30vw"};
-  height: calc(100vh - ${headerHeight});
+  min-height: calc(100vh - ${headerHeight});
   justify-content: space-between;
 
   /* mobile size */
@@ -145,11 +147,29 @@ export const StyledSidebar = styled(Block)<StyledLayoutProps>`
 `;
 
 export const StyledBodyContent = styled(Block)<{ noFooter?: boolean }>`
-  max-width: 80%;
+  max-width: 70vw;
   height: ${({ noFooter }) =>
-    noFooter ? `calc(100vh - ${headerHeight})` : `calc(100vh - (${headerHeight} + 5rem))`};
+    noFooter
+      ? `calc(100vh - ${headerHeight})`
+      : `calc(100vh - (${headerHeight} + 5rem))`};
   position: relative;
   z-index: 1;
+
+  @media (max-width: 480px) {
+    max-width: 80vw;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 80vw;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 75vw;
+  }
+
+  @media (min-width: 1280px) {
+    max-width: 80vw;
+  }
 `;
 
 export const StyledSidebarLinks = styled(Block)`
@@ -253,4 +273,133 @@ export const StyledBottomMenu = styled.div`
   margin: 0;
   height: 0;
   visibility: hidden;
+`;
+
+// __stores page
+export const StyledPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: ${({ theme: { colors } }) => colors.background};
+  color: ${({ theme: { colors } }) => colors.text};
+`;
+
+export const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`;
+
+export const StyledHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 1rem 0;
+  /* max-width: 70vw; */
+`;
+
+export const StyledPageHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 2rem;
+`;
+
+export const StyledHeaderTitle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  color: ${({ theme: { colors } }) => colors.text};
+  margin-left: 1.5rem;
+`;
+
+export const StyledIconButton = styled(IconButton)`
+  width: auto;
+  height: auto;
+  padding: 0.2rem 0.5rem;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    background-color: ${({ theme: { colors } }) => colors.buttonBgHover};
+  }
+`;
+
+export const StyledNewStoreLink = styled(Link)`
+  height: 100%;
+  margin: 0 0.5rem;
+
+  svg {
+    margin-right: 0 !important;
+  }
+`;
+
+export const StyledPinContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  padding-left: 1rem;
+  overflow-x: auto;
+  gap: 1rem;
+`;
+
+export const StyledPin = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-height: 3rem;
+  border-radius: 0.56rem;
+  border: ${({ theme: { colors } }) => `1px solid ${colors.gray6}`};
+
+  &:hover {
+    border: ${({ theme: { colors } }) => `1px solid ${colors.text}`};
+    background-color: ${({ theme: { colors } }) => colors.buttonBgHover};
+  }
+
+  &:focus {
+    border: ${({ theme: { colors } }) => `1px solid ${colors.blue4}`};
+  }
+`;
+
+export const StyledPinImg = styled.div`
+  display: flex;
+`;
+
+export const StyledPinText = styled.span`
+  font-weight: 200;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes["xxs"]};
+  height: 2.5rem;
+  line-height: 2.5rem;
+  vertical-align: middle;
+  padding: 0 0.5rem;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const StyledNewText = styled.span`
+  display: block;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+  min-width: 100px;
+`;
+
+export const StyledOutletContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
 `;

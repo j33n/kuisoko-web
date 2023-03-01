@@ -38,11 +38,11 @@ export const StyledDot = styled.div`
   transform: scale(0);
   ${animation()}
 
-  &:nth-child(2) {
+  &:nth-of-type(2) {
     ${animation(animationSpeed * 0.3)};
   }
 
-  &:nth-child(3) {
+  &:nth-of-type(3) {
     ${animation(animationSpeed * 0.6)};
   }
 `;

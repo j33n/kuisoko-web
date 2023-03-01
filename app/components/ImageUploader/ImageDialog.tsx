@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 
 export interface IDialog {
-  tabsWidth?: string;
+  tabSize?: string;
   triggerIcon?: string | null;
 }
 
@@ -32,7 +32,7 @@ const DialogTrigger = ({ triggerIcon }: IDialog) => (
   </>
 );
 
-const ImageDialog = ({ tabsWidth, triggerIcon }: IDialog) => {
+const ImageDialog = ({ tabSize, triggerIcon }: IDialog) => {
   const [open, setOpen] = useState(false);
   return (
     <Dialog
@@ -46,7 +46,10 @@ const ImageDialog = ({ tabsWidth, triggerIcon }: IDialog) => {
       }
     >
       <StyledTabsRoot defaultValue="custom">
-        <StyledTabsList aria-label="Upload store icon" tabsWidth={tabsWidth}>
+        <StyledTabsList
+          aria-label="Upload store icon"
+          css={{ width: tabSize || "100%" }}
+        >
           <StyledTabsTrigger value="custom">Custom</StyledTabsTrigger>
           <StyledTabsTrigger value="emoji">Emoji</StyledTabsTrigger>
         </StyledTabsList>

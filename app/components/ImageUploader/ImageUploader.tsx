@@ -2,9 +2,9 @@ import styled from "@emotion/styled";
 
 import { useRef, useState } from "react";
 
-import uploadPlaceholder from "~/assets/images/addStoreIcon.svg";
 import invariant from "tiny-invariant";
 import { Button } from "~/components";
+import uploadPlaceholder from "~/assets/images/addStoreIcon.svg";
 
 export const StyledImageHolder = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const StyledImageHolder = styled.div`
   border-radius: 0.5rem;
   padding: 5rem;
   cursor: pointer;
-  background-color: ${({theme: {colors}}) => colors.whiteA3};
+  background-color: ${({ theme: { colors } }) => colors.whiteA3};
   margin: 0.5rem 0;
 
   img {

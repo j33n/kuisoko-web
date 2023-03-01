@@ -1,10 +1,12 @@
 import invariant from "tiny-invariant";
-import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { cssBundleHref } from "@remix-run/css-bundle";
 
 import { json } from "@remix-run/node";
 import { prisma } from "~/db.server";
 import {
   Form,
+  Outlet,
   useCatch,
   useLoaderData,
   useParams,
@@ -13,18 +15,22 @@ import {
 } from "@remix-run/react";
 import { Builder, Editable, ImageDialog, Loader } from "~/components";
 import { requireUser } from "~/services/session.server";
-import { useRef, useState } from "react";
-import { updateStoreComment, updateStoreName } from "~/models/store.server";
+import { useEffect, useRef, useState } from "react";
+import {
+  updateStoreBody,
+  updateStoreComment,
+  updateStoreName,
+} from "~/models/store.server";
 
 import {
   StyledBody,
   StyledContainer,
   StyledContent,
+  StyledItemLister,
   StyledLogoBox,
   StyledOverlay,
 } from "~/styles/stores/singleStore.styled";
 
-import stylesheetQuill from "~/styles/quill.bubble.css";
 import { CiStar } from "react-icons/ci";
 import DropDownMenu from "~/components/Layout/DropDownMenu/DropDownMenu";
 import {
@@ -33,8 +39,15 @@ import {
 } from "~/components/Layout/DropDownMenu/DropDownMenu.styled";
 import { useTranslation } from "react-i18next";
 
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesheetQuill }];
+import stylesheetQuill from "~/styles/quill.bubble.css";
+import emojiPickerStyles from "~/styles/emoji-picker.css";
+
+export const links: any = () => {
+  return [
+    { rel: "stylesheet", href: stylesheetQuill },
+    { rel: "stylesheet", href: cssBundleHref },
+    { rel: "stylesheet", href: emojiPickerStyles },
+  ];
 };
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -78,12 +91,12 @@ export async function action({ params, request }: ActionArgs) {
 
   const { storeId } = params;
 
-  const { _action, storeName, storeComment } = Object.fromEntries(formData);
+  const { _action, storeName, storeComment, storeBody } =
+    Object.fromEntries(formData);
 
   let store;
 
   if (_action === "updateStoreName") {
-    
     if (storeName && typeof storeName === "string" && storeId) {
       store = await updateStoreName({
         id: storeId,
@@ -103,9 +116,14 @@ export async function action({ params, request }: ActionArgs) {
     }
   }
 
-  if (_action === "updateStoreContent") {
-    console.log(_action);
-    console.log("upate store content");
+  if (_action === "updateStoreBody") {
+    if (storeBody && typeof storeBody === "string" && storeId) {
+      store = await updateStoreBody({
+        id: storeId,
+        body: storeBody,
+        userId: user.id,
+      });
+    }
   }
 
   if (_action === "uploadStoreImage") {
@@ -152,12 +170,18 @@ export default function StoreDetailsRoute() {
   const data = useLoaderData<typeof loader>();
   const saveNameBtnRef = useRef<HTMLButtonElement>(null);
   const saveCommentBtnRef = useRef<HTMLButtonElement>(null);
+  const saveBodyBtnRef = useRef<HTMLButtonElement>(null);
+
+  const [textEditor, setTextEditor] = useState<any>("");
   const transition = useTransition();
+
+  useEffect(() => {
+    setTextEditor(data.store.body);
+  }, [data.store]);
 
   return (
     <StyledContainer>
       <StyledBody>
-        {/* <Cover /> */}
         {(transition.state === "loading" ||
           transition.state === "submitting") && (
           <StyledOverlay>
@@ -166,7 +190,7 @@ export default function StoreDetailsRoute() {
         )}
         <StyledContent>
           <StyledLogoBox>
-            <ImageDialog tabsWidth="75%" triggerIcon={data.store.icon} />
+            <ImageDialog tabSize="75%" triggerIcon={data.store.icon} />
           </StyledLogoBox>
           <DropDownMenu>
             <FavoriteForm storeId={data.store.id} />
@@ -205,11 +229,29 @@ export default function StoreDetailsRoute() {
               Save
             </button>
           </Form>
-          <Builder />
+          <Form method="post">
+            <Builder
+              onSubmit={() => saveBodyBtnRef.current?.click()}
+              onChange={setTextEditor}
+              value={textEditor}
+            />
+            <input type="hidden" name="storeBody" value={textEditor} />
+            <button
+              type="submit"
+              aria-label="update store body content"
+              name="_action"
+              value="updateStoreBody"
+              ref={saveBodyBtnRef}
+              hidden
+            >
+              Save
+            </button>
+          </Form>
         </StyledContent>
+        <StyledItemLister>
+          List of items goes here
+        </StyledItemLister>
       </StyledBody>
-      {/* TODO: make this slidable */}
-      {/* <StyledSideRight>No recent orders 😌</StyledSideRight> */}
     </StyledContainer>
   );
 }

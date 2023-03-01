@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiEdit, CiSquareCheck, CiSquareRemove } from "react-icons/ci";
 import invariant from "tiny-invariant";
 
@@ -28,6 +28,12 @@ export const Editable = ({
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(defaultValue);
   const [showEditButton, setShowEditButton] = useState(false);
+
+  useEffect(() => {
+    setIsEditing(false);
+    setShowEditButton(false);
+    setInputValue(defaultValue);
+  }, [defaultValue])
 
   const handleSave = () => {
     setIsEditing(false);

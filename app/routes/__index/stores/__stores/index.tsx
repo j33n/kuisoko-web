@@ -36,12 +36,7 @@ export default function Stores() {
         </Link>
       ) : (
         <StyledStoreAlbum>
-          {/* {data.storeList.map((store) => (
-            <div key={store.id}>
-              <h3>{store.name}</h3>
-              <p>{store.comment}</p>
-            </div>
-          ))} */}
+          List all items
         </StyledStoreAlbum>
       )}
     </>

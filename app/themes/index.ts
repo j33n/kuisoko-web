@@ -71,7 +71,6 @@ export const base: Theme = {
     },
   },
   forms: {
-    // mocked
     primary: {
       color: "text",
       bg: "background",

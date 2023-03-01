@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect } from "react";
+import { forwardRef, useState } from "react";
 
 import { ClientOnly } from "remix-utils";
 
@@ -9,12 +9,9 @@ import { TextEditor } from "~/components/textEditor.client";
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { StyledForm } from "./Builder.styled";
-import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
-import {
-  StyledItem,
-  StyledRightSlot,
-} from "../Layout/DropDownMenu/DropDownMenu.styled";
+
 import { CiAirportSign1 } from "react-icons/ci";
+import { ReactQuillProps } from "react-quill";
 
 export const action = async ({ request }: ActionArgs) => {
   const form = await request.formData();
@@ -28,6 +25,12 @@ interface Props {
   onClick: () => void;
   hidden?: boolean;
 }
+
+export type BuilderProps = {
+  onSubmit: () => void,
+  onChange: any,
+  value: string,
+};
 
 export type Ref = HTMLButtonElement;
 
@@ -46,9 +49,7 @@ export const TriggerComponent = forwardRef<Ref, Props>((props, ref) => (
 
 TriggerComponent.displayName = "TriggerComponent";
 
-export const Builder = () => {
-  const [textEditor, setTextEditor] = useState("");
-
+export const Builder = ({ onSubmit, onChange, value }: BuilderProps) => {
   return (
     <StyledForm method="post">
       <ClientOnly fallback={<FallbackComponent />}>
@@ -56,16 +57,12 @@ export const Builder = () => {
           <TextEditor
             theme="bubble"
             placeholder="Store description"
-            onChange={setTextEditor}
-            value={textEditor}
+            onChange={onChange}
+            value={value}
+            onBlur={onSubmit}
           />
         )}
       </ClientOnly>
-      <input type="hidden" name="textEditor" value={textEditor} />
-      <br />
-      <button type="submit" hidden>
-        Submit
-      </button>
     </StyledForm>
   );
 };

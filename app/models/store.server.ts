@@ -1,6 +1,8 @@
 import type { User, Store } from "@prisma/client";
 
 import { prisma } from "~/db.server";
+import { log } from "./log.server";
+import { getUserById } from "./user.server";
 
 export type { Store } from "@prisma/client";
 
@@ -11,12 +13,19 @@ export function getStore({
   userId: User["id"];
 }) {
   return prisma.store.findFirst({
-    select: { id: true, name: true, comment: true, location: true, icon: true, cover: true },
+    select: {
+      id: true,
+      name: true,
+      comment: true,
+      location: true,
+      icon: true,
+      cover: true,
+    },
     where: { id, userId },
   });
 }
 
-export function createStore({
+export async function createStore({
   name,
   comment,
   location,
@@ -24,7 +33,19 @@ export function createStore({
 }: Pick<Store, "name" | "comment" | "location"> & {
   userId: User["id"];
 }) {
-  
+  const user = await getUserById(userId);
+
+  if (user) {
+    await log({
+      type: "info",
+      event: "submit",
+      description: `User ${user.name || user.email} created store ${name}`,
+      icon: "🛍",
+      notify: false,
+      userId,
+    });
+  };
+
   return prisma.store.create({
     data: {
       name,
@@ -50,9 +71,9 @@ export function getStores(userId: User["id"]) {
       icon: true,
       cover: true,
     },
-    orderBy: { updatedAt: "desc" },
+    orderBy: { createdAt: "desc" },
   });
-};
+}
 
 export function getFavoriteStores(userId: User["id"]) {
   return prisma.store.findMany({
@@ -67,12 +88,25 @@ export function getFavoriteStores(userId: User["id"]) {
     },
     orderBy: { updatedAt: "desc" },
   });
-};
+}
 
-export function deleteStore({
+export async function deleteStore({
   id,
   userId,
 }: Pick<Store, "id"> & { userId: User["id"] }) {
+  const user = await getUserById(userId);
+
+  if (user) {
+    await log({
+      type: "info",
+      event: "delete store",
+      description: `User ${user.name || user.email} created store ${id}`,
+      icon: "🛒",
+      notify: false,
+      userId,
+    });
+  }
+
   return prisma.store.deleteMany({
     where: { id, userId },
   });
@@ -81,7 +115,7 @@ export function deleteStore({
 export function updateStoreName({
   id,
   name,
-}: Pick<Store, "id" | "name" > & { userId: User["id"] }) {
+}: Pick<Store, "id" | "name"> & { userId: User["id"] }) {
   return prisma.store.update({
     where: { id },
     data: { name },
@@ -108,10 +142,20 @@ export function updateStoreIcon({
   });
 }
 
+export function updateStoreBody({
+  id,
+  body,
+}: Pick<Store, "id" | "body"> & { userId: User["id"] }) {
+  return prisma.store.update({
+    where: { id },
+    data: { body },
+  });
+}
+
 export function updateStoreFavorite({
   id,
   favorite,
-  userId
+  userId,
 }: Pick<Store, "id" | "favorite"> & { userId: User["id"] }) {
   return prisma.store.update({
     where: { id },

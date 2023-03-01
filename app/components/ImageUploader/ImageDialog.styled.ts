@@ -2,21 +2,16 @@ import styled from "@emotion/styled";
 import * as Tabs from "@radix-ui/react-tabs";
 import { Box } from "theme-ui";
 
-export interface StyledTabsListProps {
-  tabsWidth?: string;
-}
-
 export const StyledTabsRoot = styled(Tabs.Root)`
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 10px ${({ theme: { colors } }) => colors.blackA7};
 `;
 
-export const StyledTabsList = styled(Tabs.List)<StyledTabsListProps>`
+export const StyledTabsList = styled(Tabs.List)`
   flex-shrink: 0;
   display: flex;
   border-bottom: 1px solid ${({ theme: { colors } }) => colors.blackA4};
-  width: ${({ tabsWidth }) => tabsWidth || "100%"};
 `;
 
 export const StyledTabsTrigger = styled(Tabs.Trigger)`
