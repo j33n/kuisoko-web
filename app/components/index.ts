@@ -20,6 +20,7 @@ import Builder from './Builder/Builder';
 import AccountMenuBar from './AccountMenuBar/AccountMenuBar';
 import RenderIcon from './RenderIcon/RenderIcon';
 import ItemAdder from "./ItemAdder/ItemAdder";
+import ItemView from "./ItemView/ItemView"
 
 export {
   Header,
@@ -43,5 +44,6 @@ export {
   Builder,
   AccountMenuBar,
   RenderIcon,
-  ItemAdder
+  ItemAdder,
+  ItemView,
 };

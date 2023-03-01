@@ -1,12 +1,5 @@
 import styled from "@emotion/styled";
 
-export const StyledItemsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  width: 70%;
-`;
-
 export const StyledItemBox = styled.div`
   display: flex;
   flex-direction: column;

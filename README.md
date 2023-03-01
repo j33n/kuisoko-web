@@ -23,7 +23,7 @@ nvm use lts/gallium
 
 installation
 ```bash
-npm
+npm install
 ```
 
 running type

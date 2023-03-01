@@ -1,4 +1,4 @@
-import type { User, Item } from "@prisma/client";
+import type { User, Item, Store } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 import { log } from "./log.server";
@@ -9,6 +9,25 @@ export type { Item } from "@prisma/client";
 export function getAllItems(userId: User["id"]) {
   return prisma.item.findMany({
     where: { addedBy: { id: userId } },
+    select: {
+      id: true,
+      name: true,
+      comment: true,
+      price: true,
+      currency: true,
+      icon: true,
+      categories: true,
+      unit: true,
+      quantity: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export function getStoreItems(storeId: Store["id"], userId: User["id"]) {
+  return prisma.item.findMany({
+    where: { addedBy: { id: userId }, belongsTo: { id: storeId } },
     select: {
       id: true,
       name: true,
@@ -70,7 +89,7 @@ export async function createItem({
       notify: false,
       userId,
     });
-  };
+  }
 
   return prisma.item.create({
     data: {
