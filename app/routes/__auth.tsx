@@ -24,7 +24,7 @@ const Auth = ({ currentTheme, setCurrentTheme }: IAuth) => {
       <StyledBgImage src={bgImage} />
       <Header />
       <StyledContent sx={{ flexDirection: "column" }}>
-        <StyledBodyContent>
+        <StyledBodyContent style={{maxWidth: "100%"}}>
           <Outlet />
         </StyledBodyContent>
         <StyledFooter>
