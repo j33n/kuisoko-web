@@ -55,7 +55,7 @@ export const Builder = ({ onSubmit, onChange, value }: BuilderProps) => {
       <ClientOnly fallback={<FallbackComponent />}>
         {() => (
           <TextEditor
-            theme="bubble"
+            theme="snow"
             placeholder="Store description"
             onChange={onChange}
             value={value}
