@@ -78,6 +78,10 @@ export const StyledLinkList = styled(Link)`
 
   &:hover {
     background: ${({ theme: { colors } }) => colors.buttonBgHover};
+
+    a {
+      visibility: visible !important;
+    }
   }
 
   &:focus {

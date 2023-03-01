@@ -249,7 +249,7 @@ export default function StoreDetailsRoute() {
           </Form>
         </StyledContent>
         <StyledItemLister>
-          List of items goes here
+          
         </StyledItemLister>
       </StyledBody>
     </StyledContainer>
