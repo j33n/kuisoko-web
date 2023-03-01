@@ -39,7 +39,7 @@ import {
 } from "~/components/Layout/DropDownMenu/DropDownMenu.styled";
 import { useTranslation } from "react-i18next";
 
-import stylesheetQuill from "~/styles/quill.bubble.css";
+import stylesheetQuill from "~/styles/quill.snow.css";
 import emojiPickerStyles from "~/styles/emoji-picker.css";
 
 export const links: any = () => {
@@ -249,7 +249,7 @@ export default function StoreDetailsRoute() {
           </Form>
         </StyledContent>
         <StyledItemLister>
-          List of items goes here
+          
         </StyledItemLister>
       </StyledBody>
     </StyledContainer>

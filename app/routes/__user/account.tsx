@@ -91,3 +91,5 @@ export default function StoreDetailsRoute() {
     </StyledContainer>
   );
 }
+
+// TODO: remove padding .ql-editor

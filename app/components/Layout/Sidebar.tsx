@@ -52,6 +52,7 @@ export const StyledIconLink = styled(Link)`
   border-radius: 50%;
   background: ${({ theme: { colors } }) => colors.background};
   width: 1rem;
+  margin: auto;
 
   &:focus {
     outline: none;
@@ -90,12 +91,15 @@ const Sidebar = ({ user, storeList }: SideBarProps) => {
         <StyledStoresList>
           <StyledTitle>{t("favorites")}</StyledTitle>
           {storeList.map((store: Store) => (
-            <StyledLinkList to={`/stores/${store.id}`} key={store.id}>
+            <StyledLinkList
+              to={`/stores/${store.id}`}
+              key={store.id}
+            >
               <StyledAnchorStores>
                 <RenderIcon src={store.icon} />
               </StyledAnchorStores>
               <StyledLinkStores>{store.name}</StyledLinkStores>
-              <StyledIconLink to={`/stores/${store.id}/items/new`}>
+              <StyledIconLink to={`/stores/${store.id}/items/new`} style={{visibility: "hidden"}}>
                 <HiOutlinePlus />
               </StyledIconLink>
             </StyledLinkList>

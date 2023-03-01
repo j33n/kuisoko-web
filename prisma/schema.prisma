@@ -95,10 +95,10 @@ model Store {
 }
 
 model DeliveryMethod {
-  id      String @id @default(cuid())
-  name    String
-  comment String
-  icon    String
+  id           String @id @default(cuid())
+  name         String
+  instructions String
+  icon         String
 
   orders Order[]
 
@@ -110,10 +110,12 @@ model DeliveryMethod {
 }
 
 model PaymentMethod {
-  id      String @id @default(cuid())
-  name    String
-  comment String
-  icon    String
+  id           String @id @default(cuid())
+  name         String
+  instructions String
+  icon         String
+  momoCode     String
+  businessName String
 
   addedBy User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId  String

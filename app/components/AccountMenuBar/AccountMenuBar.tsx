@@ -6,25 +6,25 @@ import {
 } from "./AccountMenuBar.styled";
 import { useLocation } from "@remix-run/react";
 import {
-//   HiOutlineCog6Tooth,
-//   HiOutlineCreditCard,
-//   HiOutlineTruck,
+  HiOutlineCog6Tooth,
+  HiOutlineCreditCard,
+  HiOutlineTruck,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
 
 const links = [
   { name: "My Info", path: "/account", icon: <HiOutlineUserCircle /> },
-//   {
-//     name: "Preferences",
-//     path: "/account/preferences",
-//     icon: <HiOutlineCog6Tooth />,
-//   },
-//   {
-//     name: "Payments",
-//     path: "/account/payments",
-//     icon: <HiOutlineCreditCard />,
-//   },
-//   { name: "Delivery", path: "/account/delivery", icon: <HiOutlineTruck /> },
+  {
+    name: "Preferences",
+    path: "/account/preferences",
+    icon: <HiOutlineCog6Tooth />,
+  },
+  {
+    name: "Payments",
+    path: "/account/payments",
+    icon: <HiOutlineCreditCard />,
+  },
+  { name: "Delivery", path: "/account/delivery", icon: <HiOutlineTruck /> },
 ];
 
 const AccountMenuBar = () => {
