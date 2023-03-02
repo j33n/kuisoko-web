@@ -9,5 +9,6 @@ module.exports = {
     unstable_cssModules: true,
     unstable_vanillaExtract: true,
     unstable_cssSideEffectImports: true,
+    unstable_dev: true,
   },
 };
