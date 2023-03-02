@@ -12,7 +12,14 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
-import { Builder, Editable, ImageDialog, ItemView, Loader } from "~/components";
+import {
+  Builder,
+  Editable,
+  NewItem,
+  ImageDialog,
+  ItemView,
+  Loader,
+} from "~/components";
 import { requireUser } from "~/services/session.server";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -261,13 +268,18 @@ export default function StoreDetailsRoute() {
             </button>
           </Form>
         </StyledContent>
-        <StyledItemLister>
-          {items && items.length > 0
-            ? items.map((item) => {
-                return <ItemView key={item.id} item={item}>{item.name}</ItemView>;
-              })
-            : "No items"}
-        </StyledItemLister>
+        <StyledContent>
+          <NewItem />
+          <StyledItemLister
+            css={{ borderRadius: "0 0 0.5rem 0.5rem", borderTop: 0 }}
+          >
+            {items &&
+              items.length > 0 &&
+              items.map((item) => {
+                return <ItemView key={item.id} item={item} />;
+              })}
+          </StyledItemLister>
+        </StyledContent>
       </StyledBody>
     </StyledContainer>
   );

@@ -1,4 +1,3 @@
-import newStore from "~/assets/images/newStore.svg";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -9,8 +8,12 @@ import { getStores } from "~/models/store.server";
 import {
   StyledImageWrapper,
   StyledImgNew,
-  StyledStoreAlbum,
 } from "~/styles/stores/new.styled";
+import { getAllItems } from "~/models/items.server";
+import { ItemView, NewItem } from "~/components";
+import newStore from "~/assets/images/newStore.svg";
+
+import { StyledItemLister } from "~/styles/stores/singleStore.styled";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -20,24 +23,32 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const storeList = await getStores(user.id);
 
-  return json({ user, storeList, pageName });
+  const items = await getAllItems(user.id);
+
+  return json({ user, storeList, items, pageName });
 };
 
 export default function Stores() {
-  const data = useLoaderData<typeof loader>();
+  const { storeList, items } = useLoaderData<typeof loader>();
 
   return (
     <>
-      {data.storeList.length === 0 ? (
+      {storeList.length === 0 ? (
         <Link to="/stores/new">
           <StyledImageWrapper>
             <StyledImgNew src={newStore} alt="create new store" />
           </StyledImageWrapper>
         </Link>
       ) : (
-        <StyledStoreAlbum>
-          List all items
-        </StyledStoreAlbum>
+        <StyledItemLister css={{ borderRadius: "0.5rem" }}>
+          {items && items.length > 0 ? (
+            items.map((item) => {
+              return <ItemView key={item.id} item={item} />;
+            })
+          ) : (
+            <NewItem />
+          )}
+        </StyledItemLister>
       )}
     </>
   );

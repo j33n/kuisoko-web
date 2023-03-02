@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Box } from "theme-ui";
 
 import { FlexCenter } from "~/styles/page.styled";
 
@@ -14,7 +15,7 @@ export const StyledBody = styled(FlexCenter)`
   flex-direction: column;
   width: 60vw;
   height: fit-content;
-  margin-top: 5vh;
+  /* margin-top: 5vh; */
 `;
 
 export const StyledContent = styled.div`
@@ -36,9 +37,7 @@ export const StyledItemLister = styled.div`
   width: 100%;
   display: flex;
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-  border-top: 0;
   padding: 1rem;
-  border-radius: 0 0 0.5rem 0.5rem;
 `;
 
 export const StyledSideRight = styled.div`

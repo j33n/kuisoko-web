@@ -45,6 +45,7 @@ const ImageDialog = ({ tabSize, triggerIcon, defaultTriggerIcon }: IDialog) => {
     <Dialog
       closeable
       open={open}
+      onClose={() => setOpen(false)}
       sxContent={{ padding: 0 }}
       trigger={
         <div onClick={() => setOpen(true)}>

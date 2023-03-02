@@ -21,6 +21,7 @@ import AccountMenuBar from './AccountMenuBar/AccountMenuBar';
 import RenderIcon from './RenderIcon/RenderIcon';
 import ItemAdder from "./ItemAdder/ItemAdder";
 import ItemView from "./ItemView/ItemView"
+import NewItem from "./NewItem/NewItem";
 
 export {
   Header,
@@ -46,4 +47,5 @@ export {
   RenderIcon,
   ItemAdder,
   ItemView,
+  NewItem,
 };

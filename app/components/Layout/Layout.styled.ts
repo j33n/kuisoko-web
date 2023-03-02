@@ -402,4 +402,5 @@ export const StyledOutletContainer = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
+  overflow-y: auto;
 `;
