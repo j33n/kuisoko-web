@@ -14,17 +14,17 @@ import {
 
 const links = [
   { name: "My Info", path: "/account", icon: <HiOutlineUserCircle /> },
+  // {
+  //   name: "Payments",
+  //   path: "/account/payments",
+  //   icon: <HiOutlineCreditCard />,
+  // },
+  { name: "Delivery", path: "/account/delivery", icon: <HiOutlineTruck /> },
   {
-    name: "Preferences",
-    path: "/account/preferences",
+    name: "Settings",
+    path: "/account/settings",
     icon: <HiOutlineCog6Tooth />,
   },
-  {
-    name: "Payments",
-    path: "/account/payments",
-    icon: <HiOutlineCreditCard />,
-  },
-  { name: "Delivery", path: "/account/delivery", icon: <HiOutlineTruck /> },
 ];
 
 const AccountMenuBar = () => {
