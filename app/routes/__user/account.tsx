@@ -14,7 +14,7 @@ import { useRef } from "react";
 import {
   StyledBody,
   StyledContainer,
-  StyledContent,
+  StyledContentWrapper,
   StyledLogoBox,
   StyledOverlay,
 } from "~/styles/stores/singleStore.styled";
@@ -60,7 +60,7 @@ export default function StoreDetailsRoute() {
             <Loader sx={{ zIndex: 2 }} />
           </StyledOverlay>
         )}
-        <StyledContent>
+        <StyledContentWrapper>
           <Form method="post" action={`/profile`}>
             <StyledLogoBox>
               <ImageDialog tabSize="75%" triggerIcon={user.profile} />
@@ -86,10 +86,8 @@ export default function StoreDetailsRoute() {
               Save
             </button>
           </Form>
-        </StyledContent>
+        </StyledContentWrapper>
       </StyledBody>
     </StyledContainer>
   );
 }
-
-// TODO: remove padding .ql-editor

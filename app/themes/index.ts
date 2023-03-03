@@ -29,7 +29,13 @@ export const base: Theme = {
   fonts: {
     body: "Inter, sans-serif",
   },
+  fontWeights: {
+    light: 200,
+    normal: 400,
+    bold: 600,
+  },
   fontSizes: {
+    xxxs: "0.75rem",
     xxs: "0.875rem",
     xs: "1rem",
     sm: "1.25rem",
@@ -110,7 +116,7 @@ export const light: ColorModesScale = {
   buttonBgHover: "rgba(8, 8, 19, 0.1)",
   border: "#303236",
   text: "#202224",
-  textDisabled: "#ebebe4",
+  textDisabled: "#a1a1a1",
   fontWeight: "400",
   boxShadow:
     "rgba(201, 191, 191, 1) 0px 0px 3px 0px, rgba(0, 0, 0, 56%) 0px 3px 7px -3px",
