@@ -1,36 +1,27 @@
-import type { ReactNode} from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Dialog from "../Dialog/Dialog";
 import styled from "@emotion/styled";
-import plusPlainIcon from "~/assets/images/plusPlainIcon.svg";
 import { useTranslation } from "react-i18next";
 import { InputContainer } from "~/routes/__index/stores/__stores/new";
 import { Button } from "theme-ui";
 import { StyledInputHolder } from "~/styles/stores/new.styled";
 import TextArea from "../Forms/TextArea";
 import TextInput from "../Forms/TextInput";
-import { StyledForm,StyledBtnContainer } from "../ImageUploader/ImageUploader";
+import { StyledForm, StyledBtnContainer } from "../ImageUploader/ImageUploader";
+
+import type { ReactNode } from "react";
+import { IoAddOutline, IoCloudUploadOutline } from "react-icons/io5";
+import { StyledIconButton } from "../Layout/DropDownMenu/DropDownMenu.styled";
+import {
+  StyledImageHolder,
+  StyledImageUpload,
+  StyledUploadText,
+  StyledUploadView,
+} from "./NewItem.styled";
 
 export interface NewItemProps {
   children?: ReactNode;
 }
-
-export const StyledTriggerContainer = styled.div`
-  display: flex;
-  background: ${({ theme: { colors } }) => colors.background};
-  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-  border-radius: 0.5rem;
-  cursor: pointer;
-
-  img {
-    padding: 0.5rem;
-  }
-
-  &:hover {
-    background: ${({ theme: { colors } }) => colors.primary};
-    border: 1px solid transparent;
-  }
-`;
 
 export const StyledItemsToolbar = styled.div`
   display: flex;
@@ -43,15 +34,44 @@ export type NewItemTriggerProps = {
 
 export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   return (
-    <StyledTriggerContainer onClick={onClick}>
-      <img src={plusPlainIcon} alt="cover" />
-    </StyledTriggerContainer>
+    <StyledIconButton onClick={onClick} style={{ marginLeft: "auto" }}>
+      <IoAddOutline />
+    </StyledIconButton>
   );
 };
 
 const NewItem = ({ children }: NewItemProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
+  const [imageList, setImageList] = useState<FileList | null>(null);
+  const [formData, setFormData] = useState<any>({
+    name: "",
+    comment: "",
+    price: "",
+    quantity: "",
+  });
+
+  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.currentTarget.files && event.currentTarget.files.length > 0) {
+      setImageList(event.target.files);
+    }
+  };
+
+  const fileUploadRef = useRef<HTMLInputElement>(null);
+
+  const ImageListPreview = () => {
+    if (imageList && imageList.length > 0) {
+      return (
+        <>
+          {Array.from(imageList).map((file) => (
+            <span key={file.name}>{file.name}</span>
+            
+          ))}
+        </>
+      );
+    }
+    return null;
+  };
 
   return (
     <Dialog
@@ -111,7 +131,27 @@ const NewItem = ({ children }: NewItemProps) => {
             required
           />
         </StyledInputHolder>
-        Upload images
+        <StyledImageHolder>
+          {imageList && imageList.length > 0 && (
+            <StyledUploadView>
+              <ImageListPreview />
+            </StyledUploadView>
+          )}
+          <StyledImageUpload onClick={() => fileUploadRef.current?.click()}>
+            <IoCloudUploadOutline size={32} />
+            <StyledUploadText>{t("uploadImages")}</StyledUploadText>
+          </StyledImageUpload>
+          <input
+            type="file"
+            ref={fileUploadRef}
+            accept=".png, .jpg, .jpeg, .svg"
+            onChange={handleFileInput}
+            name="itemImages"
+            id="itemImages"
+            multiple
+            hidden
+          />
+        </StyledImageHolder>
         <StyledBtnContainer>
           <Button
             type="submit"
