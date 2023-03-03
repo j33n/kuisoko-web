@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CiFaceSmile } from "react-icons/ci";
 
 import { Dialog, EmojiRenderer, ImageUploader } from "~/components";
@@ -10,14 +11,16 @@ import {
   StyledTabsTrigger,
   StyledText,
 } from "./ImageDialog.styled";
-import { useState } from "react";
+
+import type { ReactNode } from "react";
 
 export interface IDialog {
   tabSize?: string;
   triggerIcon?: string | null;
+  defaultTriggerIcon?: ReactNode;
 }
 
-const DialogTrigger = ({ triggerIcon }: IDialog) => (
+const DialogTrigger = ({ triggerIcon, defaultTriggerIcon }: IDialog) => (
   <>
     {triggerIcon ? (
       <StyledIcon sx={{ padding: "0.5rem" }}>
@@ -25,23 +28,31 @@ const DialogTrigger = ({ triggerIcon }: IDialog) => (
       </StyledIcon>
     ) : (
       <StyledIcon sx={{ padding: "0.2rem 0.5rem" }}>
-        <CiFaceSmile />
-        <StyledText>Add Icon</StyledText>
+        {defaultTriggerIcon || (
+          <>
+            <CiFaceSmile />
+            <StyledText>Add Icon</StyledText>
+          </>
+        )}
       </StyledIcon>
     )}
   </>
 );
 
-const ImageDialog = ({ tabSize, triggerIcon }: IDialog) => {
+const ImageDialog = ({ tabSize, triggerIcon, defaultTriggerIcon }: IDialog) => {
   const [open, setOpen] = useState(false);
   return (
     <Dialog
       closeable
       open={open}
+      onClose={() => setOpen(false)}
       sxContent={{ padding: 0 }}
       trigger={
         <div onClick={() => setOpen(true)}>
-          <DialogTrigger triggerIcon={triggerIcon} />
+          <DialogTrigger
+            triggerIcon={triggerIcon}
+            defaultTriggerIcon={defaultTriggerIcon}
+          />
         </div>
       }
     >

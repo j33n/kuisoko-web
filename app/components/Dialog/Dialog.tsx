@@ -14,7 +14,7 @@ import {
 
 export interface IDialog {
   trigger: React.ReactNode;
-  title?: string;
+  title?: string | null;
   description?: string;
   closeable?: boolean;
   children?: React.ReactNode;
@@ -22,6 +22,7 @@ export interface IDialog {
   allowButton?: boolean;
   sxContent?: any;
   open?: boolean;
+  onClose?: () => void;
 }
 
 export const Dialog = ({
@@ -33,13 +34,14 @@ export const Dialog = ({
   buttonText,
   sxContent,
   allowButton = false,
+  onClose,
   open,
 }: IDialog) => {
   const [isOpen, setIsOpen] = React.useState(open);
 
   useEffect(() => {
     setIsOpen(open);
-  }, [open]);
+  }, [onClose, open]);
 
   return (
     <rDialog.Root open={isOpen}>
@@ -60,7 +62,10 @@ export const Dialog = ({
           {closeable && (
             <rDialog.Close
               asChild
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                onClose && onClose();
+              }}
               style={{ cursor: "pointer" }}
             >
               <IconButton>

@@ -17,7 +17,7 @@ import { useRef } from "react";
 import {
   StyledBody,
   StyledContainer,
-  StyledContent,
+  StyledContentWrapper,
   StyledLogoBox,
   StyledOverlay,
 } from "~/styles/stores/singleStore.styled";
@@ -83,7 +83,7 @@ export default function StoreDetailsRoute() {
             <Loader sx={{ zIndex: 2 }} />
           </StyledOverlay>
         )}
-        <StyledContent>
+        <StyledContentWrapper>
           <Form method="post">
             <FormContainer>
               <StyledLogoBox>
@@ -110,7 +110,7 @@ export default function StoreDetailsRoute() {
               </button>
             </FormContainer>
           </Form>
-        </StyledContent>
+        </StyledContentWrapper>
       </StyledBody>
     </StyledContainer>
   );

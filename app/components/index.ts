@@ -19,7 +19,8 @@ import Separator from './Separator/Separator';
 import Builder from './Builder/Builder';
 import AccountMenuBar from './AccountMenuBar/AccountMenuBar';
 import RenderIcon from './RenderIcon/RenderIcon';
-import ItemAdder from "./ItemAdder/ItemAdder";
+import ItemView from "./ItemView/ItemView"
+import NewItem from "./NewItem/NewItem";
 
 export {
   Header,
@@ -43,5 +44,6 @@ export {
   Builder,
   AccountMenuBar,
   RenderIcon,
-  ItemAdder
+  ItemView,
+  NewItem,
 };
