@@ -25,11 +25,6 @@ export const FlexCenterBetween = styled(Flex)`
   justify-content: space-between;
 `;
 
-export const FlexCenterStart = styled(Flex)`
-  align-items: center;
-  justify-content: flex-start;
-`;
-
 export const FlexCenterEnd = styled(Flex)`
   align-items: center;
   justify-content: flex-end;
