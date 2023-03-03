@@ -6,5 +6,6 @@ declare module "@emotion/react" {
   export interface Theme extends LibTheme {
     colors: ColorModesScale;
     fontSizes: Scale<CSS.Property.FontSize<number>>;
+    fontWeights: Scale<CSS.Property.FontWeight>;
   }
 }

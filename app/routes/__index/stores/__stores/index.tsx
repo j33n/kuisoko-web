@@ -13,7 +13,7 @@ import { getAllItems } from "~/models/items.server";
 import { ItemView, NewItem } from "~/components";
 import newStore from "~/assets/images/newStore.svg";
 
-import { StyledItemLister } from "~/styles/stores/singleStore.styled";
+import { StyledContentWrapper, StyledItemLister } from "~/styles/stores/singleStore.styled";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -40,7 +40,7 @@ export default function Stores() {
           </StyledImageWrapper>
         </Link>
       ) : (
-        <StyledItemLister css={{ borderRadius: "0.5rem" }}>
+        <StyledItemLister>
           {items && items.length > 0 ? (
             items.map((item) => {
               return <ItemView key={item.id} item={item} />;

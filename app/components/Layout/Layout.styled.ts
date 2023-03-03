@@ -36,7 +36,7 @@ export const StyledText = styled.p<StyledTextProps>`
   text-overflow: ellipsis;
 
   @media only screen and (max-width: 480px) {
-    font-size: 0.75rem;
+    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
   }
 `;
 

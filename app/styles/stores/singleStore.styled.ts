@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { Box } from "theme-ui";
 
 import { FlexCenter } from "~/styles/page.styled";
 
@@ -15,13 +14,11 @@ export const StyledBody = styled(FlexCenter)`
   flex-direction: column;
   width: 60vw;
   height: fit-content;
-  /* margin-top: 5vh; */
 `;
 
-export const StyledContent = styled.div`
+export const StyledContentWrapper = styled.div`
   width: 100%;
   position: relative;
-  border-radius: 0.5rem 0.5rem 0 0;
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
   padding: 1rem;
 
@@ -36,8 +33,8 @@ export const StyledContent = styled.div`
 export const StyledItemLister = styled.div`
   width: 100%;
   display: flex;
-  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-  padding: 1rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
 `;
 
 export const StyledSideRight = styled.div`
