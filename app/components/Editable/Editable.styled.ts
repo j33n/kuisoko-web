@@ -22,6 +22,9 @@ export const StyledEditButton = styled(Button)`
 export const StyledEditableContent = styled(Box)`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  padding-left: 0.6rem;
 `;
 
 export const StyledEditable = styled(Box)`
@@ -53,7 +56,8 @@ export const StyledEditableInput = styled(Input)<any>`
   border: none;
   border-bottom: 1px dashed ${({ theme: { colors } }) => colors.gray4};
   max-width: 200px;
-
+  line-height: 0;
+  padding: 0;
   &:focus {
     outline: none;
   }

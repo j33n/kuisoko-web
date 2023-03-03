@@ -15,7 +15,7 @@ export async function getUserByEmail(email: User["email"]) {
 
 export async function createUser(email: User["email"], password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
-  
+
   return prisma.user.create({
     data: {
       email,
@@ -60,3 +60,14 @@ export async function verifyLogin(
 
   return userWithoutPassword;
 }
+
+export const updateUser = async (
+  id: string,
+  data: Partial<Pick<User, "name" | "phone" | "email">>
+) =>
+  await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data,
+  });
