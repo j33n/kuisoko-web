@@ -70,6 +70,9 @@ export const action: ActionFunction = async ({ request }) => {
 export default function StoreDetailsRoute() {
   const { user } = useLoaderData<typeof loader>();
 
+  console.log("----------->>>>", user);
+  
+
   const submitBtnRef = useRef<HTMLButtonElement>(null);
   const transition = useTransition();
   const actionData = useActionData<typeof action>();
