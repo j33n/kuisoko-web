@@ -51,7 +51,7 @@ export const Anchor = ({ theme: { colors, fontSizes } }: any) => css`
   align-items: center;
 
   @media only screen and (max-width: 480px) {
-    font-size: 0.75rem;
+    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
     margin: 0;
     text-overflow: ellipsis;
     width: 100%;
@@ -116,7 +116,7 @@ export const StyledLinkStores = styled.span`
   }
 
   @media only screen and (max-width: 425px) {
-    font-size: 0.75rem;
+    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
   }
 `;
 

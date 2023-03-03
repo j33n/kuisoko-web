@@ -89,7 +89,3 @@ export const StyledImgNew = styled.img`
   transition: transform 0.8s;
   height: 100%;
 `;
-
-export const StyledStoreAlbum = styled(Box)`
-  display: flex;
-`;

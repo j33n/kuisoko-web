@@ -57,7 +57,7 @@ export default function Stores() {
             <StyledNewStoreLink to="/stores/new">
               <StyledIconButton>
                 <CiSquarePlus />
-                <StyledNewText>New Store</StyledNewText>
+                <StyledNewText>{t("newStore")}</StyledNewText>
               </StyledIconButton>
             </StyledNewStoreLink>
           </StyledHeader>
