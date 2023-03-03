@@ -20,7 +20,7 @@ export const StyledImageUpload = styled(FlexCenter)`
     width: 100%;
     height: 100%;
     background: ${({ theme: { colors } }) => colors.nav};
-    opacity: 0.3;
+    opacity: 0.2;
     border-radius: 0.5rem;
   }
 `;
@@ -32,4 +32,8 @@ export const StyledImageHolder = styled(FlexCenterStart)`
 
 export const StyledUploadText = styled(Text)`
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+`;
+
+export const StyledUploadView = styled.div`
+  display: flex;
 `;

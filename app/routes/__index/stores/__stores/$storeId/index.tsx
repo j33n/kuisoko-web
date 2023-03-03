@@ -57,13 +57,13 @@ export default function StoreDetailsRoute() {
         )}
         <NewItem />
       </StyledItemListHeader>
-      <StyledItemLister>
-        {items &&
-          items.length > 0 &&
-          items.map((item) => {
+      {items && items.length > 0 && (
+        <StyledItemLister>
+          {items.map((item) => {
             return <ItemView key={item.id} item={item} />;
           })}
-      </StyledItemLister>
+        </StyledItemLister>
+      )}
     </StyledContentWrapper>
   );
 }
