@@ -34,7 +34,17 @@ export const StyledItemLister = styled.div`
   width: 100%;
   display: flex;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin: 1rem 0 0 0;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  @media only screen and (max-width: 426px) {
+    justify-content: center;
+  }
+
+  @media only screen and (min-width: 427px) and (max-width: 768px) {
+    justify-content: space-evenly;
+  }
 `;
 
 export const StyledSideRight = styled.div`
@@ -68,4 +78,15 @@ export const StyledOverlay = styled.div`
   width: 100%;
   z-index: 1;
   background: ${({ theme: { colors } }) => colors.blackA7};
+`;
+
+export const StyledItemListHeader = styled.div`
+  display: flex;
+  flex: 50%;
+  width: 100%;
+  align-items: center;
+
+  div:nth-last-child(1) {
+    margin-left: auto;
+  }
 `;

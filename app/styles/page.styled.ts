@@ -30,6 +30,11 @@ export const FlexCenterEnd = styled(Flex)`
   justify-content: flex-end;
 `;
 
+export const FlexCenterStart = styled(Flex)`
+  align-items: center;
+  justify-content: flex-start;
+`;
+
 export const StyledFormContainer = styled(FlexCenterColumn)`
   width: 50%;
   min-height: 50%;
@@ -182,4 +187,10 @@ export const StyledFooterText = styled(StyledText)`
     color: ${({ theme: { colors } }) => colors && colors.nav};
     text-decoration: none;
   }
+`;
+
+export const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 `;

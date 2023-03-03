@@ -9,6 +9,16 @@ export const StyledItemBox = styled.div`
   border-radius: 0.5rem;
   background: ${({ theme: { colors } }) => colors.whiteA5};
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
+
+  @media only screen and (max-width: 426px) {
+    flex: 90%;
+    max-width: 90%;
+  }
+
+  @media only screen and (min-width: 427px) and (max-width: 768px) {
+    flex: 45%;
+    max-width: 45%;
+  }
 `;
 
 export const EditableP = styled.p`

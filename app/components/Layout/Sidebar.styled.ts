@@ -51,7 +51,7 @@ export const Anchor = ({ theme: { colors, fontSizes } }: any) => css`
   align-items: center;
 
   @media only screen and (max-width: 480px) {
-    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
+    font-size: ${fontSizes.xxxs};
     margin: 0;
     text-overflow: ellipsis;
     width: 100%;

@@ -13,7 +13,7 @@ import { getAllItems } from "~/models/items.server";
 import { ItemView, NewItem } from "~/components";
 import newStore from "~/assets/images/newStore.svg";
 
-import { StyledContentWrapper, StyledItemLister } from "~/styles/stores/singleStore.styled";
+import { StyledItemLister } from "~/styles/stores/singleStore.styled";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
