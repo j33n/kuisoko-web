@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { CiEdit, CiSquareCheck, CiSquareRemove } from "react-icons/ci";
+import { type InputProps } from "theme-ui";
 import invariant from "tiny-invariant";
 
 import {
@@ -10,12 +11,12 @@ import {
   StyledEditablePreview,
 } from "./Editable.styled";
 
-export interface EditableProps {
-  defaultValue?: string | null;
+export interface EditableProps extends InputProps {
   fontSize?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | null;
   sx?: any;
-  onSave: (value: string) => void;
+  onSave: (value: string | number | readonly string[]) => void;
   name: string;
+  icon?: ReactNode;
 }
 
 export const Editable = ({
@@ -24,6 +25,8 @@ export const Editable = ({
   sx,
   onSave,
   name,
+  icon: Icon,
+  ...otherProps
 }: EditableProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(defaultValue);
@@ -33,7 +36,7 @@ export const Editable = ({
     setIsEditing(false);
     setShowEditButton(false);
     setInputValue(defaultValue);
-  }, [defaultValue])
+  }, [defaultValue]);
 
   const handleSave = () => {
     setIsEditing(false);
@@ -49,6 +52,7 @@ export const Editable = ({
 
   return (
     <StyledEditableContent sx={{ ...sx }}>
+      {Icon && Icon}
       {!isEditing && (
         <StyledEditablePreview
           showEditButton={showEditButton}
@@ -77,6 +81,7 @@ export const Editable = ({
             name={name}
             value={inputValue}
             onChange={handleInputChange}
+            {...otherProps}
           />
           <StyledEditButton type="submit" onClick={() => handleSave()}>
             <CiSquareCheck size={24} />
