@@ -61,27 +61,3 @@ export const DialogDescription = styled(Dialog.Description)`
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
   line-height: 1.5rem;
 `;
-
-export const IconButton = styled.button`
-  all: unset;
-  font-family: inherit;
-  border-radius: 0.5rem;
-  height: 2rem;
-  width: 2rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme: { colors } }) => colors.text};
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-
-  &:hover {
-    color: ${({ theme: { colors } }) => colors.white};
-    background-color: ${({ theme: { colors } }) => colors.nav};
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
-  }
-`;

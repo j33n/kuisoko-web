@@ -91,7 +91,7 @@ export async function action({ request, params }: ActionArgs) {
     );
   }
 
-  invariant(storeId, "store id is missing")
+  invariant(storeId, "store id is missing");
 
   // create store
   const item = await createItem({

@@ -125,7 +125,7 @@ export const StyledSubTrigger = styled(DropdownMenu.SubTrigger)`
   ${ItemStyles}
 `;
 
-export const StyledIconButton = styled(Button)`
+export const IconButton = ({ theme: { colors } }: any) => css`
   all: unset;
   font-family: inherit;
   border-radius: 50%;
@@ -134,9 +134,10 @@ export const StyledIconButton = styled(Button)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme: { colors } }) => colors.text};
-  background-color: ${({ theme: { colors } }) => colors.background};
-  border: 1px solid ${({ theme: { colors } }) => colors.gray4};
+  color: ${colors.text};
+  background-color: ${colors.background};
+  border: 1px solid ${colors.gray4};
+  cursor: pointer;
 
   svg {
     width: 1.5rem;
@@ -144,12 +145,24 @@ export const StyledIconButton = styled(Button)`
   }
 
   &:hover {
-    background-color: ${({ theme: { colors } }) => colors.blue4};
+    background-color: ${colors.blue6};
+    border: 1px solid transparent;
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue5};
+    box-shadow: 0 0 0 2px ${colors.blue5};
   }
+`;
+
+export const StyledIconButton = styled(Button)`
+  ${IconButton}
+`;
+
+export const StyledAbsIconButton = styled(Button)`
+  ${IconButton};
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 `;
 
 export const StyledRightSlot = styled(Box)`

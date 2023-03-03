@@ -10,6 +10,7 @@ import { requireUser } from "~/services/session.server";
 import {
   StyledContentWrapper,
   StyledItemLister,
+  StyledItemListHeader,
 } from "~/styles/stores/singleStore.styled";
 
 import { getStoreItems } from "~/models/items.server";
@@ -45,10 +46,17 @@ export default function StoreDetailsRoute() {
   const { items } = useLoaderData<typeof loader>();
 
   return (
-    <StyledContentWrapper
-      style={{ borderRadius: "0 0 0.5rem 0.5rem" }}
-    >
-      <NewItem />
+    <StyledContentWrapper style={{ borderRadius: "0 0 0.5rem 0.5rem" }}>
+      <StyledItemListHeader>
+        {items && items.length > 0 ? (
+          <span>
+            {items.length} {items.length === 1 ? "item" : "items"}
+          </span>
+        ) : (
+          "No items in store"
+        )}
+        <NewItem />
+      </StyledItemListHeader>
       <StyledItemLister>
         {items &&
           items.length > 0 &&

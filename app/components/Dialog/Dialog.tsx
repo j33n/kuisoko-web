@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { CiCircleRemove } from "react-icons/ci";
+import { IoCloseOutline } from "react-icons/io5";
 import { Box } from "theme-ui";
 import * as rDialog from "@radix-ui/react-dialog";
 
@@ -9,8 +9,8 @@ import {
   DialogDescription,
   DialogOverlay,
   DialogTitle,
-  IconButton,
 } from "./Dialog.styled";
+import { StyledAbsIconButton } from "../Layout/DropDownMenu/DropDownMenu.styled";
 
 export interface IDialog {
   trigger: React.ReactNode;
@@ -66,11 +66,10 @@ export const Dialog = ({
                 setIsOpen(false);
                 onClose && onClose();
               }}
-              style={{ cursor: "pointer" }}
             >
-              <IconButton>
-                <CiCircleRemove size={20} />
-              </IconButton>
+              <StyledAbsIconButton>
+                <IoCloseOutline />
+              </StyledAbsIconButton>
             </rDialog.Close>
           )}
         </DialogContent>
