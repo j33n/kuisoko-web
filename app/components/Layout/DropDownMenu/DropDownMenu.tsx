@@ -11,6 +11,7 @@ export interface IDropDownMenu {
   defaultOpen?: boolean;
   modal?: boolean;
   triggerIcon?: React.ReactNode;
+  minWidth?: string;
 }
 
 const DropDownMenu = ({
@@ -21,6 +22,7 @@ const DropDownMenu = ({
   open,
   modal = true,
   triggerIcon = <AiOutlineMore />,
+  minWidth,
 }: IDropDownMenu) => {
   return (
     <rDropdownMenu.Root
@@ -37,7 +39,7 @@ const DropDownMenu = ({
         )}
       </rDropdownMenu.Trigger>
       <rDropdownMenu.Portal>
-        <StyledContent sideOffset={5}>
+        <StyledContent sideOffset={5} minWidth={minWidth}>
           {children}
         </StyledContent>
       </rDropdownMenu.Portal>
