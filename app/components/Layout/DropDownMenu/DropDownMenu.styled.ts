@@ -11,6 +11,10 @@ import {
   slideUpAndFade,
 } from "~/components/Modal/Keyframes.styled";
 
+export type StyledContentProps = {
+  minWidth?: string;
+};
+
 export const DropdownMenuArrow = styled(DropdownMenu.Arrow)`
   fill: white;
 `;
@@ -43,10 +47,10 @@ export const StyledCheckboxItem = styled(DropdownMenu.CheckboxItem)`
   ${ItemStyles}
 `;
 
-export const ContentStyles = ({ theme: { colors } }: any) => css`
-  min-width: 220px;
-  background-color: ${colors.gray4};
-  border-radius: 6px;
+export const ContentStyles = ({ theme: { colors }, minWidth }: any) => css`
+  background-color: ${colors.background};
+  border: 1px solid ${colors.gray4};
+  border-radius: 0.5rem;
   padding: 5px;
   box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
     0px 10px 20px -15px rgba(22, 23, 24, 0.2);
@@ -73,8 +77,9 @@ export const ContentStyles = ({ theme: { colors } }: any) => css`
   }
 `;
 
-export const StyledContent = styled(DropdownMenu.Content)`
+export const StyledContent = styled(DropdownMenu.Content)<StyledContentProps>`
   ${ContentStyles};
+  min-width: ${({ minWidth }) => minWidth || "220px"};
 `;
 
 export const StyledItem = styled(DropdownMenu.Item)`
@@ -113,7 +118,8 @@ export const StyledSeparator = styled(DropdownMenu.Separator)`
 `;
 
 export const StyledSubContent = styled(DropdownMenu.SubContent)`
-  ${ContentStyles}
+  ${ContentStyles};
+  min-width: 220px;
 `;
 
 export const StyledSubTrigger = styled(DropdownMenu.SubTrigger)`

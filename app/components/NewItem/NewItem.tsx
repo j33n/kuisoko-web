@@ -18,6 +18,9 @@ import {
   StyledUploadText,
   StyledUploadView,
 } from "./NewItem.styled";
+import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
+import { HiOutlineSelector } from "react-icons/hi";
+import fieldTypes from "~/data/fieldTypes";
 
 export interface NewItemProps {
   children?: ReactNode;
@@ -40,8 +43,32 @@ export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   );
 };
 
+export const StyledDropDown = styled.div`
+  display: flex;
+  position: absolute;
+  top: 0.5rem;
+  right: 4rem;
+`;
+
+export const StyledFieldType = styled.div`
+  padding: 0.3rem;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
+
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.blue7}
+  }
+`;
+
+export const StyledDropDownHeader = styled.div`
+  padding: 0.3rem;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
+  color: ${({ theme: { colors } }) => colors.textDisabled};
+`;
+
 const NewItem = ({ children }: NewItemProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const { t } = useTranslation();
   const [imageList, setImageList] = useState<FileList | null>(null);
   const [formData, setFormData] = useState<any>({
@@ -65,7 +92,6 @@ const NewItem = ({ children }: NewItemProps) => {
         <>
           {Array.from(imageList).map((file) => (
             <span key={file.name}>{file.name}</span>
-            
           ))}
         </>
       );
@@ -81,6 +107,16 @@ const NewItem = ({ children }: NewItemProps) => {
       onClose={() => setOpen(false)}
       trigger={<NewItemTrigger onClick={() => setOpen(true)} />}
     >
+      <StyledDropDown>
+        <DropDownMenu triggerIcon={<HiOutlineSelector />} minWidth="100px">
+          <StyledDropDownHeader>Add</StyledDropDownHeader>
+          {fieldTypes.map((field) => {
+            return (
+              <StyledFieldType key={field.id}>{field.name}</StyledFieldType>
+            );
+          })}
+        </DropDownMenu>
+      </StyledDropDown>
       <StyledForm method="post">
         <StyledInputHolder>
           <InputContainer>

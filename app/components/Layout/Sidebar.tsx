@@ -22,7 +22,7 @@ import {
   StyledProfilePageLink,
   StyledTitle,
 } from "./Sidebar.styled";
-import { links } from "./links";
+import { links } from "../../data/links";
 import DropDownMenu from "./DropDownMenu/DropDownMenu";
 import {
   StyledIconButton,
