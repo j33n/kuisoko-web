@@ -42,6 +42,7 @@ export const DialogContent = styled(Dialog.Content)<IDialogContent>`
   padding: 1.5rem;
   animation: ${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
+  overflow: auto;
 
   &:focus {
     outline: "none";

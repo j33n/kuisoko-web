@@ -1,4 +1,4 @@
-import { useRef, useState, useTransition } from "react";
+import { useRef, useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
 import {
@@ -11,13 +11,17 @@ import { TextLabel } from "../Inputs/Text/Text";
 import { useTranslation } from "react-i18next";
 
 export type MultiImageUploadProps = {
-  labelText?: string;
+  labelText?: string | null;
   htmlFor?: string | "";
+  multiple?: boolean;
+  uploadText?: boolean;
 };
 
 export const MultiImageUpload = ({
   labelText,
   htmlFor,
+  multiple = true,
+  uploadText = true,
 }: MultiImageUploadProps) => {
   const [imageList, setImageList] = useState<FileList | null>(null);
 
@@ -54,7 +58,7 @@ export const MultiImageUpload = ({
       )}
       <StyledImageUpload onClick={() => fileUploadRef.current?.click()}>
         <IoCloudUploadOutline size={32} />
-        <StyledUploadText>{t("uploadImages")}</StyledUploadText>
+        {uploadText && <StyledUploadText>{t("uploadImages")}</StyledUploadText>}
       </StyledImageUpload>
       <input
         type="file"
@@ -63,7 +67,7 @@ export const MultiImageUpload = ({
         onChange={handleFileInput}
         name="itemImages"
         id="itemImages"
-        multiple
+        multiple={multiple}
         hidden
       />
     </StyledImageHolder>

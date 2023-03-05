@@ -28,16 +28,12 @@ export const Block = styled.div`
 `;
 
 export const StyledText = styled.p<StyledTextProps>`
-  font-size: 0.8rem;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
   color: ${({ theme: { colors }, disabled }) =>
     disabled ? colors.gray10 : colors.text};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-
-  @media only screen and (max-width: 480px) {
-    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
-  }
 `;
 
 export const StyledLayout = styled(Box)`

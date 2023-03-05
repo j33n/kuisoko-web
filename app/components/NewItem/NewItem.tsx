@@ -127,7 +127,7 @@ const NewItem = ({ children }: NewItemProps) => {
             required
           />
         </StyledInputHolder>
-        <MultiImageUploader />
+        <MultiImageUploader labelText={t("uploadImages")} uploadText />
         <StyledBtnContainer>
           <Button
             type="submit"
