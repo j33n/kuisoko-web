@@ -379,8 +379,7 @@ export const StyledPinImg = styled.div`
 `;
 
 export const StyledPinText = styled.span`
-  font-weight: 200;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes["xxs"]};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xls};
   height: 2.5rem;
   line-height: 2.5rem;
   vertical-align: middle;
@@ -393,7 +392,7 @@ export const StyledPinText = styled.span`
 
 export const StyledNewText = styled.span`
   display: block;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
   min-width: 100px;
 `;
 

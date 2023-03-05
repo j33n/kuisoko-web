@@ -15,12 +15,7 @@ import {
   StyledInputHolder,
   StyledBtnContainer,
 } from "~/styles/stores/new.styled";
-
-export const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
+import { InputContainer } from "~/components/Inputs/Text/Text.styled";
 
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);

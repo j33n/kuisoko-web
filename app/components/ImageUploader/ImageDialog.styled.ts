@@ -72,7 +72,7 @@ export const StyledIcon = styled(Box)`
 
 export const StyledText = styled.span`
   display: block;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xls};
   margin-left: 1rem;
 `;
 

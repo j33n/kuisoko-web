@@ -46,12 +46,11 @@ export const Anchor = ({ theme: { colors, fontSizes } }: any) => css`
   border-radius: 0.5rem;
   color: ${colors.text};
   font-weight: ${colors.fontWeight};
-  font-size: ${fontSizes.xxs};
+  font-size: ${fontSizes.xxxs};
   justify-content: center;
   align-items: center;
 
   @media only screen and (max-width: 480px) {
-    font-size: ${fontSizes.xxxs};
     margin: 0;
     text-overflow: ellipsis;
     width: 100%;

@@ -50,9 +50,8 @@ export const DialogContent = styled(Dialog.Content)<IDialogContent>`
 
 export const DialogTitle = styled(Dialog.Title)`
   margin: 0,
-  font-weight: 500,
   color: ${({ theme: { colors } }) => colors.crimson9};
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.sm};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
 `;
 
 export const DialogDescription = styled(Dialog.Description)`

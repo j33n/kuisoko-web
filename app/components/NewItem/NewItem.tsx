@@ -1,26 +1,27 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Dialog from "../Dialog/Dialog";
 import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
-import { InputContainer } from "~/routes/__index/stores/__stores/new";
 import { Button } from "theme-ui";
 import { StyledInputHolder } from "~/styles/stores/new.styled";
-import TextArea from "../Forms/TextArea";
-import TextInput from "../Forms/TextInput";
+import TextArea from "../Inputs/TextArea/TextArea";
+import Text from "../Inputs/Text/Text";
 import { StyledForm, StyledBtnContainer } from "../ImageUploader/ImageUploader";
+import {MultiImageUploader} from "~/components";
 
 import type { ReactNode } from "react";
-import { IoAddOutline, IoCloudUploadOutline } from "react-icons/io5";
+import { IoAddOutline } from "react-icons/io5";
 import { StyledIconButton } from "../Layout/DropDownMenu/DropDownMenu.styled";
-import {
-  StyledImageHolder,
-  StyledImageUpload,
-  StyledUploadText,
-  StyledUploadView,
-} from "./NewItem.styled";
+
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
 import { HiOutlineSelector } from "react-icons/hi";
 import fieldTypes from "~/data/fieldTypes";
+import { InputContainer, StyledSectionText } from "../Inputs/Text/Text.styled";
+import {
+  StyledDropDown,
+  StyledDropDownHeader,
+  StyledFieldType,
+} from "./NewItem.styled";
 
 export interface NewItemProps {
   children?: ReactNode;
@@ -43,34 +44,10 @@ export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   );
 };
 
-export const StyledDropDown = styled.div`
-  display: flex;
-  position: absolute;
-  top: 0.5rem;
-  right: 4rem;
-`;
-
-export const StyledFieldType = styled.div`
-  padding: 0.3rem;
-  cursor: pointer;
-  border-radius: 0.3rem;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
-
-  &:hover {
-    background: ${({ theme: { colors } }) => colors.blue7}
-  }
-`;
-
-export const StyledDropDownHeader = styled.div`
-  padding: 0.3rem;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
-  color: ${({ theme: { colors } }) => colors.textDisabled};
-`;
-
 const NewItem = ({ children }: NewItemProps) => {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
-  const [imageList, setImageList] = useState<FileList | null>(null);
+
   const [formData, setFormData] = useState<any>({
     name: "",
     comment: "",
@@ -78,31 +55,9 @@ const NewItem = ({ children }: NewItemProps) => {
     quantity: "",
   });
 
-  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.currentTarget.files && event.currentTarget.files.length > 0) {
-      setImageList(event.target.files);
-    }
-  };
-
-  const fileUploadRef = useRef<HTMLInputElement>(null);
-
-  const ImageListPreview = () => {
-    if (imageList && imageList.length > 0) {
-      return (
-        <>
-          {Array.from(imageList).map((file) => (
-            <span key={file.name}>{file.name}</span>
-          ))}
-        </>
-      );
-    }
-    return null;
-  };
-
   return (
     <Dialog
       closeable
-      title={t("newItem")}
       open={open}
       onClose={() => setOpen(false)}
       trigger={<NewItemTrigger onClick={() => setOpen(true)} />}
@@ -117,13 +72,15 @@ const NewItem = ({ children }: NewItemProps) => {
           })}
         </DropDownMenu>
       </StyledDropDown>
+      <StyledSectionText>Default Fields</StyledSectionText>
       <StyledForm method="post">
         <StyledInputHolder>
           <InputContainer>
-            <TextInput
+            <Text
               labelText={`${t("name")}:`}
               htmlFor="itemName"
               name="itemName"
+              horizontal
               // error={actionData?.errors?.itemName || ""}
               required
             />
@@ -131,11 +88,12 @@ const NewItem = ({ children }: NewItemProps) => {
         </StyledInputHolder>
         <StyledInputHolder>
           <InputContainer>
-            <TextInput
+            <Text
               labelText={`${t("price")}:`}
               htmlFor="itemPrice"
               name="itemPrice"
               type="number"
+              horizontal
               // error={actionData?.errors?.itemPrice || ""}
               min="0"
               required
@@ -144,11 +102,12 @@ const NewItem = ({ children }: NewItemProps) => {
         </StyledInputHolder>
         <StyledInputHolder>
           <InputContainer>
-            <TextInput
+            <Text
               labelText={`${t("quantity")}:`}
               htmlFor="itemQuantity"
               name="itemQuantity"
               type="number"
+              horizontal
               // error={actionData?.errors?.itemPrice || ""}
               min="0"
               required
@@ -163,31 +122,12 @@ const NewItem = ({ children }: NewItemProps) => {
             id="itemComment"
             rows={5}
             cols={50}
+            horizontal
             // error={actionData?.errors?.itemComment}
             required
           />
         </StyledInputHolder>
-        <StyledImageHolder>
-          {imageList && imageList.length > 0 && (
-            <StyledUploadView>
-              <ImageListPreview />
-            </StyledUploadView>
-          )}
-          <StyledImageUpload onClick={() => fileUploadRef.current?.click()}>
-            <IoCloudUploadOutline size={32} />
-            <StyledUploadText>{t("uploadImages")}</StyledUploadText>
-          </StyledImageUpload>
-          <input
-            type="file"
-            ref={fileUploadRef}
-            accept=".png, .jpg, .jpeg, .svg"
-            onChange={handleFileInput}
-            name="itemImages"
-            id="itemImages"
-            multiple
-            hidden
-          />
-        </StyledImageHolder>
+        <MultiImageUploader />
         <StyledBtnContainer>
           <Button
             type="submit"

@@ -51,6 +51,7 @@ const fieldTypes = [
     icon: null,
   },
   {
+    id: cuid(),
     name: fields.OPTION,
     supported: false,
     icon: null,
@@ -66,6 +67,33 @@ const fieldTypes = [
     name: fields.COLOR,
     supported: false,
     icon: null,
+  },
+];
+
+export const defaultFields = [
+  {
+    id: cuid(),
+    name: "name",
+    type: fields.PLAIN_TEXT,
+    default: true,
+  },
+  {
+    id: cuid(),
+    name: "price",
+    type: fields.NUMBER,
+    default: true,
+  },
+  {
+    id: cuid(),
+    name: "Quantity",
+    type: fields.NUMBER,
+    default: true,
+  },
+  {
+    id: cuid(),
+    name: "comment",
+    type: fields.FORMATTED_TEXT,
+    default: true,
   },
 ];
 

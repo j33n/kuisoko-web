@@ -97,7 +97,7 @@ export const StyledError = styled.span`
   height: 1.5rem;
   color: ${({ theme }) => theme.colors.red};
   top: 100%;
-  font-size: ${({ theme }) => theme.fontSizes.xxs};
+  font-size: ${({ theme }) => theme.fontSizes.xxxs};
 `;
 
 export const StyledLink = styled(Link)`
@@ -162,7 +162,7 @@ export const StyledNewAccountText = styled.span`
 export const StyledText = styled.span`
   color: ${({ theme: { colors } }) => colors.text};
   text-align: center;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
   font-weight: ${({ theme: { colors } }) => colors.fontWeight};
 `;
 

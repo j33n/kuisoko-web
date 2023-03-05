@@ -8,12 +8,7 @@ import {
 } from "@remix-run/react";
 
 import { CiLogin } from "react-icons/ci";
-import {
-  AuthMenu,
-  Button,
-  TextInput,
-  TextLabel,
-} from "~/components";
+import { AuthMenu, Button, TextInput, TextLabel } from "~/components";
 
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/services/session.server";
@@ -33,7 +28,6 @@ import {
   FlexCenterColumn,
 } from "~/styles/page.styled";
 import { Box, Checkbox } from "theme-ui";
-import { StyledLabel } from "~/components/Forms/TextLabel";
 import styled from "@emotion/styled";
 
 // interface SocialButtonProps {
@@ -190,10 +184,10 @@ export default function LoginPage() {
           </FlexCenterEnd>
           <StyledFormBottom>
             <FlexCenter sx={{ justifyContent: "flex-start" }}>
-              <StyledLabel>
+              <TextLabel>
                 <Checkbox name="remember" defaultChecked={false} />
                 Remember me
-              </StyledLabel>
+              </TextLabel>
             </FlexCenter>
             <StyledNewAccountText>
               Don't have an account?{" "}
