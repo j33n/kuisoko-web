@@ -48,3 +48,51 @@ export const StyledBtnContainer = styled.div`
     }
   }
 `;
+
+export const StyledItemsToolbar = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+export const StyledRemoveInput = styled.div`
+  position: absolute;
+  right: -1.75rem;
+  background: ${({ theme: { colors } }) => colors.blue4};
+  width: auto !important;
+  border-radius: 50%;
+  cursor: pointer;
+
+  svg {
+    padding: 0.2rem;
+  }
+
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.blue6};
+  }
+`;
+
+export const StyledCustomInput = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-bottom: 1rem;
+  position: relative;
+  align-items: center;
+
+  div {
+    width: 100%;
+  }
+`;
+
+export const StyledEditableLabel = styled.p`
+  border: 1px dashed ${({ theme: { colors } }) => colors.gray4};
+  padding: 0.5rem;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
+  min-width: 50%;
+  border-radius: 0.25rem;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
+  }
+`;

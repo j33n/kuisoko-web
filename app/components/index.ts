@@ -21,6 +21,7 @@ import RenderIcon from "./RenderIcon/RenderIcon";
 import ItemView from "./ItemView/ItemView";
 import NewItem from "./NewItem/NewItem";
 import TextInput, { TextLabel } from "./Inputs/Text/Text";
+import CustomFields from './CustomFields/CustomFields'
 
 export {
   Header,
@@ -47,4 +48,5 @@ export {
   RenderIcon,
   ItemView,
   NewItem,
+  CustomFields,
 };
