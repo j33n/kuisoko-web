@@ -52,8 +52,11 @@ export const StyledError = styled.div<TextInputProps>`
 `;
 
 export const StyledSectionText = styled(Text)`
+  display: block;
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   color: ${({ theme: { colors } }) => colors.textDisabled};
+  width: 100%;
+  margin: 0.5rem 0 0.5rem -1rem;
 `;
 
 export const StyledTextArea = styled.textarea`
