@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import Dialog from "../Dialog/Dialog";
 import { useTranslation } from "react-i18next";
 import { Button } from "theme-ui";
+import * as Tabs from "@radix-ui/react-tabs";
 import { StyledInputHolder } from "~/styles/stores/new.styled";
 import TextArea from "../Inputs/TextArea/TextArea";
 import Text from "../Inputs/Text/Text";
@@ -16,18 +17,21 @@ import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
 import { HiOutlineSelector } from "react-icons/hi";
 import fieldTypes from "~/data/fieldTypes";
 
-import {
-  InputContainer,
-  StyledSectionText,
-} from "../Inputs/Text/Text.styled";
+import { InputContainer } from "../Inputs/Text/Text.styled";
 import {
   StyledDropDown,
   StyledDropDownHeader,
   StyledFieldType,
   StyledBtnContainer,
+  TabHeader,
+  InactiveText,
 } from "./NewItem.styled";
 
 import type { Field } from "~/data/fieldTypes";
+import {
+  StyledTabsList,
+  StyledTabsTrigger,
+} from "../ImageUploader/ImageDialog.styled";
 
 export interface NewItemProps {
   children?: ReactNode;
@@ -103,98 +107,111 @@ const NewItem = ({ children }: NewItemProps) => {
       onClose={() => setOpen(false)}
       trigger={<NewItemTrigger onClick={() => setOpen(true)} />}
     >
-      <StyledDropDown>
-        <DropDownMenu
-          triggerIcon={<HiOutlineSelector />}
-          onOpenChange={setDropDownState}
-          open={dropDownState}
-          minWidth="100px"
-        >
-          <StyledDropDownHeader>Add</StyledDropDownHeader>
-          {fieldTypes.map((field) => {
-            return (
-              <StyledFieldType
-                key={field.id}
-                onClick={() => handleAddNewField(field)}
+      <Tabs.Root defaultValue="customs">
+        <StyledTabsList aria-label="Manage your account">
+          <StyledTabsTrigger value="defaults">
+            {t("defaultFields")}
+          </StyledTabsTrigger>
+          <StyledTabsTrigger value="customs">
+            {t("customFields")}
+          </StyledTabsTrigger>
+        </StyledTabsList>
+        <Tabs.Content value="defaults">
+          <StyledForm method="post">
+            <StyledInputHolder>
+              <InputContainer>
+                <Text
+                  labelText={`${t("name")}:`}
+                  htmlFor="itemName"
+                  name="itemName"
+                  horizontal
+                  // error={actionData?.errors?.itemName || ""}
+                  required
+                />
+              </InputContainer>
+            </StyledInputHolder>
+            <StyledInputHolder>
+              <InputContainer>
+                <Text
+                  labelText={`${t("price")}:`}
+                  htmlFor="itemPrice"
+                  name="itemPrice"
+                  type="number"
+                  horizontal
+                  // error={actionData?.errors?.itemPrice || ""}
+                  min="0"
+                  required
+                />
+              </InputContainer>
+            </StyledInputHolder>
+            <StyledInputHolder>
+              <InputContainer>
+                <Text
+                  labelText={`${t("quantity")}:`}
+                  htmlFor="itemQuantity"
+                  name="itemQuantity"
+                  type="number"
+                  horizontal
+                  // error={actionData?.errors?.itemPrice || ""}
+                  min="0"
+                  required
+                />
+              </InputContainer>
+            </StyledInputHolder>
+            <StyledInputHolder>
+              <InputContainer>
+                <TextArea
+                  labelText={`${t("comment")}:`}
+                  htmlFor="itemComment"
+                  name="itemComment"
+                  id="itemComment"
+                  rows={5}
+                  cols={50}
+                  horizontal
+                  // error={actionData?.errors?.itemComment}
+                  required
+                />
+              </InputContainer>
+            </StyledInputHolder>
+            <MultiImageUploader labelText={t("uploadImages")} uploadText />
+            <StyledBtnContainer>
+              <Button type="submit" ref={btnRef}>
+                {t("saveItemDetails")}
+              </Button>
+            </StyledBtnContainer>
+          </StyledForm>
+        </Tabs.Content>
+        <Tabs.Content value="customs">
+          <TabHeader>
+            <InactiveText style={{ maxWidth: "10rem" }}>Name</InactiveText>
+            <InactiveText>Value</InactiveText>
+            <StyledDropDown>
+              <DropDownMenu
+                triggerIcon={<HiOutlineSelector />}
+                onOpenChange={setDropDownState}
+                open={dropDownState}
+                minWidth="100px"
               >
-                {field.name}
-              </StyledFieldType>
-            );
-          })}
-        </DropDownMenu>
-      </StyledDropDown>
-      <StyledForm method="post">
-        <StyledSectionText>Default Fields</StyledSectionText>
-        <StyledInputHolder>
-          <InputContainer>
-            <Text
-              labelText={`${t("name")}:`}
-              htmlFor="itemName"
-              name="itemName"
-              horizontal
-              // error={actionData?.errors?.itemName || ""}
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <Text
-              labelText={`${t("price")}:`}
-              htmlFor="itemPrice"
-              name="itemPrice"
-              type="number"
-              horizontal
-              // error={actionData?.errors?.itemPrice || ""}
-              min="0"
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <Text
-              labelText={`${t("quantity")}:`}
-              htmlFor="itemQuantity"
-              name="itemQuantity"
-              type="number"
-              horizontal
-              // error={actionData?.errors?.itemPrice || ""}
-              min="0"
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextArea
-              labelText={`${t("comment")}:`}
-              htmlFor="itemComment"
-              name="itemComment"
-              id="itemComment"
-              rows={5}
-              cols={50}
-              horizontal
-              // error={actionData?.errors?.itemComment}
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <MultiImageUploader labelText={t("uploadImages")} uploadText />
-        {customFields && customFields.length > 0 && (
-          <StyledSectionText>Custom Fields</StyledSectionText>
-        )}
-        <CustomFields
-          customFields={customFields}
-          onDelete={(id) => handleDeleteField(id)}
-          
-        />
-        <StyledBtnContainer>
-          <Button type="submit" ref={btnRef}>
-            {t("createItem")}
-          </Button>
-        </StyledBtnContainer>
-      </StyledForm>
+                <StyledDropDownHeader>Add</StyledDropDownHeader>
+                {fieldTypes.map((field) => {
+                  return (
+                    <StyledFieldType
+                      key={field.id}
+                      onClick={() => handleAddNewField(field)}
+                    >
+                      {field.name}
+                    </StyledFieldType>
+                  );
+                })}
+              </DropDownMenu>
+            </StyledDropDown>
+          </TabHeader>
+          <CustomFields
+            customFields={customFields}
+            onDelete={(id) => handleDeleteField(id)}
+          />
+        </Tabs.Content>
+      </Tabs.Root>
     </Dialog>
   );
 };

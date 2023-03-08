@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 
+import { Text } from "theme-ui";
+
 export const StyledDropDown = styled.div`
   display: flex;
-  position: absolute;
   top: 0.5rem;
   right: 4rem;
 `;
@@ -95,4 +96,19 @@ export const StyledEditableLabel = styled.p`
     outline: none;
     box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
   }
+`;
+
+export const InactiveText = styled(Text)`
+  display: flex;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+  color: ${({ theme: { colors } }) => colors.textDisabled};
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const TabHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 0;
 `;

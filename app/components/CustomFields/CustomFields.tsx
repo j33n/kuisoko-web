@@ -90,7 +90,7 @@ export const RenderCustomFields = ({
                 required
               />
             )}
-            {field.name === fields.NUMBER.name && (
+            {field.name === fields.NUMBER.name && ( 
               <Text
                 type="number"
                 htmlFor="itemName"
