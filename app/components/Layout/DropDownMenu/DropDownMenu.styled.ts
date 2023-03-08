@@ -151,7 +151,7 @@ export const IconButton = ({ theme: { colors } }: any) => css`
   }
 
   &:hover {
-    background-color: ${colors.blue6};
+    background-color: ${colors.blue7};
     border: 1px solid transparent;
   }
 

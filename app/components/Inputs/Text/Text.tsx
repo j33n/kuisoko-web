@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { StyledError, StyledInput, StyledInputContainer, StyledLabel } from "./Text.styled";
+import {
+  StyledError,
+  StyledInput,
+  StyledInputContainer,
+  StyledLabel,
+} from "./Text.styled";
 
-import type { InputProps} from "theme-ui";
+import type { InputProps } from "theme-ui";
 
 export interface ITextInput extends InputProps {
   htmlFor?: string | "";
@@ -56,6 +61,7 @@ const TextInput = ({
   return (
     <StyledInputContainer
       className={className}
+      sx={sx}
       height={height}
       horizontal={horizontal}
     >

@@ -34,12 +34,12 @@ export const StyledTabsTrigger = styled(Tabs.Trigger)`
   &:hover,
   &[data-state="active"] {
     color: ${({ theme: { colors } }) => colors.text};
-    border-bottom: 2px solid ${({ theme: { colors } }) => colors.nav};
+    border-bottom: 2px solid ${({ theme: { colors } }) => colors.blue7};
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
+    border-bottom: 2px solid ${({ theme: { colors } }) => colors.blue7};
   }
 `;
 

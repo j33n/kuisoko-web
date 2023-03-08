@@ -82,6 +82,7 @@ export const RenderCustomFields = ({
             </Label>
             {field.name === fields.PLAIN_TEXT.name && (
               <Text
+                sx={{ marginRight: "0.5rem" }}
                 htmlFor="itemName"
                 name={field.inputName}
                 id={field.inputName}
@@ -90,8 +91,9 @@ export const RenderCustomFields = ({
                 required
               />
             )}
-            {field.name === fields.NUMBER.name && ( 
+            {field.name === fields.NUMBER.name && (
               <Text
+                sx={{ marginRight: "0.5rem" }}
                 type="number"
                 htmlFor="itemName"
                 name={field.inputName}
@@ -103,6 +105,7 @@ export const RenderCustomFields = ({
 
             {field.name === fields.LINK.name && (
               <Text
+                sx={{ marginRight: "0.5rem" }}
                 type="url"
                 htmlFor="itemName"
                 name={field.inputName}
@@ -112,7 +115,7 @@ export const RenderCustomFields = ({
               />
             )}
             <StyledRemoveInput onClick={() => onDelete(field.inputName)}>
-              <HiOutlineMinus />
+              <HiOutlineMinus size={16} />
             </StyledRemoveInput>
           </StyledCustomInput>
         </StyledInputHolder>

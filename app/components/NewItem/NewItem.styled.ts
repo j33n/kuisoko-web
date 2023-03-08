@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import * as Tabs from "@radix-ui/react-tabs";
 
 import { Text } from "theme-ui";
 
@@ -45,7 +46,7 @@ export const StyledBtnContainer = styled.div`
 
     &:hover {
       border: none;
-      background: ${({ theme: { colors } }) => colors.blue6};
+      background: ${({ theme: { colors } }) => colors.blue7};
     }
   }
 `;
@@ -56,19 +57,21 @@ export const StyledItemsToolbar = styled.div`
 `;
 
 export const StyledRemoveInput = styled.div`
-  position: absolute;
-  right: -1.75rem;
-  background: ${({ theme: { colors } }) => colors.blue4};
-  width: auto !important;
+  right: 0rem;
+  background: transparent;
+  max-width: 1.4rem;
+  max-height: 1.4rem;
   border-radius: 50%;
   cursor: pointer;
+  border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
 
   svg {
     padding: 0.2rem;
   }
 
   &:hover {
-    background: ${({ theme: { colors } }) => colors.blue6};
+    border: 1px solid transparent;
+    background: ${({ theme: { colors } }) => colors.blue7};
   }
 `;
 
@@ -79,10 +82,6 @@ export const StyledCustomInput = styled.div`
   padding-bottom: 1rem;
   position: relative;
   align-items: center;
-
-  div {
-    width: 100%;
-  }
 `;
 
 export const StyledEditableLabel = styled.p`
@@ -107,8 +106,18 @@ export const InactiveText = styled(Text)`
   justify-content: flex-start;
 `;
 
-export const TabHeader = styled.div`
+export const StyledTabHeader = styled.div`
   display: flex;
   flex-direction: row;
   padding: 1rem 0;
+`;
+
+export const StyledTabsContent = styled(Tabs.Content)`
+  margin-top: 2px;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
+  }
 `;

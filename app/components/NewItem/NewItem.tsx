@@ -23,8 +23,9 @@ import {
   StyledDropDownHeader,
   StyledFieldType,
   StyledBtnContainer,
-  TabHeader,
+  StyledTabHeader,
   InactiveText,
+  StyledTabsContent,
 } from "./NewItem.styled";
 
 import type { Field } from "~/data/fieldTypes";
@@ -116,7 +117,7 @@ const NewItem = ({ children }: NewItemProps) => {
             {t("customFields")}
           </StyledTabsTrigger>
         </StyledTabsList>
-        <Tabs.Content value="defaults">
+        <StyledTabsContent value="defaults">
           <StyledForm method="post">
             <StyledInputHolder>
               <InputContainer>
@@ -180,9 +181,9 @@ const NewItem = ({ children }: NewItemProps) => {
               </Button>
             </StyledBtnContainer>
           </StyledForm>
-        </Tabs.Content>
-        <Tabs.Content value="customs">
-          <TabHeader>
+        </StyledTabsContent>
+        <StyledTabsContent value="customs">
+          <StyledTabHeader>
             <InactiveText style={{ maxWidth: "10rem" }}>Name</InactiveText>
             <InactiveText>Value</InactiveText>
             <StyledDropDown>
@@ -205,12 +206,12 @@ const NewItem = ({ children }: NewItemProps) => {
                 })}
               </DropDownMenu>
             </StyledDropDown>
-          </TabHeader>
+          </StyledTabHeader>
           <CustomFields
             customFields={customFields}
             onDelete={(id) => handleDeleteField(id)}
           />
-        </Tabs.Content>
+        </StyledTabsContent>
       </Tabs.Root>
     </Dialog>
   );
