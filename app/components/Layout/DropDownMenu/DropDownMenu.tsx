@@ -14,6 +14,7 @@ export interface IDropDownMenu {
   minWidth?: string;
 }
 
+// TODO: dropdown content not accessible via tab
 const DropDownMenu = ({
   trigger,
   children,

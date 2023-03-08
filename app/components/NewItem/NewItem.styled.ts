@@ -109,7 +109,7 @@ export const InactiveText = styled(Text)`
 export const StyledTabHeader = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 1rem 0;
+  padding-bottom: 1rem;
 `;
 
 export const StyledTabsContent = styled(Tabs.Content)`
