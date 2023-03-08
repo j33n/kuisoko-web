@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Button, Box } from "theme-ui";
 
@@ -8,6 +9,13 @@ export interface StyledButtonProps {
 export type StyledIconProps = {
   icon?: React.ReactNode;
 };
+
+export const StyledFocus = ({ theme: { colors } }: any) => css`
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${colors.blue4};
+  }
+`;
 
 export const StyledButton = styled(Button)<StyledButtonProps>`
   min-width: 5rem;
@@ -24,14 +32,11 @@ export const StyledButton = styled(Button)<StyledButtonProps>`
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
   position: relative;
 
+  ${StyledFocus};
+
   &:hover {
     color: ${({ theme: { colors } }) => colors.white};
     background-color: ${({ theme: { colors } }) => colors.nav};
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
   }
 
   ${({ disabled, theme: { colors } }) =>

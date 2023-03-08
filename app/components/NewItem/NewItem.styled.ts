@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import * as Tabs from "@radix-ui/react-tabs";
 
 import { Text } from "theme-ui";
+import { StyledFocus } from "../Button/Button.styled";
 
 export const StyledDropDown = styled.div`
   display: flex;
@@ -56,11 +57,13 @@ export const StyledItemsToolbar = styled.div`
   width: 100%;
 `;
 
-export const StyledRemoveInput = styled.div`
-  right: 0rem;
+export const StyledRemoveInput = styled.button`
+  all: unset;
+  right: 0;
   background: transparent;
-  max-width: 1.4rem;
-  max-height: 1.4rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
   border-radius: 50%;
   cursor: pointer;
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
@@ -68,6 +71,8 @@ export const StyledRemoveInput = styled.div`
   svg {
     padding: 0.2rem;
   }
+
+  ${StyledFocus};
 
   &:hover {
     border: 1px solid transparent;
