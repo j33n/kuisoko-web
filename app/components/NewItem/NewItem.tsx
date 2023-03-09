@@ -108,7 +108,7 @@ const NewItem = ({ children }: NewItemProps) => {
       onClose={() => setOpen(false)}
       trigger={<NewItemTrigger onClick={() => setOpen(true)} />}
     >
-      <Tabs.Root defaultValue="customs">
+      <Tabs.Root defaultValue="defaults">
         <StyledTabsList aria-label="Manage your account">
           <StyledTabsTrigger value="defaults">
             {t("defaultFields")}
@@ -174,7 +174,7 @@ const NewItem = ({ children }: NewItemProps) => {
                 />
               </InputContainer>
             </StyledInputHolder>
-            <MultiImageUploader labelText={t("uploadImages")} uploadText />
+            <MultiImageUploader labelText={t("uploadImages")} />
             <StyledBtnContainer>
               <Button type="submit" ref={btnRef}>
                 {t("saveItemDetails")}

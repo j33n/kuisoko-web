@@ -47,11 +47,6 @@ export const RenderCustomFields = ({
     const lastField = customFields[customFields.length - 1];
     setTimeout(() => {
       if (customFields.length > 0) {
-        console.log(
-          "_+_++++++++++++",
-          document.getElementById(lastField.inputName)
-        );
-
         document.getElementById(lastField.inputName)?.focus();
         document.getElementById(lastField.inputName)?.scrollIntoView({
           behavior: "smooth",
