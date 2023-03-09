@@ -21,7 +21,10 @@ const uploadStreamToS3 = async (
     ContentType: contentType,
   };
 
-  await s3Client.send(new PutObjectCommand(params));
+  const s3Upload = await s3Client.send(new PutObjectCommand(params));
+
+  console.log("---------->>>>>>", s3Upload);
+  
 
   let url = await getSignedUrl(
     s3Client,
@@ -32,7 +35,7 @@ const uploadStreamToS3 = async (
     { expiresIn: 15 * 60 }
   );
 
-  console.log(url);
+  console.log("🧪", url);
 
   return key;
 };

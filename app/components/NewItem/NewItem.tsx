@@ -6,7 +6,6 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { StyledInputHolder } from "~/styles/stores/new.styled";
 import TextArea from "../Inputs/TextArea/TextArea";
 import Text from "../Inputs/Text/Text";
-import { StyledForm } from "../ImageUploader/ImageUploader";
 import { CustomFields, MultiImageUploader } from "~/components";
 
 import type { ReactNode } from "react";
@@ -36,6 +35,7 @@ import {
 
 export interface NewItemProps {
   children?: ReactNode;
+  store?: any;
 }
 
 export type NewItemTriggerProps = {
@@ -54,19 +54,13 @@ export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   );
 };
 
-const NewItem = ({ children }: NewItemProps) => {
+const NewItem = ({ children, store }: NewItemProps) => {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
   const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
   const [dropDownState, setDropDownState] = useState(false);
-  const btnRef = useRef<HTMLButtonElement>(null);
-
-  const [formData, setFormData] = useState<any>({
-    name: "",
-    comment: "",
-    price: "",
-    quantity: "",
-  });
+  const btnBtnDeetsRef = useRef<HTMLButtonElement>(null);
+  const btnBtnUploadRef = useRef<HTMLButtonElement>(null);
 
   const customLabel = (type: string) => {
     const similarInputs = customFields.filter((field) => field.type === type);
@@ -101,6 +95,10 @@ const NewItem = ({ children }: NewItemProps) => {
     setCustomFields(toDel);
   };
 
+  const handleSubmitItem = () => {
+    btnBtnDeetsRef.current?.click();
+  };
+
   return (
     <Dialog
       closeable
@@ -113,12 +111,15 @@ const NewItem = ({ children }: NewItemProps) => {
           <StyledTabsTrigger value="defaults">
             {t("defaultFields")}
           </StyledTabsTrigger>
+          <StyledTabsTrigger value="uploads">
+            {t("uploadImages")}
+          </StyledTabsTrigger>
           <StyledTabsTrigger value="customs">
             {t("customFields")}
           </StyledTabsTrigger>
         </StyledTabsList>
         <StyledTabsContent value="defaults">
-          <StyledForm method="post">
+          <form method="post" action={`/stores/${store.id}/items/new`}>
             <StyledInputHolder>
               <InputContainer>
                 <Text
@@ -174,13 +175,26 @@ const NewItem = ({ children }: NewItemProps) => {
                 />
               </InputContainer>
             </StyledInputHolder>
-            <MultiImageUploader labelText={t("uploadImages")} />
             <StyledBtnContainer>
-              <Button type="submit" ref={btnRef}>
+              <Button type="button" onClick={handleSubmitItem}>
                 {t("saveItemDetails")}
               </Button>
             </StyledBtnContainer>
-          </StyledForm>
+          </form>
+        </StyledTabsContent>
+        <StyledTabsContent value="uploads">
+          <form
+            method="post"
+            action={`/stores/${store.id}/items/uploads`}
+            encType="multipart/form-data"
+          >
+            <MultiImageUploader labelText={`${t("uploadImages")}:`} />
+            <StyledBtnContainer>
+              <Button type="button" onClick={handleSubmitItem}>
+                {t("saveUploads")}
+              </Button>
+            </StyledBtnContainer>
+          </form>
         </StyledTabsContent>
         <StyledTabsContent value="customs">
           <StyledTabHeader>
@@ -211,6 +225,13 @@ const NewItem = ({ children }: NewItemProps) => {
             customFields={customFields}
             onDelete={(id) => handleDeleteField(id)}
           />
+          {customFields && customFields.length > 0 && (
+            <StyledBtnContainer>
+              <Button type="button" onClick={handleSubmitItem}>
+                {t("saveItemDetails")}
+              </Button>
+            </StyledBtnContainer>
+          )}
         </StyledTabsContent>
       </Tabs.Root>
     </Dialog>

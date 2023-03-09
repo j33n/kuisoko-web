@@ -112,6 +112,16 @@ export async function createItem({
   });
 }
 
+export function updateItemImages({
+  id,
+  images,
+}: Pick<Item, "id" | "images"> & { userId: User["id"] }) {
+  return prisma.item.update({
+    where: { id },
+    data: { images },
+  });
+}
+
 export async function deleteItem({
   id,
   userId,

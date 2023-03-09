@@ -30,7 +30,8 @@ export const StyledImageUpload = styled(Button)`
 
 export const StyledImageHolder = styled(FlexCenterStart)`
   width: 100%;
-  margin: 0.75rem 0;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
 `;
 
 export const StyledUploadText = styled(Text)`

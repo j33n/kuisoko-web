@@ -1,4 +1,3 @@
-import { useActionData, useTransition } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 
 import type { ActionArgs } from "@remix-run/node";
@@ -6,18 +5,8 @@ import type { ActionArgs } from "@remix-run/node";
 import { createItem } from "~/models/items.server";
 import { requireUser } from "~/services/session.server";
 
-import { TextInput, TextArea, Button } from "~/components";
-
-import {
-  StyledCreateStore,
-  StyledForm,
-  StyledInputHolder,
-  StyledBtnContainer,
-} from "~/styles/stores/new.styled";
-import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
 import { containsOnlyNumbers } from "~/utils";
-import { InputContainer } from "~/components/Inputs/Text/Text.styled";
 
 export async function action({ request, params }: ActionArgs) {
   const user = await requireUser(request);
@@ -97,79 +86,5 @@ export async function action({ request, params }: ActionArgs) {
     userId: user.id,
   });
 
-  return redirect(`/stores/${storeId}`);
-}
-
-export default function NewStoreRoute() {
-  const actionData = useActionData<typeof action>();
-  const transition = useTransition();
-
-  const { t } = useTranslation();
-
-  return (
-    <StyledCreateStore>
-      <StyledForm method="post">
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("name")}:`}
-              htmlFor="itemName"
-              name="itemName"
-              error={actionData?.errors?.itemName || ""}
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("price")}:`}
-              htmlFor="itemPrice"
-              name="itemPrice"
-              type="number"
-              error={actionData?.errors?.itemPrice || ""}
-              min="0"
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("quantity")}:`}
-              htmlFor="itemQuantity"
-              name="itemQuantity"
-              type="number"
-              error={actionData?.errors?.itemPrice || ""}
-              min="0"
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextArea
-              labelText={`${t("comment")}:`}
-              htmlFor="itemComment"
-              name="itemComment"
-              id="itemComment"
-              rows={5}
-              cols={50}
-              error={actionData?.errors?.itemComment}
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledBtnContainer>
-          <Button
-            type="submit"
-            loading={transition.state}
-            sx={{ width: "20vw" }}
-          >
-            {t("createItem")}
-          </Button>
-        </StyledBtnContainer>
-      </StyledForm>
-    </StyledCreateStore>
-  );
+  return redirect(`/stores/${storeId}/uploads/${item.id}`);
 }
