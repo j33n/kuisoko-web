@@ -28,10 +28,12 @@
     "storePhone": "Store Phone",
     "storeEmail": "Store Email",
     "createStore": "Create Store",
-    "createItem": "Create Item",
+    "saveItemDetails": "Save Item",
     "myInfo": "My Info",
     "favorites": "Favorites",
     "favorite": "Favorite",
     "uploadImages": "Upload Images",
-    "markAsPrimary": "Mark As Primary"
+    "markAsPrimary": "Mark As Primary",
+    "defaultFields": "Default Fields",
+    "customFields": "Custom Fields"
 }

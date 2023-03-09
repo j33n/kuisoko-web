@@ -1,39 +1,50 @@
 import { useRef, useState } from "react";
 import Dialog from "../Dialog/Dialog";
-import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
-import { InputContainer } from "~/routes/__index/stores/__stores/new";
 import { Button } from "theme-ui";
+import * as Tabs from "@radix-ui/react-tabs";
 import { StyledInputHolder } from "~/styles/stores/new.styled";
-import TextArea from "../Forms/TextArea";
-import TextInput from "../Forms/TextInput";
-import { StyledForm, StyledBtnContainer } from "../ImageUploader/ImageUploader";
+import TextArea from "../Inputs/TextArea/TextArea";
+import Text from "../Inputs/Text/Text";
+import { StyledForm } from "../ImageUploader/ImageUploader";
+import { CustomFields, MultiImageUploader } from "~/components";
 
 import type { ReactNode } from "react";
-import { IoAddOutline, IoCloudUploadOutline } from "react-icons/io5";
+import { IoAddOutline } from "react-icons/io5";
 import { StyledIconButton } from "../Layout/DropDownMenu/DropDownMenu.styled";
-import {
-  StyledImageHolder,
-  StyledImageUpload,
-  StyledUploadText,
-  StyledUploadView,
-} from "./NewItem.styled";
+
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
 import { HiOutlineSelector } from "react-icons/hi";
 import fieldTypes from "~/data/fieldTypes";
+
+import { InputContainer } from "../Inputs/Text/Text.styled";
+import {
+  StyledDropDown,
+  StyledDropDownHeader,
+  StyledFieldType,
+  StyledBtnContainer,
+  StyledTabHeader,
+  InactiveText,
+  StyledTabsContent,
+} from "./NewItem.styled";
+
+import type { Field } from "~/data/fieldTypes";
+import {
+  StyledTabsList,
+  StyledTabsTrigger,
+} from "../ImageUploader/ImageDialog.styled";
 
 export interface NewItemProps {
   children?: ReactNode;
 }
 
-export const StyledItemsToolbar = styled.div`
-  display: flex;
-  width: 100%;
-`;
-
 export type NewItemTriggerProps = {
   onClick: () => void;
 };
+
+export interface CustomFieldProps extends Field {
+  inputName: string;
+}
 
 export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   return (
@@ -43,34 +54,13 @@ export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   );
 };
 
-export const StyledDropDown = styled.div`
-  display: flex;
-  position: absolute;
-  top: 0.5rem;
-  right: 4rem;
-`;
-
-export const StyledFieldType = styled.div`
-  padding: 0.3rem;
-  cursor: pointer;
-  border-radius: 0.3rem;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
-
-  &:hover {
-    background: ${({ theme: { colors } }) => colors.blue7}
-  }
-`;
-
-export const StyledDropDownHeader = styled.div`
-  padding: 0.3rem;
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
-  color: ${({ theme: { colors } }) => colors.textDisabled};
-`;
-
 const NewItem = ({ children }: NewItemProps) => {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
-  const [imageList, setImageList] = useState<FileList | null>(null);
+  const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
+  const [dropDownState, setDropDownState] = useState(false);
+  const btnRef = useRef<HTMLButtonElement>(null);
+
   const [formData, setFormData] = useState<any>({
     name: "",
     comment: "",
@@ -78,126 +68,151 @@ const NewItem = ({ children }: NewItemProps) => {
     quantity: "",
   });
 
-  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.currentTarget.files && event.currentTarget.files.length > 0) {
-      setImageList(event.target.files);
+  const customLabel = (type: string) => {
+    const similarInputs = customFields.filter((field) => field.type === type);
+
+    if (similarInputs && similarInputs.length > 0) {
+      const inputNumIds = similarInputs.map(
+        (input) => input.inputName.split("_")[1]
+      );
+
+      const id = inputNumIds.sort((a, b) => Number(a) - Number(b)).reverse()[0];
+      return `${type}_${Number(id) + 1}`;
     }
+    return `${type}_0`;
   };
 
-  const fileUploadRef = useRef<HTMLInputElement>(null);
+  const handleAddNewField = (field: Field) => {
+    setDropDownState(false);
+    setCustomFields([
+      ...customFields,
+      {
+        ...field,
+        inputName: customLabel(field.type),
+      },
+    ]);
+  };
 
-  const ImageListPreview = () => {
-    if (imageList && imageList.length > 0) {
-      return (
-        <>
-          {Array.from(imageList).map((file) => (
-            <span key={file.name}>{file.name}</span>
-          ))}
-        </>
-      );
-    }
-    return null;
+  const handleDeleteField = (fieldId: string) => {
+    const toDel = customFields.filter(
+      (customField) => customField.inputName !== fieldId
+    );
+
+    setCustomFields(toDel);
   };
 
   return (
     <Dialog
       closeable
-      title={t("newItem")}
       open={open}
       onClose={() => setOpen(false)}
       trigger={<NewItemTrigger onClick={() => setOpen(true)} />}
     >
-      <StyledDropDown>
-        <DropDownMenu triggerIcon={<HiOutlineSelector />} minWidth="100px">
-          <StyledDropDownHeader>Add</StyledDropDownHeader>
-          {fieldTypes.map((field) => {
-            return (
-              <StyledFieldType key={field.id}>{field.name}</StyledFieldType>
-            );
-          })}
-        </DropDownMenu>
-      </StyledDropDown>
-      <StyledForm method="post">
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("name")}:`}
-              htmlFor="itemName"
-              name="itemName"
-              // error={actionData?.errors?.itemName || ""}
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("price")}:`}
-              htmlFor="itemPrice"
-              name="itemPrice"
-              type="number"
-              // error={actionData?.errors?.itemPrice || ""}
-              min="0"
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("quantity")}:`}
-              htmlFor="itemQuantity"
-              name="itemQuantity"
-              type="number"
-              // error={actionData?.errors?.itemPrice || ""}
-              min="0"
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <TextArea
-            labelText={`${t("comment")}:`}
-            htmlFor="itemComment"
-            name="itemComment"
-            id="itemComment"
-            rows={5}
-            cols={50}
-            // error={actionData?.errors?.itemComment}
-            required
+      <Tabs.Root defaultValue="defaults">
+        <StyledTabsList aria-label="Manage your account">
+          <StyledTabsTrigger value="defaults">
+            {t("defaultFields")}
+          </StyledTabsTrigger>
+          <StyledTabsTrigger value="customs">
+            {t("customFields")}
+          </StyledTabsTrigger>
+        </StyledTabsList>
+        <StyledTabsContent value="defaults">
+          <StyledForm method="post">
+            <StyledInputHolder>
+              <InputContainer>
+                <Text
+                  labelText={`${t("name")}:`}
+                  htmlFor="itemName"
+                  name="itemName"
+                  horizontal
+                  // error={actionData?.errors?.itemName || ""}
+                  required
+                />
+              </InputContainer>
+            </StyledInputHolder>
+            <StyledInputHolder>
+              <InputContainer>
+                <Text
+                  labelText={`${t("price")}:`}
+                  htmlFor="itemPrice"
+                  name="itemPrice"
+                  type="number"
+                  horizontal
+                  // error={actionData?.errors?.itemPrice || ""}
+                  min="0"
+                  required
+                />
+              </InputContainer>
+            </StyledInputHolder>
+            <StyledInputHolder>
+              <InputContainer>
+                <Text
+                  labelText={`${t("quantity")}:`}
+                  htmlFor="itemQuantity"
+                  name="itemQuantity"
+                  type="number"
+                  horizontal
+                  // error={actionData?.errors?.itemPrice || ""}
+                  min="0"
+                  required
+                />
+              </InputContainer>
+            </StyledInputHolder>
+            <StyledInputHolder>
+              <InputContainer>
+                <TextArea
+                  labelText={`${t("comment")}:`}
+                  htmlFor="itemComment"
+                  name="itemComment"
+                  id="itemComment"
+                  rows={5}
+                  cols={50}
+                  horizontal
+                  // error={actionData?.errors?.itemComment}
+                  required
+                />
+              </InputContainer>
+            </StyledInputHolder>
+            <MultiImageUploader labelText={t("uploadImages")} />
+            <StyledBtnContainer>
+              <Button type="submit" ref={btnRef}>
+                {t("saveItemDetails")}
+              </Button>
+            </StyledBtnContainer>
+          </StyledForm>
+        </StyledTabsContent>
+        <StyledTabsContent value="customs">
+          <StyledTabHeader>
+            <InactiveText style={{ maxWidth: "10rem" }}>Name</InactiveText>
+            <InactiveText>Value</InactiveText>
+            <StyledDropDown>
+              <DropDownMenu
+                triggerIcon={<HiOutlineSelector />}
+                onOpenChange={setDropDownState}
+                open={dropDownState}
+                minWidth="100px"
+              >
+                <StyledDropDownHeader>Add</StyledDropDownHeader>
+                {fieldTypes.map((field) => {
+                  return (
+                    <StyledFieldType
+                      key={field.id}
+                      onClick={() => handleAddNewField(field)}
+                    >
+                      {field.name}
+                    </StyledFieldType>
+                  );
+                })}
+              </DropDownMenu>
+            </StyledDropDown>
+          </StyledTabHeader>
+          <CustomFields
+            customFields={customFields}
+            onDelete={(id) => handleDeleteField(id)}
           />
-        </StyledInputHolder>
-        <StyledImageHolder>
-          {imageList && imageList.length > 0 && (
-            <StyledUploadView>
-              <ImageListPreview />
-            </StyledUploadView>
-          )}
-          <StyledImageUpload onClick={() => fileUploadRef.current?.click()}>
-            <IoCloudUploadOutline size={32} />
-            <StyledUploadText>{t("uploadImages")}</StyledUploadText>
-          </StyledImageUpload>
-          <input
-            type="file"
-            ref={fileUploadRef}
-            accept=".png, .jpg, .jpeg, .svg"
-            onChange={handleFileInput}
-            name="itemImages"
-            id="itemImages"
-            multiple
-            hidden
-          />
-        </StyledImageHolder>
-        <StyledBtnContainer>
-          <Button
-            type="submit"
-            // loading={transition.state}
-            sx={{ width: "20vw" }}
-          >
-            {t("createItem")}
-          </Button>
-        </StyledBtnContainer>
-      </StyledForm>
+        </StyledTabsContent>
+      </Tabs.Root>
     </Dialog>
   );
 };

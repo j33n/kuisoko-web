@@ -1,6 +1,5 @@
 import { useActionData, useTransition } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
-import styled from "@emotion/styled";
 
 import type { ActionArgs } from "@remix-run/node";
 
@@ -18,12 +17,7 @@ import {
 import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
 import { containsOnlyNumbers } from "~/utils";
-
-export const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
+import { InputContainer } from "~/components/Inputs/Text/Text.styled";
 
 export async function action({ request, params }: ActionArgs) {
   const user = await requireUser(request);
@@ -153,16 +147,18 @@ export default function NewStoreRoute() {
           </InputContainer>
         </StyledInputHolder>
         <StyledInputHolder>
-          <TextArea
-            labelText={`${t("comment")}:`}
-            htmlFor="itemComment"
-            name="itemComment"
-            id="itemComment"
-            rows={5}
-            cols={50}
-            error={actionData?.errors?.itemComment}
-            required
-          />
+          <InputContainer>
+            <TextArea
+              labelText={`${t("comment")}:`}
+              htmlFor="itemComment"
+              name="itemComment"
+              id="itemComment"
+              rows={5}
+              cols={50}
+              error={actionData?.errors?.itemComment}
+              required
+            />
+          </InputContainer>
         </StyledInputHolder>
         <StyledBtnContainer>
           <Button

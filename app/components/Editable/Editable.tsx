@@ -12,7 +12,7 @@ import {
 } from "./Editable.styled";
 
 export interface EditableProps extends InputProps {
-  fontSize?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | null;
+  fontSize?: "xxxs" | "xls" | "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | null;
   sx?: any;
   onSave: (value: string | number | readonly string[]) => void;
   name: string;

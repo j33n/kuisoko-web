@@ -36,6 +36,7 @@ export const base: Theme = {
   },
   fontSizes: {
     xxxs: "0.75rem",
+    xls: "0.8125rem",
     xxs: "0.875rem",
     xs: "1rem",
     sm: "1.25rem",

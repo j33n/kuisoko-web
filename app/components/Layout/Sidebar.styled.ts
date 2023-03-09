@@ -23,10 +23,11 @@ export const StyledTitle = styled(Text)`
   text-align: center;
 `;
 
-export const StyledLink = css`
+export const StyledLink = ({ theme: { fontSizes } }: any) => css`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: ${fontSizes.xxs};
 
   svg {
     width: 1.5rem;
@@ -45,13 +46,11 @@ export const Anchor = ({ theme: { colors, fontSizes } }: any) => css`
   margin: 0 1rem;
   border-radius: 0.5rem;
   color: ${colors.text};
-  font-weight: ${colors.fontWeight};
-  font-size: ${fontSizes.xxs};
+  font-size: ${fontSizes.xxxs};
   justify-content: center;
   align-items: center;
 
   @media only screen and (max-width: 480px) {
-    font-size: ${fontSizes.xxxs};
     margin: 0;
     text-overflow: ellipsis;
     width: 100%;
@@ -113,10 +112,6 @@ export const StyledLinkStores = styled.span`
   @media only screen and (max-width: 768px) {
     justify-content: center;
     text-align: center;
-  }
-
-  @media only screen and (max-width: 425px) {
-    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
   }
 `;
 

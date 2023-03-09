@@ -42,6 +42,7 @@ export const DialogContent = styled(Dialog.Content)<IDialogContent>`
   padding: 1.5rem;
   animation: ${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
+  overflow: auto;
 
   &:focus {
     outline: "none";
@@ -50,9 +51,8 @@ export const DialogContent = styled(Dialog.Content)<IDialogContent>`
 
 export const DialogTitle = styled(Dialog.Title)`
   margin: 0,
-  font-weight: 500,
   color: ${({ theme: { colors } }) => colors.crimson9};
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.sm};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xs};
 `;
 
 export const DialogDescription = styled(Dialog.Description)`

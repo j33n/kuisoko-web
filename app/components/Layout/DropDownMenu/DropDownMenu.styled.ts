@@ -151,7 +151,7 @@ export const IconButton = ({ theme: { colors } }: any) => css`
   }
 
   &:hover {
-    background-color: ${colors.blue6};
+    background-color: ${colors.blue7};
     border: 1px solid transparent;
   }
 
@@ -169,6 +169,24 @@ export const StyledAbsIconButton = styled(Button)`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+`;
+
+export const StyledFloatIconButton = styled(Button)`
+  ${IconButton};
+  position: absolute;
+  z-index: 1;
+  top: -0.5rem;
+  right: -0.5rem;
+  width: 1rem;
+  height: 1rem;
+  border: 0;
+  padding: 0;
+  box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.text};
+  background: ${({ theme: { colors } }) => colors.blue7};
+
+  &:hover {
+    border: 0;
+  }
 `;
 
 export const StyledRightSlot = styled(Box)`

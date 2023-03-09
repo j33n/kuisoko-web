@@ -1,26 +1,27 @@
-import Header from './Header/Header';
-import AdderButton from './AdderButton/AdderButton';
-import PageHeader from './PageHeader/PageHeader';
-import Modal from './Modal/Modal';
-import Button from './Button/Button';
+import Header from "./Header/Header";
+import AdderButton from "./AdderButton/AdderButton";
+import PageHeader from "./PageHeader/PageHeader";
+import Modal from "./Modal/Modal";
+import Button from "./Button/Button";
 import Sidebar from "./Layout/Sidebar";
-import { ImageContainer } from './ImageContainer/ImageContainer';
-import TextInput from './Forms/TextInput';
-import TextLabel from './Forms/TextLabel';
-import ImageUploader from './ImageUploader/ImageUploader';
-import TextArea from './Forms/TextArea';
-import Loader from './Loader/Loader';
+import { ImageContainer } from "./ImageContainer/ImageContainer";
+import ImageUploader from "./ImageUploader/ImageUploader";
+import MultiImageUploader from "./MultiImageUploader/MultiImageUploader";
+import TextArea from "./Inputs/TextArea/TextArea";
+import Loader from "./Loader/Loader";
 import Dialog from "./Dialog/Dialog";
 import ImageDialog from "./ImageUploader/ImageDialog";
 import EmojiRenderer from "./EmojiRenderer/EmojiRenderer";
 import Editable from "./Editable/Editable";
-import AuthMenu from './AuthMenu/AuthMenu';
-import Separator from './Separator/Separator';
-import Builder from './Builder/Builder';
-import AccountMenuBar from './AccountMenuBar/AccountMenuBar';
-import RenderIcon from './RenderIcon/RenderIcon';
-import ItemView from "./ItemView/ItemView"
+import AuthMenu from "./AuthMenu/AuthMenu";
+import Separator from "./Separator/Separator";
+import Builder from "./Builder/Builder";
+import AccountMenuBar from "./AccountMenuBar/AccountMenuBar";
+import RenderIcon from "./RenderIcon/RenderIcon";
+import ItemView from "./ItemView/ItemView";
 import NewItem from "./NewItem/NewItem";
+import TextInput, { TextLabel } from "./Inputs/Text/Text";
+import CustomFields from './CustomFields/CustomFields'
 
 export {
   Header,
@@ -33,6 +34,7 @@ export {
   TextInput,
   TextLabel,
   ImageUploader,
+  MultiImageUploader,
   TextArea,
   Loader,
   Dialog,
@@ -46,4 +48,5 @@ export {
   RenderIcon,
   ItemView,
   NewItem,
+  CustomFields,
 };

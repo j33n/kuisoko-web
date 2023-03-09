@@ -28,10 +28,12 @@
     "storePhone": "Nimero y' Iduka",
     "storeEmail": "Imeli y'Iduka",
     "createStore": "Tangiza Iduka",
-    "createItem": "Tangiza Igicuruzwa",
+    "saveItemDetails": "Bika Amakuru",
     "myInfo": "Amakuru Yanjye",
     "favorites": "Intoneshwa",
     "favorite": "Tonesha",
     "uploadImages": "Shyiraho Amafoto",
-    "markAsPrimary": "Ifoto y'Ibanze"
+    "markAsPrimary": "Ifoto y'Ibanze",
+    "defaultFields": "Amakuru y'Ibanze",
+    "customFields": "Andi Makuru"
 }
