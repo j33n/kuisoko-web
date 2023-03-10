@@ -1,19 +1,19 @@
-import { useRef, useState } from "react";
-import Dialog from "../Dialog/Dialog";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useFetcher } from "@remix-run/react";
 import { Button } from "theme-ui";
 import * as Tabs from "@radix-ui/react-tabs";
+import { HiOutlineSelector } from "react-icons/hi";
+
 import { StyledInputHolder } from "~/styles/stores/new.styled";
+import { IoAddOutline } from "react-icons/io5";
 import TextArea from "../Inputs/TextArea/TextArea";
 import Text from "../Inputs/Text/Text";
 import { CustomFields, MultiImageUploader } from "~/components";
 
-import type { ReactNode } from "react";
-import { IoAddOutline } from "react-icons/io5";
 import { StyledIconButton } from "../Layout/DropDownMenu/DropDownMenu.styled";
 
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
-import { HiOutlineSelector } from "react-icons/hi";
 import fieldTypes from "~/data/fieldTypes";
 
 import { InputContainer } from "../Inputs/Text/Text.styled";
@@ -26,12 +26,17 @@ import {
   InactiveText,
   StyledTabsContent,
 } from "./NewItem.styled";
+import Dialog from "../Dialog/Dialog";
 
-import type { Field } from "~/data/fieldTypes";
 import {
   StyledTabsList,
   StyledTabsTrigger,
 } from "../ImageUploader/ImageDialog.styled";
+
+import type { ReactNode } from "react";
+import type { Field } from "~/data/fieldTypes";
+import invariant from "tiny-invariant";
+import { z } from "zod";
 
 export interface NewItemProps {
   children?: ReactNode;
@@ -46,6 +51,13 @@ export interface CustomFieldProps extends Field {
   inputName: string;
 }
 
+export type ItemData = {
+  itemName: string;
+  itemPrice: string;
+  itemQuantity: string;
+  itemComment: string;
+};
+
 export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   return (
     <StyledIconButton onClick={onClick} style={{ marginLeft: "auto" }}>
@@ -54,13 +66,22 @@ export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   );
 };
 
-const NewItem = ({ children, store }: NewItemProps) => {
+const initialItemData: ItemData = {
+  itemName: "",
+  itemPrice: "",
+  itemQuantity: "",
+  itemComment: "",
+};
+
+const NewItem = ({ store }: NewItemProps) => {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
+  const fetcher = useFetcher();
   const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
   const [dropDownState, setDropDownState] = useState(false);
-  const btnBtnDeetsRef = useRef<HTMLButtonElement>(null);
-  const btnBtnUploadRef = useRef<HTMLButtonElement>(null);
+
+  const [itemFormData, setItemFormData] = useState<ItemData>(initialItemData);
+  const [formErrors, setFormErrors] = useState<any>({});
 
   const customLabel = (type: string) => {
     const similarInputs = customFields.filter((field) => field.type === type);
@@ -95,8 +116,22 @@ const NewItem = ({ children, store }: NewItemProps) => {
     setCustomFields(toDel);
   };
 
-  const handleSubmitItem = () => {
-    btnBtnDeetsRef.current?.click();
+  const handleItemDeetsFormChange = (
+    event: React.ChangeEvent<HTMLFormElement>
+  ) => {
+    setItemFormData({
+      ...itemFormData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSaveItemField = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    fetcher.submit(itemFormData, {
+      method: "post",
+      action: `/stores/${store.id}/items/new`,
+    });
   };
 
   return (
@@ -119,42 +154,42 @@ const NewItem = ({ children, store }: NewItemProps) => {
           </StyledTabsTrigger>
         </StyledTabsList>
         <StyledTabsContent value="defaults">
-          <form method="post" action={`/stores/${store.id}/items/new`}>
+          <fetcher.Form method="post" onChange={handleItemDeetsFormChange}>
             <StyledInputHolder>
-              <InputContainer>
+              <InputContainer style={{ position: "relative" }}>
                 <Text
                   labelText={`${t("name")}:`}
                   htmlFor="itemName"
                   name="itemName"
                   horizontal
-                  // error={actionData?.errors?.itemName || ""}
+                  error={fetcher.data?.itemName?._errors[0] || ""}
                   required
                 />
               </InputContainer>
             </StyledInputHolder>
             <StyledInputHolder>
-              <InputContainer>
+              <InputContainer style={{ position: "relative" }}>
                 <Text
                   labelText={`${t("price")}:`}
                   htmlFor="itemPrice"
                   name="itemPrice"
                   type="number"
                   horizontal
-                  // error={actionData?.errors?.itemPrice || ""}
+                  error={fetcher.data?.itemPrice?._errors[0] || ""}
                   min="0"
                   required
                 />
               </InputContainer>
             </StyledInputHolder>
             <StyledInputHolder>
-              <InputContainer>
+              <InputContainer style={{ position: "relative" }}>
                 <Text
                   labelText={`${t("quantity")}:`}
                   htmlFor="itemQuantity"
                   name="itemQuantity"
                   type="number"
                   horizontal
-                  // error={actionData?.errors?.itemPrice || ""}
+                  error={fetcher.data?.itemQuantity?._errors[0] || ""}
                   min="0"
                   required
                 />
@@ -170,17 +205,21 @@ const NewItem = ({ children, store }: NewItemProps) => {
                   rows={5}
                   cols={50}
                   horizontal
-                  // error={actionData?.errors?.itemComment}
-                  required
                 />
               </InputContainer>
             </StyledInputHolder>
             <StyledBtnContainer>
-              <Button type="button" onClick={handleSubmitItem}>
+              <Button
+                type="submit"
+                disabled={fetcher.state === "submitting"}
+                onClick={handleSaveItemField}
+                name="_action"
+                value="saveItemDetails"
+              >
                 {t("saveItemDetails")}
               </Button>
             </StyledBtnContainer>
-          </form>
+          </fetcher.Form>
         </StyledTabsContent>
         <StyledTabsContent value="uploads">
           <form
@@ -190,9 +229,7 @@ const NewItem = ({ children, store }: NewItemProps) => {
           >
             <MultiImageUploader labelText={`${t("uploadImages")}:`} />
             <StyledBtnContainer>
-              <Button type="button" onClick={handleSubmitItem}>
-                {t("saveUploads")}
-              </Button>
+              <Button type="submit">{t("saveUploads")}</Button>
             </StyledBtnContainer>
           </form>
         </StyledTabsContent>
@@ -227,9 +264,7 @@ const NewItem = ({ children, store }: NewItemProps) => {
           />
           {customFields && customFields.length > 0 && (
             <StyledBtnContainer>
-              <Button type="button" onClick={handleSubmitItem}>
-                {t("saveItemDetails")}
-              </Button>
+              <Button type="submit">{t("saveItemDetails")}</Button>
             </StyledBtnContainer>
           )}
         </StyledTabsContent>

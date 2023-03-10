@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
-import { Box, Label, Text, Textarea } from "theme-ui";
+import { Box, Label, Text } from "theme-ui";
 
 export interface TextInputProps {
   height?: string;
@@ -12,7 +12,7 @@ export const StyledLabel = styled(Label)`
   display: flex;
   color: ${({ theme: { colors } }) => colors.text};
   max-width: 10rem;
-  align-items: center;
+  align-items: flex-start;
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xls};
   padding: 0.5rem 0;
 `;
@@ -47,9 +47,10 @@ export const StyledInput = styled.input<TextInputProps>`
 
 export const StyledError = styled.div<TextInputProps>`
   color: ${({ theme: { colors } }) => colors.error};
-  font-size: 0.875rem;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
   position: absolute;
-  bottom: -0.25rem;
+  bottom: -3px;
+  margin-left: ${({ horizontal }) => (horizontal ? "10rem" : "0")};
 `;
 
 export const StyledSectionText = styled(Text)`
