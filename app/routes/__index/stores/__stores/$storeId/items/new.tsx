@@ -17,9 +17,15 @@ export async function action({ request, params }: ActionArgs) {
   const itemFormData = Object.fromEntries(formData);
 
   const itemDetailsSchema = z.object({
-    itemName: z.coerce.string().trim().min(1),
-    itemPrice: z.coerce.number().min(1),
-    itemQuantity: z.coerce.number().min(1),
+    itemName: z.coerce.string().trim().min(1, {
+      message: "Name is required!",
+    }),
+    itemPrice: z.coerce.number().min(1, {
+      message: "Price is required!",
+    }),
+    itemQuantity: z.coerce.number().min(1, {
+      message: "Quantity is required!",
+    }),
     itemComment: z.string().optional(),
   });
 

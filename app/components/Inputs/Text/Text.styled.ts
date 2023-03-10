@@ -48,8 +48,9 @@ export const StyledInput = styled.input<TextInputProps>`
 export const StyledError = styled.div<TextInputProps>`
   color: ${({ theme: { colors } }) => colors.error};
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
+  font-weight: ${({ theme: { fontWeights } }) => fontWeights.bold};
   position: absolute;
-  bottom: -3px;
+  bottom: 0;
   margin-left: ${({ horizontal }) => (horizontal ? "10rem" : "0")};
 `;
 

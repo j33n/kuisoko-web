@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useCatch, useFetcher, useParams } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { Button } from "theme-ui";
 import * as Tabs from "@radix-ui/react-tabs";
 import { HiOutlineSelector } from "react-icons/hi";
@@ -133,7 +133,6 @@ const NewItem = ({ store }: NewItemProps) => {
   };
 
   console.log("🔥", fetcher);
-  
 
   return (
     <Dialog
@@ -157,7 +156,9 @@ const NewItem = ({ store }: NewItemProps) => {
         <StyledTabsContent value="defaults">
           <fetcher.Form method="post" onChange={handleItemDeetsFormChange}>
             <StyledInputHolder>
-              <InputContainer style={{ position: "relative" }}>
+              <InputContainer
+                style={{ position: "relative", paddingBottom: "1.2rem" }}
+              >
                 <Text
                   labelText={`${t("name")}:`}
                   htmlFor="itemName"
@@ -169,7 +170,9 @@ const NewItem = ({ store }: NewItemProps) => {
               </InputContainer>
             </StyledInputHolder>
             <StyledInputHolder>
-              <InputContainer style={{ position: "relative" }}>
+              <InputContainer
+                style={{ position: "relative", paddingBottom: "1.2rem" }}
+              >
                 <Text
                   labelText={`${t("price")}:`}
                   htmlFor="itemPrice"
@@ -183,7 +186,9 @@ const NewItem = ({ store }: NewItemProps) => {
               </InputContainer>
             </StyledInputHolder>
             <StyledInputHolder>
-              <InputContainer style={{ position: "relative" }}>
+              <InputContainer
+                style={{ position: "relative", paddingBottom: "1.2rem" }}
+              >
                 <Text
                   labelText={`${t("quantity")}:`}
                   htmlFor="itemQuantity"
