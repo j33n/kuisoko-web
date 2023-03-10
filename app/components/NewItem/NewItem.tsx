@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetcher } from "@remix-run/react";
+import { useCatch, useFetcher, useParams } from "@remix-run/react";
 import { Button } from "theme-ui";
 import * as Tabs from "@radix-ui/react-tabs";
 import { HiOutlineSelector } from "react-icons/hi";
@@ -35,8 +35,6 @@ import {
 
 import type { ReactNode } from "react";
 import type { Field } from "~/data/fieldTypes";
-import invariant from "tiny-invariant";
-import { z } from "zod";
 
 export interface NewItemProps {
   children?: ReactNode;
@@ -133,6 +131,9 @@ const NewItem = ({ store }: NewItemProps) => {
       action: `/stores/${store.id}/items/new`,
     });
   };
+
+  console.log("🔥", fetcher);
+  
 
   return (
     <Dialog

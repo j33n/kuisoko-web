@@ -1,6 +1,7 @@
 import { json } from "@remix-run/node";
 import { z } from "zod";
 import invariant from "tiny-invariant";
+import { prisma } from "~/db.server";
 
 import { createItem } from "~/models/items.server";
 import { requireUser } from "~/services/session.server";
@@ -30,16 +31,34 @@ export async function action({ request, params }: ActionArgs) {
     return json(validData.error.format());
   }
 
-  const item = await createItem({
-    name: validData.data.itemName,
-    comment: validData.data.itemComment ?? "",
-    price: validData.data.itemPrice,
-    quantity: validData.data.itemQuantity,
-    storeId,
-    userId: user.id,
+  const itemExists = await prisma.item.findFirst({
+    where: {
+      name: validData.data.itemName,
+      storeId,
+    },
   });
 
-  return json({
-    item
-  })
+  if (!itemExists) {
+    const item = await createItem({
+      name: validData.data.itemName,
+      comment: validData.data.itemComment ?? "",
+      price: validData.data.itemPrice,
+      quantity: validData.data.itemQuantity,
+      storeId,
+      userId: user.id,
+    });
+
+    return json({
+      item,
+    });
+  }
+
+  return json(
+    {
+      itemName: {
+        _errors: [`item ${validData.data.itemName} already exist`],
+      },
+    },
+    { status: 400 }
+  );
 }

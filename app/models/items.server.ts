@@ -21,7 +21,7 @@ export function getAllItems(userId: User["id"]) {
       unit: true,
       quantity: true,
       createdAt: true,
-    },
+  },
     orderBy: { createdAt: "desc" },
   });
 }
