@@ -2,6 +2,11 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import styled from "@emotion/styled";
 import { contentShow, overlayShow } from "../Dialog/Dialog.styled";
 import { StyledFocus } from "../Button/Button.styled";
+import { Button } from "theme-ui";
+
+export type StyledButtonProps = {
+    confirm?: boolean | null;
+}
 
 export const StyledAlertDialogOverlay = styled(AlertDialog.Overlay)`
   background-color: ${({ theme: { colors } }) => colors.blackA9};
@@ -20,7 +25,7 @@ export const StyledAlertDialogContent = styled(AlertDialog.Content)`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90vw;
-  max-width: 500px;
+  max-width: 400px;
   max-height: 85vh;
   padding: 1.5rem;
   animation: ${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -31,14 +36,39 @@ export const StyledAlertDialogContent = styled(AlertDialog.Content)`
 
 export const StyledAlertDialogTitle = styled(AlertDialog.Title)`
   margin: 0;
-  color: ${({ theme: { colors } }) => colors.gray4};
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
-  font-weight: ${({ theme: { fontWeights } }) => fontWeights.bold};
+  color: ${({ theme: { colors } }) => colors.text};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xls};
+  text-transform: capitalize;
 `;
 
 export const StyledAlertDialogDescription = styled(AlertDialog.Description)`
-  margin-bottom: 20px;
-  color: ${({ theme: { colors } }) => colors.crimson9};
-  font-size: ${({ theme: { fontSizes } }) => fontSizes.xls};
+  margin: 1rem 0;
+  color: ${({ theme: { colors } }) => colors.textDisabled};
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   line-height: 1.5;
+`;
+
+// TODO: replace with button component
+export const StyledBtnContainer = styled.div`
+  display: flex;
+  /* width: 100%; */
+  justify-content: flex-end;
+  margin-right: 1rem;
+`;
+
+export const StyledButton = styled(Button)<StyledButtonProps>`
+  border: none;
+  background: ${({ theme: { colors }, confirm }) =>
+    confirm ? colors.crimson6 : colors.blue4};
+  padding: 0 1rem;
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xls};
+  min-height: 2rem;
+
+  ${StyledFocus};
+
+  &:hover {
+    border: none;
+    background: ${({ theme: { colors }, confirm }) =>
+      confirm ? colors.crimson8 : colors.blue7};
+  }
 `;

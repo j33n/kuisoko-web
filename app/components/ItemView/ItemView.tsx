@@ -48,6 +48,8 @@ export const ItemView = ({
     setShowDropDown(false);
   };
 
+  const dialogTitle = (name: string) => `are you sure you want to delete ${name}`
+
   return (
     <StyledItemBox key={key}>
       <StyledDDContainer>
@@ -66,7 +68,18 @@ export const ItemView = ({
         </DropDownMenu>
       </StyledDDContainer>
       <AlertDialog
-        onOpenChange={setShowDropDown}
+        onOpenChange={(state) => {
+          if (state) {
+            setShowAlertDialog({
+              state: true,
+              title: dialogTitle(item.name),
+              description: `Item ${item.name} will be deleted and all details`,
+            });
+          } else {
+            setShowAlertDialog({ ...showAlertDialog, state: state });
+          }
+        }}
+        onConfirm={() => handleDelete(item.id)}
         open={showAlertDialog.state}
         title={showAlertDialog.title}
         description={showAlertDialog.description}

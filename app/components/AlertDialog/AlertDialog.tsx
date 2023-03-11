@@ -6,9 +6,10 @@ import {
   StyledAlertDialogDescription,
   StyledAlertDialogOverlay,
   StyledAlertDialogTitle,
+  StyledBtnContainer,
+  StyledButton,
 } from "./AlertDialog.styled";
 import { Button } from "theme-ui";
-import { StyledBtnContainer } from "../NewItem/NewItem.styled";
 
 export type AlertDialogProps = {
   open: boolean;
@@ -16,6 +17,7 @@ export type AlertDialogProps = {
   trigger?: React.ReactNode;
   title?: string;
   description?: string;
+  onConfirm: () => void;
 };
 
 const AlertDialog = ({
@@ -24,6 +26,7 @@ const AlertDialog = ({
   trigger = <Button>Delete account</Button>,
   title,
   description,
+  onConfirm,
 }: AlertDialogProps) => {
   return (
     <AlertDialogRadix.Root open={open} onOpenChange={onOpenChange}>
@@ -42,20 +45,12 @@ const AlertDialog = ({
           <FlexCenterEnd css={{ justifyContent: "flex-end" }}>
             <AlertDialogRadix.Cancel asChild>
               <StyledBtnContainer>
-                <Button
-                  onClick={() => onOpenChange(false)}
-                  variant="mauve"
-                  sx={{ marginRight: 25 }}
-                >
-                  Cancel
-                </Button>
+                <StyledButton>Cancel</StyledButton>
               </StyledBtnContainer>
             </AlertDialogRadix.Cancel>
-            <AlertDialogRadix.Action asChild>
-              <StyledBtnContainer style={{ width: "auto", height: "100%" }}>
-                <Button style={{ height: "100%" }} variant="red">
-                  Yes, delete account
-                </Button>
+            <AlertDialogRadix.Action asChild onClick={onConfirm}>
+              <StyledBtnContainer>
+                <StyledButton confirm>Yes, delete account</StyledButton>
               </StyledBtnContainer>
             </AlertDialogRadix.Action>
           </FlexCenterEnd>
