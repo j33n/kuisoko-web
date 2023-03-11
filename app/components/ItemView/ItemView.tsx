@@ -17,7 +17,6 @@ import { useFetcher, useParams } from "@remix-run/react";
 export type ItemViewProps = {
   item: any;
   key?: string;
-  handleUpdate: (itemId: string) => void;
 };
 
 export type DialogStateProps = {
@@ -32,7 +31,7 @@ const initialDialogState = {
   description: "Delete Item Description",
 };
 
-export const ItemView = ({ item, key, handleUpdate }: ItemViewProps) => {
+export const ItemView = ({ item, key }: ItemViewProps) => {
   const { t } = useTranslation();
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [showAlertDialog, setShowAlertDialog] =
@@ -65,7 +64,7 @@ export const ItemView = ({ item, key, handleUpdate }: ItemViewProps) => {
           onOpenChange={setShowDropDown}
           mini
         >
-          <StyledFieldType onClick={() => handleUpdate(item.id)}>
+          <StyledFieldType onClick={() => navigate(item.id)}>
             Update Item
           </StyledFieldType>
           <StyledFieldType onClick={() => handleShowDialog(item)}>
@@ -79,7 +78,7 @@ export const ItemView = ({ item, key, handleUpdate }: ItemViewProps) => {
             setShowAlertDialog({
               state: true,
               title: `Are you sure you want to delete ${item.name}?`,
-              description: `Item ${item.name} will be deleted and all details`,
+              description: `Item ${item.name} will be deleted and all it's details`,
             });
           } else {
             setShowAlertDialog({ ...showAlertDialog, state: state });

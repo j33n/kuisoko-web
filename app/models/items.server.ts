@@ -138,7 +138,7 @@ export async function deleteItem({
       userId,
     });
   }
-  return prisma.item.deleteMany({
-    where: { id, userId },
+  return prisma.item.delete({
+    where: { id },
   });
 }

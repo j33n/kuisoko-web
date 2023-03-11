@@ -42,16 +42,11 @@ export const StyledBtnContainer = styled.div`
   button {
     border: none;
     background: ${({ theme: { colors } }) => colors.blue4};
-    width: 10vw;
-
-    @media only screen and (max-width: 320px) {
-      width: 30vw;
-    }
-
-    @media only screen and (min-width: 321px) and (max-width: 768px) {
-      width: 25vw;
-    }
-
+    width: auto;
+    min-height: 2rem;
+    padding: 0 1rem;
+    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+    
     &:hover {
       border: none;
       background: ${({ theme: { colors } }) => colors.blue7};

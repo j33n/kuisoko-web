@@ -7,7 +7,6 @@ import { deleteItem, getAllItems } from "~/models/items.server";
 import { requireUser } from "~/services/session.server";
 
 import { ItemView } from "~/components";
-import invariant from "tiny-invariant";
 
 export const StyledItemsContainer = styled.div`
   display: flex;
