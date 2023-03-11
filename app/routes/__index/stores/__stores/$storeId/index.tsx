@@ -60,7 +60,7 @@ export default function StoreDetailsRoute() {
       {items && items.length > 0 && (
         <StyledItemLister>
           {items.map((item) => {
-            return <ItemView key={item.id} item={item} />;
+            return <ItemView key={item.id} item={item} handleDelete={handleDeleteItem} />;
           })}
         </StyledItemLister>
       )}

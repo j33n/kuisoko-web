@@ -22,6 +22,7 @@ import ItemView from "./ItemView/ItemView";
 import NewItem from "./NewItem/NewItem";
 import TextInput, { TextLabel } from "./Inputs/Text/Text";
 import CustomFields from './CustomFields/CustomFields'
+import AlertDialog from "./AlertDialog/AlertDialog"
 
 export {
   Header,
@@ -49,4 +50,5 @@ export {
   ItemView,
   NewItem,
   CustomFields,
+  AlertDialog,
 };

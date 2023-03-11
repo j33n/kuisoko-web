@@ -12,7 +12,11 @@ import {
 } from "~/components/Modal/Keyframes.styled";
 
 export type StyledContentProps = {
-  minWidth?: string;
+  width?: string;
+};
+
+export type IconButtonProps = {
+  mini?: boolean,
 };
 
 export const DropdownMenuArrow = styled(DropdownMenu.Arrow)`
@@ -79,7 +83,7 @@ export const ContentStyles = ({ theme: { colors }, minWidth }: any) => css`
 
 export const StyledContent = styled(DropdownMenu.Content)<StyledContentProps>`
   ${ContentStyles};
-  min-width: ${({ minWidth }) => minWidth || "220px"};
+  width: ${({ width }) => width || "220px"};
 `;
 
 export const StyledItem = styled(DropdownMenu.Item)`
@@ -131,12 +135,12 @@ export const StyledSubTrigger = styled(DropdownMenu.SubTrigger)`
   ${ItemStyles}
 `;
 
-export const IconButton = ({ theme: { colors } }: any) => css`
+export const IconButton = ({ theme: { colors }, mini }: any) => css`
   all: unset;
   font-family: inherit;
   border-radius: 50%;
-  height: 2.5rem;
-  width: 2.5rem;
+  height: ${mini ? "2rem" : "2.5rem"};
+  width: ${mini ? "2rem" : "2.5rem"};
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -160,11 +164,11 @@ export const IconButton = ({ theme: { colors } }: any) => css`
   }
 `;
 
-export const StyledIconButton = styled(Button)`
+export const StyledIconButton = styled(Button)<IconButtonProps>`
   ${IconButton}
 `;
 
-export const StyledAbsIconButton = styled(Button)`
+export const StyledAbsIconButton = styled(Button)<IconButtonProps>`
   ${IconButton};
   position: absolute;
   top: 0.5rem;

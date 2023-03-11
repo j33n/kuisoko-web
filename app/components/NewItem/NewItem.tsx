@@ -72,14 +72,13 @@ const initialItemData: ItemData = {
 };
 
 const NewItem = ({ store }: NewItemProps) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const fetcher = useFetcher();
   const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
   const [dropDownState, setDropDownState] = useState(false);
 
   const [itemFormData, setItemFormData] = useState<ItemData>(initialItemData);
-  const [formErrors, setFormErrors] = useState<any>({});
 
   const customLabel = (type: string) => {
     const similarInputs = customFields.filter((field) => field.type === type);
@@ -131,8 +130,6 @@ const NewItem = ({ store }: NewItemProps) => {
       action: `/stores/${store.id}/items/new`,
     });
   };
-
-  console.log("🔥", fetcher);
 
   return (
     <Dialog
@@ -248,7 +245,7 @@ const NewItem = ({ store }: NewItemProps) => {
                 triggerIcon={<HiOutlineSelector />}
                 onOpenChange={setDropDownState}
                 open={dropDownState}
-                minWidth="100px"
+                width="100px"
               >
                 <StyledDropDownHeader>Add</StyledDropDownHeader>
                 {fieldTypes.map((field) => {

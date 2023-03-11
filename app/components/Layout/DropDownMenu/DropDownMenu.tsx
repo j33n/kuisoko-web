@@ -3,6 +3,8 @@ import * as rDropdownMenu from "@radix-ui/react-dropdown-menu";
 import { AiOutlineMore } from "react-icons/ai";
 import { StyledContent, StyledIconButton } from "./DropDownMenu.styled";
 
+import type { ThemeUIStyleObject } from "theme-ui";
+
 export interface IDropDownMenu {
   trigger?: React.ReactNode;
   children: React.ReactNode;
@@ -11,10 +13,11 @@ export interface IDropDownMenu {
   defaultOpen?: boolean;
   modal?: boolean;
   triggerIcon?: React.ReactNode;
-  minWidth?: string;
+  width?: string;
+  mini?: boolean;
+  sxButton?: ThemeUIStyleObject;
 }
 
-// TODO: dropdown content not accessible via tab
 const DropDownMenu = ({
   trigger,
   children,
@@ -22,8 +25,10 @@ const DropDownMenu = ({
   defaultOpen = false,
   open,
   modal = true,
-  triggerIcon = <AiOutlineMore />,
-  minWidth,
+  triggerIcon = <AiOutlineMore style={{ transform: "rotate(90deg)" }} />,
+  width,
+  mini,
+  sxButton,
 }: IDropDownMenu) => {
   return (
     <rDropdownMenu.Root
@@ -34,13 +39,20 @@ const DropDownMenu = ({
     >
       <rDropdownMenu.Trigger asChild>
         {trigger || (
-          <StyledIconButton aria-label="Customise options">
+          <StyledIconButton
+            aria-label="Customise options"
+            mini={mini}
+            sx={sxButton}
+          >
             {triggerIcon}
           </StyledIconButton>
         )}
       </rDropdownMenu.Trigger>
       <rDropdownMenu.Portal>
-        <StyledContent sideOffset={5} minWidth={minWidth}>
+        <StyledContent
+          sideOffset={5}
+          width={width}
+        >
           {children}
         </StyledContent>
       </rDropdownMenu.Portal>
