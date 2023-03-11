@@ -43,7 +43,7 @@ export type FavoriteFormProps = {
 };
 
 export default function StoreDetailsRoute() {
-  const { items } = useLoaderData<typeof loader>();
+  const { items, store } = useLoaderData<typeof loader>();
 
   return (
     <StyledContentWrapper style={{ borderRadius: "0 0 0.5rem 0.5rem" }}>
@@ -55,12 +55,12 @@ export default function StoreDetailsRoute() {
         ) : (
           "No items in store"
         )}
-        <NewItem />
+        <NewItem store={store} />
       </StyledItemListHeader>
       {items && items.length > 0 && (
         <StyledItemLister>
           {items.map((item) => {
-            return <ItemView key={item.id} item={item} />;
+            return <ItemView key={item.id} item={item} handleUpdate={() => {}} />;
           })}
         </StyledItemLister>
       )}

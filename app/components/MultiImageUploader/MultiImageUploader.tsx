@@ -42,6 +42,7 @@ export const MultiImageUpload = ({
   }, [imageList]);
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     setUploadError("");
     if (event.currentTarget.files && event.currentTarget.files.length > 0) {
       const files = Array.prototype.slice.call(event.target.files);
@@ -82,6 +83,7 @@ export const MultiImageUpload = ({
       {labelText && <TextLabel htmlFor={htmlFor}>{labelText}</TextLabel>}
       <StyledUploadView>
         <StyledImageUpload
+          type="button"
           onClick={() => fileUploadRef.current?.click()}
           disabled={fileLimit}
         >
@@ -99,6 +101,7 @@ export const MultiImageUpload = ({
               onMouseOut={() => setImageHovered(null)}
             >
               <StyledFloatIconButton
+                type="button"
                 onClick={(e) => handleRemoveImage(idx, e)}
                 style={{
                   visibility: imageHovered === idx ? "visible" : "hidden",

@@ -1,20 +1,19 @@
-import { useRef, useState } from "react";
-import Dialog from "../Dialog/Dialog";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useFetcher } from "@remix-run/react";
 import { Button } from "theme-ui";
 import * as Tabs from "@radix-ui/react-tabs";
+import { HiOutlineSelector } from "react-icons/hi";
+
 import { StyledInputHolder } from "~/styles/stores/new.styled";
+import { IoAddOutline } from "react-icons/io5";
 import TextArea from "../Inputs/TextArea/TextArea";
 import Text from "../Inputs/Text/Text";
-import { StyledForm } from "../ImageUploader/ImageUploader";
 import { CustomFields, MultiImageUploader } from "~/components";
 
-import type { ReactNode } from "react";
-import { IoAddOutline } from "react-icons/io5";
 import { StyledIconButton } from "../Layout/DropDownMenu/DropDownMenu.styled";
 
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
-import { HiOutlineSelector } from "react-icons/hi";
 import fieldTypes from "~/data/fieldTypes";
 
 import { InputContainer } from "../Inputs/Text/Text.styled";
@@ -27,15 +26,19 @@ import {
   InactiveText,
   StyledTabsContent,
 } from "./NewItem.styled";
+import Dialog from "../Dialog/Dialog";
 
-import type { Field } from "~/data/fieldTypes";
 import {
   StyledTabsList,
   StyledTabsTrigger,
 } from "../ImageUploader/ImageDialog.styled";
 
+import type { ReactNode } from "react";
+import type { Field } from "~/data/fieldTypes";
+
 export interface NewItemProps {
   children?: ReactNode;
+  store?: any;
 }
 
 export type NewItemTriggerProps = {
@@ -46,6 +49,13 @@ export interface CustomFieldProps extends Field {
   inputName: string;
 }
 
+export type ItemData = {
+  itemName: string;
+  itemPrice: string;
+  itemQuantity: string;
+  itemComment: string;
+};
+
 export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   return (
     <StyledIconButton onClick={onClick} style={{ marginLeft: "auto" }}>
@@ -54,19 +64,21 @@ export const NewItemTrigger = ({ onClick }: NewItemTriggerProps) => {
   );
 };
 
-const NewItem = ({ children }: NewItemProps) => {
-  const [open, setOpen] = useState(true);
+const initialItemData: ItemData = {
+  itemName: "",
+  itemPrice: "",
+  itemQuantity: "",
+  itemComment: "",
+};
+
+const NewItem = ({ store }: NewItemProps) => {
+  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
+  const fetcher = useFetcher();
   const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
   const [dropDownState, setDropDownState] = useState(false);
-  const btnRef = useRef<HTMLButtonElement>(null);
 
-  const [formData, setFormData] = useState<any>({
-    name: "",
-    comment: "",
-    price: "",
-    quantity: "",
-  });
+  const [itemFormData, setItemFormData] = useState<ItemData>(initialItemData);
 
   const customLabel = (type: string) => {
     const similarInputs = customFields.filter((field) => field.type === type);
@@ -101,6 +113,24 @@ const NewItem = ({ children }: NewItemProps) => {
     setCustomFields(toDel);
   };
 
+  const handleItemDeetsFormChange = (
+    event: React.ChangeEvent<HTMLFormElement>
+  ) => {
+    setItemFormData({
+      ...itemFormData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSaveItemField = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    fetcher.submit(itemFormData, {
+      method: "post",
+      action: `/stores/${store.id}/items/new`,
+    });
+  };
+
   return (
     <Dialog
       closeable
@@ -113,47 +143,56 @@ const NewItem = ({ children }: NewItemProps) => {
           <StyledTabsTrigger value="defaults">
             {t("defaultFields")}
           </StyledTabsTrigger>
+          <StyledTabsTrigger value="uploads">
+            {t("uploadImages")}
+          </StyledTabsTrigger>
           <StyledTabsTrigger value="customs">
             {t("customFields")}
           </StyledTabsTrigger>
         </StyledTabsList>
         <StyledTabsContent value="defaults">
-          <StyledForm method="post">
+          <fetcher.Form method="post" onChange={handleItemDeetsFormChange}>
             <StyledInputHolder>
-              <InputContainer>
+              <InputContainer
+                style={{ position: "relative", paddingBottom: "1.2rem" }}
+              >
                 <Text
                   labelText={`${t("name")}:`}
                   htmlFor="itemName"
                   name="itemName"
                   horizontal
-                  // error={actionData?.errors?.itemName || ""}
+                  error={fetcher.data?.itemName?._errors[0] || ""}
                   required
                 />
               </InputContainer>
             </StyledInputHolder>
             <StyledInputHolder>
-              <InputContainer>
+              <InputContainer
+                style={{ position: "relative", paddingBottom: "1.2rem" }}
+              >
                 <Text
                   labelText={`${t("price")}:`}
                   htmlFor="itemPrice"
                   name="itemPrice"
                   type="number"
                   horizontal
-                  // error={actionData?.errors?.itemPrice || ""}
+                  error={fetcher.data?.itemPrice?._errors[0] || ""}
                   min="0"
                   required
                 />
               </InputContainer>
             </StyledInputHolder>
             <StyledInputHolder>
-              <InputContainer>
+              <InputContainer
+                style={{ position: "relative", paddingBottom: "1.2rem" }}
+              >
                 <Text
                   labelText={`${t("quantity")}:`}
                   htmlFor="itemQuantity"
                   name="itemQuantity"
                   type="number"
                   horizontal
-                  // error={actionData?.errors?.itemPrice || ""}
+                  error={fetcher.data?.itemQuantity?._errors[0] || ""}
                   min="0"
                   required
                 />
@@ -169,18 +208,33 @@ const NewItem = ({ children }: NewItemProps) => {
                   rows={5}
                   cols={50}
                   horizontal
-                  // error={actionData?.errors?.itemComment}
-                  required
                 />
               </InputContainer>
             </StyledInputHolder>
-            <MultiImageUploader labelText={t("uploadImages")} />
             <StyledBtnContainer>
-              <Button type="submit" ref={btnRef}>
+              <Button
+                type="submit"
+                disabled={fetcher.state === "submitting"}
+                onClick={handleSaveItemField}
+                name="_action"
+                value="saveItemDetails"
+              >
                 {t("saveItemDetails")}
               </Button>
             </StyledBtnContainer>
-          </StyledForm>
+          </fetcher.Form>
+        </StyledTabsContent>
+        <StyledTabsContent value="uploads">
+          <form
+            method="post"
+            action={`/stores/${store.id}/items/uploads`}
+            encType="multipart/form-data"
+          >
+            <MultiImageUploader labelText={`${t("uploadImages")}:`} />
+            <StyledBtnContainer>
+              <Button type="submit">{t("saveUploads")}</Button>
+            </StyledBtnContainer>
+          </form>
         </StyledTabsContent>
         <StyledTabsContent value="customs">
           <StyledTabHeader>
@@ -191,7 +245,7 @@ const NewItem = ({ children }: NewItemProps) => {
                 triggerIcon={<HiOutlineSelector />}
                 onOpenChange={setDropDownState}
                 open={dropDownState}
-                minWidth="100px"
+                width="100px"
               >
                 <StyledDropDownHeader>Add</StyledDropDownHeader>
                 {fieldTypes.map((field) => {
@@ -211,6 +265,11 @@ const NewItem = ({ children }: NewItemProps) => {
             customFields={customFields}
             onDelete={(id) => handleDeleteField(id)}
           />
+          {customFields && customFields.length > 0 && (
+            <StyledBtnContainer>
+              <Button type="submit">{t("saveItemDetails")}</Button>
+            </StyledBtnContainer>
+          )}
         </StyledTabsContent>
       </Tabs.Root>
     </Dialog>

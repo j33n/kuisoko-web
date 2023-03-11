@@ -2,8 +2,9 @@ import React from "react";
 
 import { StyledButton, StyledIcon } from "./Button.styled";
 import Loader from "../Loader/Loader";
+import type { ButtonProps } from "theme-ui";
 
-export interface IButton {
+export interface IButton extends ButtonProps {
   type?: "submit" | "button" | "reset";
   disabled?: boolean;
   children: React.ReactNode;
@@ -23,6 +24,7 @@ export const Button = ({
   variant,
   sx,
   loading,
+  ...restProps
 }: IButton) => {
   return (
     <StyledButton
@@ -30,6 +32,7 @@ export const Button = ({
       disabled={disabled || loading === "loading" || loading === "submitting"}
       variant={variant || "primary"}
       sx={{ ...sx }}
+      {...restProps}
     >
       {(loading === "loading" || loading === "submitting") && <Loader />}
       {(!loading || loading === "idle") && (

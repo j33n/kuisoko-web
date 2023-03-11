@@ -271,8 +271,9 @@ export function CatchBoundary() {
   const caught = useCatch();
   const params = useParams();
 
+  // TODO: use Radix toast component for error boundary
   if (caught.status === 404) {
-    return <div>Store "{params.storeId}" not found</div>;
+    return <div>{`Store ${params.storeId}" not found`}</div>;
   }
 
   throw new Error(`Unexpected caught response with status: ${caught.status}`);

@@ -1,23 +1,12 @@
-import { useActionData, useTransition } from "@remix-run/react";
-import { json, redirect } from "@remix-run/node";
-
-import type { ActionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { z } from "zod";
+import invariant from "tiny-invariant";
+import { prisma } from "~/db.server";
 
 import { createItem } from "~/models/items.server";
 import { requireUser } from "~/services/session.server";
 
-import { TextInput, TextArea, Button } from "~/components";
-
-import {
-  StyledCreateStore,
-  StyledForm,
-  StyledInputHolder,
-  StyledBtnContainer,
-} from "~/styles/stores/new.styled";
-import { useTranslation } from "react-i18next";
-import invariant from "tiny-invariant";
-import { containsOnlyNumbers } from "~/utils";
-import { InputContainer } from "~/components/Inputs/Text/Text.styled";
+import type { ActionArgs } from "@remix-run/node";
 
 export async function action({ request, params }: ActionArgs) {
   const user = await requireUser(request);
@@ -25,151 +14,57 @@ export async function action({ request, params }: ActionArgs) {
 
   const { storeId } = params;
 
-  const { itemName, itemComment, itemPrice, itemQuantity } =
-    Object.fromEntries(formData);
+  const itemFormData = Object.fromEntries(formData);
 
-  // server validations
-  if (typeof itemName !== "string" || itemName.length === 0) {
-    return json(
-      {
-        errors: {
-          itemName: "Item name is required",
-          itemComment: null,
-          itemPrice: null,
-          itemQuantity: null,
-        },
-      },
-      { status: 400 }
-    );
-  }
-
-  if (typeof itemComment !== "string" || itemComment.length === 0) {
-    return json(
-      {
-        errors: {
-          itemName: null,
-          itemComment: "Item comment is required",
-          itemPrice: null,
-          itemQuantity: null,
-        },
-      },
-      { status: 400 }
-    );
-  }
-
-  if (typeof itemQuantity !== "string" || !containsOnlyNumbers(itemQuantity)) {
-    return json(
-      {
-        errors: {
-          itemName: null,
-          itemComment: null,
-          itemPrice: null,
-          itemQuantity: "Item quantity is required",
-        },
-      },
-      { status: 400 }
-    );
-  }
-
-  if (typeof itemPrice !== "string" || !containsOnlyNumbers(itemPrice)) {
-    return json(
-      {
-        errors: {
-          itemName: null,
-          itemComment: null,
-          itemPrice: "Item price is required",
-          itemQuantity: null,
-        },
-      },
-      { status: 400 }
-    );
-  }
+  const itemDetailsSchema = z.object({
+    itemName: z.coerce.string().trim().min(1, {
+      message: "Name is required!",
+    }),
+    itemPrice: z.coerce.number().min(1, {
+      message: "Price is required!",
+    }),
+    itemQuantity: z.coerce.number().min(1, {
+      message: "Quantity is required!",
+    }),
+    itemComment: z.string().optional(),
+  });
 
   invariant(storeId, "store id is missing");
 
-  // create store
-  const item = await createItem({
-    name: itemName,
-    comment: itemComment,
-    price: Number(itemPrice),
-    quantity: Number(itemQuantity),
-    storeId,
-    userId: user.id,
+  const validData = itemDetailsSchema.safeParse(itemFormData);
+
+  if (!validData.success) {
+    return json(validData.error.format());
+  }
+
+  const itemExists = await prisma.item.findFirst({
+    where: {
+      name: validData.data.itemName,
+      storeId,
+    },
   });
 
-  return redirect(`/stores/${storeId}`);
-}
+  if (!itemExists) {
+    const item = await createItem({
+      name: validData.data.itemName,
+      comment: validData.data.itemComment ?? "",
+      price: validData.data.itemPrice,
+      quantity: validData.data.itemQuantity,
+      storeId,
+      userId: user.id,
+    });
 
-export default function NewStoreRoute() {
-  const actionData = useActionData<typeof action>();
-  const transition = useTransition();
+    return json({
+      item,
+    });
+  }
 
-  const { t } = useTranslation();
-
-  return (
-    <StyledCreateStore>
-      <StyledForm method="post">
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("name")}:`}
-              htmlFor="itemName"
-              name="itemName"
-              error={actionData?.errors?.itemName || ""}
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("price")}:`}
-              htmlFor="itemPrice"
-              name="itemPrice"
-              type="number"
-              error={actionData?.errors?.itemPrice || ""}
-              min="0"
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextInput
-              labelText={`${t("quantity")}:`}
-              htmlFor="itemQuantity"
-              name="itemQuantity"
-              type="number"
-              error={actionData?.errors?.itemPrice || ""}
-              min="0"
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledInputHolder>
-          <InputContainer>
-            <TextArea
-              labelText={`${t("comment")}:`}
-              htmlFor="itemComment"
-              name="itemComment"
-              id="itemComment"
-              rows={5}
-              cols={50}
-              error={actionData?.errors?.itemComment}
-              required
-            />
-          </InputContainer>
-        </StyledInputHolder>
-        <StyledBtnContainer>
-          <Button
-            type="submit"
-            loading={transition.state}
-            sx={{ width: "20vw" }}
-          >
-            {t("createItem")}
-          </Button>
-        </StyledBtnContainer>
-      </StyledForm>
-    </StyledCreateStore>
+  return json(
+    {
+      itemName: {
+        _errors: [`item ${validData.data.itemName} already exist`],
+      },
+    },
+    { status: 400 }
   );
 }

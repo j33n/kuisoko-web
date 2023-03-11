@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import * as Tabs from "@radix-ui/react-tabs";
-
 import { Text } from "theme-ui";
+
 import { StyledFocus } from "../Button/Button.styled";
 
 export const StyledDropDown = styled.div`
@@ -10,11 +10,18 @@ export const StyledDropDown = styled.div`
   right: 4rem;
 `;
 
-export const StyledFieldType = styled.div`
+export const StyledFieldType = styled.button`
+  all: unset;
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
   padding: 0.3rem;
   cursor: pointer;
   border-radius: 0.3rem;
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
+
+  ${StyledFocus};
 
   &:hover {
     background: ${({ theme: { colors } }) => colors.blue7};
@@ -35,16 +42,11 @@ export const StyledBtnContainer = styled.div`
   button {
     border: none;
     background: ${({ theme: { colors } }) => colors.blue4};
-    width: 10vw;
-
-    @media only screen and (max-width: 320px) {
-      width: 30vw;
-    }
-
-    @media only screen and (min-width: 321px) and (max-width: 768px) {
-      width: 25vw;
-    }
-
+    width: auto;
+    min-height: 2rem;
+    padding: 0 1rem;
+    font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+    
     &:hover {
       border: none;
       background: ${({ theme: { colors } }) => colors.blue7};

@@ -1,6 +1,5 @@
 import { useActionData, useTransition } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
-import styled from "@emotion/styled";
 
 import type { ActionArgs } from "@remix-run/node";
 

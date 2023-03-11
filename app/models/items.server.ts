@@ -21,7 +21,7 @@ export function getAllItems(userId: User["id"]) {
       unit: true,
       quantity: true,
       createdAt: true,
-    },
+  },
     orderBy: { createdAt: "desc" },
   });
 }
@@ -112,6 +112,16 @@ export async function createItem({
   });
 }
 
+export function updateItemImages({
+  id,
+  images,
+}: Pick<Item, "id" | "images"> & { userId: User["id"] }) {
+  return prisma.item.update({
+    where: { id },
+    data: { images },
+  });
+}
+
 export async function deleteItem({
   id,
   userId,
@@ -123,12 +133,12 @@ export async function deleteItem({
       type: "info",
       event: "delete item",
       description: `User ${user.name || user.email} deleted item with id ${id}`,
-      icon: "🛒",
+      icon: "🗑",
       notify: false,
       userId,
     });
   }
-  return prisma.item.deleteMany({
-    where: { id, userId },
+  return prisma.item.delete({
+    where: { id },
   });
 }

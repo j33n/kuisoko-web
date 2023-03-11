@@ -78,7 +78,11 @@ const TextInput = ({
         id={id || name}
         {...restProps}
       />
-      {!!errorText && <StyledError id="body-error">{errorText}</StyledError>}
+      {!!errorText && (
+        <StyledError id="body-error" horizontal={horizontal}>
+          {errorText}
+        </StyledError>
+      )}
     </StyledInputContainer>
   );
 };

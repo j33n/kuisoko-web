@@ -5,10 +5,11 @@ export const StyledItemBox = styled.div`
   flex-direction: column;
   flex: 25%;
   max-width: 25%;
-  padding-left: 0.5rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
   background: ${({ theme: { colors } }) => colors.whiteA5};
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
+  position: relative;
 
   @media only screen and (max-width: 426px) {
     flex: 90%;
@@ -21,17 +22,19 @@ export const StyledItemBox = styled.div`
   }
 `;
 
-export const EditableP = styled.p`
+export const StyledParagraph = styled.p`
   padding: 0.2rem 0;
-  
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px ${({ theme: { colors } }) => colors.blue4};
-  }
+  font-size: ${({ theme: { fontSizes } }) => fontSizes.xls};
 `;
 
 export const StyledPLabel = styled.label`
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xxxs};
   font-weight: ${({ theme: { fontWeights } }) => fontWeights.bold};
   color: ${({ theme: { colors } }) => colors.textDisabled};
+`;
+
+export const StyledDDContainer = styled.div`
+  position: absolute;
+  right: 0.2rem;
+  top: 0.2rem;
 `;
