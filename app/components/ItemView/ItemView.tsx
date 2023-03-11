@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -9,13 +10,13 @@ import {
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
 import { StyledFieldType } from "../NewItem/NewItem.styled";
 import { AlertDialog } from "~/components";
-import { useRef, useState } from "react";
+
 import type { Item } from "@prisma/client";
+import { useFetcher, useParams } from "@remix-run/react";
 
 export type ItemViewProps = {
   item: any;
   key?: string;
-  handleDelete: (itemId: string) => void;
   handleUpdate: (itemId: string) => void;
 };
 
@@ -31,24 +32,29 @@ const initialDialogState = {
   description: "Delete Item Description",
 };
 
-export const ItemView = ({
-  item,
-  key,
-  handleUpdate,
-  handleDelete,
-}: ItemViewProps) => {
+export const ItemView = ({ item, key, handleUpdate }: ItemViewProps) => {
   const { t } = useTranslation();
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [showAlertDialog, setShowAlertDialog] =
     useState<DialogStateProps>(initialDialogState);
   const dialogTriggerRef = useRef<HTMLButtonElement>(null);
+  const fetcher = useFetcher();
+  let params = useParams();
 
   const handleShowDialog = (item: Item) => {
     dialogTriggerRef.current?.click();
     setShowDropDown(false);
   };
 
-  const dialogTitle = (name: string) => `are you sure you want to delete ${name}`
+  const handleDeleteItem = (itemId: string) => {
+    fetcher.submit(
+      { itemId },
+      {
+        method: "post",
+        action: `/stores/${params.storeId}/items`,
+      }
+    );
+  };
 
   return (
     <StyledItemBox key={key}>
@@ -72,14 +78,14 @@ export const ItemView = ({
           if (state) {
             setShowAlertDialog({
               state: true,
-              title: dialogTitle(item.name),
+              title: `Are you sure you want to delete ${item.name}?`,
               description: `Item ${item.name} will be deleted and all details`,
             });
           } else {
             setShowAlertDialog({ ...showAlertDialog, state: state });
           }
         }}
-        onConfirm={() => handleDelete(item.id)}
+        onConfirm={() => handleDeleteItem(item.id)}
         open={showAlertDialog.state}
         title={showAlertDialog.title}
         description={showAlertDialog.description}
@@ -98,6 +104,7 @@ export const ItemView = ({
           />
         }
       />
+      <fetcher.Form></fetcher.Form>
       <StyledPLabel>{t("name")}</StyledPLabel>
       <StyledParagraph>{item.name}</StyledParagraph>
       <StyledPLabel>{t("price")}</StyledPLabel>

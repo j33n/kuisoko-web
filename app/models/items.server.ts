@@ -133,7 +133,7 @@ export async function deleteItem({
       type: "info",
       event: "delete item",
       description: `User ${user.name || user.email} deleted item with id ${id}`,
-      icon: "🛒",
+      icon: "🗑",
       notify: false,
       userId,
     });

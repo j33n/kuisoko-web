@@ -45,11 +45,6 @@ export type FavoriteFormProps = {
 export default function StoreDetailsRoute() {
   const { items, store } = useLoaderData<typeof loader>();
 
-  const handleDeleteItem = () =>{
-    console.log("deleting ...");
-    
-  }
-
   return (
     <StyledContentWrapper style={{ borderRadius: "0 0 0.5rem 0.5rem" }}>
       <StyledItemListHeader>
@@ -65,7 +60,7 @@ export default function StoreDetailsRoute() {
       {items && items.length > 0 && (
         <StyledItemLister>
           {items.map((item) => {
-            return <ItemView key={item.id} item={item} handleDelete={handleDeleteItem} />;
+            return <ItemView key={item.id} item={item} handleUpdate={() => {}} />;
           })}
         </StyledItemLister>
       )}

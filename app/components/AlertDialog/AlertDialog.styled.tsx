@@ -38,11 +38,10 @@ export const StyledAlertDialogTitle = styled(AlertDialog.Title)`
   margin: 0;
   color: ${({ theme: { colors } }) => colors.text};
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xls};
-  text-transform: capitalize;
 `;
 
 export const StyledAlertDialogDescription = styled(AlertDialog.Description)`
-  margin: 1rem 0;
+  margin: 1rem 0 1.5rem 0;
   color: ${({ theme: { colors } }) => colors.textDisabled};
   font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
   line-height: 1.5;
