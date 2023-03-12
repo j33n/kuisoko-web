@@ -21,7 +21,8 @@ export function getAllItems(userId: User["id"]) {
       unit: true,
       quantity: true,
       createdAt: true,
-  },
+      storeId: true,
+    },
     orderBy: { createdAt: "desc" },
   });
 }
@@ -47,8 +48,9 @@ export function getStoreItems(storeId: Store["id"], userId: User["id"]) {
 
 export function getItem({
   id,
+  storeId,
   userId,
-}: Pick<Item, "id"> & {
+}: Pick<Item, "id" | "storeId"> & {
   userId: User["id"];
 }) {
   return prisma.item.findFirst({
@@ -64,7 +66,7 @@ export function getItem({
       unit: true,
       updatedAt: true,
     },
-    where: { id, userId },
+    where: { id, userId, storeId },
   });
 }
 

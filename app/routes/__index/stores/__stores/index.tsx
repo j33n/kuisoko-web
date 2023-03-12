@@ -5,15 +5,13 @@ import { json } from "@remix-run/node";
 import { requireUser } from "~/services/session.server";
 import { getStores } from "~/models/store.server";
 
-import {
-  StyledImageWrapper,
-  StyledImgNew,
-} from "~/styles/stores/new.styled";
+import { StyledImageWrapper, StyledImgNew } from "~/styles/stores/new.styled";
 import { getAllItems } from "~/models/items.server";
 import { ItemView, NewItem } from "~/components";
 import newStore from "~/assets/images/newStore.svg";
 
 import { StyledItemLister } from "~/styles/stores/singleStore.styled";
+import { StyledItemLink } from "~/styles/page.styled";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -43,7 +41,14 @@ export default function Stores() {
         <StyledItemLister>
           {items && items.length > 0 ? (
             items.map((item) => {
-              return <ItemView key={item.id} item={item} />;
+              return (
+                <StyledItemLink
+                  to={`/stores/${item.storeId}/items/${item.id}`}
+                  key={item.id}
+                >
+                  <ItemView key={item.id} item={item} />
+                </StyledItemLink>
+              );
             })
           ) : (
             <NewItem />

@@ -7,6 +7,7 @@ import { deleteItem, getAllItems } from "~/models/items.server";
 import { requireUser } from "~/services/session.server";
 
 import { ItemView } from "~/components";
+import { StyledItemLink } from "~/styles/page.styled";
 
 export const StyledItemsContainer = styled.div`
   display: flex;
@@ -33,25 +34,29 @@ export async function action({ params, request }: ActionArgs) {
   });
 
   return json({
-    res
+    res,
   });
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
   const user = await requireUser(request);
+
+  const {storeId} = params;
 
   const items = await getAllItems(user.id);
 
-  return json({ user, items });
+  return json({ user, items, storeId });
 };
 
 export default function ItemsRoute() {
-  const { items } = useLoaderData<typeof loader>();
+  const { items, storeId } = useLoaderData<typeof loader>();
 
   return (
     <StyledItemsContainer>
       {items.map((item: any) => (
-        <ItemView key={item.id} item={item} />
+        <StyledItemLink to={`/stores/${storeId}/items/${item.id}`} key={item.id}>
+          <ItemView item={item} />
+        </StyledItemLink>
       ))}
     </StyledItemsContainer>
   );

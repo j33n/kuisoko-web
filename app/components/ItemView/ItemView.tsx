@@ -55,6 +55,8 @@ export const ItemView = ({ item, key }: ItemViewProps) => {
     );
   };
 
+  // TODO: make hoverable
+
   return (
     <StyledItemBox key={key}>
       <StyledDDContainer>
@@ -103,7 +105,6 @@ export const ItemView = ({ item, key }: ItemViewProps) => {
           />
         }
       />
-      <fetcher.Form></fetcher.Form>
       <StyledPLabel>{t("name")}</StyledPLabel>
       <StyledParagraph>{item.name}</StyledParagraph>
       <StyledPLabel>{t("price")}</StyledPLabel>

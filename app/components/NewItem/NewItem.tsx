@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useParams } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import { Button } from "theme-ui";
 import * as Tabs from "@radix-ui/react-tabs";
 import { HiOutlineSelector } from "react-icons/hi";
@@ -38,7 +39,7 @@ import type { Field } from "~/data/fieldTypes";
 
 export interface NewItemProps {
   children?: ReactNode;
-  store?: any;
+  item?: any;
 }
 
 export type NewItemTriggerProps = {
@@ -71,12 +72,15 @@ const initialItemData: ItemData = {
   itemComment: "",
 };
 
-const NewItem = ({ store }: NewItemProps) => {
+const NewItem = ({ item }: NewItemProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const fetcher = useFetcher();
   const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
   const [dropDownState, setDropDownState] = useState(false);
+  const { storeId } = useParams();
+
+  invariant(storeId, "missing store id");
 
   const [itemFormData, setItemFormData] = useState<ItemData>(initialItemData);
 
@@ -127,7 +131,7 @@ const NewItem = ({ store }: NewItemProps) => {
 
     fetcher.submit(itemFormData, {
       method: "post",
-      action: `/stores/${store.id}/items/new`,
+      action: `/stores/${storeId}/items/new`,
     });
   };
 
@@ -227,7 +231,7 @@ const NewItem = ({ store }: NewItemProps) => {
         <StyledTabsContent value="uploads">
           <form
             method="post"
-            action={`/stores/${store.id}/items/uploads`}
+            action={`/stores/${storeId}/items/uploads`}
             encType="multipart/form-data"
           >
             <MultiImageUploader labelText={`${t("uploadImages")}:`} />

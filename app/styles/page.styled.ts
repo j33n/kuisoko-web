@@ -62,6 +62,11 @@ export const StyledForm = styled(Form)`
   width: 100%;
 `;
 
+export const StyledItemLink = styled(Link)`
+  all: unset;
+  display: contents;
+`;
+
 export const StyledInputContainer = styled(Box)`
   display: flex;
   flex-direction: column;
