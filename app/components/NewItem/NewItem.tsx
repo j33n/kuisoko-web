@@ -8,6 +8,7 @@ import { HiOutlineSelector } from "react-icons/hi";
 
 import { StyledInputHolder } from "~/styles/stores/new.styled";
 import { IoAddOutline } from "react-icons/io5";
+import { RxDoubleArrowRight } from "react-icons/rx";
 import TextArea from "../Inputs/TextArea/TextArea";
 import Text from "../Inputs/Text/Text";
 import { CustomFields, MultiImageUploader } from "~/components";
@@ -26,6 +27,7 @@ import {
   StyledTabHeader,
   InactiveText,
   StyledTabsContent,
+  StyledButtonContent,
 } from "./NewItem.styled";
 import Dialog from "../Dialog/Dialog";
 
@@ -34,13 +36,7 @@ import {
   StyledTabsTrigger,
 } from "../ImageUploader/ImageDialog.styled";
 
-import type { ReactNode } from "react";
 import type { Field } from "~/data/fieldTypes";
-
-export interface NewItemProps {
-  children?: ReactNode;
-  item?: any;
-}
 
 export type NewItemTriggerProps = {
   onClick: () => void;
@@ -72,7 +68,7 @@ const initialItemData: ItemData = {
   itemComment: "",
 };
 
-const NewItem = ({ item }: NewItemProps) => {
+const NewItem = () => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const fetcher = useFetcher();
@@ -147,10 +143,10 @@ const NewItem = ({ item }: NewItemProps) => {
           <StyledTabsTrigger value="defaults">
             {t("defaultFields")}
           </StyledTabsTrigger>
-          <StyledTabsTrigger value="uploads">
+          <StyledTabsTrigger value="uploads" disabled>
             {t("uploadImages")}
           </StyledTabsTrigger>
-          <StyledTabsTrigger value="customs">
+          <StyledTabsTrigger value="customs" disabled>
             {t("customFields")}
           </StyledTabsTrigger>
         </StyledTabsList>
@@ -223,11 +219,15 @@ const NewItem = ({ item }: NewItemProps) => {
                 name="_action"
                 value="saveItemDetails"
               >
-                {t("saveItemDetails")}
+                <StyledButtonContent>
+                  {t("saveItemDetails")}
+                  <RxDoubleArrowRight size={20} />
+                </StyledButtonContent>
               </Button>
             </StyledBtnContainer>
           </fetcher.Form>
         </StyledTabsContent>
+        {/* TODO: since disabled move to update view */}
         <StyledTabsContent value="uploads">
           <form
             method="post"

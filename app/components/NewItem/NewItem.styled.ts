@@ -46,7 +46,7 @@ export const StyledBtnContainer = styled.div`
     min-height: 2rem;
     padding: 0 1rem;
     font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
-    
+
     &:hover {
       border: none;
       background: ${({ theme: { colors } }) => colors.blue7};
@@ -111,6 +111,12 @@ export const InactiveText = styled(Text)`
   width: 100%;
   align-items: center;
   justify-content: flex-start;
+`;
+
+export const StyledButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 export const StyledTabHeader = styled.div`

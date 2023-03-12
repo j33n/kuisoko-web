@@ -1,12 +1,13 @@
 import { useCatch, useLoaderData, useParams } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/node";
+import invariant from "tiny-invariant";
 import { json } from "@remix-run/node";
 
 import { requireUser } from "~/services/session.server";
-
 import { getItem } from "~/models/items.server";
+
 import { NewItem } from "~/components";
-import invariant from "tiny-invariant";
+
+import type { LoaderArgs } from "@remix-run/node";
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -28,7 +29,7 @@ export default function ItemRoute() {
 
   return (
     <>
-      <NewItem item={item} />
+      <NewItem item={item} autoOpen />
     </>
   );
 }

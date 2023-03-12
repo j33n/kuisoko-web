@@ -38,6 +38,11 @@ export const StyledTabsTrigger = styled(Tabs.Trigger)`
     border-bottom: 2px solid ${({ theme: { colors } }) => colors.blue7};
   }
 
+  &[data-disabled] {
+    color: ${({ theme: { colors } }) => colors.textDisabled};
+    border-bottom: 2px solid transparent;
+  }
+
   &:focus {
     outline: none;
     border-bottom: 2px solid ${({ theme: { colors } }) => colors.blue7};
