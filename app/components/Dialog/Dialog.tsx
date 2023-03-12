@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { Box } from "theme-ui";
 import * as rDialog from "@radix-ui/react-dialog";
@@ -37,7 +37,7 @@ export const Dialog = ({
   onClose,
   open,
 }: IDialog) => {
-  const [isOpen, setIsOpen] = React.useState(open);
+  const [isOpen, setIsOpen] = useState(open);
 
   useEffect(() => {
     setIsOpen(open);

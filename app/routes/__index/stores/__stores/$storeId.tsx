@@ -74,7 +74,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   let items;
 
   if (store) {
-    items = await getStoreItems(store.id, user.id);
+    items = await getStoreItems(storeId, user.id);
   }
 
   if (!store) {
@@ -283,7 +283,8 @@ export default function StoreDetailsRoute() {
             ) : (
               "No items in store"
             )}
-            <NewItem />
+            {/* TODO: issue is here */}
+            {/* <NewItem /> */}
           </StyledItemListHeader>
           {items && items.length > 0 && (
             <StyledItemLister>
@@ -319,6 +320,8 @@ export function ErrorBoundary(error: Error) {
   if (caught && caught.status) {
     throw new Error(`Unexpected caught response with status: ${caught.status}`);
   }
+
+  console.log(error, caught, "🧪 <<<<============>>>>")
 
   if (error) {
     console.error("😱 Oppsie", error);

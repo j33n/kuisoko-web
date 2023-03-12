@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetcher, useParams } from "@remix-run/react";
+import { useFetcher, useMatches, useParams } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { Button } from "theme-ui";
 import * as Tabs from "@radix-ui/react-tabs";
@@ -9,6 +9,7 @@ import { HiOutlineSelector } from "react-icons/hi";
 import { StyledInputHolder } from "~/styles/stores/new.styled";
 import { IoAddOutline } from "react-icons/io5";
 import { RxDoubleArrowRight } from "react-icons/rx";
+
 import TextArea from "../Inputs/TextArea/TextArea";
 import Text from "../Inputs/Text/Text";
 import { CustomFields, MultiImageUploader } from "~/components";
@@ -69,16 +70,41 @@ const initialItemData: ItemData = {
 };
 
 const NewItem = () => {
-  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const fetcher = useFetcher();
+  const matches = useMatches();
+  const { storeId, itemId } = useParams();
+
+  const [open, setOpen] = useState<boolean>(false);
   const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
-  const [dropDownState, setDropDownState] = useState(false);
-  const { storeId } = useParams();
+  const [dropDownState, setDropDownState] = useState<boolean>(false);
+  const [itemFormData, setItemFormData] = useState<ItemData>(initialItemData);
 
   invariant(storeId, "missing store id");
 
-  const [itemFormData, setItemFormData] = useState<ItemData>(initialItemData);
+  const matchItem = !!storeId && !!itemId ? matches.find((match) => match.pathname === `/stores/${storeId}/items/${itemId}`) : undefined;
+
+  const item = matchItem?.data.item;
+  
+
+  useEffect(() => {
+    console.log("===========>>>>>>>>>>>", item);
+    
+    if (item && item.id) {
+      setItemFormData({
+        itemName: item.name,
+        itemPrice: item.price,
+        itemComment: item.comment,
+        itemQuantity: item.quantity,
+      });
+      setOpen(true);
+    }
+
+    // else {
+    //   setItemFormData(initialItemData);
+    //   // setOpen(false);
+    // }
+  }, [storeId, itemId, item]);
 
   const customLabel = (type: string) => {
     const similarInputs = customFields.filter((field) => field.type === type);
@@ -160,6 +186,7 @@ const NewItem = () => {
                   labelText={`${t("name")}:`}
                   htmlFor="itemName"
                   name="itemName"
+                  value={itemFormData.itemName}
                   horizontal
                   error={fetcher.data?.itemName?._errors[0] || ""}
                   required
@@ -174,6 +201,7 @@ const NewItem = () => {
                   labelText={`${t("price")}:`}
                   htmlFor="itemPrice"
                   name="itemPrice"
+                  value={itemFormData.itemPrice}
                   type="number"
                   horizontal
                   error={fetcher.data?.itemPrice?._errors[0] || ""}
@@ -190,6 +218,7 @@ const NewItem = () => {
                   labelText={`${t("quantity")}:`}
                   htmlFor="itemQuantity"
                   name="itemQuantity"
+                  value={itemFormData.itemQuantity}
                   type="number"
                   horizontal
                   error={fetcher.data?.itemQuantity?._errors[0] || ""}
@@ -204,6 +233,7 @@ const NewItem = () => {
                   labelText={`${t("comment")}:`}
                   htmlFor="itemComment"
                   name="itemComment"
+                  value={itemFormData.itemComment}
                   id="itemComment"
                   rows={5}
                   cols={50}

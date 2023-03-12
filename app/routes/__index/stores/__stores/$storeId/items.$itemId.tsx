@@ -1,4 +1,4 @@
-import { useCatch, useLoaderData, useParams } from "@remix-run/react";
+import { useCatch, useParams } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { json } from "@remix-run/node";
 
@@ -22,16 +22,8 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   return json({ item });
 };
 
-export default function ItemRoute() {
-  const { item } = useLoaderData<typeof loader>();
-
-  console.log("🎉", item);
-
-  return (
-    <>
-      <NewItem item={item} autoOpen />
-    </>
-  );
+export default function ItemDetailsRoute() {
+  return <NewItem />;
 }
 
 export function ErrorBoundary(error: Error) {
