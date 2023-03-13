@@ -4,6 +4,10 @@ import { Text } from "theme-ui";
 
 import { StyledFocus } from "../Button/Button.styled";
 
+export type StyledBtnContainerProps = {
+  disabled: boolean;
+};
+
 export const StyledDropDown = styled.div`
   display: flex;
   top: 0.5rem;
@@ -34,22 +38,25 @@ export const StyledDropDownHeader = styled.div`
   color: ${({ theme: { colors } }) => colors.textDisabled};
 `;
 
-export const StyledBtnContainer = styled.div`
+export const StyledBtnContainer = styled.div<StyledBtnContainerProps>`
   display: flex;
   width: 100%;
   justify-content: flex-end;
 
   button {
     border: none;
-    background: ${({ theme: { colors } }) => colors.blue4};
+    background: ${({ theme: { colors }, disabled }) =>
+      disabled ? colors.gray4 : colors.blue4};
     width: auto;
     min-height: 2rem;
     padding: 0 1rem;
     font-size: ${({ theme: { fontSizes } }) => fontSizes.xxs};
+    cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
 
     &:hover {
       border: none;
-      background: ${({ theme: { colors } }) => colors.blue7};
+      background: ${({ theme: { colors }, disabled }) =>
+        disabled ? colors.gray4 : colors.blue7};
     }
   }
 `;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetcher, useMatches, useParams } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import isEqual from "lodash/isEqual";
 import { Button } from "theme-ui";
 import * as Tabs from "@radix-ui/react-tabs";
 import { HiOutlineSelector } from "react-icons/hi";
@@ -43,6 +44,10 @@ export type NewItemTriggerProps = {
   onClick: () => void;
 };
 
+export type NewItemProps = {
+  isNewItem?: boolean | undefined;
+};
+
 export interface CustomFieldProps extends Field {
   inputName: string;
 }
@@ -69,7 +74,7 @@ const initialItemData: ItemData = {
   itemComment: "",
 };
 
-const NewItem = () => {
+const NewItem = ({ isNewItem }: NewItemProps) => {
   const { t } = useTranslation();
   const fetcher = useFetcher();
   const matches = useMatches();
@@ -82,15 +87,24 @@ const NewItem = () => {
 
   invariant(storeId, "missing store id");
 
-  const matchItem = !!storeId && !!itemId ? matches.find((match) => match.pathname === `/stores/${storeId}/items/${itemId}`) : undefined;
+  const matchItem =
+    !!storeId && !!itemId
+      ? matches.find(
+          (match) => match.pathname === `/stores/${storeId}/items/${itemId}`
+        )
+      : undefined;
 
   const item = matchItem?.data.item;
-  
+
+  const formattedItem = {
+    itemName: item.name,
+    itemPrice: item.price,
+    itemComment: item.comment,
+    itemQuantity: item.quantity,
+  };
 
   useEffect(() => {
-    console.log("===========>>>>>>>>>>>", item);
-    
-    if (item && item.id) {
+    if (item && item.id && !isNewItem) {
       setItemFormData({
         itemName: item.name,
         itemPrice: item.price,
@@ -99,12 +113,7 @@ const NewItem = () => {
       });
       setOpen(true);
     }
-
-    // else {
-    //   setItemFormData(initialItemData);
-    //   // setOpen(false);
-    // }
-  }, [storeId, itemId, item]);
+  }, [storeId, itemId, item, isNewItem]);
 
   const customLabel = (type: string) => {
     const similarInputs = customFields.filter((field) => field.type === type);
@@ -157,6 +166,17 @@ const NewItem = () => {
     });
   };
 
+  const handleUpdateItemField = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    fetcher.submit(itemFormData, {
+      method: "put",
+      action: `/stores/${storeId}/items/${itemId}/update`,
+    });
+  };
+
+  const disabledSubmitButton = !isNewItem && isEqual(formattedItem, itemFormData);
+
   return (
     <Dialog
       closeable
@@ -169,10 +189,10 @@ const NewItem = () => {
           <StyledTabsTrigger value="defaults">
             {t("defaultFields")}
           </StyledTabsTrigger>
-          <StyledTabsTrigger value="uploads" disabled>
+          <StyledTabsTrigger value="uploads" disabled={isNewItem}>
             {t("uploadImages")}
           </StyledTabsTrigger>
-          <StyledTabsTrigger value="customs" disabled>
+          <StyledTabsTrigger value="customs" disabled={isNewItem}>
             {t("customFields")}
           </StyledTabsTrigger>
         </StyledTabsList>
@@ -241,17 +261,22 @@ const NewItem = () => {
                 />
               </InputContainer>
             </StyledInputHolder>
-            <StyledBtnContainer>
+            <StyledBtnContainer disabled={disabledSubmitButton}>
+              {/* TODO: Mark as inactive until changes have been made to the form */}
               <Button
                 type="submit"
-                disabled={fetcher.state === "submitting"}
-                onClick={handleSaveItemField}
+                disabled={
+                  fetcher.state === "submitting" || disabledSubmitButton
+                }
+                onClick={
+                  isNewItem ? handleSaveItemField : handleUpdateItemField
+                }
                 name="_action"
-                value="saveItemDetails"
+                value={isNewItem ? "saveItemDetails" : "updateItemDetails"}
               >
                 <StyledButtonContent>
-                  {t("saveItemDetails")}
-                  <RxDoubleArrowRight size={20} />
+                  {isNewItem ? t("saveItemDetails") : t("updateItemDetails")}
+                  <RxDoubleArrowRight />
                 </StyledButtonContent>
               </Button>
             </StyledBtnContainer>

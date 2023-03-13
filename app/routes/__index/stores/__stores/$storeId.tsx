@@ -284,7 +284,7 @@ export default function StoreDetailsRoute() {
               "No items in store"
             )}
             {/* TODO: issue is here */}
-            {/* <NewItem /> */}
+            <NewItem isNewItem />
           </StyledItemListHeader>
           {items && items.length > 0 && (
             <StyledItemLister>
@@ -320,8 +320,6 @@ export function ErrorBoundary(error: Error) {
   if (caught && caught.status) {
     throw new Error(`Unexpected caught response with status: ${caught.status}`);
   }
-
-  console.log(error, caught, "🧪 <<<<============>>>>")
 
   if (error) {
     console.error("😱 Oppsie", error);

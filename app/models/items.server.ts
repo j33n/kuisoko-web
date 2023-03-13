@@ -114,6 +114,30 @@ export async function createItem({
   });
 }
 
+export async function updateItemDetails({
+  id,
+  name,
+  comment,
+  price,
+  quantity,
+  userId,
+}: Pick<Item, "id" | "name" | "comment" | "price" | "quantity"> & {
+  userId: User["id"];
+  storeId: Item["storeId"];
+}) {
+  return prisma.item.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      comment,
+      price,
+      quantity,
+    },
+  });
+}
+
 export function updateItemImages({
   id,
   images,
