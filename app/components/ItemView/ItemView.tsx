@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useFetcher, useNavigate, useParams } from "@remix-run/react";
 
 import {
   StyledParagraph,
@@ -12,11 +13,9 @@ import { StyledFieldType } from "../NewItem/NewItem.styled";
 import { AlertDialog } from "~/components";
 
 import type { Item } from "@prisma/client";
-import { useFetcher, useParams } from "@remix-run/react";
 
 export type ItemViewProps = {
   item: any;
-  key?: string;
 };
 
 export type DialogStateProps = {
@@ -31,13 +30,14 @@ const initialDialogState = {
   description: "Delete Item Description",
 };
 
-export const ItemView = ({ item, key }: ItemViewProps) => {
+export const ItemView = ({ item }: ItemViewProps) => {
   const { t } = useTranslation();
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [showAlertDialog, setShowAlertDialog] =
     useState<DialogStateProps>(initialDialogState);
   const dialogTriggerRef = useRef<HTMLButtonElement>(null);
   const fetcher = useFetcher();
+  const navigate = useNavigate();
   let params = useParams();
 
   const handleShowDialog = (item: Item) => {
@@ -55,10 +55,8 @@ export const ItemView = ({ item, key }: ItemViewProps) => {
     );
   };
 
-  // TODO: make hoverable
-
   return (
-    <StyledItemBox key={key}>
+    <StyledItemBox>
       <StyledDDContainer>
         <DropDownMenu
           width="100px"
@@ -66,10 +64,23 @@ export const ItemView = ({ item, key }: ItemViewProps) => {
           onOpenChange={setShowDropDown}
           mini
         >
-          <StyledFieldType onClick={() => navigate(item.id)}>
+          <StyledFieldType
+            onClick={() => {
+              setShowDropDown(false);
+              navigate(
+                `/stores/${params.storeId}/items/${item.id}?currentTab=defaults`
+              );
+            }
+            }
+          >
             Update Item
           </StyledFieldType>
-          <StyledFieldType onClick={() => handleShowDialog(item)}>
+          <StyledFieldType
+            onClick={(e: any) => {
+              e.preventDefault();
+              handleShowDialog(item);
+            }}
+          >
             Delete Item
           </StyledFieldType>
         </DropDownMenu>

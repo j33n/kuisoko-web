@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetcher, useMatches, useParams } from "@remix-run/react";
+import {
+  useFetcher,
+  useMatches,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "@remix-run/react";
 import invariant from "tiny-invariant";
 import isEqual from "lodash/isEqual";
 import { Button } from "theme-ui";
@@ -78,12 +84,17 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
   const { t } = useTranslation();
   const fetcher = useFetcher();
   const matches = useMatches();
+  const [queryParams] = useSearchParams();
   const { storeId, itemId } = useParams();
+  const [currentTab, setCurrentTab] = useState<string | null>("defaults");
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState<boolean>(false);
   const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
   const [dropDownState, setDropDownState] = useState<boolean>(false);
   const [itemFormData, setItemFormData] = useState<ItemData>(initialItemData);
+
+  const currentUrlTab = queryParams.get("currentTab");
 
   invariant(storeId, "missing store id");
 
@@ -96,15 +107,15 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
 
   const item = matchItem?.data.item;
 
-  const formattedItem = {
+  const formattedItem = item ? {
     itemName: item.name,
     itemPrice: item.price,
     itemComment: item.comment,
     itemQuantity: item.quantity,
-  };
+  } : undefined;
 
   useEffect(() => {
-    if (item && item.id && !isNewItem) {
+    if (!isNewItem && item && item.id) {
       setItemFormData({
         itemName: item.name,
         itemPrice: item.price,
@@ -148,6 +159,15 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
     setCustomFields(toDel);
   };
 
+  console.log("<<<<<<<==============>>>>>>", isNewItem)
+
+  const handleTabValueChange = (value: string) => {
+    setCurrentTab(value);
+    if (!isNewItem) {
+      navigate(`/stores/${storeId}/items/${itemId}?currentTab=${value}`);
+    }
+  };
+
   const handleItemDeetsFormChange = (
     event: React.ChangeEvent<HTMLFormElement>
   ) => {
@@ -175,7 +195,8 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
     });
   };
 
-  const disabledSubmitButton = !isNewItem && isEqual(formattedItem, itemFormData);
+  const disabledSubmitButton =
+    !isNewItem && formattedItem && isEqual(formattedItem, itemFormData);
 
   return (
     <Dialog
@@ -184,7 +205,11 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
       onClose={() => setOpen(false)}
       trigger={<NewItemTrigger onClick={() => setOpen(true)} />}
     >
-      <Tabs.Root defaultValue="defaults">
+      <Tabs.Root
+        value={currentUrlTab || currentTab || "defaults"}
+        onValueChange={handleTabValueChange}
+        defaultValue="defaults"
+      >
         <StyledTabsList aria-label="Manage your account">
           <StyledTabsTrigger value="defaults">
             {t("defaultFields")}

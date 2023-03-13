@@ -63,7 +63,7 @@ export async function verifyLogin(
 
 export const updateUser = async (
   id: string,
-  data: Partial<Pick<User, "name" | "phone" | "email">>
+  data: Partial<Pick<User, "names" | "phone" | "email">>
 ) =>
   await prisma.user.update({
     where: {

@@ -37,4 +37,5 @@ export const StyledDDContainer = styled.div`
   position: absolute;
   right: 0.2rem;
   top: 0.2rem;
+  z-index: 999999;
 `;

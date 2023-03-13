@@ -5,7 +5,7 @@ import { Text } from "theme-ui";
 import { StyledFocus } from "../Button/Button.styled";
 
 export type StyledBtnContainerProps = {
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 export const StyledDropDown = styled.div`

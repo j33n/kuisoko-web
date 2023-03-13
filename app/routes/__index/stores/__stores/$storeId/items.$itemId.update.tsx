@@ -3,7 +3,7 @@ import { z } from "zod";
 import invariant from "tiny-invariant";
 import { prisma } from "~/db.server";
 
-import { createItem, updateItemDetails } from "~/models/items.server";
+import { updateItemDetails } from "~/models/items.server";
 import { requireUser } from "~/services/session.server";
 
 import type { ActionArgs } from "@remix-run/node";
@@ -41,16 +41,14 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   // Check name is not in use
-  const itemExists = await prisma.item.findMany({
+  const itemExists = await prisma.item.findFirst({
     where: {
       name: validData.data.itemName,
       storeId,
     },
   });
 
-  console.log("Item ==========>>>>>>", itemExists);
-
-  if (itemExists && itemExists.length > 1) {
+  if (itemExists && itemExists.id !== itemId) {
     return json(
       {
         itemName: {
@@ -71,7 +69,9 @@ export async function action({ request, params }: ActionArgs) {
     userId: user.id,
   });
 
-  console.log("🔥 ---------------->>>>>>>", updatedItem);
+  if (!updatedItem) {
+    throw new Response("Oopsie, failed to update item", { status: 500 });
+  }
 
-  return redirect(`/stores/${storeId}/items/${itemId}`);
+  return redirect(`/stores/${storeId}/items/${itemId}?currentTab=uploads`);
 }

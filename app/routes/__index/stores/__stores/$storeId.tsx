@@ -16,6 +16,7 @@ import {
 import {
   Builder,
   Editable,
+  ErrorView,
   ImageDialog,
   ItemView,
   Loader,
@@ -50,7 +51,6 @@ import { useTranslation } from "react-i18next";
 import stylesheetQuill from "~/styles/quill.snow.css";
 import emojiPickerStyles from "~/styles/emoji-picker.css";
 import { getStoreItems } from "~/models/items.server";
-import { StyledItemLink } from "~/styles/page.styled";
 
 export const links: any = () => {
   return [
@@ -289,14 +289,7 @@ export default function StoreDetailsRoute() {
           {items && items.length > 0 && (
             <StyledItemLister>
               {items.map((item) => {
-                return (
-                  <StyledItemLink
-                    to={`/stores/${store.id}/items/${item.id}`}
-                    key={item.id}
-                  >
-                    <ItemView key={item.id} item={item} />
-                  </StyledItemLink>
-                );
+                return <ItemView item={item} key={item.id} />;
               })}
             </StyledItemLister>
           )}
@@ -308,20 +301,19 @@ export default function StoreDetailsRoute() {
   );
 }
 
-export function ErrorBoundary(error: Error) {
+export function ErrorBoundary({ error }: any) {
   const caught = useCatch();
   const params = useParams();
 
-  // TODO: use Radix toast component for error boundary
-  if (caught.status === 404) {
+  if (error) {
+    return <ErrorView error={error} />;
+  }
+
+  if (caught && caught.status === 404) {
     return <div>{`Store ${params.storeId}" not found`}</div>;
   }
 
   if (caught && caught.status) {
     throw new Error(`Unexpected caught response with status: ${caught.status}`);
-  }
-
-  if (error) {
-    console.error("😱 Oppsie", error);
   }
 }

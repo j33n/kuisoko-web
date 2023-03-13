@@ -54,7 +54,7 @@ export async function action({ request, params }: ActionArgs) {
       userId: user.id,
     });
 
-    return redirect(`/stores/${storeId}/items/${item.id}`);
+    return redirect(`/stores/${storeId}/items/${item.id}?currentTab=uploads`);
   }
 
   return json(
