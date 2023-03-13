@@ -50,7 +50,7 @@ export const ItemView = ({ item }: ItemViewProps) => {
       { itemId },
       {
         method: "post",
-        action: `/stores/${params.storeId}/items`,
+        action: `/stores/${params.storeId}/items/delete`,
       }
     );
   };

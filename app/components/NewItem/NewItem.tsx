@@ -159,8 +159,6 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
     setCustomFields(toDel);
   };
 
-  console.log("<<<<<<<==============>>>>>>", isNewItem)
-
   const handleTabValueChange = (value: string) => {
     setCurrentTab(value);
     if (!isNewItem) {
@@ -202,7 +200,10 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
     <Dialog
       closeable
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        setOpen(false);
+        navigate("..");
+      }}
       trigger={<NewItemTrigger onClick={() => setOpen(true)} />}
     >
       <Tabs.Root

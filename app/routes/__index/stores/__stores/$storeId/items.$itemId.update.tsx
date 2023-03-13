@@ -12,8 +12,6 @@ export async function action({ request, params }: ActionArgs) {
   const user = await requireUser(request);
   const formData = await request.formData();
 
-  console.log("_+_+_+_++_++++++ ✅", formData);
-
   const { storeId, itemId } = params;
 
   const itemFormData = Object.fromEntries(formData);

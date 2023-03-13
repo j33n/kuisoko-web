@@ -158,7 +158,9 @@ export async function deleteItem({
     await log({
       type: "info",
       event: "delete item",
-      description: `User ${user.name || user.email} deleted item with id ${id}`,
+      description: `User ${
+        user.names || user.email
+      } deleted item with id ${id}`,
       icon: "🗑",
       notify: false,
       userId,
