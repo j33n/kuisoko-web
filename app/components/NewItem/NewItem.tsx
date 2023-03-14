@@ -309,11 +309,8 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
             </StyledBtnContainer>
           </fetcher.Form>
         </StyledTabsContent>
-        {/* TODO: since disabled move to update view */}
         <StyledTabsContent value="uploads">
-          
             <MultiImageUploader labelText={`${t("uploadImages")}:`} />
-            
         </StyledTabsContent>
         <StyledTabsContent value="customs">
           <StyledTabHeader>

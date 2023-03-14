@@ -283,7 +283,6 @@ export default function StoreDetailsRoute() {
             ) : (
               "No items in store"
             )}
-            {/* TODO: issue is here */}
             <NewItem isNewItem />
           </StyledItemListHeader>
           {items && items.length > 0 && (
@@ -294,7 +293,6 @@ export default function StoreDetailsRoute() {
             </StyledItemLister>
           )}
         </StyledContentWrapper>
-        {/*TODO:  move item list here */}
         <Outlet />
       </StyledBody>
     </StyledContainer>

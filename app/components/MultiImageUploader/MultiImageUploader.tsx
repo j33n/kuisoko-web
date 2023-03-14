@@ -42,7 +42,7 @@ export const MultiImageUpload = ({
 
   const { storeId, itemId } = useParams();
 
-  invariant(storeId, "missing store id!")
+  invariant(storeId, "missing store id!");
   invariant(itemId, "missing item id!");
 
   const MAX_COUNT = 5;

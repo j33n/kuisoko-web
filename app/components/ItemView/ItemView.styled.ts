@@ -4,7 +4,7 @@ export const StyledItemBox = styled.div`
   display: flex;
   flex-direction: column;
   flex: 25%;
-  max-width: 25%;
+  max-width: 30%;
   padding: 0.5rem;
   border-radius: 0.5rem;
   background: ${({ theme: { colors } }) => colors.whiteA5};
@@ -45,6 +45,5 @@ export const StyledImageView = styled.div`
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
   height: 6rem;
   border-radius: 0.5rem;
-  /* padding: 0.5rem; */
   width: 100%;
 `;
