@@ -24,6 +24,7 @@ import TextInput, { TextLabel } from "./Inputs/Text/Text";
 import CustomFields from "./CustomFields/CustomFields";
 import AlertDialog from "./AlertDialog/AlertDialog";
 import ErrorView from "./ErrorView/ErrorView";
+import ImageSlider from "./ImageSlider/ImageSlider";
 
 export {
   Header,
@@ -53,4 +54,5 @@ export {
   CustomFields,
   AlertDialog,
   ErrorView,
+  ImageSlider,
 };

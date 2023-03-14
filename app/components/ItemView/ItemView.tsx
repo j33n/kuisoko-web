@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetcher, useMatches, useNavigate } from "@remix-run/react";
 
@@ -11,9 +11,8 @@ import {
 } from "./ItemView.styled";
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
 import { StyledFieldType } from "../NewItem/NewItem.styled";
-import { AlertDialog } from "~/components";
+import { AlertDialog, ImageSlider } from "~/components";
 import type { Item } from "@prisma/client";
-import { getImageUrl } from "~/models/uploader-handler.server";
 
 export type ItemViewProps = {
   id: string;
@@ -40,8 +39,6 @@ export const ItemView = ({ id }: ItemViewProps) => {
   const fetcher = useFetcher();
   const matches = useMatches();
   const navigate = useNavigate();
-
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const matchStores = matches.find((match) => match.pathname === `/stores`);
 
@@ -92,12 +89,9 @@ export const ItemView = ({ id }: ItemViewProps) => {
         </DropDownMenu>
       </StyledDDContainer>
       <StyledImageView>
-        {item &&
-          item.imageUrls &&
-          item.imageUrls.length > 0 &&
-          item.imageUrls.map((image: string, idx: string) => (
-            <img key={idx} src={image} alt="" />
-          ))}
+        {item && item.imageUrls && item.imageUrls.length > 0 && (
+          <ImageSlider images={item.imageUrls} />
+        )}
       </StyledImageView>
       <AlertDialog
         onOpenChange={(state) => {
