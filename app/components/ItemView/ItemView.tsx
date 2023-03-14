@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetcher, useMatches, useNavigate } from "@remix-run/react";
 
@@ -7,11 +7,13 @@ import {
   StyledItemBox,
   StyledPLabel,
   StyledDDContainer,
+  StyledImageView,
 } from "./ItemView.styled";
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
 import { StyledFieldType } from "../NewItem/NewItem.styled";
 import { AlertDialog } from "~/components";
 import type { Item } from "@prisma/client";
+import { getImageUrl } from "~/models/uploader-handler.server";
 
 export type ItemViewProps = {
   id: string;
@@ -38,6 +40,8 @@ export const ItemView = ({ id }: ItemViewProps) => {
   const fetcher = useFetcher();
   const matches = useMatches();
   const navigate = useNavigate();
+
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const matchStores = matches.find((match) => match.pathname === `/stores`);
 
@@ -73,8 +77,7 @@ export const ItemView = ({ id }: ItemViewProps) => {
               navigate(
                 `/stores/${item.storeId}/items/${item.id}?currentTab=defaults`
               );
-            }
-            }
+            }}
           >
             Update Item
           </StyledFieldType>
@@ -88,6 +91,14 @@ export const ItemView = ({ id }: ItemViewProps) => {
           </StyledFieldType>
         </DropDownMenu>
       </StyledDDContainer>
+      <StyledImageView>
+        {item &&
+          item.imageUrls &&
+          item.imageUrls.length > 0 &&
+          item.imageUrls.map((image: string, idx: string) => (
+            <img key={idx} src={image} alt="" />
+          ))}
+      </StyledImageView>
       <AlertDialog
         onOpenChange={(state) => {
           if (state) {
@@ -129,7 +140,7 @@ export const ItemView = ({ id }: ItemViewProps) => {
       {!!item.comment && (
         <>
           <StyledPLabel>{t("comment")}</StyledPLabel>
-          <StyledParagraph contentEditable>{item.comment}</StyledParagraph>
+          <StyledParagraph>{item.comment}</StyledParagraph>
         </>
       )}
     </StyledItemBox>

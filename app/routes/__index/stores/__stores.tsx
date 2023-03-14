@@ -23,6 +23,7 @@ import {
 
 import type { LoaderArgs } from "@remix-run/node";
 import { getAllItems } from "~/models/items.server";
+import { getImageUrl } from "~/models/uploader-handler.server";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -30,9 +31,24 @@ export const loader = async ({ request }: LoaderArgs) => {
   const stores = await getStores(user.id);
   const items = await getAllItems(user.id);
 
+  const itemsWtImages = await Promise.all(
+    items.map(async (item) => {
+      let imageUrls: any[] = [];
+
+      if (item.images && item.images.length > 0) {
+        imageUrls = await Promise.all(
+          item.images.map(async (itemImage) => {
+            return await getImageUrl(itemImage);
+          })
+        );
+      }
+      return { ...item, imageUrls };
+    })
+  );
+
   const favoriteStoreList = await getFavoriteStores(user.id);
 
-  return json({ user, stores, items, favoriteStoreList });
+  return json({ user, stores, items: itemsWtImages, favoriteStoreList });
 };
 
 export default function StoresLayoutRoute() {
