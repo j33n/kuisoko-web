@@ -5,7 +5,7 @@ import { json } from "@remix-run/node";
 import { requireUser } from "~/services/session.server";
 import { getItem } from "~/models/items.server";
 
-import { NewItem } from "~/components";
+import { ErrorView, NewItem } from "~/components";
 
 import type { LoaderArgs } from "@remix-run/node";
 
@@ -39,6 +39,6 @@ export function ErrorBoundary(error: Error) {
   }
 
   if (error) {
-    console.error("😱 Oppsie", error);
+    return <ErrorView error={error} />;
   }
 }

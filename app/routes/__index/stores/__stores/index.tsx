@@ -11,7 +11,6 @@ import { ItemView, NewItem } from "~/components";
 import newStore from "~/assets/images/newStore.svg";
 
 import { StyledItemLister } from "~/styles/stores/singleStore.styled";
-import { StyledItemLink } from "~/styles/page.styled";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -19,19 +18,19 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const pageName = url.pathname.replace("/", "");
 
-  const storeList = await getStores(user.id);
+  const stores = await getStores(user.id);
 
   const items = await getAllItems(user.id);
 
-  return json({ user, storeList, items, pageName });
+  return json({ user, stores, items, pageName });
 };
 
-export default function Stores() {
-  const { storeList, items } = useLoaderData<typeof loader>();
+export default function StoresIndexRoute() {
+  const { stores, items } = useLoaderData<typeof loader>();
 
   return (
     <>
-      {storeList.length === 0 ? (
+      {stores.length === 0 ? (
         <Link to="/stores/new">
           <StyledImageWrapper>
             <StyledImgNew src={newStore} alt="create new store" />
@@ -41,14 +40,7 @@ export default function Stores() {
         <StyledItemLister>
           {items && items.length > 0 ? (
             items.map((item) => {
-              return (
-                <StyledItemLink
-                  to={`/stores/${item.storeId}/items/${item.id}`}
-                  key={item.id}
-                >
-                  <ItemView key={item.id} item={item} />
-                </StyledItemLink>
-              );
+              return <ItemView id={item.id} key={item.id} />;
             })
           ) : (
             <NewItem />

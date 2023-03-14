@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetcher, useNavigate, useParams } from "@remix-run/react";
+import { useFetcher, useMatches, useNavigate } from "@remix-run/react";
 
 import {
   StyledParagraph,
@@ -11,11 +11,10 @@ import {
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
 import { StyledFieldType } from "../NewItem/NewItem.styled";
 import { AlertDialog } from "~/components";
-
 import type { Item } from "@prisma/client";
 
 export type ItemViewProps = {
-  item: any;
+  id: string;
 };
 
 export type DialogStateProps = {
@@ -30,17 +29,21 @@ const initialDialogState = {
   description: "Delete Item Description",
 };
 
-export const ItemView = ({ item }: ItemViewProps) => {
+export const ItemView = ({ id }: ItemViewProps) => {
   const { t } = useTranslation();
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [showAlertDialog, setShowAlertDialog] =
     useState<DialogStateProps>(initialDialogState);
   const dialogTriggerRef = useRef<HTMLButtonElement>(null);
   const fetcher = useFetcher();
+  const matches = useMatches();
   const navigate = useNavigate();
-  let params = useParams();
 
-  const handleShowDialog = (item: Item) => {
+  const matchStores = matches.find((match) => match.pathname === `/stores`);
+
+  const item = matchStores?.data.items.find((item: Item) => item.id === id);
+
+  const handleShowDialog = () => {
     dialogTriggerRef.current?.click();
     setShowDropDown(false);
   };
@@ -50,7 +53,7 @@ export const ItemView = ({ item }: ItemViewProps) => {
       { itemId },
       {
         method: "post",
-        action: `/stores/${params.storeId}/items/delete`,
+        action: `/stores/${item.storeId}/items/delete`,
       }
     );
   };
@@ -68,7 +71,7 @@ export const ItemView = ({ item }: ItemViewProps) => {
             onClick={() => {
               setShowDropDown(false);
               navigate(
-                `/stores/${params.storeId}/items/${item.id}?currentTab=defaults`
+                `/stores/${item.storeId}/items/${item.id}?currentTab=defaults`
               );
             }
             }
@@ -78,7 +81,7 @@ export const ItemView = ({ item }: ItemViewProps) => {
           <StyledFieldType
             onClick={(e: any) => {
               e.preventDefault();
-              handleShowDialog(item);
+              handleShowDialog();
             }}
           >
             Delete Item

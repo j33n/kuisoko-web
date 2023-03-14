@@ -21,21 +21,23 @@ const uploadStreamToS3 = async (
     ContentType: contentType,
   };
 
-  const s3Upload = await s3Client.send(new PutObjectCommand(params));
-
-  console.log("---------->>>>>>", s3Upload);
+  s3Client.send(new PutObjectCommand(params), (err) => {
+    if (err) {
+      console.error("🥹 Error uploading file", err);
+    }
+  });
   
 
-  let url = await getSignedUrl(
-    s3Client,
-    new GetObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: key,
-    }),
-    { expiresIn: 15 * 60 }
-  );
+  // let url = await getSignedUrl(
+  //   s3Client,
+  //   new GetObjectCommand({
+  //     Bucket: BUCKET_NAME,
+  //     Key: key,
+  //   }),
+  //   { expiresIn: 15 * 60 }
+  // );
 
-  console.log("🧪", url);
+  // console.log("🧪", url);
 
   return key;
 };

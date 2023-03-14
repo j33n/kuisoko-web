@@ -87,7 +87,7 @@ export async function createItem({
     await log({
       type: "info",
       event: "create item",
-      description: `User ${user.name || user.email} created store ${name}`,
+      description: `User ${user.names || user.email} created store ${name}`,
       icon: "🛒",
       notify: false,
       userId,

@@ -107,12 +107,14 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
 
   const item = matchItem?.data.item;
 
-  const formattedItem = item ? {
-    itemName: item.name,
-    itemPrice: item.price,
-    itemComment: item.comment,
-    itemQuantity: item.quantity,
-  } : undefined;
+  const formattedItem = item
+    ? {
+        itemName: item.name,
+        itemPrice: item.price,
+        itemComment: item.comment,
+        itemQuantity: item.quantity,
+      }
+    : undefined;
 
   useEffect(() => {
     if (!isNewItem && item && item.id) {
@@ -288,7 +290,6 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
               </InputContainer>
             </StyledInputHolder>
             <StyledBtnContainer disabled={disabledSubmitButton}>
-              {/* TODO: Mark as inactive until changes have been made to the form */}
               <Button
                 type="submit"
                 disabled={
@@ -302,7 +303,7 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
               >
                 <StyledButtonContent>
                   {isNewItem ? t("saveItemDetails") : t("updateItemDetails")}
-                  <RxDoubleArrowRight />
+                  <RxDoubleArrowRight size={20} />
                 </StyledButtonContent>
               </Button>
             </StyledBtnContainer>
@@ -310,16 +311,9 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
         </StyledTabsContent>
         {/* TODO: since disabled move to update view */}
         <StyledTabsContent value="uploads">
-          <form
-            method="post"
-            action={`/stores/${storeId}/items/uploads`}
-            encType="multipart/form-data"
-          >
+          
             <MultiImageUploader labelText={`${t("uploadImages")}:`} />
-            <StyledBtnContainer>
-              <Button type="submit">{t("saveUploads")}</Button>
-            </StyledBtnContainer>
-          </form>
+            
         </StyledTabsContent>
         <StyledTabsContent value="customs">
           <StyledTabHeader>

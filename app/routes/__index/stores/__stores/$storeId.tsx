@@ -289,7 +289,7 @@ export default function StoreDetailsRoute() {
           {items && items.length > 0 && (
             <StyledItemLister>
               {items.map((item) => {
-                return <ItemView item={item} key={item.id} />;
+                return <ItemView id={item.id} key={item.id} />;
               })}
             </StyledItemLister>
           )}
