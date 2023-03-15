@@ -24,6 +24,16 @@ export type DialogStateProps = {
   description: string;
 };
 
+export type DropDownProps = {
+  state: boolean;
+  value: string | null;
+};
+
+const initialDropDownState: DropDownProps = {
+  state: false,
+  value: null,
+};
+
 const initialDialogState = {
   state: false,
   title: "Delete Item",
@@ -32,7 +42,11 @@ const initialDialogState = {
 
 export const ItemView = ({ id }: ItemViewProps) => {
   const { t } = useTranslation();
-  const [showDropDown, setShowDropDown] = useState<boolean>(false);
+  const [showDropDown, setShowDropDown] =
+    useState<DropDownProps>(initialDropDownState);
+  const [itemMenuIconVisible, setItemMenuIconVisible] = useState<string | null>(
+    null
+  );
   const [showAlertDialog, setShowAlertDialog] =
     useState<DialogStateProps>(initialDialogState);
   const dialogTriggerRef = useRef<HTMLButtonElement>(null);
@@ -45,8 +59,9 @@ export const ItemView = ({ id }: ItemViewProps) => {
   const item = matchStores?.data.items.find((item: Item) => item.id === id);
 
   const handleShowDialog = () => {
+    setShowDropDown(initialDropDownState);
+    setItemMenuIconVisible(null);
     dialogTriggerRef.current?.click();
-    setShowDropDown(false);
   };
 
   const handleDeleteItem = (itemId: string) => {
@@ -60,17 +75,33 @@ export const ItemView = ({ id }: ItemViewProps) => {
   };
 
   return (
-    <StyledItemBox>
-      <StyledDDContainer>
+    <StyledItemBox
+      onMouseOver={() => setItemMenuIconVisible(id)}
+      onMouseOut={() => setItemMenuIconVisible(null)}
+    >
+      <StyledDDContainer
+        style={{
+          visibility:
+            itemMenuIconVisible === id ||
+            (showDropDown.state && showDropDown.value === id)
+              ? "visible"
+              : "hidden",
+        }}
+      >
         <DropDownMenu
           width="100px"
-          open={showDropDown}
-          onOpenChange={setShowDropDown}
+          open={showDropDown.state}
+          onOpenChange={(state: boolean) =>
+            setShowDropDown({
+              state,
+              value: state ? id : null,
+            })
+          }
           mini
         >
           <StyledFieldType
             onClick={() => {
-              setShowDropDown(false);
+              setShowDropDown(initialDropDownState);
               navigate(
                 `/stores/${item.storeId}/items/${item.id}?currentTab=defaults`
               );
@@ -142,3 +173,5 @@ export const ItemView = ({ id }: ItemViewProps) => {
 };
 
 export default ItemView;
+
+// TODO: fix bug with item nenu icon showing aside delete dialog
