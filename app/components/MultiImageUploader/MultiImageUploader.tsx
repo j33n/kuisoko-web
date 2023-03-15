@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
-
+import { Button } from "theme-ui";
+import { RxDoubleArrowRight } from "react-icons/rx";
+import { useParams } from "@remix-run/react";
+import { useTranslation } from "react-i18next";
+import { HiOutlineMinus } from "react-icons/hi";
 import {
   StyledImageHolder,
   StyledImageUpload,
@@ -9,10 +13,13 @@ import {
   StyledImagePreview,
 } from "./MultiImageUploader.styled";
 import { TextLabel } from "../Inputs/Text/Text";
-import { useTranslation } from "react-i18next";
 import { StyledFloatIconButton } from "../Layout/DropDownMenu/DropDownMenu.styled";
-import { HiOutlineMinus } from "react-icons/hi";
 import { StyledError } from "~/styles/page.styled";
+import {
+  StyledBtnContainer,
+  StyledButtonContent,
+} from "../NewItem/NewItem.styled";
+import invariant from "tiny-invariant";
 
 export type MultiImageUploadProps = {
   labelText?: string | null;
@@ -32,6 +39,11 @@ export const MultiImageUpload = ({
   const [imageHovered, setImageHovered] = useState<number | null>(null);
   const [fileLimit, setFileLimit] = useState(false);
   const [uploadError, setUploadError] = useState("");
+
+  const { storeId, itemId } = useParams();
+
+  invariant(storeId, "missing store id!");
+  invariant(itemId, "missing item id!");
 
   const MAX_COUNT = 5;
 
@@ -79,53 +91,72 @@ export const MultiImageUpload = ({
   const fileUrl = (file: File) => URL.createObjectURL(file);
 
   return (
-    <StyledImageHolder>
-      {labelText && <TextLabel htmlFor={htmlFor}>{labelText}</TextLabel>}
-      <StyledUploadView>
-        <StyledImageUpload
-          type="button"
-          onClick={() => fileUploadRef.current?.click()}
-          disabled={fileLimit}
-        >
-          <IoCloudUploadOutline size={32} />
-          {uploadText && (
-            <StyledUploadText>{t("uploadImages")}</StyledUploadText>
-          )}
-        </StyledImageUpload>
-        {imageList &&
-          imageList.length > 0 &&
-          imageList.map((file, idx) => (
-            <StyledImagePreview
-              key={idx}
-              onMouseOver={() => setImageHovered(idx)}
-              onMouseOut={() => setImageHovered(null)}
-            >
-              <StyledFloatIconButton
-                type="button"
-                onClick={(e) => handleRemoveImage(idx, e)}
-                style={{
-                  visibility: imageHovered === idx ? "visible" : "hidden",
-                }}
+    <form
+      method="post"
+      action={`/stores/${storeId}/items/${itemId}/uploads`}
+      encType="multipart/form-data"
+    >
+      <StyledImageHolder>
+        {labelText && <TextLabel htmlFor={htmlFor}>{labelText}</TextLabel>}
+        <StyledUploadView>
+          <StyledImageUpload
+            type="button"
+            onClick={() => fileUploadRef.current?.click()}
+            disabled={fileLimit}
+          >
+            <IoCloudUploadOutline size={32} />
+            {uploadText && (
+              <StyledUploadText>{t("uploadImages")}</StyledUploadText>
+            )}
+          </StyledImageUpload>
+          {imageList &&
+            imageList.length > 0 &&
+            imageList.map((file, idx) => (
+              <StyledImagePreview
+                key={idx}
+                onMouseOver={() => setImageHovered(idx)}
+                onMouseOut={() => setImageHovered(null)}
               >
-                <HiOutlineMinus size={16} />
-              </StyledFloatIconButton>
-              <img src={fileUrl(file)} alt="" key={idx} />
-            </StyledImagePreview>
-          ))}
-        {!!uploadError && <StyledError>{uploadError}</StyledError>}
-      </StyledUploadView>
-      <input
-        type="file"
-        ref={fileUploadRef}
-        accept=".png, .jpg, .jpeg, .svg"
-        onChange={handleFileInput}
-        name="itemImages"
-        id="itemImages"
-        multiple={multiple}
-        hidden
-      />
-    </StyledImageHolder>
+                <StyledFloatIconButton
+                  type="button"
+                  onClick={(e) => handleRemoveImage(idx, e)}
+                  style={{
+                    visibility: imageHovered === idx ? "visible" : "hidden",
+                  }}
+                >
+                  <HiOutlineMinus size={16} />
+                </StyledFloatIconButton>
+                <img src={fileUrl(file)} alt="" key={idx} />
+              </StyledImagePreview>
+            ))}
+          {!!uploadError && <StyledError>{uploadError}</StyledError>}
+        </StyledUploadView>
+        <input
+          type="file"
+          ref={fileUploadRef}
+          accept=".png, .jpg, .jpeg, .svg"
+          onChange={handleFileInput}
+          name="itemImages"
+          id="itemImages"
+          multiple={multiple}
+          hidden
+        />
+      </StyledImageHolder>
+      <StyledBtnContainer>
+        <Button type="submit">
+          <StyledButtonContent>
+            {t("saveUploads")}
+            <RxDoubleArrowRight size={20} />
+          </StyledButtonContent>
+        </Button>
+      </StyledBtnContainer>
+    </form>
   );
 };
 
 export default MultiImageUpload;
+
+// TODO: Image preview
+// TODO: Gallery showing exisiting images
+// TODO: Clear path to upload and update existing images
+// TODO: Reuse images

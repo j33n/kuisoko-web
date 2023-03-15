@@ -22,32 +22,48 @@ import {
 } from "~/components/Layout/Layout.styled";
 
 import type { LoaderArgs } from "@remix-run/node";
+import { getAllItems } from "~/models/items.server";
+import { getImageUrl } from "~/models/uploader-handler.server";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
-  const url = new URL(request.url);
 
-  const pageName = url.pathname.replace("/", "");
+  const stores = await getStores(user.id);
+  const items = await getAllItems(user.id);
 
-  const storeList = await getStores(user.id);
+  const itemsWtImages = await Promise.all(
+    items.map(async (item) => {
+      let imageUrls: any[] = [];
+
+      if (item.images && item.images.length > 0) {
+        imageUrls = await Promise.all(
+          item.images.map(async (itemImage) => {
+            return await getImageUrl(itemImage);
+          })
+        );
+      }
+      return { ...item, imageUrls };
+    })
+  );
+
   const favoriteStoreList = await getFavoriteStores(user.id);
 
-  return json({ user, storeList, favoriteStoreList, pageName });
+  return json({ user, stores, items: itemsWtImages, favoriteStoreList });
 };
 
-export default function Stores() {
-  const data = useLoaderData<typeof loader>();
+export default function StoresLayoutRoute() {
+  const { stores } = useLoaderData<typeof loader>();
   let { t } = useTranslation();
 
   return (
     <StyledPage>
       <StyledPageHeader>
-        {data.storeList.length === 0 ? (
+        {stores.length === 0 ? (
           <StyledHeaderTitle>{t("newStore")}</StyledHeaderTitle>
         ) : (
           <StyledHeader>
             <StyledPinContainer>
-              {data.storeList.map((store) => (
+              {stores.map((store) => (
                 <StyledPin key={store.id} to={store.id}>
                   <RenderIcon src={store.icon} />
                   <StyledPinText>{store.name}</StyledPinText>

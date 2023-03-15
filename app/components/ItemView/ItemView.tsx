@@ -1,22 +1,21 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useFetcher, useMatches, useNavigate } from "@remix-run/react";
 
 import {
   StyledParagraph,
   StyledItemBox,
   StyledPLabel,
   StyledDDContainer,
+  StyledImageView,
 } from "./ItemView.styled";
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
 import { StyledFieldType } from "../NewItem/NewItem.styled";
-import { AlertDialog } from "~/components";
-
+import { AlertDialog, ImageSlider } from "~/components";
 import type { Item } from "@prisma/client";
-import { useFetcher, useParams } from "@remix-run/react";
 
 export type ItemViewProps = {
-  item: any;
-  key?: string;
+  id: string;
 };
 
 export type DialogStateProps = {
@@ -25,24 +24,44 @@ export type DialogStateProps = {
   description: string;
 };
 
+export type DropDownProps = {
+  state: boolean;
+  value: string | null;
+};
+
+const initialDropDownState: DropDownProps = {
+  state: false,
+  value: null,
+};
+
 const initialDialogState = {
   state: false,
   title: "Delete Item",
   description: "Delete Item Description",
 };
 
-export const ItemView = ({ item, key }: ItemViewProps) => {
+export const ItemView = ({ id }: ItemViewProps) => {
   const { t } = useTranslation();
-  const [showDropDown, setShowDropDown] = useState<boolean>(false);
+  const [showDropDown, setShowDropDown] =
+    useState<DropDownProps>(initialDropDownState);
+  const [itemMenuIconVisible, setItemMenuIconVisible] = useState<string | null>(
+    null
+  );
   const [showAlertDialog, setShowAlertDialog] =
     useState<DialogStateProps>(initialDialogState);
   const dialogTriggerRef = useRef<HTMLButtonElement>(null);
   const fetcher = useFetcher();
-  let params = useParams();
+  const matches = useMatches();
+  const navigate = useNavigate();
 
-  const handleShowDialog = (item: Item) => {
+  const matchStores = matches.find((match) => match.pathname === `/stores`);
+
+  const item = matchStores?.data.items.find((item: Item) => item.id === id);
+
+  const handleShowDialog = () => {
+    setShowDropDown(initialDropDownState);
+    setItemMenuIconVisible(null);
     dialogTriggerRef.current?.click();
-    setShowDropDown(false);
   };
 
   const handleDeleteItem = (itemId: string) => {
@@ -50,28 +69,61 @@ export const ItemView = ({ item, key }: ItemViewProps) => {
       { itemId },
       {
         method: "post",
-        action: `/stores/${params.storeId}/items`,
+        action: `/stores/${item.storeId}/items/delete`,
       }
     );
   };
 
   return (
-    <StyledItemBox key={key}>
-      <StyledDDContainer>
+    <StyledItemBox
+      onMouseOver={() => setItemMenuIconVisible(id)}
+      onMouseOut={() => setItemMenuIconVisible(null)}
+    >
+      <StyledDDContainer
+        style={{
+          visibility:
+            itemMenuIconVisible === id ||
+            (showDropDown.state && showDropDown.value === id)
+              ? "visible"
+              : "hidden",
+        }}
+      >
         <DropDownMenu
           width="100px"
-          open={showDropDown}
-          onOpenChange={setShowDropDown}
+          open={showDropDown.state}
+          onOpenChange={(state: boolean) =>
+            setShowDropDown({
+              state,
+              value: state ? id : null,
+            })
+          }
           mini
         >
-          <StyledFieldType onClick={() => navigate(item.id)}>
+          <StyledFieldType
+            onClick={() => {
+              setShowDropDown(initialDropDownState);
+              navigate(
+                `/stores/${item.storeId}/items/${item.id}?currentTab=defaults`
+              );
+            }}
+          >
             Update Item
           </StyledFieldType>
-          <StyledFieldType onClick={() => handleShowDialog(item)}>
+          <StyledFieldType
+            onClick={(e: any) => {
+              e.preventDefault();
+              handleShowDialog();
+            }}
+          >
             Delete Item
           </StyledFieldType>
         </DropDownMenu>
       </StyledDDContainer>
+      <StyledImageView>
+        {item && item.imageUrls && item.imageUrls.length > 0 && (
+          <ImageSlider images={item.imageUrls} />
+        )}
+      </StyledImageView>
       <AlertDialog
         onOpenChange={(state) => {
           if (state) {
@@ -103,7 +155,6 @@ export const ItemView = ({ item, key }: ItemViewProps) => {
           />
         }
       />
-      <fetcher.Form></fetcher.Form>
       <StyledPLabel>{t("name")}</StyledPLabel>
       <StyledParagraph>{item.name}</StyledParagraph>
       <StyledPLabel>{t("price")}</StyledPLabel>
@@ -114,7 +165,7 @@ export const ItemView = ({ item, key }: ItemViewProps) => {
       {!!item.comment && (
         <>
           <StyledPLabel>{t("comment")}</StyledPLabel>
-          <StyledParagraph contentEditable>{item.comment}</StyledParagraph>
+          <StyledParagraph>{item.comment}</StyledParagraph>
         </>
       )}
     </StyledItemBox>
@@ -122,3 +173,5 @@ export const ItemView = ({ item, key }: ItemViewProps) => {
 };
 
 export default ItemView;
+
+// TODO: fix bug with item nenu icon showing aside delete dialog

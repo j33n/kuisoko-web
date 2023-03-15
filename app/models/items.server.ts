@@ -21,7 +21,8 @@ export function getAllItems(userId: User["id"]) {
       unit: true,
       quantity: true,
       createdAt: true,
-  },
+      storeId: true,
+    },
     orderBy: { createdAt: "desc" },
   });
 }
@@ -47,8 +48,9 @@ export function getStoreItems(storeId: Store["id"], userId: User["id"]) {
 
 export function getItem({
   id,
+  storeId,
   userId,
-}: Pick<Item, "id"> & {
+}: Pick<Item, "id" | "storeId"> & {
   userId: User["id"];
 }) {
   return prisma.item.findFirst({
@@ -64,7 +66,7 @@ export function getItem({
       unit: true,
       updatedAt: true,
     },
-    where: { id, userId },
+    where: { id, userId, storeId },
   });
 }
 
@@ -85,7 +87,7 @@ export async function createItem({
     await log({
       type: "info",
       event: "create item",
-      description: `User ${user.name || user.email} created store ${name}`,
+      description: `User ${user.names || user.email} created store ${name}`,
       icon: "🛒",
       notify: false,
       userId,
@@ -112,6 +114,30 @@ export async function createItem({
   });
 }
 
+export async function updateItemDetails({
+  id,
+  name,
+  comment,
+  price,
+  quantity,
+  userId,
+}: Pick<Item, "id" | "name" | "comment" | "price" | "quantity"> & {
+  userId: User["id"];
+  storeId: Item["storeId"];
+}) {
+  return prisma.item.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      comment,
+      price,
+      quantity,
+    },
+  });
+}
+
 export function updateItemImages({
   id,
   images,
@@ -132,7 +158,9 @@ export async function deleteItem({
     await log({
       type: "info",
       event: "delete item",
-      description: `User ${user.name || user.email} deleted item with id ${id}`,
+      description: `User ${
+        user.names || user.email
+      } deleted item with id ${id}`,
       icon: "🗑",
       notify: false,
       userId,

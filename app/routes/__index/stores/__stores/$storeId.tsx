@@ -13,7 +13,15 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
-import { Builder, Editable, ImageDialog, Loader } from "~/components";
+import {
+  Builder,
+  Editable,
+  ErrorView,
+  ImageDialog,
+  ItemView,
+  Loader,
+  NewItem,
+} from "~/components";
 import { requireUser } from "~/services/session.server";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -26,6 +34,8 @@ import {
   StyledBody,
   StyledContainer,
   StyledContentWrapper,
+  StyledItemListHeader,
+  StyledItemLister,
   StyledLogoBox,
   StyledOverlay,
 } from "~/styles/stores/singleStore.styled";
@@ -51,19 +61,20 @@ export const links: any = () => {
 };
 
 export const loader = async ({ params, request }: LoaderArgs) => {
-  invariant(params.storeId, "Missing store id");
+  const { storeId } = params;
+  invariant(storeId, "Missing store id");
   const user = await requireUser(request);
 
   const store = await prisma.store.findFirst({
     where: {
-      id: params.storeId,
+      id: storeId,
     },
   });
 
   let items;
 
   if (store) {
-    items = await getStoreItems(store.id, user.id);
+    items = await getStoreItems(storeId, user.id);
   }
 
   if (!store) {
@@ -174,7 +185,7 @@ export const FavoriteForm = ({ storeId }: FavoriteFormProps) => {
 };
 
 export default function StoreDetailsRoute() {
-  const { store } = useLoaderData<typeof loader>();
+  const { items, store } = useLoaderData<typeof loader>();
   const saveNameBtnRef = useRef<HTMLButtonElement>(null);
   const saveCommentBtnRef = useRef<HTMLButtonElement>(null);
   const saveBodyBtnRef = useRef<HTMLButtonElement>(null);
@@ -197,7 +208,9 @@ export default function StoreDetailsRoute() {
             <Loader sx={{ zIndex: 2 }} />
           </StyledOverlay>
         )}
-        <StyledContentWrapper style={{ borderRadius: "0.5rem 0.5rem 0 0", borderBottom: 0 }}>
+        <StyledContentWrapper
+          style={{ borderRadius: "0.5rem 0.5rem 0 0", borderBottom: 0 }}
+        >
           <StyledLogoBox>
             <ImageDialog
               tabSize="75%"
@@ -261,20 +274,44 @@ export default function StoreDetailsRoute() {
             </button>
           </Form>
         </StyledContentWrapper>
+        <StyledContentWrapper style={{ borderRadius: "0 0 0.5rem 0.5rem" }}>
+          <StyledItemListHeader>
+            {items && items.length > 0 ? (
+              <span>
+                {items.length} {items.length === 1 ? "item" : "items"}
+              </span>
+            ) : (
+              "No items in store"
+            )}
+            <NewItem isNewItem />
+          </StyledItemListHeader>
+          {items && items.length > 0 && (
+            <StyledItemLister>
+              {items.map((item) => {
+                return <ItemView id={item.id} key={item.id} />;
+              })}
+            </StyledItemLister>
+          )}
+        </StyledContentWrapper>
         <Outlet />
       </StyledBody>
     </StyledContainer>
   );
 }
 
-export function CatchBoundary() {
+export function ErrorBoundary({ error }: any) {
   const caught = useCatch();
   const params = useParams();
 
-  // TODO: use Radix toast component for error boundary
-  if (caught.status === 404) {
+  if (error) {
+    return <ErrorView error={error} />;
+  }
+
+  if (caught && caught.status === 404) {
     return <div>{`Store ${params.storeId}" not found`}</div>;
   }
 
-  throw new Error(`Unexpected caught response with status: ${caught.status}`);
+  if (caught && caught.status) {
+    throw new Error(`Unexpected caught response with status: ${caught.status}`);
+  }
 }

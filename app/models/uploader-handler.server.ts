@@ -1,17 +1,19 @@
-import { s3Client } from "./s3.server";
-import type { UploadHandler } from "@remix-run/node";
-import type { PutObjectCommandInput } from "@aws-sdk/client-s3";
+import cuid from "cuid";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import cuid from "cuid";
+
+import { s3Client } from "./s3.server";
+
+import type { UploadHandler } from "@remix-run/node";
+import type { PutObjectCommandInput } from "@aws-sdk/client-s3";
+
+const BUCKET_NAME = process.env.KUISOKO_BUCKET_NAME || "";
 
 const uploadStreamToS3 = async (
   data: AsyncIterable<Uint8Array>,
   filename: string,
   contentType: string
 ) => {
-  const BUCKET_NAME = process.env.KUISOKO_BUCKET_NAME || "";
-
   const key = `${cuid()}.${filename.split(".").slice(-1)}`;
 
   const params: PutObjectCommandInput = {
@@ -21,11 +23,16 @@ const uploadStreamToS3 = async (
     ContentType: contentType,
   };
 
-  const s3Upload = await s3Client.send(new PutObjectCommand(params));
+  s3Client.send(new PutObjectCommand(params), (err) => {
+    if (err) {
+      console.error("🥹 Error uploading file", err);
+    }
+  });
 
-  console.log("---------->>>>>>", s3Upload);
-  
+  return key;
+};
 
+export const getImageUrl = async (key: string) => {
   let url = await getSignedUrl(
     s3Client,
     new GetObjectCommand({
@@ -35,9 +42,7 @@ const uploadStreamToS3 = async (
     { expiresIn: 15 * 60 }
   );
 
-  console.log("🧪", url);
-
-  return key;
+  return url;
 };
 
 // The UploadHandler gives us an AsyncIterable<Uint8Array>, so we need to convert that to something the aws-sdk can use.

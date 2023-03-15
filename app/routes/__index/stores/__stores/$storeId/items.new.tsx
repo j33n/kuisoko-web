@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { z } from "zod";
 import invariant from "tiny-invariant";
 import { prisma } from "~/db.server";
@@ -54,9 +54,7 @@ export async function action({ request, params }: ActionArgs) {
       userId: user.id,
     });
 
-    return json({
-      item,
-    });
+    return redirect(`/stores/${storeId}/items/${item.id}?currentTab=uploads`);
   }
 
   return json(
