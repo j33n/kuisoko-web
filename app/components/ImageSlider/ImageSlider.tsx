@@ -74,12 +74,16 @@ export const ImageSlider = ({ images }: { images: string[] }) => {
           }}
         />
       </AnimatePresence>
-      <StyledNextBtn onClick={() => paginate(1)}>
-        <IoMdArrowDropright />
-      </StyledNextBtn>
-      <StyledPrevBtn onClick={() => paginate(-1)}>
-        <IoMdArrowDropleft />
-      </StyledPrevBtn>
+      {images && images.length > 1 && (
+        <>
+          <StyledNextBtn onClick={() => paginate(1)}>
+            <IoMdArrowDropright />
+          </StyledNextBtn>
+          <StyledPrevBtn onClick={() => paginate(-1)}>
+            <IoMdArrowDropleft />
+          </StyledPrevBtn>
+        </>
+      )}
     </StyledSliderContainer>
   );
 };

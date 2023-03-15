@@ -11,7 +11,6 @@ import invariant from "tiny-invariant";
 import isEqual from "lodash/isEqual";
 import { Button } from "theme-ui";
 import * as Tabs from "@radix-ui/react-tabs";
-import { HiOutlineSelector } from "react-icons/hi";
 
 import { StyledInputHolder } from "~/styles/stores/new.styled";
 import { IoAddOutline } from "react-icons/io5";
@@ -23,17 +22,10 @@ import { CustomFields, MultiImageUploader } from "~/components";
 
 import { StyledIconButton } from "../Layout/DropDownMenu/DropDownMenu.styled";
 
-import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
-import fieldTypes from "~/data/fieldTypes";
 
 import { InputContainer } from "../Inputs/Text/Text.styled";
 import {
-  StyledDropDown,
-  StyledDropDownHeader,
-  StyledFieldType,
   StyledBtnContainer,
-  StyledTabHeader,
-  InactiveText,
   StyledTabsContent,
   StyledButtonContent,
 } from "./NewItem.styled";
@@ -90,8 +82,6 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState<boolean>(false);
-  const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
-  const [dropDownState, setDropDownState] = useState<boolean>(false);
   const [itemFormData, setItemFormData] = useState<ItemData>(initialItemData);
 
   const currentUrlTab = queryParams.get("currentTab");
@@ -127,39 +117,6 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
       setOpen(true);
     }
   }, [storeId, itemId, item, isNewItem]);
-
-  const customLabel = (type: string) => {
-    const similarInputs = customFields.filter((field) => field.type === type);
-
-    if (similarInputs && similarInputs.length > 0) {
-      const inputNumIds = similarInputs.map(
-        (input) => input.inputName.split("_")[1]
-      );
-
-      const id = inputNumIds.sort((a, b) => Number(a) - Number(b)).reverse()[0];
-      return `${type}_${Number(id) + 1}`;
-    }
-    return `${type}_0`;
-  };
-
-  const handleAddNewField = (field: Field) => {
-    setDropDownState(false);
-    setCustomFields([
-      ...customFields,
-      {
-        ...field,
-        inputName: customLabel(field.type),
-      },
-    ]);
-  };
-
-  const handleDeleteField = (fieldId: string) => {
-    const toDel = customFields.filter(
-      (customField) => customField.inputName !== fieldId
-    );
-
-    setCustomFields(toDel);
-  };
 
   const handleTabValueChange = (value: string) => {
     setCurrentTab(value);
@@ -313,39 +270,7 @@ const NewItem = ({ isNewItem }: NewItemProps) => {
             <MultiImageUploader labelText={`${t("uploadImages")}:`} />
         </StyledTabsContent>
         <StyledTabsContent value="customs">
-          <StyledTabHeader>
-            <InactiveText style={{ maxWidth: "10rem" }}>Name</InactiveText>
-            <InactiveText>Value</InactiveText>
-            <StyledDropDown>
-              <DropDownMenu
-                triggerIcon={<HiOutlineSelector />}
-                onOpenChange={setDropDownState}
-                open={dropDownState}
-                width="100px"
-              >
-                <StyledDropDownHeader>Add</StyledDropDownHeader>
-                {fieldTypes.map((field) => {
-                  return (
-                    <StyledFieldType
-                      key={field.id}
-                      onClick={() => handleAddNewField(field)}
-                    >
-                      {field.name}
-                    </StyledFieldType>
-                  );
-                })}
-              </DropDownMenu>
-            </StyledDropDown>
-          </StyledTabHeader>
-          <CustomFields
-            customFields={customFields}
-            onDelete={(id) => handleDeleteField(id)}
-          />
-          {customFields && customFields.length > 0 && (
-            <StyledBtnContainer>
-              <Button type="submit">{t("saveItemDetails")}</Button>
-            </StyledBtnContainer>
-          )}
+          <CustomFields />
         </StyledTabsContent>
       </Tabs.Root>
     </Dialog>
