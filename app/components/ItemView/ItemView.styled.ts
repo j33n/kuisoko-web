@@ -43,7 +43,7 @@ export const StyledDDContainer = styled.div`
 export const StyledImageView = styled.div`
   display: flex;
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-  height: 6rem;
+  height: 10rem;
   border-radius: 0.5rem;
   width: 100%;
 `;

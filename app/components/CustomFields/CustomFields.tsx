@@ -25,6 +25,7 @@ import {
 
 import type { CustomFieldProps } from "../NewItem/NewItem";
 import type { Field } from "~/data/fieldTypes";
+import { ToogleInput } from "~/components";
 
 export type RenderCustomFieldProps = {
   customFields: CustomFieldProps[];
@@ -177,7 +178,6 @@ export const RenderCustomFields = () => {
                 required
               />
             )}
-
             {field.name === fields.LINK.name && (
               <Text
                 sx={{ marginRight: "0.5rem" }}
@@ -189,6 +189,7 @@ export const RenderCustomFields = () => {
                 required
               />
             )}
+            {field.name === fields.TOGGLE.name && <ToogleInput />}
             <StyledRemoveInput
               onClick={() => handleDeleteField(field.inputName)}
             >
