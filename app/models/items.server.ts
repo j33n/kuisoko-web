@@ -1,8 +1,15 @@
-import type { User, Item, Store } from "@prisma/client";
+import type {
+  User,
+  Item,
+  Store,
+  ItemCustomField,
+  CustomField,
+} from "@prisma/client";
 
 import { prisma } from "~/db.server";
 import { log } from "./log.server";
 import { getUserById } from "./user.server";
+import fieldTypes from "~/data/fieldTypes";
 
 export type { Item } from "@prisma/client";
 
@@ -108,6 +115,67 @@ export async function createItem({
       addedBy: {
         connect: {
           id: userId,
+        },
+      },
+    },
+  });
+}
+
+export async function updateItemCustomDetails({
+  value,
+  typeName,
+  itemId,
+  order,
+  userId,
+}: Pick<ItemCustomField, "id" | "value" | "itemId" | "order"> & {
+  userId: User["id"];
+  typeName: CustomField["name"];
+}) {
+  let customFieldExist = null;
+
+  customFieldExist = await prisma.customField.findFirst({
+    where: { name: typeName },
+  });
+
+  if (!customFieldExist) {
+    const fieldType = fieldTypes.find(
+      (type: CustomField) => type.name === typeName
+    );
+
+    if (!fieldType) {
+      throw new Response("fieldTypes missing on the client", { status: 500 });
+    }
+
+    customFieldExist = await prisma.customField.create({
+      data: {
+        name: fieldType.name,
+        type: fieldType.type,
+        icon: fieldType.icon,
+        default: fieldType.default,
+        supported: fieldType.supported,
+      },
+    });
+  }
+
+  if (!customFieldExist || !customFieldExist.id) {
+    throw new Response(`missing field ${typeName} in db`, { status: 500 });
+  }
+
+  console.log("🏗 ------------>>>>>>>", customFieldExist);
+  
+
+  return prisma.itemCustomField.create({
+    data: {
+      value,
+      order,
+      belongsTo: {
+        connect: {
+          id: itemId,
+        },
+      },
+      field: {
+        connect: {
+          id: customFieldExist.id,
         },
       },
     },

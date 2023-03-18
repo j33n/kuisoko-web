@@ -57,7 +57,7 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     userDetailsSchema.parse(formPayload);
     const data = {
-      name: (formPayload.name as string) || user.name,
+      name: (formPayload.name as string) || user.names,
       phone: (formPayload.phone as string) || user.phone,
     };
     return await updateUser(user.id, data);
@@ -91,7 +91,7 @@ export default function StoreDetailsRoute() {
               </StyledLogoBox>
               <Editable
                 icon={<CiUser size={24} />}
-                defaultValue={user.name || ""}
+                defaultValue={user.names || ""}
                 fontSize="sm"
                 name="name"
                 onSave={() => submitBtnRef.current?.click()}

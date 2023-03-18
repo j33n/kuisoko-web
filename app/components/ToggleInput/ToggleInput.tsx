@@ -4,7 +4,7 @@ import {
   StyledSwitchThumb,
 } from "./ToggleInput.styled";
 
-const ToogleInput = ({ labelText }: { labelText: string }) => (
+const ToggleInput = ({ labelText }: { labelText?: string | null }) => (
   <form>
     <div style={{ display: "flex", alignItems: "center" }}>
       {labelText && (
@@ -23,4 +23,4 @@ const ToogleInput = ({ labelText }: { labelText: string }) => (
   </form>
 );
 
-export default ToogleInput;
+export default ToggleInput;

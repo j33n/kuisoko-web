@@ -9,6 +9,7 @@ import fieldTypes, { fields } from "~/data/fieldTypes";
 
 import Text from "../Inputs/Text/Text";
 import DropDownMenu from "../Layout/DropDownMenu/DropDownMenu";
+import { ToggleInput } from "~/components";
 
 import { StyledInputHolder } from "~/styles/stores/new.styled";
 import {
@@ -25,7 +26,6 @@ import {
 
 import type { CustomFieldProps } from "../NewItem/NewItem";
 import type { Field } from "~/data/fieldTypes";
-import { ToogleInput } from "~/components";
 
 export type RenderCustomFieldProps = {
   customFields: CustomFieldProps[];
@@ -156,6 +156,24 @@ export const RenderCustomFields = () => {
                 {field.inputName}
               </StyledEditableLabel>
             </Label>
+            <input
+              type="text"
+              name={labelNames[field.inputName] || field.inputName}
+              value={idx}
+              hidden
+            />
+            <input
+              type="text"
+              name={labelNames[field.inputName] || field.inputName}
+              value={field.type}
+              hidden
+            />
+            <input
+              type="text"
+              name={labelNames[field.inputName] || field.inputName}
+              value={labelNames[field.inputName] || field.inputName}
+              hidden
+            />
             {field.name === fields.PLAIN_TEXT.name && (
               <Text
                 sx={{ marginRight: "0.5rem" }}
@@ -189,7 +207,7 @@ export const RenderCustomFields = () => {
                 required
               />
             )}
-            {field.name === fields.TOGGLE.name && <ToogleInput />}
+            {field.name === fields.TOGGLE.name && <ToggleInput />}
             <StyledRemoveInput
               onClick={() => handleDeleteField(field.inputName)}
             >
@@ -208,3 +226,5 @@ export const RenderCustomFields = () => {
 };
 
 export default RenderCustomFields;
+
+// TODO: add support for item ordering

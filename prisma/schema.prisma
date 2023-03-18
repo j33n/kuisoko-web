@@ -59,31 +59,26 @@ model Item {
 
   orders Order[]
 
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  CustomField CustomField[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CustomField {
-  id          String  @id @default(cuid())
-  name        String
-  icon        String?
-  type        String
-  order       String
-  default     String
-  placeholder String
+  id        String  @id @default(cuid())
+  name      String  @unique
+  icon      String?
+  type      String
+  default   String
+  supported Boolean
 
   ItemCustomField ItemCustomField[]
-
-  belongsTo Item   @relation(fields: [itemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  itemId    String
 }
 
 model ItemCustomField {
-  id    String @id @default(cuid())
-  value String
-
+  id      String      @id @default(cuid())
+  value   String
   field   CustomField @relation(fields: [fieldId], references: [id])
+  order   String
   fieldId String
 
   belongsTo Item   @relation(fields: [itemId], references: [id], onDelete: Cascade, onUpdate: Cascade)

@@ -1,3 +1,4 @@
+import type { CustomField } from "@prisma/client";
 import cuid from "cuid";
 
 // NOT TO BE CHANGED
@@ -96,60 +97,69 @@ export type Field = {
   icon?: string | null;
 };
 
-const fieldTypes = [
+const fieldTypes: CustomField[] = [
   {
     id: cuid(),
     ...fields.PLAIN_TEXT,
     supported: true,
-    icon: null,
+    icon: "BsFileFont",
+    default: "",
   },
   {
     id: cuid(),
     ...fields.NUMBER,
     supported: true,
-    icon: null,
+    icon: "Bs123",
+    default: "0",
   },
   {
     id: cuid(),
     ...fields.IMAGE,
     supported: false,
-    icon: null,
+    icon: "BsFileImage",
+    default: "",
   },
   {
     id: cuid(),
     ...fields.LINK,
     supported: false,
-    icon: null,
+    icon: "BsLink",
+    default: "https://",
   },
   {
     id: cuid(),
     ...fields.FORMATTED_TEXT,
     supported: false,
-    icon: null,
+    icon: "BsFileEarmarkText",
+    default: "",
   },
   {
     id: cuid(),
     ...fields.DATE,
     supported: false,
-    icon: null,
+    icon: "BsCalendarDate",
+    default: "",
   },
   {
     id: cuid(),
     ...fields.OPTION,
     supported: false,
-    icon: null,
+    icon: "BsListCheck",
+    default: "",
   },
   {
     id: cuid(),
     ...fields.TOGGLE,
     supported: false,
-    icon: null,
+    icon: "BsToggleOff",
+    default: "on",
   },
   {
     id: cuid(),
     ...fields.COLOR,
     supported: false,
-    icon: null,
+    icon: "BsPaintBucket",
+    default: "",
   },
 ];
 

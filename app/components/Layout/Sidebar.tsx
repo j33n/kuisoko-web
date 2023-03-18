@@ -118,7 +118,7 @@ const Sidebar = ({ user, storeList }: SideBarProps) => {
             )}
           </StyledProfileSide>
           <StyledNameBox>
-            {user.name && <StyledText>{user.name}</StyledText>}
+            {user.names && <StyledText>{user.names}</StyledText>}
             {user.email && <StyledText disabled>{user.email}</StyledText>}
           </StyledNameBox>
         </StyledProfilePageLink>
