@@ -46,10 +46,6 @@ export type NewItemProps = {
   isNewItem?: boolean | undefined;
 };
 
-export interface CustomFieldProps extends CustomField {
-  inputName: string;
-}
-
 export type ItemData = {
   itemName: string;
   itemPrice: string;

@@ -74,9 +74,17 @@ export function getItem({
           id: true,
           customName: true,
           value: true,
-          field: true,
-          order: true
-        }
+          field: {
+            select: {
+              name: true,
+              icon: true,
+              type: true,
+              default: true,
+              supported: true,
+            },
+          },
+          order: true,
+        },
       },
       quantity: true,
       unit: true,
@@ -143,22 +151,6 @@ export async function getCustomItemFields(itemId: Item["id"]) {
   });
 }
 
-export async function updateItemCustomField({
-  id,
-  customName,
-}: Pick<ItemCustomField, "id" | "customName"> & {
-  userId: User["id"];
-}) {
-  return prisma.itemCustomField.update({
-    where: {
-      id,
-    },
-    data: {
-      customName,
-    },
-  });
-}
-
 export async function saveItemCustomField({
   type,
   customName,
@@ -210,6 +202,34 @@ export async function saveItemCustomField({
           id: customFieldExist.id,
         },
       },
+    },
+  });
+}
+
+export async function updateItemCustomField({
+  id,
+  customName,
+}: Pick<ItemCustomField, "id" | "customName"> & {
+  userId: User["id"];
+}) {
+  return prisma.itemCustomField.update({
+    where: {
+      id,
+    },
+    data: {
+      customName,
+    },
+  });
+}
+
+export async function deleteItemCustomField({
+  id,
+}: Pick<ItemCustomField, "id"> & {
+  userId: User["id"];
+}) {
+  return prisma.itemCustomField.delete({
+    where: {
+      id,
     },
   });
 }

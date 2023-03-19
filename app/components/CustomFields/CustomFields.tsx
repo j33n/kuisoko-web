@@ -3,7 +3,7 @@ import { useFetcher, useMatches, useParams } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
 import { HiOutlineMinus, HiOutlineSelector } from "react-icons/hi";
-import { Button, Label } from "theme-ui";
+import { Label } from "theme-ui";
 
 import fieldTypes, { fields } from "~/data/fieldTypes";
 
@@ -14,7 +14,6 @@ import { ToggleInput } from "~/components";
 import { StyledInputHolder } from "~/styles/stores/new.styled";
 import {
   InactiveText,
-  StyledBtnContainer,
   StyledCustomInput,
   StyledDropDown,
   StyledDropDownHeader,
@@ -24,8 +23,14 @@ import {
   StyledTabHeader,
 } from "../NewItem/NewItem.styled";
 
-import type { CustomFieldProps } from "../NewItem/NewItem";
 import type { CustomField, ItemCustomField } from "@prisma/client";
+
+export interface CustomFieldProps extends CustomField {
+  id: string;
+  customName: string;
+  value: string | null;
+  order: string | null;
+}
 
 export type RenderCustomFieldProps = {
   customFields: CustomFieldProps[];
@@ -36,6 +41,8 @@ export interface ExtendedItemCustomField extends ItemCustomField {
   field: CustomField;
 }
 
+export type ExcludeIdCustomField = Omit<ExtendedItemCustomField, "id">;
+
 export const RenderCustomFields = () => {
   const { t } = useTranslation();
   const { storeId, itemId } = useParams();
@@ -45,7 +52,6 @@ export const RenderCustomFields = () => {
   const [fieldAdded, setFieldAdded] = useState<boolean>();
   const [dropDownState, setDropDownState] = useState<boolean>(false);
   const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
-  const [labelNames, setLabelNames] = useState<any>({});
 
   invariant(storeId, "missing store id!");
   invariant(itemId, "missing item id!");
@@ -56,15 +62,18 @@ export const RenderCustomFields = () => {
   const dbCustomFields = parentMatch?.data?.item?.itemCustomFields;
 
   useEffect(() => {
-    dbCustomFields.map((customField: ExtendedItemCustomField) => {
-      setCustomFields([
-        {
+    const dbFields = dbCustomFields.map(
+      (customField: ExtendedItemCustomField) => {
+        return {
           ...customField.field,
-          inputName: customField.customName,
-        },
-      ]);
-    });
-  }, []);
+          id: customField.id,
+          value: customField.value,
+          customName: customField.customName,
+        };
+      }
+    );
+    setCustomFields(dbFields);
+  }, [dbCustomFields]);
 
   const usePrevious = (value: CustomFieldProps[]) => {
     const ref = useRef<CustomFieldProps[]>();
@@ -85,8 +94,8 @@ export const RenderCustomFields = () => {
     const lastField = customFields[customFields.length - 1];
     setTimeout(() => {
       if (customFields.length > 0) {
-        document.getElementById(lastField.inputName)?.focus();
-        document.getElementById(lastField.inputName)?.scrollIntoView({
+        document.getElementById(lastField.customName)?.focus();
+        document.getElementById(lastField.customName)?.scrollIntoView({
           behavior: "smooth",
         });
       }
@@ -100,53 +109,60 @@ export const RenderCustomFields = () => {
   }, [customFields, prevFields]);
 
   const customLabel = (type: string) => {
-    const similarInputs = customFields.filter((field) => field.type === type);
+    const similarInputs = customFields.filter((field) => field.type === type && field.customName.includes(type));
 
     if (similarInputs && similarInputs.length > 0) {
       const inputNumIds = similarInputs.map(
-        (input) => input.inputName.split("_")[1]
+        (input) => input.customName.split("_")[1]
       );
 
       const id = inputNumIds.sort((a, b) => Number(a) - Number(b)).reverse()[0];
+      if (isNaN(Number(id))) {
+        return `${type}_0`;
+      }
       return `${type}_${Number(id) + 1}`;
     }
     return `${type}_0`;
   };
 
-  const handleLabelChange = (e: any, id: string) => {
-    setLabelNames({
-      ...labelNames,
-      [id]: e.target?.innerText,
-    });
+  const handleAddNewField = (field: CustomField) => {
+    setDropDownState(false);
+    
+    fetcher.submit(
+      {
+        fieldType: field.type,
+        fieldValue: customLabel(field.type),
+        _action: "saveFieldName",
+      },
+      { method: "post", action: `/stores/${storeId}/items/${itemId}/customs` }
+    );
+  };
+
+  const handleUpdateNewField = (
+    e: React.FocusEvent<HTMLParagraphElement, Element>,
+    customField: CustomFieldProps
+  ) => {
+    fetcher.submit(
+      {
+        fieldId: customField.id,
+        fieldValue: e.target?.innerText,
+        _action: "updateFieldName",
+      },
+      { method: "put", action: `/stores/${storeId}/items/${itemId}/customs` }
+    );
   };
 
   const handleDeleteField = (fieldId: string) => {
     const toDel = customFields.filter(
-      (customField) => customField.inputName !== fieldId
+      (customField) => customField.customName !== fieldId
     );
-
     setCustomFields(toDel);
-  };
-
-  const handleAddNewField = (field: CustomField) => {
-    setDropDownState(false);
-    setCustomFields([
-      ...customFields,
-      {
-        ...field,
-        inputName: customLabel(field.type),
-      },
-    ]);
-  };
-
-  const handleSaveNewFieldName = (fieldName: string, field: CustomField) => {
     fetcher.submit(
       {
-        fieldType: field.type,
-        fieldValue: fieldName,
-        _action: "saveFieldName",
+        fieldId,
+        _action: "deleteFieldName",
       },
-      { method: "post", action: `/stores/${storeId}/items/${itemId}/customs` }
+      { method: "delete", action: `/stores/${storeId}/items/${itemId}/customs` }
     );
   };
 
@@ -176,92 +192,62 @@ export const RenderCustomFields = () => {
           </DropDownMenu>
         </StyledDropDown>
       </StyledTabHeader>
-      {customFields.map((field: CustomFieldProps, idx) => (
-        <StyledInputHolder key={`${field.type}_${field.id}`}>
+      {customFields.map((customField: CustomFieldProps, idx) => (
+        <StyledInputHolder key={`${customField.type}_${customField.id}`}>
           <StyledCustomInput>
             <fetcher.Form>
-              <Label htmlFor={field.name} sx={{ width: "10rem" }}>
+              <Label htmlFor={customField.name} sx={{ width: "10rem" }}>
                 <StyledEditableLabel
                   ref={(el) => (elementRefs.current[idx] = el)}
-                  id={field.inputName}
-                  onInput={(e) => handleLabelChange(e, field.inputName)}
-                  onBlur={(e) =>
-                    handleSaveNewFieldName(
-                      labelNames[field.inputName] || field.inputName,
-                      field
-                    )
-                  }
+                  id={customField.id}
+                  onBlur={(e) => handleUpdateNewField(e, customField)}
                   contentEditable
                 >
-                  {field.inputName}
+                  {customField.customName}
                 </StyledEditableLabel>
               </Label>
             </fetcher.Form>
-            <input
-              type="text"
-              name={labelNames[field.inputName] || field.inputName}
-              value={idx}
-              hidden
-            />
-            <input
-              type="text"
-              name={labelNames[field.inputName] || field.inputName}
-              value={field.type}
-              hidden
-            />
-            <input
-              type="text"
-              name={labelNames[field.inputName] || field.inputName}
-              value={labelNames[field.inputName] || field.inputName}
-              hidden
-            />
-            {field.name === fields.PLAIN_TEXT.name && (
-              <Text
-                sx={{ marginRight: "0.5rem" }}
-                htmlFor="itemName"
-                name={labelNames[field.inputName] || field.inputName}
-                id={field.inputName}
-                autoFocus={true}
-                // error={actionData?.errors?.itemName || ""}
-                required
-              />
-            )}
-            {field.name === fields.NUMBER.name && (
-              <Text
-                sx={{ marginRight: "0.5rem" }}
-                type="number"
-                htmlFor="itemName"
-                name={field.inputName}
-                horizontal
-                // error={actionData?.errors?.itemName || ""}
-                required
-              />
-            )}
-            {field.name === fields.LINK.name && (
-              <Text
-                sx={{ marginRight: "0.5rem" }}
-                type="url"
-                htmlFor="itemName"
-                name={field.inputName}
-                horizontal
-                // error={actionData?.errors?.itemName || ""}
-                required
-              />
-            )}
-            {field.name === fields.TOGGLE.name && <ToggleInput />}
+            <fetcher.Form style={{ width: "100%", marginRight: "0.5rem" }}>
+              {customField.name === fields.PLAIN_TEXT.name && (
+                <Text
+                  htmlFor="itemName"
+                  name={customField.customName}
+                  id={customField.id}
+                  autoFocus={true}
+                  // error={actionData?.errors?.itemName || ""}
+                  required
+                />
+              )}
+              {customField.name === fields.NUMBER.name && (
+                <Text
+                  type="number"
+                  htmlFor="itemName"
+                  name={customField.customName}
+                  horizontal
+                  // error={actionData?.errors?.itemName || ""}
+                  required
+                />
+              )}
+              {customField.name === fields.LINK.name && (
+                <Text
+                  type="url"
+                  htmlFor="itemName"
+                  name={customField.customName}
+                  horizontal
+                  // error={actionData?.errors?.itemName || ""}
+                  required
+                />
+              )}
+              {customField.name === fields.TOGGLE.name && <ToggleInput />}
+            </fetcher.Form>
             <StyledRemoveInput
-              onClick={() => handleDeleteField(field.inputName)}
+              onClick={() => handleDeleteField(customField.id)}
             >
               <HiOutlineMinus size={16} />
             </StyledRemoveInput>
           </StyledCustomInput>
         </StyledInputHolder>
       ))}
-      {/* {customFields && customFields.length > 0 && (
-        <StyledBtnContainer>
-          <Button type="submit">{t("saveCustomItemDetails")}</Button>
-        </StyledBtnContainer>
-      )} */}
     </>
   );
 };
