@@ -24,7 +24,8 @@ export const StyledSelect = styled.select`
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
-  margin-left: 1rem;
+  font-size: 1rem;
+  margin-left: 0.75rem;
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
 
   &:focus {

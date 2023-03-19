@@ -39,7 +39,7 @@ export async function createStore({
     await log({
       type: "info",
       event: "submit",
-      description: `User ${user.name || user.email} created store ${name}`,
+      description: `User ${user.names || user.email} created store ${name}`,
       icon: "🛍",
       notify: false,
       userId,
@@ -100,7 +100,7 @@ export async function deleteStore({
     await log({
       type: "info",
       event: "delete store",
-      description: `User ${user.name || user.email} created store ${id}`,
+      description: `User ${user.names || user.email} created store ${id}`,
       icon: "🛒",
       notify: false,
       userId,

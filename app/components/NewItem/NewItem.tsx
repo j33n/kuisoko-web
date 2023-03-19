@@ -36,7 +36,7 @@ import {
   StyledTabsTrigger,
 } from "../ImageUploader/ImageDialog.styled";
 
-import type { Field } from "~/data/fieldTypes";
+import type { CustomField } from "@prisma/client";
 
 export type NewItemTriggerProps = {
   onClick: () => void;
@@ -45,10 +45,6 @@ export type NewItemTriggerProps = {
 export type NewItemProps = {
   isNewItem?: boolean | undefined;
 };
-
-export interface CustomFieldProps extends Field {
-  inputName: string;
-}
 
 export type ItemData = {
   itemName: string;

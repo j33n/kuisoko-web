@@ -1,8 +1,15 @@
-import type { User, Item, Store } from "@prisma/client";
+import type {
+  User,
+  Item,
+  Store,
+  ItemCustomField,
+  CustomField,
+} from "@prisma/client";
 
 import { prisma } from "~/db.server";
 import { log } from "./log.server";
 import { getUserById } from "./user.server";
+import fieldTypes from "~/data/fieldTypes";
 
 export type { Item } from "@prisma/client";
 
@@ -62,6 +69,23 @@ export function getItem({
       currency: true,
       images: true,
       categories: true,
+      itemCustomFields: {
+        select: {
+          id: true,
+          customName: true,
+          value: true,
+          field: {
+            select: {
+              name: true,
+              icon: true,
+              type: true,
+              default: true,
+              supported: true,
+            },
+          },
+          order: true,
+        },
+      },
       quantity: true,
       unit: true,
       updatedAt: true,
@@ -113,6 +137,162 @@ export async function createItem({
     },
   });
 }
+
+export async function getCustomItemFields(itemId: Item["id"]) {
+  return prisma.itemCustomField.findMany({
+    where: { belongsTo: { id: itemId } },
+    select: {
+      id: true,
+      customName: true,
+      value: true,
+      order: false,
+      itemId: false,
+    },
+  });
+}
+
+export async function saveItemCustomField({
+  type,
+  customName,
+  itemId,
+}: Pick<CustomField, "type"> &
+  Pick<ItemCustomField, "customName" | "itemId"> & {
+    userId: User["id"];
+  }) {
+  let customFieldExist = null;
+
+  customFieldExist = await prisma.customField.findFirst({
+    where: { type },
+  });
+
+  if (!customFieldExist) {
+    const customType = fieldTypes.find(
+      (fieldType: CustomField) => fieldType.type === type
+    );
+
+    if (!customType) {
+      throw new Response("fieldTypes missing on the client", { status: 500 });
+    }
+
+    customFieldExist = await prisma.customField.create({
+      data: {
+        name: customType.name,
+        type: customType.type,
+        icon: customType.icon,
+        default: customType.default,
+        supported: customType.supported,
+      },
+    });
+  }
+
+  if (!customFieldExist || !customFieldExist.id) {
+    throw new Response(`missing field ${type} in db`, { status: 500 });
+  }
+
+  return prisma.itemCustomField.create({
+    data: {
+      customName,
+      belongsTo: {
+        connect: {
+          id: itemId,
+        },
+      },
+      field: {
+        connect: {
+          id: customFieldExist.id,
+        },
+      },
+    },
+  });
+}
+
+export async function updateItemCustomField({
+  id,
+  customName,
+}: Pick<ItemCustomField, "id" | "customName"> & {
+  userId: User["id"];
+}) {
+  return prisma.itemCustomField.update({
+    where: {
+      id,
+    },
+    data: {
+      customName,
+    },
+  });
+}
+
+export async function deleteItemCustomField({
+  id,
+}: Pick<ItemCustomField, "id"> & {
+  userId: User["id"];
+}) {
+  return prisma.itemCustomField.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+// export async function updateItemCustomDetails({
+//   value,
+//   typeName,
+//   itemId,
+//   order,
+//   userId,
+// }: Pick<ItemCustomField, "id" | "value" | "itemId" | "order"> & {
+//   userId: User["id"];
+//   typeName: CustomField["name"];
+// }) {
+//   let customFieldExist = null;
+
+//   customFieldExist = await prisma.customField.findFirst({
+//     where: { name: typeName },
+//   });
+
+//   if (!customFieldExist) {
+//     const fieldType = fieldTypes.find(
+//       (type: CustomField) => type.name === typeName
+//     );
+
+//     if (!fieldType) {
+//       throw new Response("fieldTypes missing on the client", { status: 500 });
+//     }
+
+//     customFieldExist = await prisma.customField.create({
+//       data: {
+//         name: fieldType.name,
+//         type: fieldType.type,
+//         icon: fieldType.icon,
+//         default: fieldType.default,
+//         supported: fieldType.supported,
+//       },
+//     });
+//   }
+
+//   if (!customFieldExist || !customFieldExist.id) {
+//     throw new Response(`missing field ${typeName} in db`, { status: 500 });
+//   }
+
+//   console.log("🏗------------>>>>>>>", customFieldExist);
+
+//   return prisma.itemCustomField.create({
+//     data: {
+//       value,
+//       order,
+//       belongsTo: {
+//         connect: {
+//           id: itemId,
+//         },
+//       },
+//       field: {
+//         connect: {
+//           id: customFieldExist.id,
+//         },
+//       },
+//     },
+//   });
+// }
 
 export async function updateItemDetails({
   id,

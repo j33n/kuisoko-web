@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 export const StyledItemBox = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 25%;
-  max-width: 30%;
+  /* flex: 25%;
+  min-width: calc(200px + 1rem); */
   padding: 0.5rem;
   border-radius: 0.5rem;
   background: ${({ theme: { colors } }) => colors.whiteA5};
@@ -43,7 +43,12 @@ export const StyledDDContainer = styled.div`
 export const StyledImageView = styled.div`
   display: flex;
   border: 1px solid ${({ theme: { colors } }) => colors.buttonBgHover};
-  height: 6rem;
+  height: 200px;
+  width: 200px;
   border-radius: 0.5rem;
-  width: 100%;
+  /* width: 100%; */
+
+  img {
+    border-radius: 0.5rem;
+  }
 `;

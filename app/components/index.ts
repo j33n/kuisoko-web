@@ -25,6 +25,7 @@ import CustomFields from "./CustomFields/CustomFields";
 import AlertDialog from "./AlertDialog/AlertDialog";
 import ErrorView from "./ErrorView/ErrorView";
 import ImageSlider from "./ImageSlider/ImageSlider";
+import ToggleInput from "./ToggleInput/ToggleInput";
 
 export {
   Header,
@@ -55,4 +56,5 @@ export {
   AlertDialog,
   ErrorView,
   ImageSlider,
+  ToggleInput,
 };

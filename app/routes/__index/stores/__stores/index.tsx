@@ -7,7 +7,7 @@ import { getStores } from "~/models/store.server";
 
 import { StyledImageWrapper, StyledImgNew } from "~/styles/stores/new.styled";
 import { getAllItems } from "~/models/items.server";
-import { ItemView, NewItem } from "~/components";
+import { ItemView } from "~/components";
 import newStore from "~/assets/images/newStore.svg";
 
 import { StyledItemLister } from "~/styles/stores/singleStore.styled";
@@ -38,13 +38,11 @@ export default function StoresIndexRoute() {
         </Link>
       ) : (
         <StyledItemLister>
-          {items && items.length > 0 ? (
+          {items &&
+            items.length > 0 &&
             items.map((item) => {
               return <ItemView id={item.id} key={item.id} />;
-            })
-          ) : (
-            <NewItem />
-          )}
+            })}
         </StyledItemLister>
       )}
     </>
