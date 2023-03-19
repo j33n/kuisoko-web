@@ -94,7 +94,7 @@ export type Field = {
     | "week"
     | string;
   supported: boolean;
-  icon?: string | null;
+  icon?: string;
 };
 
 const fieldTypes: CustomField[] = [

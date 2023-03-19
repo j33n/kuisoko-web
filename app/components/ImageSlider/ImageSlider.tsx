@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import { IoMdArrowDropright, IoMdArrowDropleft } from "react-icons/io";
+import Image from "remix-image";
 
 import {
   StyledNextBtn,
@@ -48,13 +49,17 @@ export const ImageSlider = ({ images }: { images: string[] }) => {
   return (
     <StyledSliderContainer>
       <AnimatePresence initial={false} custom={direction}>
-        <motion.img
+        <motion.div
           key={page}
-          src={images[imageIndex]}
           custom={direction}
           variants={variants}
           initial="enter"
           animate="center"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           exit="exit"
           transition={{
             x: { type: "spring", stiffness: 300, damping: 30 },
@@ -72,7 +77,21 @@ export const ImageSlider = ({ images }: { images: string[] }) => {
               paginate(-1);
             }
           }}
-        />
+        >
+          <Image
+            src={images[imageIndex]}
+            responsive={[
+              {
+                size: {
+                  width: 200,
+                  height: 200,
+                },
+                maxWidth: 200,
+              },
+            ]}
+            dprVariants={[3, 3]}
+          />
+        </motion.div>
       </AnimatePresence>
       {images && images.length > 1 && (
         <>
