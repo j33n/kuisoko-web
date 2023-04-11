@@ -97,7 +97,9 @@ export type Field = {
   icon?: string;
 };
 
-const fieldTypes: CustomField[] = [
+export type CustomFieldProps = Omit<CustomField, "createdAt" | "updatedAt">
+
+const fieldTypes: CustomFieldProps[] = [
   {
     id: cuid(),
     ...fields.PLAIN_TEXT,

@@ -11,6 +11,7 @@ import { log } from "./log.server";
 import { getUserById } from "./user.server";
 import fieldTypes from "~/data/fieldTypes";
 
+import type { CustomFieldProps } from "~/data/fieldTypes";
 export type { Item } from "@prisma/client";
 
 export function getAllItems(userId: User["id"]) {
@@ -167,7 +168,7 @@ export async function saveItemCustomField({
 
   if (!customFieldExist) {
     const customType = fieldTypes.find(
-      (fieldType: CustomField) => fieldType.type === type
+      (fieldType: CustomFieldProps) => fieldType.type === type
     );
 
     if (!customType) {
@@ -234,73 +235,12 @@ export async function deleteItemCustomField({
   });
 }
 
-// export async function updateItemCustomDetails({
-//   value,
-//   typeName,
-//   itemId,
-//   order,
-//   userId,
-// }: Pick<ItemCustomField, "id" | "value" | "itemId" | "order"> & {
-//   userId: User["id"];
-//   typeName: CustomField["name"];
-// }) {
-//   let customFieldExist = null;
-
-//   customFieldExist = await prisma.customField.findFirst({
-//     where: { name: typeName },
-//   });
-
-//   if (!customFieldExist) {
-//     const fieldType = fieldTypes.find(
-//       (type: CustomField) => type.name === typeName
-//     );
-
-//     if (!fieldType) {
-//       throw new Response("fieldTypes missing on the client", { status: 500 });
-//     }
-
-//     customFieldExist = await prisma.customField.create({
-//       data: {
-//         name: fieldType.name,
-//         type: fieldType.type,
-//         icon: fieldType.icon,
-//         default: fieldType.default,
-//         supported: fieldType.supported,
-//       },
-//     });
-//   }
-
-//   if (!customFieldExist || !customFieldExist.id) {
-//     throw new Response(`missing field ${typeName} in db`, { status: 500 });
-//   }
-
-//   console.log("🏗------------>>>>>>>", customFieldExist);
-
-//   return prisma.itemCustomField.create({
-//     data: {
-//       value,
-//       order,
-//       belongsTo: {
-//         connect: {
-//           id: itemId,
-//         },
-//       },
-//       field: {
-//         connect: {
-//           id: customFieldExist.id,
-//         },
-//       },
-//     },
-//   });
-// }
-
 export async function updateItemDetails({
   id,
   name,
   comment,
   price,
   quantity,
-  userId,
 }: Pick<Item, "id" | "name" | "comment" | "price" | "quantity"> & {
   userId: User["id"];
   storeId: Item["storeId"];

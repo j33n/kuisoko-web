@@ -1,15 +1,10 @@
-import { LoaderArgs, json, redirect } from "@remix-run/node";
-import { z } from "zod";
+import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import { prisma } from "~/db.server";
 
 import {
   deleteItemCustomField,
-  getCustomItemFields,
   saveItemCustomField,
   updateItemCustomField,
-  // updateItemCustomDetails,
-  updateItemDetails,
 } from "~/models/items.server";
 import { requireUser } from "~/services/session.server";
 
