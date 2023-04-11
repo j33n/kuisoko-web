@@ -1,49 +1,53 @@
 # 🏪 Kuisoko
 
-🛒 Kuisoko aims to become an easy way for merchants both small(mom-pop shops, artists, freelancers, ...) and large(supermarkets, brands, ...) in Rwanda/Africa to build and deploy online stores.
+📖 ku-isoko means `at-market` in Kinyarwanda
 
-💭 Imagine Shopify + a Notion-like user interface.
+🛒 Kuisoko aims to become an easy way for merchants both small(mom-pop shops, artists, freelancers, ...) and large(supermarkets, brands, ...) in Rwanda/Africa to build and deploy online stores
 
-🏗 Still in Early stage development 
+🏗 This project is still in early stage of development so bear with me while I make it better
 
-🧪 Try it out and give me some feedback on [twitter](https://twitter.com/_j33n)
-
-🚀 Also, I'm looking for founding members so reach out if interested.
+🧪 Try it out and give me some feedback on [twitter](https://twitter.com/_j33n) or [email](jeanabayo3@gmail.com)
 
 ## 🤓 Setup
 
-Prerequisites
-- Node(v16.18.1)
+### ✔️ Prerequisites
+- Node(>=v16)
 - Docker(Ensure docker is running)
 
-recommended node version
-```bash
-nvm use lts/gallium
-```
+### 💨 Installation
 
-installation
+#### npm
+```bash
+npm install
+```
+#### yarn(recommended)
 ```bash
 npm install
 ```
 
-running type
+### 🚀 Run Project
 ```bash
 npm run typecheck
 ```
 
-### db migrations
+### ✅ Type Checking
+```bash
+npm run typecheck
+```
 
-generate migration file
+## 📦 Database
+
+### Generate migration files
 ```bash
 npx prisma migrate dev
 ```
 
-update db tables, to be run when the schema.prisma is updates
+### Update DB Tables: To be run when the schema.prisma is updated
 ```bash
 npx prisma db push
 ```
 
-db seed
+### DB seed
 ```bash
 npx prisma db push
 ```
