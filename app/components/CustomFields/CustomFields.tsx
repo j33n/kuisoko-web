@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFetcher, useMatches, useParams } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
 import { HiOutlineMinus, HiOutlineSelector } from "react-icons/hi";
 import { Label } from "theme-ui";
@@ -24,8 +23,9 @@ import {
 } from "../NewItem/NewItem.styled";
 
 import type { CustomField, ItemCustomField } from "@prisma/client";
+import type { CustomFieldProps } from "~/data/fieldTypes";
 
-export interface CustomFieldProps extends CustomField {
+export interface CustomFieldExtProps extends CustomFieldProps {
   id: string;
   customName: string;
   value: string | null;
@@ -44,14 +44,13 @@ export interface ExtendedItemCustomField extends ItemCustomField {
 export type ExcludeIdCustomField = Omit<ExtendedItemCustomField, "id">;
 
 export const RenderCustomFields = () => {
-  const { t } = useTranslation();
   const { storeId, itemId } = useParams();
   const fetcher = useFetcher();
   const matches = useMatches();
 
   const [fieldAdded, setFieldAdded] = useState<boolean>();
   const [dropDownState, setDropDownState] = useState<boolean>(false);
-  const [customFields, setCustomFields] = useState<CustomFieldProps[]>([]);
+  const [customFields, setCustomFields] = useState<CustomFieldExtProps[]>([]);
 
   invariant(storeId, "missing store id!");
   invariant(itemId, "missing item id!");
@@ -125,7 +124,7 @@ export const RenderCustomFields = () => {
     return `${type}_0`;
   };
 
-  const handleAddNewField = (field: CustomField) => {
+  const handleAddNewField = (field: CustomFieldProps) => {
     setDropDownState(false);
     
     fetcher.submit(
@@ -192,7 +191,7 @@ export const RenderCustomFields = () => {
           </DropDownMenu>
         </StyledDropDown>
       </StyledTabHeader>
-      {customFields.map((customField: CustomFieldProps, idx) => (
+      {customFields.map((customField: CustomFieldExtProps, idx) => (
         <StyledInputHolder key={`${customField.type}_${customField.id}`}>
           <StyledCustomInput>
             <fetcher.Form>

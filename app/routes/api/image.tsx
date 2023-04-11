@@ -1,4 +1,4 @@
-import { imageLoader, DiskCache, MemoryCache } from "remix-image/server";
+import { imageLoader, MemoryCache } from "remix-image/server";
 
 import type { LoaderFunction } from "@remix-run/node";
 

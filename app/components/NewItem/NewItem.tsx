@@ -36,8 +36,6 @@ import {
   StyledTabsTrigger,
 } from "../ImageUploader/ImageDialog.styled";
 
-import type { CustomField } from "@prisma/client";
-
 export type NewItemTriggerProps = {
   onClick: () => void;
 };

@@ -14,11 +14,11 @@ import {
 
 const links = [
   { name: "My Info", path: "/account", icon: <HiOutlineUserCircle /> },
-  // {
-  //   name: "Payments",
-  //   path: "/account/payments",
-  //   icon: <HiOutlineCreditCard />,
-  // },
+  {
+    name: "Payments",
+    path: "/account/payments",
+    icon: <HiOutlineCreditCard />,
+  },
   { name: "Delivery", path: "/account/delivery", icon: <HiOutlineTruck /> },
   {
     name: "Settings",
