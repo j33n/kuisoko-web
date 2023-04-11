@@ -4,7 +4,6 @@ import { json } from "@remix-run/node";
 import { z } from "zod";
 import {
   Form,
-  useActionData,
   useLoaderData,
   useTransition,
 } from "@remix-run/react";
@@ -72,7 +71,6 @@ export default function StoreDetailsRoute() {
 
   const submitBtnRef = useRef<HTMLButtonElement>(null);
   const transition = useTransition();
-  const actionData = useActionData<typeof action>();
   return (
     <StyledContainer>
       <StyledBody>

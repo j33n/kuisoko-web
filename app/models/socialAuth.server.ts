@@ -29,7 +29,6 @@ authenticator.use(
     },
     async (res) => {
       const { profile } = res;
-      console.log("🤩-------->>", profile);
       // here you would find or create a user in your database
       return profile;
     }
